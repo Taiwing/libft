@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 16:09:37 by yforeau           #+#    #+#             */
-/*   Updated: 2019/01/11 06:35:15 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/01/17 13:38:09 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct		s_opt
 ** PASS: return 1 when a non-option is found and pass to the next argument
 */
 
-enum e_order {DEFAULT = 0, LEAVE, PERMUTE, PASS};
+enum				e_order {DEFAULT = 0, LEAVE, PERMUTE, PASS};
 
 /*
 ** t_optdata stores different values needed for option parsing.

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 05:57:41 by yforeau           #+#    #+#             */
-/*   Updated: 2019/01/17 10:54:46 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/01/17 13:52:43 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void		print_ambig_error(t_optdata *d, unsigned char *ambig_set,
 	d->optopt = 0;
 }
 
-int		unknown_long_option_error(t_optdata *d, char **argv, char *prefix)
+int			unknown_long_option_error(t_optdata *d, char **argv, char *prefix)
 {
 	if (!d->longonly || argv[d->optind][1] == '-'
 		|| !ft_strchr(d->optstring, *d->nextchar))
@@ -74,29 +74,29 @@ int		unknown_long_option_error(t_optdata *d, char **argv, char *prefix)
 	return (-1);
 }
 
-int		superfluous_arg_error(t_optdata *d, char **argv,
-							char *prefix, t_opt *found)
+int			superfluous_arg_error(t_optdata *d, char **argv,
+								char *prefix, t_opt *found)
 {
 	if (d->opterr)
-	{	
-			getopt_puterr(*argv);
-			getopt_puterr(": option");
-			option_puterr(prefix, found->name);
-			getopt_puterr(" doesn't allow an argument\n");
+	{
+		getopt_puterr(*argv);
+		getopt_puterr(": option");
+		option_puterr(prefix, found->name);
+		getopt_puterr(" doesn't allow an argument\n");
 	}
 	d->optopt = found->val;
 	return ('?');
 }
 
-int		missing_arg_error(t_optdata *d, char **argv,
-						char *prefix, t_opt *found)
+int			missing_arg_error(t_optdata *d, char **argv,
+							char *prefix, t_opt *found)
 {
 	if (d->opterr)
-	{	
-			getopt_puterr(*argv);
-			getopt_puterr(": option");
-			option_puterr(prefix, found->name);
-			getopt_puterr(" requires an argument\n");
+	{
+		getopt_puterr(*argv);
+		getopt_puterr(": option");
+		option_puterr(prefix, found->name);
+		getopt_puterr(" requires an argument\n");
 	}
 	d->optopt = found->val;
 	return (*d->optstring == ':' ? ':' : '?');
