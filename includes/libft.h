@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2019/01/17 11:27:20 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/01/17 11:45:57 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include "get_next_line.h"
+# include "ft_getopt.h"
 
 typedef unsigned char	t_uchar;
 
