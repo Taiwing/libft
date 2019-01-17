@@ -10,9 +10,12 @@ NAME		=	libft.a
 
 ############################## SOURCES #########################################
 
+BINTDIR			=	bint
 FT_GETOPTDIR	=	ft_getopt
+FT_PRINTFDIR	=	ft_printf
 
 SRCC			=	ft_atoi.c\
+					ft_atoi_forward.c\
 					ft_bzero.c\
 					ft_isalnum.c\
 					ft_isalpha.c\
@@ -92,6 +95,16 @@ SRCC			=	ft_atoi.c\
 					ft_toupper.c\
 					get_next_line.c\
 
+BINTC			=	bint_mathconsts.c\
+					divide_bint.c\
+					dragon4.c\
+					log_and_ceil.c\
+					multiply_bint.c\
+					op_bint.c\
+					pow_bint.c\
+					shiftleft_bint.c\
+					utility_bint.c\
+
 FT_GETOPTC		=	ft_getopt.c\
 					get_next_option_argument.c\
 					get_short_option.c\
@@ -101,13 +114,37 @@ FT_GETOPTC		=	ft_getopt.c\
 					permute_order.c\
 					process_long_option.c\
 
+FT_PRINTFC		=	basic_conversions.c\
+					convert.c\
+					efg_conversions.c\
+					fetch.c\
+					float_formats.c\
+					format_data.c\
+					format_int_data.c\
+					ft_printf.c\
+					ft_printf_utils.c\
+					get_conv.c\
+					get_flags.c\
+					itoa.c\
+					itoa_cast.c\
+					itoa_signed.c\
+					itoa_unsigned.c\
+					parser.c\
+					t_pdata.c\
+					tab_conversion.c\
+					uni_conversions.c\
+
 ODIR			=	obj
-OBJ				=	$(patsubst %.c,%.o,$(FT_GETOPTC))\
+OBJ				=	$(patsubst %.c,%.o,$(BINTC))\
+					$(patsubst %.c,%.o,$(FT_GETOPTC))\
+					$(patsubst %.c,%.o,$(FT_PRINTFC))\
 					$(patsubst %.c,%.o,$(SRCC))\
 
 vpath			%.o	$(ODIR)
 vpath			%.h	$(HDIR)
+vpath			%.c	$(SRCDIR)/$(BINTDIR)
 vpath			%.c	$(SRCDIR)/$(FT_GETOPTDIR)
+vpath			%.c	$(SRCDIR)/$(FT_PRINTFDIR)
 vpath			%.c	$(SRCDIR)
 
 ############################## BUILD ###########################################
@@ -118,94 +155,133 @@ $(NAME): $(ODIR) $(OBJ)
 	ar rc $@ $(patsubst %.o,$(ODIR)/%.o,$(OBJ))
 	ranlib $@
 
-ft_atoi.o: libft.h get_next_line.h ft_getopt.h
-ft_bzero.o: libft.h get_next_line.h ft_getopt.h
+divide_bint.o: bint.h
+dragon4.o: dragon4.h bint.h log_and_ceil.h
+log_and_ceil.o: bint_mathconsts.h
+multiply_bint.o: bint.h
+op_bint.o: bint.h
+pow_bint.o: bint.h bint_mathconsts.h
+shiftleft_bint.o: bint.h
+utility_bint.o: bint.h
+ft_atoi.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_bzero.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_getopt.o: get_next_option_argument.h ft_getopt.h get_short_option.h
 get_next_option_argument.o: permute_order.h ft_getopt.h process_long_option.h\
-	libft.h get_next_line.h
-get_short_option.o: libft.h get_next_line.h ft_getopt.h getopt_errors.h
-getopt_errors.o: libft.h get_next_line.h ft_getopt.h
-getopt_long_errors.o: getopt_errors.h ft_getopt.h libft.h get_next_line.h
+	libft.h get_next_line.h ft_printf.h
+get_short_option.o: libft.h get_next_line.h ft_getopt.h ft_printf.h\
+	getopt_errors.h
+getopt_errors.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+getopt_long_errors.o: getopt_errors.h ft_getopt.h libft.h get_next_line.h\
+	ft_printf.h
 init_getopt.o: ft_getopt.h
 permute_order.o: ft_getopt.h
-process_long_option.o: libft.h get_next_line.h ft_getopt.h getopt_errors.h
-ft_isalnum.o: libft.h get_next_line.h ft_getopt.h
-ft_isalpha.o: libft.h get_next_line.h ft_getopt.h
-ft_isascii.o: libft.h get_next_line.h ft_getopt.h
-ft_isdigit.o: libft.h get_next_line.h ft_getopt.h
-ft_isprint.o: libft.h get_next_line.h ft_getopt.h
-ft_itoa.o: libft.h get_next_line.h ft_getopt.h
-ft_lst_at.o: libft.h get_next_line.h ft_getopt.h
-ft_lst_find.o: libft.h get_next_line.h ft_getopt.h
-ft_lst_foreach.o: libft.h get_next_line.h ft_getopt.h
-ft_lst_foreach_if.o: libft.h get_next_line.h ft_getopt.h
-ft_lst_last.o: libft.h get_next_line.h ft_getopt.h
-ft_lst_merge.o: libft.h get_next_line.h ft_getopt.h
-ft_lst_move_front.o: libft.h get_next_line.h ft_getopt.h
-ft_lst_push_back.o: libft.h get_next_line.h ft_getopt.h
-ft_lst_push_front.o: libft.h get_next_line.h ft_getopt.h
-ft_lst_push_params.o: libft.h get_next_line.h ft_getopt.h
-ft_lst_remove_if.o: libft.h get_next_line.h ft_getopt.h
-ft_lst_reverse.o: libft.h get_next_line.h ft_getopt.h
-ft_lst_size.o: libft.h get_next_line.h ft_getopt.h
-ft_lst_sort.o: libft.h get_next_line.h ft_getopt.h
-ft_lstadd.o: libft.h get_next_line.h ft_getopt.h
-ft_lstdel.o: libft.h get_next_line.h ft_getopt.h
-ft_lstdelone.o: libft.h get_next_line.h ft_getopt.h
-ft_lstiter.o: libft.h get_next_line.h ft_getopt.h
-ft_lstmap.o: libft.h get_next_line.h ft_getopt.h
-ft_lstnew.o: libft.h get_next_line.h ft_getopt.h
-ft_memalloc.o: libft.h get_next_line.h ft_getopt.h
-ft_memccpy.o: libft.h get_next_line.h ft_getopt.h
-ft_memchr.o: libft.h get_next_line.h ft_getopt.h
-ft_memcmp.o: libft.h get_next_line.h ft_getopt.h
-ft_memcpy.o: libft.h get_next_line.h ft_getopt.h
-ft_memdel.o: libft.h get_next_line.h ft_getopt.h
-ft_memmove.o: libft.h get_next_line.h ft_getopt.h
-ft_memset.o: libft.h get_next_line.h ft_getopt.h
-ft_print_words_tables.o: libft.h get_next_line.h ft_getopt.h
-ft_print_words_tables_fd.o: libft.h get_next_line.h ft_getopt.h
-ft_putchar.o: libft.h get_next_line.h ft_getopt.h
-ft_putchar_fd.o: libft.h get_next_line.h ft_getopt.h
-ft_putendl.o: libft.h get_next_line.h ft_getopt.h
-ft_putendl_fd.o: libft.h get_next_line.h ft_getopt.h
-ft_putnbr.o: libft.h get_next_line.h ft_getopt.h
-ft_putnbr_fd.o: libft.h get_next_line.h ft_getopt.h
-ft_putstr.o: libft.h get_next_line.h ft_getopt.h
-ft_putstr_fd.o: libft.h get_next_line.h ft_getopt.h
-ft_split_whitespaces.o: libft.h get_next_line.h ft_getopt.h
-ft_stradd.o: libft.h get_next_line.h ft_getopt.h
-ft_strcat.o: libft.h get_next_line.h ft_getopt.h
-ft_strchr.o: libft.h get_next_line.h ft_getopt.h
-ft_strclr.o: libft.h get_next_line.h ft_getopt.h
-ft_strcmp.o: libft.h get_next_line.h ft_getopt.h
-ft_strcpy.o: libft.h get_next_line.h ft_getopt.h
-ft_strcut.o: libft.h get_next_line.h ft_getopt.h
-ft_strdel.o: libft.h get_next_line.h ft_getopt.h
-ft_strdup.o: libft.h get_next_line.h ft_getopt.h
-ft_strequ.o: libft.h get_next_line.h ft_getopt.h
-ft_striter.o: libft.h get_next_line.h ft_getopt.h
-ft_striteri.o: libft.h get_next_line.h ft_getopt.h
-ft_strjoin.o: libft.h get_next_line.h ft_getopt.h
-ft_strlcat.o: libft.h get_next_line.h ft_getopt.h
-ft_strlen.o: libft.h get_next_line.h ft_getopt.h
-ft_strmap.o: libft.h get_next_line.h ft_getopt.h
-ft_strmapi.o: libft.h get_next_line.h ft_getopt.h
-ft_strncat.o: libft.h get_next_line.h ft_getopt.h
-ft_strncmp.o: libft.h get_next_line.h ft_getopt.h
-ft_strncpy.o: libft.h get_next_line.h ft_getopt.h
-ft_strndup.o: libft.h get_next_line.h ft_getopt.h
-ft_strnequ.o: libft.h get_next_line.h ft_getopt.h
-ft_strnew.o: libft.h get_next_line.h ft_getopt.h
-ft_strnstr.o: libft.h get_next_line.h ft_getopt.h
-ft_strrchr.o: libft.h get_next_line.h ft_getopt.h
-ft_strsplit.o: libft.h get_next_line.h ft_getopt.h
-ft_strstr.o: libft.h get_next_line.h ft_getopt.h
-ft_strsub.o: libft.h get_next_line.h ft_getopt.h
-ft_strtrim.o: libft.h get_next_line.h ft_getopt.h
-ft_tolower.o: libft.h get_next_line.h ft_getopt.h
-ft_toupper.o: libft.h get_next_line.h ft_getopt.h
-get_next_line.o: libft.h get_next_line.h ft_getopt.h
+process_long_option.o: libft.h get_next_line.h ft_getopt.h ft_printf.h\
+	getopt_errors.h
+ft_isalnum.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_isalpha.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_isascii.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_isdigit.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_isprint.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_itoa.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_at.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_find.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_foreach.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_foreach_if.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_last.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_merge.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_move_front.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_push_back.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_push_front.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_push_params.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_remove_if.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_reverse.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_size.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_sort.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lstadd.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lstdel.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lstdelone.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lstiter.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lstmap.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lstnew.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_memalloc.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_memccpy.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_memchr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_memcmp.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_memcpy.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_memdel.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_memmove.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_memset.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_print_words_tables.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_print_words_tables_fd.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+basic_conversions.o: fetch.h t_farg.h libft.h get_next_line.h ft_getopt.h\
+	ft_printf.h itoa_unsigned.h t_pdata.h t_params.h
+convert.o: conversions.h t_farg.h t_pdata.h t_params.h format_data.h libft.h\
+	get_next_line.h ft_getopt.h ft_printf.h
+efg_conversions.o: fetch.h t_farg.h t_params.h log_and_ceil.h float_formats.h\
+	t_pdata.h dragon4.h
+fetch.o: fetch.h t_farg.h t_params.h
+float_formats.o: ft_printf_utils.h t_pdata.h dragon4.h t_params.h
+format_data.o: format_data.h t_params.h t_pdata.h format_int_data.h libft.h\
+	get_next_line.h ft_getopt.h ft_printf.h
+format_int_data.o: format_int_data.h t_pdata.h t_params.h format_data.h\
+	libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_printf.o: parser.h t_farg.h t_pdata.h t_params.h libft.h get_next_line.h\
+	ft_getopt.h ft_printf.h
+get_conv.o: get_flags.h t_farg.h t_params.h libft.h get_next_line.h\
+	ft_getopt.h ft_printf.h
+get_flags.o: t_params.h fetch.h t_farg.h libft.h get_next_line.h ft_getopt.h\
+	ft_printf.h
+itoa.o: fetch.h t_farg.h itoa_signed.h t_pdata.h itoa_unsigned.h t_params.h
+itoa_cast.o: itoa.h t_farg.h t_params.h t_pdata.h
+itoa_signed.o: itoa_signed.h t_pdata.h
+itoa_unsigned.o: itoa_unsigned.h t_pdata.h t_params.h
+parser.o: libft.h get_next_line.h ft_getopt.h ft_printf.h get_conv.h t_farg.h\
+	t_params.h convert.h t_pdata.h
+t_pdata.o: t_pdata.h libft.h get_next_line.h ft_getopt.h ft_printf.h
+tab_conversion.o: get_conv.h t_farg.h t_params.h parser.h t_pdata.h fetch.h\
+	libft.h get_next_line.h ft_getopt.h ft_printf.h
+uni_conversions.o: fetch.h t_farg.h t_pdata.h t_params.h
+ft_putchar.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_putchar_fd.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_putendl.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_putendl_fd.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_putnbr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_putnbr_fd.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_putstr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_putstr_fd.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_split_whitespaces.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_stradd.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strcat.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strchr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strclr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strcmp.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strcpy.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strcut.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strdel.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strdup.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strequ.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_striter.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_striteri.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strjoin.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strlcat.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strlen.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strmap.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strmapi.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strncat.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strncmp.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strncpy.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strndup.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strnequ.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strnew.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strnstr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strrchr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strsplit.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strstr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strsub.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strtrim.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_tolower.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_toupper.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+get_next_line.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 %.o: %.c
 	$(CC) -c $(CFLAGS) $< $(HFLAGS) -o $(ODIR)/$@
 

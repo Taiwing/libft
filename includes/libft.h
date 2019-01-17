@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2019/01/17 11:45:57 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/01/17 12:12:04 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <string.h>
 # include "get_next_line.h"
 # include "ft_getopt.h"
+# include "ft_printf.h"
 
 typedef unsigned char	t_uchar;
 
@@ -119,5 +120,6 @@ char					*ft_strndup(const char *s, size_t n);
 char					**ft_split_whitespaces(char *str);
 void					ft_print_words_tables(char **tab);
 void					ft_print_words_tables_fd(char **tab, int fd);
+int						ft_atoi_forward(char **nptr);
 
 #endif
