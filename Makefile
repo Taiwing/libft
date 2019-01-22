@@ -24,6 +24,7 @@ SRCC			=	ft_atoi.c\
 					ft_isprint.c\
 					ft_itoa.c\
 					ft_lst_at.c\
+					ft_lst_discard.c\
 					ft_lst_find.c\
 					ft_lst_foreach.c\
 					ft_lst_foreach_if.c\
@@ -184,6 +185,7 @@ ft_isdigit.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_isprint.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_itoa.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_lst_at.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_discard.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_lst_find.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_lst_foreach.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_lst_foreach_if.o: libft.h get_next_line.h ft_getopt.h ft_printf.h

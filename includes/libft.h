@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2019/01/17 12:12:04 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/01/22 18:28:36 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void					ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list					*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
 t_list					*ft_lst_at(t_list *lst, unsigned int nbr);
+void					ft_lst_discard(t_list *prev, t_list **alst);
 t_list					*ft_lst_find(t_list *lst,
 									void *content_ref, int (*cmp)());
 void					ft_lst_foreach(t_list *lst, void (*f)(void *));
