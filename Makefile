@@ -92,7 +92,7 @@ SRCC			=	ft_atoi.c\
 					ft_strstr.c\
 					ft_strsub.c\
 					ft_strtrim.c\
-					ft_swap_pointers.c\
+					ft_swap_p.c\
 					ft_tolower.c\
 					ft_toupper.c\
 					get_next_line.c\

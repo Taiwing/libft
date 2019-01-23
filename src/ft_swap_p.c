@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_swap_pointers.c                                 :+:      :+:    :+:   */
+/*   ft_swap_p.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/23 17:58:26 by yforeau           #+#    #+#             */
-/*   Updated: 2019/01/23 18:05:09 by yforeau          ###   ########.fr       */
+/*   Created: 2019/01/23 19:50:13 by yforeau           #+#    #+#             */
+/*   Updated: 2019/01/23 19:50:22 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** It swaps their value without temporary variable (yeah, thats pretty cool).
 */
 
-void	ft_swap_pointers(uintptr_t *p1, uintptr_t *p2)
+void	ft_swap_p(uintptr_t *p1, uintptr_t *p2)
 {
 	*p1 ^= *p2;
 	*p2 ^= *p1;
