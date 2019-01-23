@@ -34,6 +34,7 @@ SRCC			=	ft_atoi.c\
 					ft_lst_push_back.c\
 					ft_lst_push_front.c\
 					ft_lst_push_params.c\
+					ft_lst_quicksort.c\
 					ft_lst_remove_if.c\
 					ft_lst_reverse.c\
 					ft_lst_size.c\
@@ -196,6 +197,7 @@ ft_lst_move_front.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_lst_push_back.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_lst_push_front.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_lst_push_params.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lst_quicksort.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_lst_remove_if.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_lst_reverse.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_lst_size.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
