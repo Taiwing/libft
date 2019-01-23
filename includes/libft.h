@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2019/01/22 18:28:36 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/01/23 18:06:38 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
+# include <stdint.h>
 # include "get_next_line.h"
 # include "ft_getopt.h"
 # include "ft_printf.h"
@@ -122,5 +123,6 @@ char					**ft_split_whitespaces(char *str);
 void					ft_print_words_tables(char **tab);
 void					ft_print_words_tables_fd(char **tab, int fd);
 int						ft_atoi_forward(char **nptr);
+void					ft_swap_pointers(uintptr_t *p1, uintptr_t *p2);
 
 #endif
