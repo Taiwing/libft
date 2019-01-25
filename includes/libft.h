@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2019/01/23 20:03:29 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/01/25 20:08:10 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,6 @@ void					ft_print_words_tables(char **tab);
 void					ft_print_words_tables_fd(char **tab, int fd);
 int						ft_atoi_forward(char **nptr);
 void					ft_swap_p(uintptr_t *p1, uintptr_t *p2);
+int						ft_intlen(intmax_t n);
 
 #endif

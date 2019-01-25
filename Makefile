@@ -17,6 +17,7 @@ FT_PRINTFDIR	=	ft_printf
 SRCC			=	ft_atoi.c\
 					ft_atoi_forward.c\
 					ft_bzero.c\
+					ft_intlen.c\
 					ft_isalnum.c\
 					ft_isalpha.c\
 					ft_isascii.c\
