@@ -2,3 +2,11 @@
 
 My full personal library in C, with get_next_line, ft_printf and ft_getopt
 included.
+
+infos:
+
+- By default every malloc used in libft funcitions (ft_printf and ft_getopt
+  included) are replaced by ft_secmalloc which will exit on failure.
+  To disactivate this functionnality and use plain old unprotected malloc,
+  libft must be compiled with the flag "-D NO_EXIT_ON_MALLOC_FAIL" in the
+  compiler command line (if gcc or clang).
