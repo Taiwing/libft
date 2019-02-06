@@ -6,11 +6,11 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/08 17:06:54 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/09 13:00:55 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/02/06 12:55:24 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_secmalloc.h"
 
 char	**ft_split_whitespaces(char *str)
 {

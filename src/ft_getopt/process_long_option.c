@@ -6,13 +6,12 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 22:23:19 by yforeau           #+#    #+#             */
-/*   Updated: 2019/01/17 11:51:08 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/02/06 12:59:05 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_secmalloc.h"
 #include "getopt_errors.h"
-#include <stdlib.h>
 
 static void		add_ambig(t_optdata *d, t_opt *found,
 						unsigned char **ambig_set,

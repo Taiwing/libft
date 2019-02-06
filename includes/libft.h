@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2019/01/25 20:08:10 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/02/06 12:52:38 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@
 # include "get_next_line.h"
 # include "ft_getopt.h"
 # include "ft_printf.h"
+
+/*
+** This decides which version of malloc will be used. The regular version if
+** NO_EXIT_ON_MALLOC_FAIL is set when compiling libft, or the secure one if
+** it is not set.
+*/
+# ifndef NO_EXIT_ON_MALLOC_FAIL
+#  define EXIT_ON_MALLOC_FAIL
+# endif
 
 typedef unsigned char	t_uchar;
 
@@ -127,5 +136,7 @@ void					ft_print_words_tables_fd(char **tab, int fd);
 int						ft_atoi_forward(char **nptr);
 void					ft_swap_p(uintptr_t *p1, uintptr_t *p2);
 int						ft_intlen(intmax_t n);
+
+void					*ft_secmalloc(size_t size);
 
 #endif

@@ -6,12 +6,12 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 15:05:59 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/15 21:23:48 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/02/06 12:58:15 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_pdata.h"
-#include "libft.h"
+#include "ft_secmalloc.h"
 #include <unistd.h>
 #include <stdlib.h>
 

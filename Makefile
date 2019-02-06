@@ -64,6 +64,7 @@ SRCC			=	ft_atoi.c\
 					ft_putnbr_fd.c\
 					ft_putstr.c\
 					ft_putstr_fd.c\
+					ft_secmalloc.c\
 					ft_split_whitespaces.c\
 					ft_stradd.c\
 					ft_strcat.c\
@@ -179,8 +180,8 @@ getopt_long_errors.o: getopt_errors.h ft_getopt.h libft.h get_next_line.h\
 	ft_printf.h
 init_getopt.o: ft_getopt.h
 permute_order.o: ft_getopt.h
-process_long_option.o: libft.h get_next_line.h ft_getopt.h ft_printf.h\
-	getopt_errors.h
+process_long_option.o: ft_secmalloc.h libft.h get_next_line.h ft_getopt.h\
+	ft_printf.h getopt_errors.h
 ft_isalnum.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_isalpha.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_isascii.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
@@ -208,8 +209,8 @@ ft_lstdel.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_lstdelone.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_lstiter.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_lstmap.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
-ft_lstnew.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
-ft_memalloc.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_lstnew.o: ft_secmalloc.h libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_memalloc.o: ft_secmalloc.h libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_memccpy.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_memchr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_memcmp.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
@@ -231,8 +232,8 @@ format_data.o: format_data.h t_params.h t_pdata.h format_int_data.h libft.h\
 	get_next_line.h ft_getopt.h ft_printf.h
 format_int_data.o: format_int_data.h t_pdata.h t_params.h format_data.h\
 	libft.h get_next_line.h ft_getopt.h ft_printf.h
-ft_printf.o: parser.h t_farg.h t_pdata.h t_params.h libft.h get_next_line.h\
-	ft_getopt.h ft_printf.h
+ft_printf.o: parser.h t_farg.h t_pdata.h t_params.h ft_secmalloc.h libft.h\
+	get_next_line.h ft_getopt.h ft_printf.h
 get_conv.o: get_flags.h t_farg.h t_params.h libft.h get_next_line.h\
 	ft_getopt.h ft_printf.h
 get_flags.o: t_params.h fetch.h t_farg.h libft.h get_next_line.h ft_getopt.h\
@@ -243,7 +244,8 @@ itoa_signed.o: itoa_signed.h t_pdata.h
 itoa_unsigned.o: itoa_unsigned.h t_pdata.h t_params.h
 parser.o: libft.h get_next_line.h ft_getopt.h ft_printf.h get_conv.h t_farg.h\
 	t_params.h convert.h t_pdata.h
-t_pdata.o: t_pdata.h libft.h get_next_line.h ft_getopt.h ft_printf.h
+t_pdata.o: t_pdata.h ft_secmalloc.h libft.h get_next_line.h ft_getopt.h\
+	ft_printf.h
 tab_conversion.o: get_conv.h t_farg.h t_params.h parser.h t_pdata.h fetch.h\
 	libft.h get_next_line.h ft_getopt.h ft_printf.h
 uni_conversions.o: fetch.h t_farg.h t_pdata.h t_params.h
@@ -255,7 +257,8 @@ ft_putnbr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_putnbr_fd.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_putstr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_putstr_fd.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
-ft_split_whitespaces.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_split_whitespaces.o: ft_secmalloc.h libft.h get_next_line.h ft_getopt.h\
+	ft_printf.h
 ft_stradd.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_strcat.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_strchr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
@@ -278,10 +281,10 @@ ft_strncmp.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_strncpy.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_strndup.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_strnequ.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
-ft_strnew.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strnew.o: ft_secmalloc.h libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_strnstr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_strrchr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
-ft_strsplit.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
+ft_strsplit.o: ft_secmalloc.h libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_strstr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_strsub.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_strtrim.o: libft.h get_next_line.h ft_getopt.h ft_printf.h

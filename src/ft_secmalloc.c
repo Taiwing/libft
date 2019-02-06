@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnew.c                                        :+:      :+:    :+:   */
+/*   ft_secmalloc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/07 13:25:51 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/06 12:55:44 by yforeau          ###   ########.fr       */
+/*   Created: 2019/02/06 12:39:46 by yforeau           #+#    #+#             */
+/*   Updated: 2019/02/06 12:43:21 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_secmalloc.h"
+#include <stdlib.h>
 
-char	*ft_strnew(size_t size)
+void	*ft_secmalloc(size_t size)
 {
-	return ((char *)ft_memalloc(size + 1));
+	void	*ptr;
+
+	if (!(ptr = malloc(size)))
+		exit(EXIT_FAILURE);
+	return (ptr);
 }
