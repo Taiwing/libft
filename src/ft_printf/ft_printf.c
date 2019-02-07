@@ -6,12 +6,12 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 14:43:15 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/06 12:57:58 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/02/07 17:33:51 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include "ft_secmalloc.h"
+#include "libft.h"
 
 int	ft_printf(const char *format, ...)
 {

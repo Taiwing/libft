@@ -6,11 +6,11 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 13:25:51 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/06 12:55:44 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/02/07 17:32:22 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_secmalloc.h"
+#include "libft.h"
 
 char	*ft_strnew(size_t size)
 {

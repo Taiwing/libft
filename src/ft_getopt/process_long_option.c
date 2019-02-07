@@ -6,11 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 22:23:19 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/06 12:59:05 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/02/07 17:33:09 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_secmalloc.h"
+#include "libft.h"
 #include "getopt_errors.h"
 
 static void		add_ambig(t_optdata *d, t_opt *found,
