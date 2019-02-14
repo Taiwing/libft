@@ -125,7 +125,8 @@ FT_PRINTFC		=	basic_conversions.c\
 					fetch.c\
 					float_formats.c\
 					format_data.c\
-					format_int_data.c\
+					format_data_utils.c\
+					ft_bufprintf.c\
 					ft_printf.c\
 					ft_printf_utils.c\
 					get_conv.c\
@@ -135,6 +136,7 @@ FT_PRINTFC		=	basic_conversions.c\
 					itoa_signed.c\
 					itoa_unsigned.c\
 					parser.c\
+					t_pbuf.c\
 					t_pdata.c\
 					t_pdata_stralloc.c\
 					tab_conversion.c\
@@ -223,18 +225,20 @@ ft_print_words_tables.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_print_words_tables_fd.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 basic_conversions.o: fetch.h t_farg.h libft.h get_next_line.h ft_getopt.h\
 	ft_printf.h itoa_unsigned.h t_pdata.h t_params.h
-convert.o: conversions.h t_farg.h t_pdata.h t_params.h format_data.h libft.h\
-	get_next_line.h ft_getopt.h ft_printf.h
+convert.o: conversions.h t_farg.h t_pdata.h t_params.h format_data.h t_pbuf.h\
+	libft.h get_next_line.h ft_getopt.h ft_printf.h
 efg_conversions.o: fetch.h t_farg.h t_params.h log_and_ceil.h float_formats.h\
 	t_pdata.h dragon4.h
 fetch.o: fetch.h t_farg.h t_params.h
 float_formats.o: ft_printf_utils.h t_pdata.h dragon4.h t_params.h
-format_data.o: format_data.h t_params.h t_pdata.h format_int_data.h libft.h\
-	get_next_line.h ft_getopt.h ft_printf.h
-format_int_data.o: format_int_data.h t_pdata.h t_params.h format_data.h\
+format_data.o: format_data_utils.h t_pdata.h t_params.h format_data.h t_pbuf.h\
 	libft.h get_next_line.h ft_getopt.h ft_printf.h
-ft_printf.o: parser.h t_farg.h t_pdata.h t_params.h libft.h get_next_line.h\
-	ft_getopt.h ft_printf.h
+format_data_utils.o: format_data.h t_params.h t_pdata.h t_pbuf.h libft.h\
+	get_next_line.h ft_getopt.h ft_printf.h
+ft_bufprintf.o: t_pbuf.h parser.h t_farg.h t_pdata.h t_params.h libft.h\
+	get_next_line.h ft_getopt.h ft_printf.h
+ft_printf.o: parser.h t_farg.h t_pbuf.h t_pdata.h t_params.h libft.h\
+	get_next_line.h ft_getopt.h ft_printf.h
 get_conv.o: get_flags.h t_farg.h t_params.h libft.h get_next_line.h\
 	ft_getopt.h ft_printf.h
 get_flags.o: t_params.h fetch.h t_farg.h libft.h get_next_line.h ft_getopt.h\
@@ -244,11 +248,12 @@ itoa_cast.o: itoa.h t_farg.h t_params.h t_pdata.h
 itoa_signed.o: itoa_signed.h t_pdata.h
 itoa_unsigned.o: itoa_unsigned.h t_pdata.h t_params.h
 parser.o: libft.h get_next_line.h ft_getopt.h ft_printf.h get_conv.h t_farg.h\
-	t_params.h convert.h t_pdata.h
+	t_params.h convert.h t_pbuf.h t_pdata.h
+t_pbuf.o: t_pbuf.h
 t_pdata.o: t_pdata.h libft.h get_next_line.h ft_getopt.h ft_printf.h
 t_pdata_stralloc.o: t_pdata.h libft.h get_next_line.h ft_getopt.h ft_printf.h
-tab_conversion.o: get_conv.h t_farg.h t_params.h parser.h t_pdata.h fetch.h\
-	libft.h get_next_line.h ft_getopt.h ft_printf.h
+tab_conversion.o: get_conv.h t_farg.h t_params.h parser.h t_pbuf.h t_pdata.h\
+	fetch.h libft.h get_next_line.h ft_getopt.h ft_printf.h
 uni_conversions.o: fetch.h t_farg.h t_pdata.h t_params.h
 ft_putchar.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
 ft_putchar_fd.o: libft.h get_next_line.h ft_getopt.h ft_printf.h
