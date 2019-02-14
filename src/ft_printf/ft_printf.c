@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 14:43:15 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/14 12:17:28 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/02/14 13:09:35 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,10 @@ int	ft_asprintf(char **str, const char *format, ...)
 	while (*format && data.n != -1)
 		parser_alloc(&data, (char **)&format, &args);
 	if (data.n != -1)
-			(*str)[data.n] = 0;
+	{
+		*str = data.buf;
+		(*str)[data.n] = 0;
+	}
 	va_end(args.cur);
 	va_end(args.ref);
 	return (data.n);
