@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 14:44:45 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/14 16:14:16 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/02/14 16:32:14 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void	add_to_pbuf(t_pbuf *buf, char *add, int c, size_t size)
 
 void	flush_pbuf(t_pbuf *buf)
 {
-	if (buf->n == -1)
-		return ;
-	buf->n = write(buf->fd, buf->b, buf->n);
 	if (buf->n > 0)
-		buf->n = 0;
+	{
+		buf->n = write(buf->fd, buf->b, buf->n);
+		buf->n = buf->n != -1 ? 0 : buf->n;
+	}
 }
