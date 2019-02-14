@@ -136,6 +136,7 @@ FT_PRINTFC		=	basic_conversions.c\
 					itoa_unsigned.c\
 					parser.c\
 					t_pdata.c\
+					t_pdata_stralloc.c\
 					tab_conversion.c\
 					uni_conversions.c\
 
@@ -245,6 +246,7 @@ itoa_unsigned.o: itoa_unsigned.h t_pdata.h t_params.h
 parser.o: libft.h get_next_line.h ft_getopt.h ft_printf.h get_conv.h t_farg.h\
 	t_params.h convert.h t_pdata.h
 t_pdata.o: t_pdata.h libft.h get_next_line.h ft_getopt.h ft_printf.h
+t_pdata_stralloc.o: t_pdata.h libft.h get_next_line.h ft_getopt.h ft_printf.h
 tab_conversion.o: get_conv.h t_farg.h t_params.h parser.h t_pdata.h fetch.h\
 	libft.h get_next_line.h ft_getopt.h ft_printf.h
 uni_conversions.o: fetch.h t_farg.h t_pdata.h t_params.h

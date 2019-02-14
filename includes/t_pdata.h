@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 14:56:33 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/15 21:24:20 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/02/14 12:13:25 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ typedef struct	s_pdata
 }				t_pdata;
 
 void			init_buf(t_pdata *data);
+void			init_buf_str(t_pdata *data, char *str, int size);
+void			init_buf_alloc(t_pdata *data, char **str);
 void			add_to_buf(t_pdata *data, char *add, int c, size_t size);
+void			add_to_buf_str(t_pdata *data, char *add, int c, size_t size);
+void			add_to_buf_alloc(t_pdata *data, char *add, int c, size_t size);
 void			print_buf(t_pdata *data, int fd);
 
 #endif

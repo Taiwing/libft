@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 14:43:15 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/07 17:33:51 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/02/14 12:17:28 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,14 @@ int	ft_sprintf(char *str, const char *format, ...)
 	t_pdata	data;
 	t_farg	args;
 
-	init_buf(&data);
+	init_buf_str(&data, str, 0);
 	args.arr = NULL;
 	va_start(args.cur, format);
 	va_copy(args.ref, args.cur);
 	while (*format && data.n != -1)
-		parser(&data, (char **)&format, &args);
+		parser_str(&data, (char **)&format, &args);
 	if (data.n != -1)
-	{
-		ft_memcpy((void *)str, (void *)data.buf, data.n);
 		str[data.n] = 0;
-	}
-	free(data.abuf);
 	va_end(args.cur);
 	va_end(args.ref);
 	return (data.n);
@@ -74,19 +70,16 @@ int	ft_snprintf(char *str, int size, const char *format, ...)
 	t_pdata	data;
 	t_farg	args;
 
-	init_buf(&data);
+	if (!size)
+		return (0);
+	init_buf_str(&data, str, size);
 	args.arr = NULL;
 	va_start(args.cur, format);
 	va_copy(args.ref, args.cur);
-	while (*format && data.n != -1)
-		parser(&data, (char **)&format, &args);
+	while (*format && data.n != -1 && data.n < size - 1)
+		parser_str(&data, (char **)&format, &args);
 	if (data.n != -1)
-	{
-		data.n = data.n > size - 1 ? size - 1 : data.n;
-		ft_memcpy((void *)str, (void *)data.buf, data.n);
 		str[data.n] = 0;
-	}
-	free(data.abuf);
 	va_end(args.cur);
 	va_end(args.ref);
 	return (data.n);
@@ -97,23 +90,14 @@ int	ft_asprintf(char **str, const char *format, ...)
 	t_pdata	data;
 	t_farg	args;
 
-	init_buf(&data);
+	init_buf_alloc(&data, str);
 	args.arr = NULL;
 	va_start(args.cur, format);
 	va_copy(args.ref, args.cur);
 	while (*format && data.n != -1)
-		parser(&data, (char **)&format, &args);
+		parser_alloc(&data, (char **)&format, &args);
 	if (data.n != -1)
-	{
-		if (!(*str = (char *)malloc(data.n + 1)))
-			data.n = -1;
-		else
-		{
-			ft_memcpy((void *)*str, (void *)data.buf, data.n);
 			(*str)[data.n] = 0;
-		}
-	}
-	free(data.abuf);
 	va_end(args.cur);
 	va_end(args.ref);
 	return (data.n);
