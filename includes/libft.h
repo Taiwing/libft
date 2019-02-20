@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/07 17:30:08 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/02/20 18:58:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,10 @@ int						ft_lst_size(t_list *lst);
 void					ft_lst_sort(t_list **lst, int (*cmp)());
 void					ft_lst_quicksort(t_list *lst, int len,
 										int (*cmp)(void *, void *));
+void					ft_lst_move_to_back(t_list *prev, t_list **alst1,
+											t_list **alst2);
+void					ft_lst_move_to_front(t_list *prev, t_list **alst1,
+											t_list **alst2);
 
 char					*ft_stradd(char **base, char *str, size_t l);
 char					*ft_strcut(char **s, size_t start, size_t l);

@@ -32,6 +32,8 @@ SRCC			=	ft_atoi.c\
 					ft_lst_last.c\
 					ft_lst_merge.c\
 					ft_lst_move_front.c\
+					ft_lst_move_to_back.c\
+					ft_lst_move_to_front.c\
 					ft_lst_push_back.c\
 					ft_lst_push_front.c\
 					ft_lst_push_params.c\
@@ -199,6 +201,10 @@ ft_lst_foreach_if.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h
 ft_lst_last.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h
 ft_lst_merge.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h
 ft_lst_move_front.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h
+ft_lst_move_to_back.o: libft.h get_next_line.h ft_getopt.h ft_printf.h\
+	t_pbuf.h
+ft_lst_move_to_front.o: libft.h get_next_line.h ft_getopt.h ft_printf.h\
+	t_pbuf.h
 ft_lst_push_back.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h
 ft_lst_push_front.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h
 ft_lst_push_params.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h
