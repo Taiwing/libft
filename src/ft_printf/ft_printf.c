@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 14:43:15 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/14 13:09:35 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/03/02 17:44:16 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ int	ft_asprintf(char **str, const char *format, ...)
 		*str = data.buf;
 		(*str)[data.n] = 0;
 	}
+	else
+		free(data.buf);
 	va_end(args.cur);
 	va_end(args.ref);
 	return (data.n);

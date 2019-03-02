@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 13:26:56 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/07 17:32:28 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/03/02 16:49:34 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ char	**ft_strsplit(char const *s, char c)
 	cpy = NULL;
 	i = i == -1 ? 1 : i + 1;
 	while (*s == c)
-		s++;
+		++s;
 	l = 0;
 	while (s[l] && s[l] != c)
-		l++;
+		++l;
 	if (l && !(cpy = ft_strndup(s, l)))
 		i = -1;
 	if (i != -1 && !(tb = cpy ? ft_strsplit(s + l, c)

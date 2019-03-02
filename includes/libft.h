@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/20 18:58:13 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/03/02 19:42:50 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ void					ft_lst_foreach_if(t_list *lst, void (*f)(void *),
 t_list					*ft_lst_last(t_list *lst);
 void					ft_lst_merge(t_list **lst1, t_list *lst2);
 void					ft_lst_move_front(t_list **lst, t_list *elem);
-void					ft_lst_push_back(t_list **lst, void *content,
+t_list					*ft_lst_push_back(t_list **lst, void *content,
 										size_t content_size);
-void					ft_lst_push_front(t_list **lst, void *content,
+t_list					*ft_lst_push_front(t_list **lst, void *content,
 										size_t content_size);
 t_list					*ft_lst_push_params(int ac, char **av);
 void					ft_lst_remove_if(t_list **lst, void *content_ref,
@@ -131,7 +131,5 @@ void					ft_print_words_tables_fd(char **tab, int fd);
 int						ft_atoi_forward(char **nptr);
 void					ft_swap_p(uintptr_t *p1, uintptr_t *p2);
 int						ft_intlen(intmax_t n);
-
-void					*ft_secmalloc(size_t size);
 
 #endif

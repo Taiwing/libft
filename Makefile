@@ -66,7 +66,6 @@ SRCC			=	ft_atoi.c\
 					ft_putnbr_fd.c\
 					ft_putstr.c\
 					ft_putstr_fd.c\
-					ft_secmalloc.c\
 					ft_split_whitespaces.c\
 					ft_stradd.c\
 					ft_strcat.c\

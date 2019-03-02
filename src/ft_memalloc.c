@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 18:11:04 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/07 17:32:09 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/03/02 16:04:12 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ void	*ft_memalloc(size_t size)
 {
 	void	*ptr;
 
-	if (!(ptr = malloc(size)))
-		return (NULL);
-	ft_bzero(ptr, size);
+	if ((ptr = malloc(size)))
+		ft_bzero(ptr, size);
 	return (ptr);
 }

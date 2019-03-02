@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 18:10:47 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/07 17:31:42 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/03/02 17:05:02 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ t_list	*ft_lstnew(void const *content, size_t content_size)
 {
 	t_list *elem;
 
-	elem = (t_list *)malloc(sizeof(t_list));
-	if (elem)
+	if ((elem = (t_list *)malloc(sizeof(t_list))))
 	{
 		if (content == NULL)
 			elem->content = NULL;

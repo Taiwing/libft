@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/08 17:06:54 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/26 20:24:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/03/02 16:06:15 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ char	**ft_split_whitespaces(char *str)
 	tb = NULL;
 	size = size == -1 ? 1 : size + 1;
 	while (*str && (*str == 32 || (*str > 8 && *str < 12)))
-		str++;
+		++str;
 	l = 0;
 	while (str[l] && !(str[l] == 32 || (str[l] > 8 && str[l] < 12)))
-		l++;
+		++l;
 	if (l && !(p = ft_strndup(str, l)))
 		size = -1;
 	if (size != -1 && !(tb = p ? ft_split_whitespaces(str + l) :
