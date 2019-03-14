@@ -100,6 +100,7 @@ SRCC			=	ft_atoi.c\
 					ft_tolower.c\
 					ft_toupper.c\
 					ft_wtdup.c\
+					ft_wtfree.c\
 					ft_wtlen.c\
 					get_next_line.c\
 
