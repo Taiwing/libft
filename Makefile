@@ -99,6 +99,8 @@ SRCC			=	ft_atoi.c\
 					ft_swap_p.c\
 					ft_tolower.c\
 					ft_toupper.c\
+					ft_wtdup.c\
+					ft_wtlen.c\
 					get_next_line.c\
 
 BINTC			=	bint_mathconsts.c\
@@ -304,6 +306,7 @@ ft_strsub.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h
 ft_strtrim.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h
 ft_tolower.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h
 ft_toupper.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h
+ft_wtdup.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h
 get_next_line.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h
 %.o: %.c
 	$(CC) -c $(CFLAGS) $< $(HFLAGS) -o $(ODIR)/$@
