@@ -6,13 +6,14 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 11:16:55 by yforeau           #+#    #+#             */
-/*   Updated: 2019/03/28 12:12:27 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/03/28 13:11:27 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NO_COLLEC
-
-# include "libft.h"
+#include "libft.h"
+#ifdef NO_COLLEC
+# include "ft_collector.h"
+#endif
 
 /*
 ** This is the maximum allowed of functions to execute at exit time. In practice
@@ -21,7 +22,7 @@
 ** (like "close" for open files). Anyway, if this is really needed, ATEXIT_MAX
 ** can always be increased.
 */
-# define ATEXIT_MAX	1024
+#define ATEXIT_MAX	1024
 
 /*
 ** ft_exitmsg stores the begining of the exit message (typically the name
@@ -80,5 +81,3 @@ void	ft_exit(char *err, int ret)
 	ft_heap_collector(NULL, FT_COLLEC_FREE);
 	exit(ret);
 }
-
-#endif

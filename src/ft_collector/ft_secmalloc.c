@@ -6,14 +6,14 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 08:10:46 by yforeau           #+#    #+#             */
-/*   Updated: 2019/03/28 09:23:14 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/03/28 13:15:40 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "ft_collector.h"
 
-#ifdef NO_COLLECTOR
+#ifdef NO_COLLEC
+# include <string.h>
 
 void	*ft_secmalloc(size_t size)
 {
@@ -21,6 +21,7 @@ void	*ft_secmalloc(size_t size)
 }
 
 # else
+# include "ft_collector.h"
 
 void	*ft_secmalloc(size_t size)
 {

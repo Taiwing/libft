@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 09:41:53 by yforeau           #+#    #+#             */
-/*   Updated: 2019/03/28 12:13:48 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/03/28 13:07:18 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include <string.h>
 
 void			*ft_secmalloc(size_t size);
-
-# ifndef NO_COLLECTOR
 
 /*
 ** The "t_stack" type allows to create a custom stack with an arbitrary
@@ -54,7 +52,5 @@ void			**ft_check_stack_size(void **stack, size_t *size, size_t i);
 void			*ft_get_stack_ptr(void **stack, size_t *i, void *ptr);
 void			*ft_heap_collector(void *ptr, int hs_do);
 void			*ft_collector(t_stack *st, void *ptr, int gs_do);
-
-# endif
 
 #endif

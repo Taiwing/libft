@@ -6,13 +6,14 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 10:28:41 by yforeau           #+#    #+#             */
-/*   Updated: 2019/03/28 11:12:37 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/03/28 13:11:03 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NO_COLLEC
-
-# include "libft.h"
+#include "libft.h"
+#ifdef NO_COLLEC
+# include "ft_collector.h"
+#endif
 
 const size_t	g_gs_sizes[4] = {
 	0xffff, 0xffffffff, 0xffffffffffff
@@ -99,5 +100,3 @@ void			*ft_collector(t_stack *st, void *ptr, int gs_do)
 	}
 	return (NULL);
 }
-
-#endif

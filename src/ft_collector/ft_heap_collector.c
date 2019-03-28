@@ -6,14 +6,12 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 09:23:28 by yforeau           #+#    #+#             */
-/*   Updated: 2019/03/28 12:14:22 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/03/28 13:01:02 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NO_COLLEC
-
-# include <stdlib.h>
-# include "ft_collector.h"
+#include <stdlib.h>
+#include "ft_collector.h"
 
 void	*ft_heap_collector(void *ptr, int hs_do)
 {
@@ -41,5 +39,3 @@ void	*ft_heap_collector(void *ptr, int hs_do)
 	}
 	return (NULL);
 }
-
-#endif
