@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 22:23:19 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/07 17:33:09 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/03/28 12:07:48 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void		add_ambig(t_optdata *d, t_opt *found,
 			*ambig_fallback = 1;
 		else if (!*ambig_set)
 		{
-			if (!(*ambig_set = (unsigned char *)malloc(d->lopts_len)))
+			if (!(*ambig_set = (unsigned char *)ft_secmalloc(d->lopts_len)))
 				*ambig_fallback = 1;
 			else
 				ft_memset(*ambig_set, 0, d->lopts_len);

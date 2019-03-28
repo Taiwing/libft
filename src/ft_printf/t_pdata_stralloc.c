@@ -29,7 +29,7 @@ void	add_to_buf_str(t_pdata *data, char *add, int c, size_t size)
 
 void	init_buf_alloc(t_pdata *data, char **str)
 {
-	if (!(*str = (char *)malloc(BLOCK_SIZE)))
+	if (!(*str = (char *)ft_secmalloc(BLOCK_SIZE)))
 	{
 		data->n = -1;
 		return ;
@@ -50,7 +50,7 @@ void	add_to_buf_alloc(t_pdata *data, char *add, int c, size_t size)
 	if (data->bufsize < newsize)
 	{
 		newsize = (newsize + BLOCK_SIZE - 1) & ~(BLOCK_SIZE - 1);
-		if (!(newbuf = (char *)malloc(newsize)))
+		if (!(newbuf = (char *)ft_secmalloc(newsize)))
 		{
 			data->n = -1;
 			return ;

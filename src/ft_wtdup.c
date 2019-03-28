@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 11:11:08 by yforeau           #+#    #+#             */
-/*   Updated: 2019/03/14 11:25:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/03/28 12:07:40 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**ft_wtdup(char **wt)
 	else if (!*wt)
 		p = NULL;
 	if (size != -1 && !(tb = p ? ft_wtdup(++wt) :
-		(char **)malloc(size * sizeof(char *))))
+		(char **)ft_secmalloc(size * sizeof(char *))))
 		size = -1;
 	if (size == -1 && p)
 		free(p);

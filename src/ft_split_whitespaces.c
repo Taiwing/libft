@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/08 17:06:54 by yforeau           #+#    #+#             */
-/*   Updated: 2019/03/02 16:06:15 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/03/28 12:07:27 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**ft_split_whitespaces(char *str)
 	if (l && !(p = ft_strndup(str, l)))
 		size = -1;
 	if (size != -1 && !(tb = p ? ft_split_whitespaces(str + l) :
-		(char **)malloc(size * sizeof(char *))))
+		(char **)ft_secmalloc(size * sizeof(char *))))
 		size = -1;
 	if (size == -1 && p)
 		free(p);
