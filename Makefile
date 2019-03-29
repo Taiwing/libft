@@ -403,6 +403,7 @@ ft_toupper.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
 	ft_collector.h
 ft_wtdup.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
 	ft_collector.h
+ft_wtfree.o: ft_collector.h
 get_next_line.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
 	ft_collector.h
 %.o: %.c

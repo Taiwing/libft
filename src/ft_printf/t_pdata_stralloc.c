@@ -39,6 +39,8 @@ void	init_buf_alloc(t_pdata *data, char **str)
 	data->n = 0;
 }
 
+#ifdef NO_COLLEC
+
 void	add_to_buf_alloc(t_pdata *data, char *add, int c, size_t size)
 {
 	char	*newbuf;
@@ -66,3 +68,35 @@ void	add_to_buf_alloc(t_pdata *data, char *add, int c, size_t size)
 		ft_memset((void *)(data->buf + data->n), c, size);
 	data->n += size;
 }
+
+#else
+
+void	add_to_buf_alloc(t_pdata *data, char *add, int c, size_t size)
+{
+	char	*newbuf;
+	size_t	newsize;
+
+	if (data->n == -1)
+		return ;
+	newsize = data->n + size + 1;
+	if (data->bufsize < newsize)
+	{
+		newsize = (newsize + BLOCK_SIZE - 1) & ~(BLOCK_SIZE - 1);
+		if (!(newbuf = (char *)ft_secmalloc(newsize)))
+		{
+			data->n = -1;
+			return ;
+		}
+		ft_memcpy((void *)newbuf, (void *)data->buf, data->n);
+		free(ft_heap_collector(data->buf, FT_COLLEC_GET));
+		data->buf = newbuf;
+		data->bufsize = newsize;
+	}
+	if (add)
+		ft_memcpy((void *)(data->buf + data->n), (void *)add, size);
+	else
+		ft_memset((void *)(data->buf + data->n), c, size);
+	data->n += size;
+}
+
+#endif
