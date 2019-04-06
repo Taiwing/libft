@@ -150,6 +150,7 @@ T_LSTC			=	ft_lst_at.c\
 					ft_lst_reverse.c\
 					ft_lst_size.c\
 					ft_lst_sort.c\
+					ft_lst_sorted_insert.c\
 					ft_lstadd.c\
 					ft_lstdel.c\
 					ft_lstdelone.c\
@@ -409,6 +410,8 @@ ft_lst_size.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
 	ft_collector.h
 ft_lst_sort.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
 	ft_collector.h
+ft_lst_sorted_insert.o: libft.h get_next_line.h ft_getopt.h ft_printf.h\
+	t_pbuf.h ft_collector.h
 ft_lstadd.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
 	ft_collector.h
 ft_lstdel.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
