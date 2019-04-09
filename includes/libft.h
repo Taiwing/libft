@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2019/04/06 17:31:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/04/09 22:18:40 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void					ft_lst_sorted_insert(t_list **lst, t_list *new,
 
 char					*ft_stradd(char **base, char *str, size_t l);
 char					*ft_strcut(char **s, size_t start, size_t l);
+char					*ft_strrm(char **str, size_t start, size_t n);
 char					*ft_strndup(const char *s, size_t n);
 char					**ft_split_whitespaces(char *str);
 void					ft_print_words_tables(char **tab);

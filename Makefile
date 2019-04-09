@@ -127,6 +127,7 @@ STRC			=	ft_putendl.c\
 					ft_strnew.c\
 					ft_strnstr.c\
 					ft_strrchr.c\
+					ft_strrm.c\
 					ft_strsplit.c\
 					ft_strstr.c\
 					ft_strsub.c\
@@ -365,6 +366,8 @@ ft_strnew.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
 ft_strnstr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
 	ft_collector.h
 ft_strrchr.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
+	ft_collector.h
+ft_strrm.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
 	ft_collector.h
 ft_strsplit.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
 	ft_collector.h
