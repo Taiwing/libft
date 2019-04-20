@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2019/04/09 22:18:40 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/04/20 17:07:38 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "ft_getopt.h"
 # include "ft_printf.h"
 # ifdef NO_COLLEC
+# 	include <dirent.h>
 void					*ft_secmalloc(size_t size);
 # else
 #  include "ft_collector.h"
@@ -142,5 +143,18 @@ int						ft_intlen(intmax_t n);
 int						ft_wtlen(char **wt);
 char					**ft_wtdup(char **wt);
 void					ft_wtfree(char **wt);
+
+# define FT_LS_UNKNOWN	0x00
+# define FT_LS_FIFO		0x01
+# define FT_LS_CHR		0x02
+# define FT_LS_DIR		0x04
+# define FT_LS_BLK		0x08
+# define FT_LS_REG		0x10
+# define FT_LS_LNK		0x20
+# define FT_LS_SOCK		0x40
+# define FT_LS_WHT		0x80
+# define FT_LS_ALL		0xFF
+
+t_list					*ft_ls_files(char *path, int type);
 
 #endif

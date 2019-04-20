@@ -14,6 +14,7 @@ BINTDIR			=	bint
 CHARDIR			=	char
 FT_COLLECTORDIR	=	ft_collector
 FT_GETOPTDIR	=	ft_getopt
+FT_LSDIR		=	ft_ls
 FT_PRINTFDIR	=	ft_printf
 INTDIR			=	int
 MEMORYDIR		=	memory
@@ -58,6 +59,8 @@ FT_GETOPTC		=	ft_getopt.c\
 					init_getopt.c\
 					permute_order.c\
 					process_long_option.c\
+
+FT_LSC			=	ft_ls_files.c\
 
 FT_PRINTFC		=	basic_conversions.c\
 					convert.c\
@@ -172,6 +175,7 @@ OBJ				=	$(patsubst %.c,%.o,$(BINTC))\
 					$(patsubst %.c,%.o,$(CHARC))\
 					$(patsubst %.c,%.o,$(FT_COLLECTORC))\
 					$(patsubst %.c,%.o,$(FT_GETOPTC))\
+					$(patsubst %.c,%.o,$(FT_LSC))\
 					$(patsubst %.c,%.o,$(FT_PRINTFC))\
 					$(patsubst %.c,%.o,$(INTC))\
 					$(patsubst %.c,%.o,$(MEMORYC))\
@@ -186,6 +190,7 @@ vpath			%.c	$(SRCDIR)/$(BINTDIR)
 vpath			%.c	$(SRCDIR)/$(CHARDIR)
 vpath			%.c	$(SRCDIR)/$(FT_COLLECTORDIR)
 vpath			%.c	$(SRCDIR)/$(FT_GETOPTDIR)
+vpath			%.c	$(SRCDIR)/$(FT_LSDIR)
 vpath			%.c	$(SRCDIR)/$(FT_PRINTFDIR)
 vpath			%.c	$(SRCDIR)/$(INTDIR)
 vpath			%.c	$(SRCDIR)/$(MEMORYDIR)
@@ -248,6 +253,8 @@ init_getopt.o: ft_getopt.h
 permute_order.o: ft_getopt.h
 process_long_option.o: libft.h get_next_line.h ft_getopt.h ft_printf.h\
 	t_pbuf.h ft_collector.h getopt_errors.h
+ft_ls_files.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
+	ft_collector.h
 basic_conversions.o: fetch.h t_farg.h libft.h get_next_line.h ft_getopt.h\
 	ft_printf.h t_pbuf.h ft_collector.h itoa_unsigned.h t_pdata.h t_params.h
 convert.o: conversions.h t_farg.h t_pdata.h t_params.h format_data.h t_pbuf.h\
