@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 09:41:53 by yforeau           #+#    #+#             */
-/*   Updated: 2019/03/28 13:07:18 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/04/20 14:19:09 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FT_COLLECTOR_H
 
 # include <string.h>
+# include <dirent.h>
 
 void			*ft_secmalloc(size_t size);
 
@@ -52,5 +53,9 @@ void			**ft_check_stack_size(void **stack, size_t *size, size_t i);
 void			*ft_get_stack_ptr(void **stack, size_t *i, void *ptr);
 void			*ft_heap_collector(void *ptr, int hs_do);
 void			*ft_collector(t_stack *st, void *ptr, int gs_do);
+void			ft_closedir(void *dirp);
+t_stack			*ft_dir_container(void);
+void			ft_close_dir_stack(void);
+DIR				*ft_dir_collector(DIR *dirp, int ds_do);
 
 #endif

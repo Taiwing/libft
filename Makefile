@@ -45,6 +45,7 @@ CHARC			=	ft_isalnum.c\
 					ft_toupper.c\
 
 FT_COLLECTORC		=	ft_collector.c\
+					ft_dir_collector.c\
 					ft_exit.c\
 					ft_heap_collector.c\
 					ft_secmalloc.c\
@@ -229,6 +230,7 @@ ft_toupper.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
 	ft_collector.h
 ft_collector.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
 	ft_collector.h
+ft_dir_collector.o: ft_collector.h
 ft_exit.o: libft.h get_next_line.h ft_getopt.h ft_printf.h t_pbuf.h\
 	ft_collector.h
 ft_heap_collector.o: ft_collector.h
