@@ -6,11 +6,12 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 16:04:19 by yforeau           #+#    #+#             */
-/*   Updated: 2019/03/29 20:11:56 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/04/29 18:36:43 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "ft_collector.h"
 
 #ifdef NO_COLLEC
 
@@ -28,8 +29,6 @@ void	ft_wtfree(char **wt)
 }
 
 #else
-
-# include "ft_collector.h"
 
 void	ft_wtfree(char **wt)
 {
