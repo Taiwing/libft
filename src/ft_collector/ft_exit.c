@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 11:16:55 by yforeau           #+#    #+#             */
-/*   Updated: 2019/03/28 13:11:27 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/04/29 17:57:24 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@
 ** (like "close" for open files). Anyway, if this is really needed, ATEXIT_MAX
 ** can always be increased.
 */
+
 #define ATEXIT_MAX	1024
 
 /*
 ** ft_exitmsg stores the begining of the exit message (typically the name
 ** of the program) and returns it.
 */
+
 char	*ft_exitmsg(char *str)
 {
 	static char	*msg = NULL;
@@ -43,6 +45,7 @@ char	*ft_exitmsg(char *str)
 ** something else since the prototype is really not restrictive (void input,
 ** void output).
 */
+
 void	ft_atexit(t_atexitf handler)
 {
 	static t_atexitf	farr[ATEXIT_MAX];
