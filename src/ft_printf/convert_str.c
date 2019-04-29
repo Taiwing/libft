@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert.c                                          :+:      :+:    :+:   */
+/*   convert_str.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/16 20:10:27 by yforeau           #+#    #+#             */
-/*   Updated: 2019/04/29 18:31:47 by yforeau          ###   ########.fr       */
+/*   Created: 2019/04/29 18:24:39 by yforeau           #+#    #+#             */
+/*   Updated: 2019/04/29 18:28:54 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 #ifdef NO_COLLEC
 
-void	convert(t_pdata *data, t_farg *args, t_params *conv, char **fmt)
+void	convert_str(t_pdata *data, t_farg *args, t_params *conv, char **fmt)
 {
 	t_pdata	loc_data;
 
@@ -41,14 +41,14 @@ void	convert(t_pdata *data, t_farg *args, t_params *conv, char **fmt)
 	else
 		add_to_buf(&loc_data, NULL, conv->type, 1);
 	if (loc_data.n != -1)
-		format_data(data, &loc_data, conv, 0);
+		format_data_str(data, &loc_data, conv, 0);
 	data->n = loc_data.n == -1 ? -1 : data->n;
 	free(loc_data.abuf);
 }
 
 #else
 
-void	convert(t_pdata *data, t_farg *args, t_params *conv, char **fmt)
+void	convert_str(t_pdata *data, t_farg *args, t_params *conv, char **fmt)
 {
 	t_pdata	loc_data;
 
@@ -72,7 +72,7 @@ void	convert(t_pdata *data, t_farg *args, t_params *conv, char **fmt)
 	else
 		add_to_buf(&loc_data, NULL, conv->type, 1);
 	if (loc_data.n != -1)
-		format_data(data, &loc_data, conv, 0);
+		format_data_str(data, &loc_data, conv, 0);
 	data->n = loc_data.n == -1 ? -1 : data->n;
 	free(ft_heap_collector(loc_data.abuf, FT_COLLEC_GET));
 }

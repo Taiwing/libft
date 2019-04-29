@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 14:43:15 by yforeau           #+#    #+#             */
-/*   Updated: 2019/03/29 20:07:15 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/04/29 18:16:11 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,55 +84,3 @@ int	ft_snprintf(char *str, int size, const char *format, ...)
 	va_end(args.ref);
 	return (data.n);
 }
-
-#ifdef NO_COLLEC
-
-int	ft_asprintf(char **str, const char *format, ...)
-{
-	t_pdata	data;
-	t_farg	args;
-
-	init_buf_alloc(&data, str);
-	args.arr = NULL;
-	va_start(args.cur, format);
-	va_copy(args.ref, args.cur);
-	while (*format && data.n != -1)
-		parser_alloc(&data, (char **)&format, &args);
-	if (data.n != -1)
-	{
-		*str = data.buf;
-		(*str)[data.n] = 0;
-	}
-	else
-		free(data.buf);
-	va_end(args.cur);
-	va_end(args.ref);
-	return (data.n);
-}
-
-#else
-
-int	ft_asprintf(char **str, const char *format, ...)
-{
-	t_pdata	data;
-	t_farg	args;
-
-	init_buf_alloc(&data, str);
-	args.arr = NULL;
-	va_start(args.cur, format);
-	va_copy(args.ref, args.cur);
-	while (*format && data.n != -1)
-		parser_alloc(&data, (char **)&format, &args);
-	if (data.n != -1)
-	{
-		*str = data.buf;
-		(*str)[data.n] = 0;
-	}
-	else
-		free(ft_heap_collector(data.buf, FT_COLLEC_GET));
-	va_end(args.cur);
-	va_end(args.ref);
-	return (data.n);
-}
-
-#endif

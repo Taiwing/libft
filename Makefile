@@ -65,11 +65,15 @@ FT_LSC			=	ft_ls_files.c\
 
 FT_PRINTFC		=	basic_conversions.c\
 					convert.c\
+					convert_alloc.c\
+					convert_pbuf.c\
+					convert_str.c\
 					efg_conversions.c\
 					fetch.c\
 					float_formats.c\
 					format_data.c\
 					format_data_utils.c\
+					ft_asprintf.c\
 					ft_bufprintf.c\
 					ft_printf.c\
 					ft_printf_utils.c\
@@ -247,6 +251,12 @@ basic_conversions.o: fetch.h t_farg.h libft.h ft_getopt.h ft_printf.h t_pbuf.h\
 	ft_collector.h itoa_unsigned.h t_pdata.h t_params.h
 convert.o: conversions.h t_farg.h t_pdata.h t_params.h format_data.h t_pbuf.h\
 	libft.h ft_getopt.h ft_printf.h ft_collector.h
+convert_alloc.o: conversions.h t_farg.h t_pdata.h t_params.h format_data.h\
+	t_pbuf.h libft.h ft_getopt.h ft_printf.h ft_collector.h
+convert_pbuf.o: conversions.h t_farg.h t_pdata.h t_params.h format_data.h\
+	t_pbuf.h libft.h ft_getopt.h ft_printf.h ft_collector.h
+convert_str.o: conversions.h t_farg.h t_pdata.h t_params.h format_data.h\
+	t_pbuf.h libft.h ft_getopt.h ft_printf.h ft_collector.h
 efg_conversions.o: fetch.h t_farg.h t_params.h log_and_ceil.h float_formats.h\
 	t_pdata.h dragon4.h
 fetch.o: fetch.h t_farg.h t_params.h
@@ -254,6 +264,8 @@ float_formats.o: ft_printf_utils.h t_pdata.h dragon4.h t_params.h
 format_data.o: format_data_utils.h t_pdata.h t_params.h format_data.h t_pbuf.h\
 	libft.h ft_getopt.h ft_printf.h ft_collector.h
 format_data_utils.o: format_data.h t_params.h t_pdata.h t_pbuf.h libft.h\
+	ft_getopt.h ft_printf.h ft_collector.h
+ft_asprintf.o: parser.h t_farg.h t_pbuf.h t_pdata.h t_params.h libft.h\
 	ft_getopt.h ft_printf.h ft_collector.h
 ft_bufprintf.o: t_pbuf.h parser.h t_farg.h t_pdata.h t_params.h libft.h\
 	ft_getopt.h ft_printf.h ft_collector.h
