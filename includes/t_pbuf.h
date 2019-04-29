@@ -6,14 +6,14 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 14:30:14 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/14 16:48:58 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/04/29 17:26:16 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_PBUF_H
 # define T_PBUF_H
 
-# define PBUF_SIZE 1048576	/*1 Mio*/
+# define PBUF_SIZE 1048576
 
 # include <stddef.h>
 
