@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/09 01:55:42 by yforeau           #+#    #+#             */
-/*   Updated: 2019/04/29 17:48:15 by yforeau          ###   ########.fr       */
+/*   Created: 2019/04/29 17:48:27 by yforeau           #+#    #+#             */
+/*   Updated: 2019/04/29 17:50:12 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_GET_NEXT_LINE_H
-# define FT_GET_NEXT_LINE_H
+#include "libft.h"
 
-# define GNL_BUFF_SIZE 32
-
-# include "libft.h"
-
-typedef struct	s_gnl
+static int		ft_isfd(void *fd, void *content)
 {
-	int			fd;
-	char		*trail;
-}				t_gnl;
+	return (*(int *)fd != ((t_gnl *)content)->fd);
+}
 
-int				ft_isfd(void *fd, void *content);
-void			rm_cur(t_list **lst, t_gnl *cur);
+#ifdef NO_COLLEC
+
+void			rm_cur(t_list **lst, t_gnl *cur)
+{
+	ft_lst_remove_if(lst, (void *)&(cur->fd), ft_isfd);
+	free(cur);
+}
+
+#else
+
+void			rm_cur(t_list **lst, t_gnl *cur)
+{
+	ft_lst_remove_if(lst, (void *)&(cur->fd), ft_isfd);
+	free(ft_heap_collector(cur, FT_COLLEC_GET));
+}
 
 #endif

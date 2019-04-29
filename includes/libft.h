@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2019/04/29 17:27:13 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/04/29 17:47:00 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdint.h>
-# include "get_next_line.h"
 # include "ft_getopt.h"
 # include "ft_printf.h"
 # ifndef NO_COLLEC
@@ -36,6 +35,8 @@ typedef struct			s_list
 	size_t				content_size;
 	struct s_list		*next;
 }						t_list;
+
+int						get_next_line(const int fd, char **line);
 
 void					*ft_memset(void *s, int c, size_t n);
 void					ft_bzero(void *s, size_t n);
