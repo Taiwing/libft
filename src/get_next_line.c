@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:55:35 by yforeau           #+#    #+#             */
-/*   Updated: 2019/04/29 17:50:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/09/07 07:42:08 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ static int		ft_read_file(t_gnl *cur, char **line, t_list **lst)
 	size_t	l;
 	char	buf[GNL_BUFF_SIZE];
 
+	l = cur->trail ? ft_strlen(cur->trail) : 0;
 	if (!(r = read(cur->fd, buf, GNL_BUFF_SIZE)))
 	{
-		l = cur->trail ? ft_strlen(cur->trail) : 0;
 		if (!(*line = ft_strcut(&(cur->trail), 0, l)) && l > 0)
 			r = -1;
 		if (!*line)
@@ -54,6 +54,8 @@ static int		ft_read_file(t_gnl *cur, char **line, t_list **lst)
 			cur->trail = ft_stradd(&(cur->trail), buf, r);
 		else
 			cur->trail = ft_strndup(buf, r);
+		if (cur->trail && l + r > ft_strlen(cur->trail))
+			ft_memdel((void **)&cur->trail);
 		r = !cur->trail ? -1 : r;
 	}
 	return (r);
