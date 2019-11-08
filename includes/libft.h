@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2019/04/29 17:47:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/08 18:02:30 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ void					ft_print_words_tables_fd(char **tab, int fd);
 int						ft_atoi_forward(char **nptr);
 void					ft_swap_p(uintptr_t *p1, uintptr_t *p2);
 int						ft_intlen(intmax_t n);
+unsigned int			ft_rand(void);
 int						ft_wtlen(char **wt);
 char					**ft_wtdup(char **wt);
 void					ft_wtfree(char **wt);

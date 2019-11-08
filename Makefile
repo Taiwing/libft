@@ -96,6 +96,7 @@ INTC			=	ft_atoi.c\
 					ft_itoa.c\
 					ft_putnbr.c\
 					ft_putnbr_fd.c\
+					ft_rand.c\
 
 MEMORYC			=	ft_bzero.c\
 					ft_memalloc.c\
@@ -375,6 +376,7 @@ ft_split_whitespaces.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h\
 ft_wtdup.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_wtfree.o: ft_collector.h
 %.o: %.c
+	@mkdir -p $(ODIR)
 	$(CC) -c $(CFLAGS) $< $(HFLAGS) -o $(ODIR)/$@
 
 $(ODIR):
