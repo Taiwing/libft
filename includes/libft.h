@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/08 18:02:30 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/22 11:15:42 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void					ft_lst_foreach_if(t_list *lst, void (*f)(void *),
 										void *content_ref, int (*cmp)());
 t_list					*ft_lst_last(t_list *lst);
 void					ft_lst_merge(t_list **lst1, t_list *lst2);
+void					ft_lst_move_back(t_list **lst, t_list *elem);
 void					ft_lst_move_front(t_list **lst, t_list *elem);
 t_list					*ft_lst_push_back(t_list **lst, void *content,
 										size_t content_size);
