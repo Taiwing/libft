@@ -146,6 +146,7 @@ STRC			=	ft_putendl.c\
 T_LSTC			=	ft_lst_at.c\
 					ft_lst_discard.c\
 					ft_lst_find.c\
+					ft_lst_find_index.c\
 					ft_lst_foreach.c\
 					ft_lst_foreach_if.c\
 					ft_lst_last.c\
@@ -345,6 +346,7 @@ ft_strtrim.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_lst_at.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_lst_discard.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_lst_find.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
+ft_lst_find_index.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_lst_foreach.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_lst_foreach_if.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_lst_last.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
