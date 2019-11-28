@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 10:28:41 by yforeau           #+#    #+#             */
-/*   Updated: 2019/03/28 13:11:03 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/28 19:49:07 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void			**ft_check_stack_size(void **stack, size_t *size, size_t i)
 		ptr = ft_alloc_stack(size);
 		if (ptr && stack)
 		{
-			ft_memcpy(ptr, stack, old_size);
+			ft_memcpy(ptr, stack, old_size * sizeof(void *));
 			free(stack);
 		}
 		return (ptr);
