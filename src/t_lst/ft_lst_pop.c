@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 11:56:06 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/22 12:33:18 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/12/03 13:13:35 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_list	*ft_lst_pop(t_list **lst, unsigned int pop)
 	t_list	*prev;
 
 	if (!lst || !*lst)
-		return NULL;
+		return (NULL);
 	prev = NULL;
 	ptr = *lst;
 	while (ptr && pop-- > 0)
