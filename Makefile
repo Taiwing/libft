@@ -2,8 +2,7 @@
 
 CC			=	gcc
 #CFLAGS		=	-Wall -Wextra -Werror
-#CFLAGS		=	-g -Wall -Wextra -Werror -fsanitize=address,undefined
-CFLAGS		=	-g -Wall -Wextra -fsanitize=address,undefined
+CFLAGS		=	-g -Wall -Wextra -Werror -fsanitize=address,undefined
 HDIR		=	includes
 SRCDIR		=	src
 HFLAGS		=	-I $(HDIR)
@@ -118,6 +117,7 @@ STRC			=	ft_strclr.c\
 					ft_strcut.c\
 					ft_striteri.c\
 					ft_strcat.c\
+					ft_ignore_case_strcmp.c\
 					ft_strtrim.c\
 					ft_strlen.c\
 					ft_strrchr.c\
@@ -323,6 +323,8 @@ ft_strnew.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_strcut.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_striteri.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_strcat.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
+ft_ignore_case_strcmp.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h\
+	ft_collector.h
 ft_strtrim.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_strlen.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_strrchr.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
@@ -379,6 +381,7 @@ ft_memcmp.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_memcpy.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_memalloc.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_memccpy.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
+ft_memswap.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_bzero.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_memchr.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_memset.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
