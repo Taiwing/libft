@@ -6,41 +6,41 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/02 16:20:05 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/12 15:14:36 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/14 18:32:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
 
-int			sadd_32bint(t_bint res, t_u32 rig)
+int			sadd_32bint(t_bint res, uint32_t rig)
 {
-	t_u32	*r;
-	t_u64	sum;
+	uint32_t	*r;
+	uint64_t	sum;
 
 	r = res;
 	sum = rig;
 	while (sum && ++r < res + 1 + (res[0] & NBR_LENGTH))
 	{
-		sum += (t_u64)(*r);
-		*r = (t_u32)(sum & 0xFFFFFFFF);
+		sum += (uint64_t)(*r);
+		*r = (uint32_t)(sum & 0xFFFFFFFF);
 		sum >>= 32;
 	}
 	if (sum)
 	{
 		if ((res[0] & NBR_LENGTH) + 1 > ((res[0] & ARR_SIZE) >> 16) - 1)
 			return (0);
-		*r = (t_u32)sum;
+		*r = (uint32_t)sum;
 		++res[0];
 	}
 	return (1);
 }
 
-static int	add(t_bint res, t_bint small, t_bint large, t_u32 max)
+static int	add(t_bint res, t_bint small, t_bint large, uint32_t max)
 {
-	t_u32	*c;
-	t_u32	*r;
-	t_u32	*l;
-	t_u64	sum;
+	uint32_t	*c;
+	uint32_t	*r;
+	uint32_t	*l;
+	uint64_t	sum;
 
 	sum = 0;
 	r = res;
@@ -48,13 +48,13 @@ static int	add(t_bint res, t_bint small, t_bint large, t_u32 max)
 	l = large;
 	while (++c < small + 1 + (small[0] & NBR_LENGTH))
 	{
-		sum += (t_u64)(*++l) + *c;
+		sum += (uint64_t)(*++l) + *c;
 		*++r = sum & 0xFFFFFFFF;
 		sum >>= 32;
 	}
 	while (++l < large + 1 + (large[0] & NBR_LENGTH))
 	{
-		sum += (t_u64)(*l);
+		sum += (uint64_t)(*l);
 		*++r = sum & 0xFFFFFFFF;
 		sum >>= 32;
 	}
@@ -66,7 +66,7 @@ static int	add(t_bint res, t_bint small, t_bint large, t_u32 max)
 
 int			add_bint(t_bint res, t_bint l, t_bint r)
 {
-	t_u32	max;
+	uint32_t	max;
 
 	max = (l[0] & NBR_LENGTH) > (r[0] & NBR_LENGTH) ?
 			(l[0] & NBR_LENGTH) : (r[0] & NBR_LENGTH);
@@ -77,11 +77,11 @@ int			add_bint(t_bint res, t_bint l, t_bint r)
 			(l[0] & NBR_LENGTH) < (r[0] & NBR_LENGTH) ? r : l, max));
 }
 
-static int	mult(t_bint res, t_bint s, t_bint l, t_u32 limit)
+static int	mult(t_bint res, t_bint s, t_bint l, uint32_t limit)
 {
-	t_u64	prod;
-	t_u32	i;
-	t_u32	j;
+	uint64_t	prod;
+	uint32_t	i;
+	uint32_t	j;
 
 	i = 0;
 	while (++i <= (s[0] & NBR_LENGTH))
@@ -92,13 +92,13 @@ static int	mult(t_bint res, t_bint s, t_bint l, t_u32 limit)
 			prod = 0;
 			while (++j <= (l[0] & NBR_LENGTH))
 			{
-				prod += res[j] + (l[j] * (t_u64)s[i]);
+				prod += res[j] + (l[j] * (uint64_t)s[i]);
 				res[j] = prod & 0xFFFFFFFF;
 				prod >>= 32;
 			}
 			if (j >= limit)
 				return (0);
-			res[j] = (t_u32)(prod & 0xFFFFFFFF);
+			res[j] = (uint32_t)(prod & 0xFFFFFFFF);
 		}
 		res++;
 	}
@@ -107,7 +107,7 @@ static int	mult(t_bint res, t_bint s, t_bint l, t_u32 limit)
 
 int			mult_bint(t_bint res, t_bint l, t_bint r)
 {
-	t_u32	max;
+	uint32_t	max;
 
 	max = (l[0] & NBR_LENGTH) + (r[0] & NBR_LENGTH);
 	if (l == res || r == res || max > BINT_SIZE - 1)

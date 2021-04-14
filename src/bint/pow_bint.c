@@ -6,18 +6,18 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:26:58 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/12 20:32:45 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/14 18:32:29 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
 #include "bint_mathconsts.h"
 
-int		pow10_bint(t_bint res, t_u32 exp)
+int		pow10_bint(t_bint res, uint32_t exp)
 {
-	t_u32	i;
-	t_u32	cur[BINT_SIZE];
-	t_u32	next[BINT_SIZE];
+	uint32_t	i;
+	uint32_t	cur[BINT_SIZE];
+	uint32_t	next[BINT_SIZE];
 
 	if (exp >> 13)
 		return (0);
@@ -41,18 +41,18 @@ int		pow10_bint(t_bint res, t_u32 exp)
 	return (bintcpy(cur, res));
 }
 
-int		multpow10_bint(t_bint res, t_bint in, t_u32 exp)
+int		multpow10_bint(t_bint res, t_bint in, uint32_t exp)
 {
-	t_u32	tmp[BINT_SIZE];
+	uint32_t	tmp[BINT_SIZE];
 
 	bintinit(tmp, 0);
 	return (pow10_bint(tmp, exp) && mult_bint(res, tmp, in));
 }
 
-int		pow2_bint(t_bint res, t_u32 exp)
+int		pow2_bint(t_bint res, uint32_t exp)
 {
-	t_u32	i;
-	t_u32	index;
+	uint32_t	i;
+	uint32_t	index;
 
 	index = exp / 32;
 	if (index > ((res[0] & ARR_SIZE) >> 16) - 1)

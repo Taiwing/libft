@@ -6,32 +6,32 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 15:58:07 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/12 15:12:40 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/14 18:30:59 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
 
-int			mult_32bint(t_bint res, t_bint lef, t_u32 rig)
+int			mult_32bint(t_bint res, t_bint lef, uint32_t rig)
 {
-	t_u32	*r;
-	t_u32	*l;
-	t_u64	prod;
+	uint32_t	*r;
+	uint32_t	*l;
+	uint64_t	prod;
 
 	prod = 0;
 	r = res + 1;
 	l = lef + 1;
 	while (l < lef + 1 + (lef[0] & NBR_LENGTH))
 	{
-		prod += (t_u64)(*l++) * rig;
-		*r++ = (t_u32)(prod & 0xFFFFFFFF);
+		prod += (uint64_t)(*l++) * rig;
+		*r++ = (uint32_t)(prod & 0xFFFFFFFF);
 		prod >>= 32;
 	}
 	if (prod)
 	{
 		if ((lef[0] & NBR_LENGTH) + 1 > ((res[0] & ARR_SIZE) >> 16))
 			return (0);
-		*r = (t_u32)prod;
+		*r = (uint32_t)prod;
 	}
 	res[0] = (res[0] & ~NBR_LENGTH) + (lef[0] & NBR_LENGTH) + (prod != 0);
 	return (1);
@@ -39,10 +39,10 @@ int			mult_32bint(t_bint res, t_bint lef, t_u32 rig)
 
 int			mult2_bint(t_bint res, t_bint in)
 {
-	t_u32	*i;
-	t_u32	*r;
-	t_u32	carry;
-	t_u32	limit;
+	uint32_t	*i;
+	uint32_t	*r;
+	uint32_t	carry;
+	uint32_t	limit;
 
 	i = in;
 	r = res;
@@ -67,10 +67,10 @@ int			mult2_bint(t_bint res, t_bint in)
 
 int			smult2_bint(t_bint res)
 {
-	t_u32	*r;
-	t_u32	cur;
-	t_u32	carry;
-	t_u32	limit;
+	uint32_t	*r;
+	uint32_t	cur;
+	uint32_t	carry;
+	uint32_t	limit;
 
 	r = res;
 	carry = 0;
@@ -93,22 +93,22 @@ int			smult2_bint(t_bint res)
 
 int			smult10_bint(t_bint res)
 {
-	t_u32	*r;
-	t_u64	prod;
+	uint32_t	*r;
+	uint64_t	prod;
 
 	r = res;
 	prod = 0;
 	while (++r < res + 1 + (res[0] & NBR_LENGTH))
 	{
-		prod += (t_u64)(*r) * 10ull;
-		*r = (t_u32)(prod & 0xFFFFFFFF);
+		prod += (uint64_t)(*r) * 10ull;
+		*r = (uint32_t)(prod & 0xFFFFFFFF);
 		prod >>= 32;
 	}
 	if (prod)
 	{
 		if (r - res + 1 > ((res[0] & ARR_SIZE) >> 16) - 1)
 			return (0);
-		*r = (t_u32)prod;
+		*r = (uint32_t)prod;
 		++res[0];
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 15:16:39 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/12 15:32:19 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/14 18:34:38 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		bintcpy(t_bint src, t_bint dst)
 {
-	t_u32	i;
+	uint32_t	i;
 
 	if ((src[0] & NBR_LENGTH) > ((dst[0] & ARR_SIZE) >> 16) - 1)
 		return (0);
@@ -28,16 +28,16 @@ int		bintcpy(t_bint src, t_bint dst)
 	return (1);
 }
 
-int		bintset(t_u64 u, t_bint dst)
+int		bintset(uint64_t u, t_bint dst)
 {
-	t_u32	i;
+	uint32_t	i;
 
 	i = 0;
 	while (u)
 	{
 		if (i == ((dst[0] & ARR_SIZE) >> 16) - 1)
 			return (0);
-		dst[++i] = (t_u32)(u & 0xFFFFFFFF);
+		dst[++i] = (uint32_t)(u & 0xFFFFFFFF);
 		u >>= 32;
 	}
 	dst[0] = (dst[0] & ~NBR_LENGTH) + i;
@@ -65,7 +65,7 @@ void	bintclr(t_bint b)
 		b[b[0]-- & NBR_LENGTH] = 0;
 }
 
-void	bintinit(t_bint b, t_u32 size)
+void	bintinit(t_bint b, uint32_t size)
 {
 	size = size ? size : BINT_SIZE;
 	b[0] = (size << 16) + size - 1;

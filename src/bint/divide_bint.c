@@ -6,25 +6,25 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 15:00:29 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/06 15:39:14 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/14 18:28:37 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
 
-static void	substract_bintxu32(t_bint res, t_bint b, t_u32 q)
+static void	substract_bintxu32(t_bint res, t_bint b, uint32_t q)
 {
-	t_u32	i;
-	t_u64	prod;
-	t_u64	diff;
+	uint32_t	i;
+	uint64_t	prod;
+	uint64_t	diff;
 
 	i = 0;
 	prod = 0;
 	diff = 0;
 	while (++i <= (b[0] & NBR_LENGTH))
 	{
-		prod += (t_u64)b[i] * (t_u64)q;
-		diff = (t_u64)res[i] - (prod & 0xFFFFFFFF) - diff;
+		prod += (uint64_t)b[i] * (uint64_t)q;
+		diff = (uint64_t)res[i] - (prod & 0xFFFFFFFF) - diff;
 		res[i] = diff & 0xFFFFFFFF;
 		prod >>= 32;
 		diff = (diff >> 32) & 1;
@@ -33,9 +33,9 @@ static void	substract_bintxu32(t_bint res, t_bint b, t_u32 q)
 		--res[0];
 }
 
-t_u32		divmod_max9_bint(t_bint dividend, t_bint divisor)
+uint32_t		divmod_max9_bint(t_bint dividend, t_bint divisor)
 {
-	t_u32	quotient;
+	uint32_t	quotient;
 
 	if (!(divisor[0] & NBR_LENGTH) || divisor[divisor[0] & NBR_LENGTH] < 8
 		|| divisor[divisor[0] & NBR_LENGTH] > 0xFFFFFFFE

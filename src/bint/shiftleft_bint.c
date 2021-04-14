@@ -6,19 +6,19 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 16:41:15 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/12 15:15:22 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/14 18:32:46 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
 
-static void	shift_part(t_bint res, t_u32 shift_blocks, t_u32 shift_bits)
+static void	shift_part(t_bint res, uint32_t shift_blocks, uint32_t shift_bits)
 {
-	t_u32	in;
-	t_u32	out;
-	t_u32	low;
-	t_u32	high;
-	t_u32	block;
+	uint32_t	in;
+	uint32_t	out;
+	uint32_t	low;
+	uint32_t	high;
+	uint32_t	block;
 
 	in = res[0] & NBR_LENGTH;
 	out = in + shift_blocks + 1;
@@ -40,12 +40,12 @@ static void	shift_part(t_bint res, t_u32 shift_blocks, t_u32 shift_bits)
 	res[0] = !res[res[0] & NBR_LENGTH] ? res[0] - 1 : res[0];
 }
 
-int			shiftleft_bint(t_bint res, t_u32 shift)
+int			shiftleft_bint(t_bint res, uint32_t shift)
 {
-	t_u32	shift_blocks;
-	t_u32	shift_bits;
-	t_u32	out;
-	t_u32	in;
+	uint32_t	shift_blocks;
+	uint32_t	shift_bits;
+	uint32_t	out;
+	uint32_t	in;
 
 	if (!shift)
 		return (1);

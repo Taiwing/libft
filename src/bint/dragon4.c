@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 20:05:11 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/19 23:44:10 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/14 18:29:36 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 static int	scale_val(t_bint scale, t_bint scaled_val, t_fltinf *info)
 {
-	int		digit_exp;
-	t_u32	tmp[BINT_SIZE];
+	int			digit_exp;
+	uint32_t	tmp[BINT_SIZE];
 
 	bintinit(tmp, 0);
 	bintinit(scale, 0);
@@ -44,9 +44,9 @@ static int	scale_val(t_bint scale, t_bint scaled_val, t_fltinf *info)
 static char	*ftostr(t_bint scale, t_bint scaled_val,
 		t_fltinf *info, char *cur_digit)
 {
-	t_u32	hi_block;
-	int		prec;
-	int		cutoff_exp;
+	uint32_t	hi_block;
+	int			prec;
+	int			cutoff_exp;
 
 	prec = info->prec + info->digit_exp > 16383 ?
 	16383 - info->digit_exp : info->prec;
@@ -56,8 +56,8 @@ static char	*ftostr(t_bint scale, t_bint scaled_val,
 	if (hi_block < 8 || hi_block > 429496729)
 	{
 		prec = (32 + 27 - logbase2_32(hi_block)) % 32;
-		shiftleft_bint(scale, (t_u32)prec);
-		shiftleft_bint(scaled_val, (t_u32)prec);
+		shiftleft_bint(scale, (uint32_t)prec);
+		shiftleft_bint(scaled_val, (uint32_t)prec);
 	}
 	while (1)
 	{
@@ -99,11 +99,11 @@ static char	*round_up9(char *cur_digit, char *buf, int *exp10, int conv)
 
 int			dragon4(t_fltinf *info, char *buf)
 {
-	t_u32	scaled_val[BINT_SIZE];
-	t_u32	scale[BINT_SIZE];
-	char	*cur_digit;
-	int		round_down;
-	int		cmp;
+	uint32_t	scaled_val[BINT_SIZE];
+	uint32_t	scale[BINT_SIZE];
+	char		*cur_digit;
+	int			round_down;
+	int			cmp;
 
 	if (!info->mantissa)
 	{
