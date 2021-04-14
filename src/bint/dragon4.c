@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 20:05:11 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/14 18:29:36 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 00:11:33 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 static int	scale_val(t_bint scale, t_bint scaled_val, t_fltinf *info)
 {
 	int			digit_exp;
-	uint32_t	tmp[BINT_SIZE];
+	uint32_t	tmp[BINT_SIZE_DEF];
 
 	bintinit(tmp, 0);
 	bintinit(scale, 0);
@@ -52,7 +52,7 @@ static char	*ftostr(t_bint scale, t_bint scaled_val,
 	16383 - info->digit_exp : info->prec;
 	cutoff_exp = info->conv == 'f' || info->conv == 'F' ?
 		-prec : info->digit_exp - prec - 1;
-	hi_block = scale[scale[0] & NBR_LENGTH];
+	hi_block = scale[BINT_LEN(scale)];
 	if (hi_block < 8 || hi_block > 429496729)
 	{
 		prec = (32 + 27 - logbase2_32(hi_block)) % 32;
@@ -63,7 +63,7 @@ static char	*ftostr(t_bint scale, t_bint scaled_val,
 	{
 		--info->digit_exp;
 		info->digit = divmod_max9_bint(scaled_val, scale);
-		if (!(scaled_val[0] & NBR_LENGTH) || (info->digit_exp == cutoff_exp))
+		if (!BINT_LEN(scaled_val) || (info->digit_exp == cutoff_exp))
 			break ;
 		*cur_digit++ = (char)(48 + info->digit);
 		smult10_bint(scaled_val);
@@ -99,8 +99,8 @@ static char	*round_up9(char *cur_digit, char *buf, int *exp10, int conv)
 
 int			dragon4(t_fltinf *info, char *buf)
 {
-	uint32_t	scaled_val[BINT_SIZE];
-	uint32_t	scale[BINT_SIZE];
+	uint32_t	scaled_val[BINT_SIZE_DEF];
+	uint32_t	scale[BINT_SIZE_DEF];
 	char		*cur_digit;
 	int			round_down;
 	int			cmp;

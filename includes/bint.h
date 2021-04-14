@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/14 19:20:13 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 00:10:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,19 @@
 # define BINT_H
 
 # include <stdint.h>
-# define BINT_SIZE 		520
-# define SIZE_UINTMAX	2
-# define NBR_LENGTH		0x0000FFFF
-# define ARR_SIZE		0xFFFF0000
+# define BINT_SIZE_DEF			520
+# define SIZE_UINTMAX			2
+# define BINT_LEN_MASK			0x0000FFFF
+# define BINT_SIZE_MASK			0xFFFF0000
+# define BINT_LEN(n)			(n[0] & BINT_LEN_MASK)
+# define BINT_SIZE(n)			((n[0] & BINT_SIZE_MASK) >> 16)
+# define SET_BINT_LEN(n, len)	(n[0] = (n[0] & ~BINT_LEN_MASK) + len)
 
 /*
 ** size 36 makes it possible to represent up to 1120 bits unsigned integers
 ** size 520 makes it possible to represent up to 16608 bits unsigned integers
-** NBR_LENGTH is the number of blocks occupied by the number (0 means value 0)
-** ARR_SIZE total size of the array (so total number of blocks + 1)
+** BINT_LEN is the number of blocks occupied by the number (0 means value 0)
+** BINT_SIZE total size of the array (so total number of blocks + 1)
 */
 
 typedef uint32_t *	t_bint;

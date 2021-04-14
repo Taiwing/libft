@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:26:58 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/14 22:38:10 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 00:11:00 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 int		pow10_bint(t_bint res, uint32_t exp)
 {
 	uint32_t	i;
-	uint32_t	cur[BINT_SIZE];
-	uint32_t	next[BINT_SIZE];
+	uint32_t	cur[BINT_SIZE_DEF];
+	uint32_t	next[BINT_SIZE_DEF];
 
 	if (exp >> 13)
 		return (0);
@@ -50,7 +50,7 @@ int		pow10_bint(t_bint res, uint32_t exp)
 */
 int		multpow10_bint(t_bint res, t_bint in, uint32_t exp)
 {
-	uint32_t	tmp[BINT_SIZE];
+	uint32_t	tmp[BINT_SIZE_DEF];
 
 	bintinit(tmp, 0);
 	return (pow10_bint(tmp, exp) && mult_bint(res, tmp, in));
@@ -58,7 +58,7 @@ int		multpow10_bint(t_bint res, t_bint in, uint32_t exp)
 
 /*
 ** Compute 2^exp and put it into res
-** exp is only limited by UINT32_MAX and ARR_SIZE
+** exp is only limited by UINT32_MAX and BINT_SIZE
 */
 int		pow2_bint(t_bint res, uint32_t exp)
 {
@@ -66,12 +66,12 @@ int		pow2_bint(t_bint res, uint32_t exp)
 	uint32_t	index;
 
 	index = exp / 32;
-	if (index > ((res[0] & ARR_SIZE) >> 16) - 1)
+	if (index > BINT_SIZE(res) - 1)
 		return (0);
 	i = 0;
 	while (++i <= index + 1)
 		res[i] = 0;
 	res[index + 1] |= 1 << (exp % 32);
-	res[0] = (res[0] & ~NBR_LENGTH) + index + 1;
+	SET_BINT_LEN(res, index + 1);
 	return (1);
 }
