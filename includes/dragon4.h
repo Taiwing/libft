@@ -6,13 +6,14 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:12:44 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/14 22:40:01 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/14 18:41:54 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DRAGON4_H
 # define DRAGON4_H
 
+# include <stdint.h>
 # define LOG10_2		0.30102999566398119521373889472449
 # define DBL_EXP_MAX	0x7FF
 # define LDBL_EXP_MAX	0x7FFF
@@ -28,16 +29,16 @@
 
 typedef struct			s_bit64d
 {
-	unsigned long int	mantissa: 52;
-	unsigned int		exponent: 11;
-	unsigned int		sign: 1;
+	uint64_t			mantissa: 52;
+	uint32_t			exponent: 11;
+	uint32_t			sign: 1;
 }						t_bit64d;
 
 typedef struct			s_bit80d
 {
-	unsigned long int	mantissa;
-	unsigned int		exponent: 15;
-	unsigned int		sign: 1;
+	uint64_t			mantissa;
+	uint32_t			exponent: 15;
+	uint32_t			sign: 1;
 }						t_bit80d;
 
 typedef union			u_bitd
@@ -48,14 +49,14 @@ typedef union			u_bitd
 
 typedef struct			s_fltinf
 {
-	unsigned int		sign;
+	uint32_t			sign;
 	int					exp;
-	long unsigned int	mantissa;
-	unsigned int		log2;
+	uint64_t			mantissa;
+	uint32_t			log2;
 	int					prec;
 	int					conv;
 	int					digit_exp;
-	unsigned int		digit;
+	uint32_t			digit;
 	int					exp10;
 	int					flags;
 }						t_fltinf;

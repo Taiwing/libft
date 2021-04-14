@@ -6,11 +6,13 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:13:08 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/19 23:41:15 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/14 18:43:27 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-const unsigned int	g_pow10_u32[8] =
+#include <stdint.h>
+
+const uint32_t	g_pow10_u32[8] =
 {
 	1,
 	10,
@@ -22,28 +24,28 @@ const unsigned int	g_pow10_u32[8] =
 	10000000
 };
 
-const unsigned int	g_pow10_8[2] = { 0x00020001, 0x05f5e100 };
-const unsigned int	g_pow10_16[3] = { 0x00030002, 0x6fc10000, 0x02386f2 };
-const unsigned int	g_pow10_32[5] = {
+const uint32_t	g_pow10_8[2] = { 0x00020001, 0x05f5e100 };
+const uint32_t	g_pow10_16[3] = { 0x00030002, 0x6fc10000, 0x02386f2 };
+const uint32_t	g_pow10_32[5] = {
 	0x00050004, 0x00000000, 0x85acef81, 0x2d6d415b, 0x000004ee
 };
-const unsigned int	g_pow10_64[8] = {
+const uint32_t	g_pow10_64[8] = {
 	0x00080007, 0x00000000, 0x00000000, 0xbf6a1f01, 0x6e38ed64, 0xdaa797ed,
 	0xe93ff9f4, 0x00184f03
 };
-const unsigned int	g_pow10_128[15] = {
+const uint32_t	g_pow10_128[15] = {
 	0x000f000e, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x2e953e01,
 	0x03df9909, 0x0f1538fd, 0x2374e42f, 0xd3cff5ec, 0xc404dc08, 0xbccdb0da,
 	0xa6337f19, 0xe91f2603, 0x0000024e
 };
-const unsigned int	g_pow10_256[28] = {
+const uint32_t	g_pow10_256[28] = {
 	0x001c001b, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
 	0x00000000, 0x00000000, 0x00000000, 0x982e7c01, 0xbed3875b, 0xd8d99f72,
 	0x12152f87, 0x6bde50c6, 0xcf4a6e70, 0xd595d80f, 0x26b2716e, 0xadc666b0,
 	0x1d153624, 0x3c42d35a, 0x63ff540e, 0xcc5573c0, 0x65f9ef17, 0x55bc28f2,
 	0x80dcc7f7, 0xf46eeddc, 0x5fdcefce, 0x000553f7
 };
-const unsigned int	g_pow10_512[55] = {
+const uint32_t	g_pow10_512[55] = {
 	0x02080036, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
 	0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
 	0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0xfc6cf801,
@@ -55,7 +57,7 @@ const unsigned int	g_pow10_512[55] = {
 	0xa2699748, 0x8cb07303, 0x8a0b1f13, 0x8cab8a97, 0xc1d238d9, 0x633415d4,
 	0x0000001c
 };
-const unsigned int	g_pow10_1024[108] = {
+const uint32_t	g_pow10_1024[108] = {
 	0x0208006b, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
 	0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
 	0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
@@ -75,7 +77,7 @@ const unsigned int	g_pow10_1024[108] = {
 	0x73c55349, 0xa7e6bd2a, 0xc1a6970c, 0x47187094, 0xd2db49ef, 0x926c3f5b,
 	0xae6209d4, 0x2d433949, 0x34f4a3c6, 0xd4305d94, 0xd9d61a05, 0x00000325
 };
-const unsigned int	g_pow10_2048[214] = {
+const uint32_t	g_pow10_2048[214] = {
 	0x020800d5, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
 	0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
 	0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
@@ -113,7 +115,7 @@ const unsigned int	g_pow10_2048[214] = {
 	0x11eb962b, 0x9648b21c, 0xce2bcba1, 0x34f77154, 0x7bbebe30, 0xe526a319,
 	0x8ce329ac, 0xde4a74d2, 0xb5dc53d5, 0x0009e8b3
 };
-const unsigned int	g_pow10_4096[427] = {
+const uint32_t	g_pow10_4096[427] = {
 	0x020801aa, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
 	0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
 	0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
@@ -187,7 +189,7 @@ const unsigned int	g_pow10_4096[427] = {
 	0x271133ee, 0xbb0fd922, 0x25254932, 0xa60a9fc0, 0x104bcd64, 0x30290145,
 	0x00000062
 };
-const unsigned int	*g_pow10_big[10] =
+const uint32_t	*g_pow10_big[10] =
 {
 	g_pow10_8,
 	g_pow10_16,
@@ -201,7 +203,7 @@ const unsigned int	*g_pow10_big[10] =
 	g_pow10_4096
 };
 
-const unsigned char g_logtable[256] =
+const uint8_t	g_logtable[256] =
 {
 	0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
 	4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,

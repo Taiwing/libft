@@ -6,13 +6,13 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 16:23:52 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/13 21:30:39 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/14 18:44:35 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint_mathconsts.h"
 
-int				ft_ceil(double d)
+int			ft_ceil(double d)
 {
 	if (d - (int)d == 0.0f || d < 0.0f)
 		return ((int)d);
@@ -20,9 +20,9 @@ int				ft_ceil(double d)
 		return ((int)d + 1);
 }
 
-unsigned int	logbase2_32(unsigned int nbr)
+uint32_t	logbase2_32(uint32_t nbr)
 {
-	unsigned int	tmp;
+	uint32_t	tmp;
 
 	tmp = nbr >> 24;
 	if (tmp)
@@ -36,9 +36,9 @@ unsigned int	logbase2_32(unsigned int nbr)
 	return (g_logtable[nbr]);
 }
 
-unsigned int	logbase2_64(unsigned long int nbr)
+uint32_t	logbase2_64(uint64_t nbr)
 {
 	if (nbr >> 32)
-		return (32 + logbase2_32((unsigned int)(nbr >> 32)));
-	return (logbase2_32((unsigned int)nbr));
+		return (32 + logbase2_32((uint32_t)(nbr >> 32)));
+	return (logbase2_32((uint32_t)nbr));
 }
