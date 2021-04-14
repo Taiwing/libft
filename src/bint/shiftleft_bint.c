@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 16:41:15 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/14 18:32:46 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/14 22:44:02 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ static void	shift_part(t_bint res, uint32_t shift_blocks, uint32_t shift_bits)
 	res[0] = !res[res[0] & NBR_LENGTH] ? res[0] - 1 : res[0];
 }
 
+/*
+** Simply shift left res which is equivalent to: res *= 2^shift
+*/
 int			shiftleft_bint(t_bint res, uint32_t shift)
 {
 	uint32_t	shift_blocks;

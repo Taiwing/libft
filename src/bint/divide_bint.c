@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 15:00:29 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/14 18:28:37 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/14 23:06:50 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@ static void	substract_bintxu32(t_bint res, t_bint b, uint32_t q)
 		--res[0];
 }
 
+/*
+** Divide dividend by divisor, return the quotient and update
+** divident to equal the remainder where:
+** quotient = floor(dividend/divisor)
+** remainder = dividend - quotient*divisor
+**
+** quotient is assumed to be in range [0,10)
+** dividend does not contain more blocks than divisor (same length)
+** dividend's highest (most significant) must be at least 8 for precision
+*/
 uint32_t		divmod_max9_bint(t_bint dividend, t_bint divisor)
 {
 	uint32_t	quotient;

@@ -6,13 +6,17 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:26:58 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/14 18:32:29 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/14 22:38:10 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
 #include "bint_mathconsts.h"
 
+/*
+** Compute 10^exp and put it into res, with: exp <= (2^13)-1
+** So exp <= 8191 (wich is: 2^0+2^1+2^2+2^3+...+2^11+2^12)
+*/
 int		pow10_bint(t_bint res, uint32_t exp)
 {
 	uint32_t	i;
@@ -41,6 +45,9 @@ int		pow10_bint(t_bint res, uint32_t exp)
 	return (bintcpy(cur, res));
 }
 
+/*
+** Multiply in to 10^exp and put it into res
+*/
 int		multpow10_bint(t_bint res, t_bint in, uint32_t exp)
 {
 	uint32_t	tmp[BINT_SIZE];
@@ -49,6 +56,10 @@ int		multpow10_bint(t_bint res, t_bint in, uint32_t exp)
 	return (pow10_bint(tmp, exp) && mult_bint(res, tmp, in));
 }
 
+/*
+** Compute 2^exp and put it into res
+** exp is only limited by UINT32_MAX and ARR_SIZE
+*/
 int		pow2_bint(t_bint res, uint32_t exp)
 {
 	uint32_t	i;

@@ -6,12 +6,15 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 15:58:07 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/14 18:30:59 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/14 19:21:07 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
 
+/*
+** Multiply lef by rig and put the result in res
+*/
 int			mult_32bint(t_bint res, t_bint lef, uint32_t rig)
 {
 	uint32_t	*r;
@@ -37,6 +40,9 @@ int			mult_32bint(t_bint res, t_bint lef, uint32_t rig)
 	return (1);
 }
 
+/*
+** Multiply in by 2 and put the result in res
+*/
 int			mult2_bint(t_bint res, t_bint in)
 {
 	uint32_t	*i;
@@ -65,6 +71,9 @@ int			mult2_bint(t_bint res, t_bint in)
 	return (1);
 }
 
+/*
+** Multiply res by 2 and put the result in res
+*/
 int			smult2_bint(t_bint res)
 {
 	uint32_t	*r;
@@ -91,6 +100,9 @@ int			smult2_bint(t_bint res)
 	return (1);
 }
 
+/*
+** Multiply res by 10 and put the result in res
+*/
 int			smult10_bint(t_bint res)
 {
 	uint32_t	*r;

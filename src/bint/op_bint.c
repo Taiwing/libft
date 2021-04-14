@@ -6,12 +6,15 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/02 16:20:05 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/14 18:32:13 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/14 19:24:52 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
 
+/*
+** Add rig to res and put the result in res
+*/
 int			sadd_32bint(t_bint res, uint32_t rig)
 {
 	uint32_t	*r;
@@ -64,6 +67,9 @@ static int	add(t_bint res, t_bint small, t_bint large, uint32_t max)
 	return (!sum || (sum == 1 && max < ((res[0] & ARR_SIZE) >> 16) - 1));
 }
 
+/*
+** Add l to r and put the result in res
+*/
 int			add_bint(t_bint res, t_bint l, t_bint r)
 {
 	uint32_t	max;
@@ -105,6 +111,9 @@ static int	mult(t_bint res, t_bint s, t_bint l, uint32_t limit)
 	return (1);
 }
 
+/*
+** Multiply l by r and put the result in res
+*/
 int			mult_bint(t_bint res, t_bint l, t_bint r)
 {
 	uint32_t	max;
