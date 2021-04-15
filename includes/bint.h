@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 11:09:16 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 11:12:22 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef uint32_t *	t_bint;
 */
 
 int					bintcpy(t_bint dst, t_bint src);
-int					bintset(uint64_t u, t_bint dst);
+int					bintset(t_bint dst, uint64_t u);
 int					bintcmp(t_bint l, t_bint r);
 void				bintclr(t_bint b);
 void				bintinit(t_bint b, uint32_t size);

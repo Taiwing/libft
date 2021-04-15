@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 15:16:39 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 11:07:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 11:12:41 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		bintcpy(t_bint dst, t_bint src)
 	return (1);
 }
 
-int		bintset(uint64_t u, t_bint dst)
+int		bintset(t_bint dst, uint64_t u)
 {
 	uint32_t	i;
 
