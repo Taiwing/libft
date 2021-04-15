@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 15:58:07 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 10:57:16 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 11:36:27 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ int			bint_mult_u32(t_bint res, t_bint lef, uint32_t rig)
 	if (prod)
 	{
 		if (BINT_LEN(lef) + 1 > BINT_SIZE(res))
-			return (0);
+			return (BINT_FAILURE);
 		*r = (uint32_t)prod;
 	}
 	SET_BINT_LEN(res, BINT_LEN(lef) + (prod != 0));
-	return (1);
+	return (BINT_SUCCESS);
 }
 
 /*
@@ -55,7 +55,7 @@ int			bint_mult2(t_bint res, t_bint in)
 	carry = 0;
 	limit = BINT_SIZE(res) - 1;
 	if (limit < BINT_LEN(in))
-		return (0);
+		return (BINT_FAILURE);
 	while (++i < in + 1 + BINT_LEN(in))
 	{
 		*++r = (*i << 1) | carry;
@@ -64,11 +64,11 @@ int			bint_mult2(t_bint res, t_bint in)
 	if (carry)
 	{
 		if (r - res + 1 > limit)
-			return (0);
+			return (BINT_FAILURE);
 		*++r = carry;
 	}
 	SET_BINT_LEN(res, BINT_LEN(in) + (carry != 0));
-	return (1);
+	return (BINT_SUCCESS);
 }
 
 /*
@@ -93,11 +93,11 @@ int			bint_smult2(t_bint res)
 	if (carry)
 	{
 		if (r - res + 1 > limit)
-			return (0);
+			return (BINT_FAILURE);
 		*r = carry;
 		++res[0];
 	}
-	return (1);
+	return (BINT_SUCCESS);
 }
 
 /*
@@ -119,9 +119,9 @@ int			bint_smult10(t_bint res)
 	if (prod)
 	{
 		if (r - res + 1 > BINT_SIZE(res) - 1)
-			return (0);
+			return (BINT_FAILURE);
 		*r = (uint32_t)prod;
 		++res[0];
 	}
-	return (1);
+	return (BINT_SUCCESS);
 }

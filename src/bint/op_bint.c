@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/02 16:20:05 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 10:56:41 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 11:44:35 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ int			bint_sadd_u32(t_bint res, uint32_t rig)
 	if (sum)
 	{
 		if (BINT_LEN(res) + 1 > BINT_SIZE(res) - 1)
-			return (0);
+			return (BINT_FAILURE);
 		*r = (uint32_t)sum;
 		++res[0];
 	}
-	return (1);
+	return (BINT_SUCCESS);
 }
 
 static int	add(t_bint res, t_bint small, t_bint large, uint32_t max)
@@ -76,10 +76,12 @@ int			bint_add(t_bint res, t_bint l, t_bint r)
 
 	max = BINT_LEN(l) > BINT_LEN(r) ? BINT_LEN(l) : BINT_LEN(r);
 	if (max > BINT_SIZE(res) - 1)
-		return (0);
+		return (BINT_FAILURE);
 	bintclr(res);
-	return (add(res, BINT_LEN(l) < BINT_LEN(r) ? l : r,
-			BINT_LEN(l) < BINT_LEN(r) ? r : l, max));
+	if (!add(res, BINT_LEN(l) < BINT_LEN(r) ? l : r,
+			BINT_LEN(l) < BINT_LEN(r) ? r : l, max))
+		return (BINT_FAILURE);
+	return (BINT_SUCCESS);
 }
 
 static int	mult(t_bint res, t_bint s, t_bint l, uint32_t limit)
@@ -102,12 +104,12 @@ static int	mult(t_bint res, t_bint s, t_bint l, uint32_t limit)
 				prod >>= 32;
 			}
 			if (j >= limit)
-				return (0);
+				return (BINT_FAILURE);
 			res[j] = (uint32_t)(prod & 0xFFFFFFFF);
 		}
 		res++;
 	}
-	return (1);
+	return (BINT_SUCCESS);
 }
 
 /*
@@ -119,11 +121,11 @@ int			bint_mult(t_bint res, t_bint l, t_bint r)
 
 	max = BINT_LEN(l) + BINT_LEN(r);
 	if (l == res || r == res || max > BINT_SIZE_DEF - 1)
-		return (0);
+		return (BINT_FAILURE);
 	bintclr(res);
 	if (!mult(res, BINT_LEN(l) < BINT_LEN(r) ? l : r,
 		BINT_LEN(l) < BINT_LEN(r) ? r : l, BINT_SIZE(res)))
-		return (0);
+		return (BINT_FAILURE);
 	SET_BINT_LEN(res, (max > 0 && res[max] == 0 ? max - 1 : max));
-	return (1);
+	return (BINT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 15:16:39 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 11:12:41 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 11:34:06 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		bintcpy(t_bint dst, t_bint src)
 	uint32_t	i;
 
 	if (BINT_LEN(src) > BINT_SIZE(dst) - 1)
-		return (0);
+		return (BINT_FAILURE);
 	i = 0;
 	while (i < BINT_LEN(src))
 	{
@@ -25,7 +25,7 @@ int		bintcpy(t_bint dst, t_bint src)
 		dst[i] = src[i];
 	}
 	SET_BINT_LEN(dst, i);
-	return (1);
+	return (BINT_SUCCESS);
 }
 
 int		bintset(t_bint dst, uint64_t u)
@@ -36,12 +36,12 @@ int		bintset(t_bint dst, uint64_t u)
 	while (u)
 	{
 		if (i == BINT_SIZE(dst) - 1)
-			return (0);
+			return (BINT_FAILURE);
 		dst[++i] = (uint32_t)(u & 0xFFFFFFFF);
 		u >>= 32;
 	}
 	SET_BINT_LEN(dst, i);
-	return (1);
+	return (BINT_SUCCESS);
 }
 
 int		bintcmp(t_bint l, t_bint r)

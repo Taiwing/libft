@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 16:41:15 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 10:51:52 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 11:33:46 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ int			bint_shiftleft(t_bint res, uint32_t shift)
 	uint32_t	in;
 
 	if (!shift)
-		return (1);
+		return (BINT_SUCCESS);
 	shift_blocks = shift / 32;
 	shift_bits = shift % 32;
 	if (BINT_LEN(res) + shift_blocks > BINT_SIZE(res) - 1)
-		return (0);
+		return (BINT_FAILURE);
 	if (!shift_bits)
 	{
 		in = BINT_LEN(res);
@@ -68,5 +68,5 @@ int			bint_shiftleft(t_bint res, uint32_t shift)
 	}
 	else
 		shift_part(res, shift_blocks, shift_bits);
-	return (1);
+	return (BINT_SUCCESS);
 }

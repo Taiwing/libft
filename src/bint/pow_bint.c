@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:26:58 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 11:14:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 11:33:35 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int		bint_pow10(t_bint res, uint32_t exp)
 	uint32_t	next[BINT_SIZE_DEF];
 
 	if (exp >> 13)
-		return (0);
+		return (BINT_FAILURE);
 	bintinit(cur, 0);
 	bintinit(next, 0);
 	if (!bintset(cur, (uint64_t)g_pow10_u32[exp & 0x7]))
-		return (0);
+		return (BINT_FAILURE);
 	exp >>= 3;
 	i = 0;
 	while (exp)
@@ -37,7 +37,7 @@ int		bint_pow10(t_bint res, uint32_t exp)
 		{
 			if (!bint_mult(next, cur, (t_bint)g_pow10_big[i])
 				|| !bintcpy(cur, next))
-				return (0);
+				return (BINT_FAILURE);
 		}
 		++i;
 		exp >>= 1;
@@ -67,11 +67,11 @@ int		bint_pow2(t_bint res, uint32_t exp)
 
 	index = exp / 32;
 	if (index > BINT_SIZE(res) - 1)
-		return (0);
+		return (BINT_FAILURE);
 	i = 0;
 	while (++i <= index + 1)
 		res[i] = 0;
 	res[index + 1] |= 1 << (exp % 32);
 	SET_BINT_LEN(res, index + 1);
-	return (1);
+	return (BINT_SUCCESS);
 }

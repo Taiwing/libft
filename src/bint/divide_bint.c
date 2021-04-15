@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 15:00:29 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 10:54:34 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 11:26:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static void	substract_bintxu32(t_bint res, t_bint b, uint32_t q)
 ** quotient is assumed to be in range [0,10)
 ** dividend does not contain more blocks than divisor (same length)
 ** dividend's highest (most significant) must be at least 8 for precision
+**
+** 10 is the error return
 */
 uint32_t		bint_divmod_max9(t_bint dividend, t_bint divisor)
 {
