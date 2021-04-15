@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:26:58 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 00:11:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 10:51:46 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** Compute 10^exp and put it into res, with: exp <= (2^13)-1
 ** So exp <= 8191 (wich is: 2^0+2^1+2^2+2^3+...+2^11+2^12)
 */
-int		pow10_bint(t_bint res, uint32_t exp)
+int		bint_pow10(t_bint res, uint32_t exp)
 {
 	uint32_t	i;
 	uint32_t	cur[BINT_SIZE_DEF];
@@ -35,7 +35,7 @@ int		pow10_bint(t_bint res, uint32_t exp)
 	{
 		if (exp & 1)
 		{
-			if (!mult_bint(next, cur, (t_bint)g_pow10_big[i])
+			if (!bint_mult(next, cur, (t_bint)g_pow10_big[i])
 				|| !bintcpy(next, cur))
 				return (0);
 		}
@@ -48,19 +48,19 @@ int		pow10_bint(t_bint res, uint32_t exp)
 /*
 ** Multiply in to 10^exp and put it into res
 */
-int		multpow10_bint(t_bint res, t_bint in, uint32_t exp)
+int		bint_multpow10(t_bint res, t_bint in, uint32_t exp)
 {
 	uint32_t	tmp[BINT_SIZE_DEF];
 
 	bintinit(tmp, 0);
-	return (pow10_bint(tmp, exp) && mult_bint(res, tmp, in));
+	return (bint_pow10(tmp, exp) && bint_mult(res, tmp, in));
 }
 
 /*
 ** Compute 2^exp and put it into res
 ** exp is only limited by UINT32_MAX and BINT_SIZE
 */
-int		pow2_bint(t_bint res, uint32_t exp)
+int		bint_pow2(t_bint res, uint32_t exp)
 {
 	uint32_t	i;
 	uint32_t	index;

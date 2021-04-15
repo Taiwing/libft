@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/02 16:20:05 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 00:15:49 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 10:56:41 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 ** Add rig to res and put the result in res
 */
-int			sadd_32bint(t_bint res, uint32_t rig)
+int			bint_sadd_u32(t_bint res, uint32_t rig)
 {
 	uint32_t	*r;
 	uint64_t	sum;
@@ -70,7 +70,7 @@ static int	add(t_bint res, t_bint small, t_bint large, uint32_t max)
 /*
 ** Add l to r and put the result in res
 */
-int			add_bint(t_bint res, t_bint l, t_bint r)
+int			bint_add(t_bint res, t_bint l, t_bint r)
 {
 	uint32_t	max;
 
@@ -113,7 +113,7 @@ static int	mult(t_bint res, t_bint s, t_bint l, uint32_t limit)
 /*
 ** Multiply l by r and put the result in res
 */
-int			mult_bint(t_bint res, t_bint l, t_bint r)
+int			bint_mult(t_bint res, t_bint l, t_bint r)
 {
 	uint32_t	max;
 

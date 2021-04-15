@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 15:58:07 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/14 23:59:13 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 10:57:16 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 ** Multiply lef by rig and put the result in res
 */
-int			mult_32bint(t_bint res, t_bint lef, uint32_t rig)
+int			bint_mult_u32(t_bint res, t_bint lef, uint32_t rig)
 {
 	uint32_t	*r;
 	uint32_t	*l;
@@ -43,7 +43,7 @@ int			mult_32bint(t_bint res, t_bint lef, uint32_t rig)
 /*
 ** Multiply in by 2 and put the result in res
 */
-int			mult2_bint(t_bint res, t_bint in)
+int			bint_mult2(t_bint res, t_bint in)
 {
 	uint32_t	*i;
 	uint32_t	*r;
@@ -74,7 +74,7 @@ int			mult2_bint(t_bint res, t_bint in)
 /*
 ** Multiply res by 2 and put the result in res
 */
-int			smult2_bint(t_bint res)
+int			bint_smult2(t_bint res)
 {
 	uint32_t	*r;
 	uint32_t	cur;
@@ -103,7 +103,7 @@ int			smult2_bint(t_bint res)
 /*
 ** Multiply res by 10 and put the result in res
 */
-int			smult10_bint(t_bint res)
+int			bint_smult10(t_bint res)
 {
 	uint32_t	*r;
 	uint64_t	prod;
