@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 20:05:11 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 10:54:46 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 11:07:34 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	scale_val(t_bint scale, t_bint scaled_val, t_fltinf *info)
 	else if (digit_exp < 0)
 		bint_multpow10(tmp, scaled_val, -digit_exp);
 	if (digit_exp)
-		bintcpy(tmp, digit_exp > 0 ? scale : scaled_val);
+		bintcpy(digit_exp > 0 ? scale : scaled_val, tmp);
 	if (bintcmp(scaled_val, scale) >= 0)
 		++digit_exp;
 	else

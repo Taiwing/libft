@@ -6,13 +6,13 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 15:16:39 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 00:14:03 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 11:07:00 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
 
-int		bintcpy(t_bint src, t_bint dst)
+int		bintcpy(t_bint dst, t_bint src)
 {
 	uint32_t	i;
 

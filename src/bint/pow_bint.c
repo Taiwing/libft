@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:26:58 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 10:51:46 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 11:08:39 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ int		bint_pow10(t_bint res, uint32_t exp)
 		if (exp & 1)
 		{
 			if (!bint_mult(next, cur, (t_bint)g_pow10_big[i])
-				|| !bintcpy(next, cur))
+				|| !bintcpy(cur, next))
 				return (0);
 		}
 		++i;
 		exp >>= 1;
 	}
-	return (bintcpy(cur, res));
+	return (bintcpy(res, cur));
 }
 
 /*
