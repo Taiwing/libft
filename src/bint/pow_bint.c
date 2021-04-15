@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:26:58 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 12:04:52 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 12:37:59 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		bint_pow10(t_bint res, uint32_t exp)
 /*
 ** Multiply in to 10^exp and put it into res
 */
-int		bint_multpow10(t_bint res, t_bint in, uint32_t exp)
+int		bint_multpow10(t_bint res, const t_bint in, uint32_t exp)
 {
 	uint32_t	tmp[BINT_SIZE_DEF];
 

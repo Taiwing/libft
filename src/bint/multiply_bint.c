@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 15:58:07 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 11:36:27 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 12:45:28 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 /*
 ** Multiply lef by rig and put the result in res
 */
-int			bint_mult_u32(t_bint res, t_bint lef, uint32_t rig)
+int			bint_mult_u32(t_bint res, const t_bint lef, uint32_t rig)
 {
-	uint32_t	*r;
-	uint32_t	*l;
-	uint64_t	prod;
+	uint32_t		*r;
+	const uint32_t	*l;
+	uint64_t		prod;
 
 	prod = 0;
 	r = res + 1;
@@ -43,12 +43,12 @@ int			bint_mult_u32(t_bint res, t_bint lef, uint32_t rig)
 /*
 ** Multiply in by 2 and put the result in res
 */
-int			bint_mult2(t_bint res, t_bint in)
+int			bint_mult2(t_bint res, const t_bint in)
 {
-	uint32_t	*i;
-	uint32_t	*r;
-	uint32_t	carry;
-	uint32_t	limit;
+	const uint32_t	*i;
+	uint32_t		*r;
+	uint32_t		carry;
+	uint32_t		limit;
 
 	i = in;
 	r = res;

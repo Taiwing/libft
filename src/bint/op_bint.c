@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/02 16:20:05 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 12:21:09 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 12:36:54 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,13 @@ int			bint_sadd_u32(t_bint res, uint32_t rig)
 	return (BINT_SUCCESS);
 }
 
-static int	add(t_bint res, t_bint small, t_bint large, uint32_t max)
+static int	add(t_bint res, const t_bint small,
+	const t_bint large, uint32_t max)
 {
-	uint32_t	*c;
-	uint32_t	*r;
-	uint32_t	*l;
-	uint64_t	sum;
+	uint64_t		sum;
+	uint32_t		*r;
+	const uint32_t	*c;
+	const uint32_t	*l;
 
 	sum = 0;
 	r = res;
@@ -70,7 +71,7 @@ static int	add(t_bint res, t_bint small, t_bint large, uint32_t max)
 /*
 ** Add l to r and put the result in res
 */
-int			bint_add(t_bint res, t_bint l, t_bint r)
+int			bint_add(t_bint res, const t_bint l, const t_bint r)
 {
 	uint32_t	max;
 
@@ -84,7 +85,7 @@ int			bint_add(t_bint res, t_bint l, t_bint r)
 	return (BINT_SUCCESS);
 }
 
-static int	mult(t_bint res, t_bint s, t_bint l, uint32_t limit)
+static int	mult(t_bint res, const t_bint s, const t_bint l, uint32_t limit)
 {
 	uint64_t	prod;
 	uint32_t	i;
@@ -115,7 +116,7 @@ static int	mult(t_bint res, t_bint s, t_bint l, uint32_t limit)
 /*
 ** Multiply l by r and put the result in res
 */
-int			bint_mult(t_bint res, t_bint l, t_bint r)
+int			bint_mult(t_bint res, const t_bint l, const t_bint r)
 {
 	uint32_t	max;
 

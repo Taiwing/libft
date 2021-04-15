@@ -6,13 +6,13 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 15:16:39 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 11:34:06 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 12:39:36 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
 
-int		bintcpy(t_bint dst, t_bint src)
+int		bintcpy(t_bint dst, const t_bint src)
 {
 	uint32_t	i;
 
@@ -44,7 +44,7 @@ int		bintset(t_bint dst, uint64_t u)
 	return (BINT_SUCCESS);
 }
 
-int		bintcmp(t_bint l, t_bint r)
+int		bintcmp(const t_bint l, const t_bint r)
 {
 	int	i;
 

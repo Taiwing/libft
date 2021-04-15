@@ -6,13 +6,13 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 15:00:29 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 11:26:13 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 12:40:58 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
 
-static void	substract_bintxu32(t_bint res, t_bint b, uint32_t q)
+static void	substract_bintxu32(t_bint res, const t_bint b, uint32_t q)
 {
 	uint32_t	i;
 	uint64_t	prod;
@@ -45,7 +45,7 @@ static void	substract_bintxu32(t_bint res, t_bint b, uint32_t q)
 **
 ** 10 is the error return
 */
-uint32_t		bint_divmod_max9(t_bint dividend, t_bint divisor)
+uint32_t		bint_divmod_max9(t_bint dividend, const t_bint divisor)
 {
 	uint32_t	quotient;
 
