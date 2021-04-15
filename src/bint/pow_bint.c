@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:26:58 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 11:33:35 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 12:04:52 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		bint_pow10(t_bint res, uint32_t exp)
 		return (BINT_FAILURE);
 	bintinit(cur, 0);
 	bintinit(next, 0);
-	if (!bintset(cur, (uint64_t)g_pow10_u32[exp & 0x7]))
+	if (bintset(cur, (uint64_t)g_pow10_u32[exp & 0x7]) == BINT_FAILURE)
 		return (BINT_FAILURE);
 	exp >>= 3;
 	i = 0;
@@ -35,8 +35,8 @@ int		bint_pow10(t_bint res, uint32_t exp)
 	{
 		if (exp & 1)
 		{
-			if (!bint_mult(next, cur, (t_bint)g_pow10_big[i])
-				|| !bintcpy(cur, next))
+			if (bint_mult(next, cur, (t_bint)g_pow10_big[i]) == BINT_FAILURE
+				|| bintcpy(cur, next) == BINT_FAILURE)
 				return (BINT_FAILURE);
 		}
 		++i;
@@ -53,7 +53,9 @@ int		bint_multpow10(t_bint res, t_bint in, uint32_t exp)
 	uint32_t	tmp[BINT_SIZE_DEF];
 
 	bintinit(tmp, 0);
-	return (bint_pow10(tmp, exp) && bint_mult(res, tmp, in));
+	if (bint_pow10(tmp, exp) == BINT_FAILURE)
+		return (BINT_FAILURE);
+	return (bint_mult(res, tmp, in));
 }
 
 /*

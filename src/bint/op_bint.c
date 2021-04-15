@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/02 16:20:05 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 11:44:35 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 12:21:09 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,8 @@ int			bint_mult(t_bint res, t_bint l, t_bint r)
 	if (l == res || r == res || max > BINT_SIZE_DEF - 1)
 		return (BINT_FAILURE);
 	bintclr(res);
-	if (!mult(res, BINT_LEN(l) < BINT_LEN(r) ? l : r,
-		BINT_LEN(l) < BINT_LEN(r) ? r : l, BINT_SIZE(res)))
+	if (mult(res, BINT_LEN(l) < BINT_LEN(r) ? l : r,
+		BINT_LEN(l) < BINT_LEN(r) ? r : l, BINT_SIZE(res)) == BINT_FAILURE)
 		return (BINT_FAILURE);
 	SET_BINT_LEN(res, (max > 0 && res[max] == 0 ? max - 1 : max));
 	return (BINT_SUCCESS);

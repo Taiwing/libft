@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 11:49:14 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 12:22:08 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@
 # define BINT_LEN(n)			(n[0] & BINT_LEN_MASK)
 # define BINT_SIZE(n)			((n[0] & BINT_SIZE_MASK) >> 16)
 # define SET_BINT_LEN(n, len)	(n[0] = (n[0] & ~BINT_LEN_MASK) + len)
-# define BINT_FAILURE			0
-# define BINT_SUCCESS			1
+# define BINT_FAILURE			1
+# define BINT_SUCCESS			0
 
 typedef uint32_t *	t_bint;
 
