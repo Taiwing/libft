@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/02 16:20:05 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 12:36:54 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 20:07:02 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int			bint_sadd_u32(t_bint res, uint32_t rig)
 		if (BINT_LEN(res) + 1 > BINT_SIZE(res) - 1)
 			return (BINT_FAILURE);
 		*r = (uint32_t)sum;
-		++res[0];
+		SET_BINT_LEN(res, BINT_LEN(res) + 1);
 	}
 	return (BINT_SUCCESS);
 }

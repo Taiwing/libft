@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 15:16:39 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 12:39:36 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/15 20:29:17 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	bintclr(t_bint b)
 void	bintinit(t_bint b, uint32_t size)
 {
 	size = size ? size : BINT_SIZE_DEF;
-	b[0] = (size << 16) + size - 1;
+	b[0] = size << 16;
+	SET_BINT_LEN(b, BINT_SIZE(b) - 1);
 	bintclr(b);
 }
