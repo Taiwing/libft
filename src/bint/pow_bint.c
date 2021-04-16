@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:26:58 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 12:37:59 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/16 12:00:56 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		bint_pow10(t_bint res, uint32_t exp)
 		return (BINT_FAILURE);
 	bintinit(cur, 0);
 	bintinit(next, 0);
-	if (bintset(cur, (uint64_t)g_pow10_u32[exp & 0x7]) == BINT_FAILURE)
+	if (bintset_u64(cur, (uint64_t)g_pow10_u32[exp & 0x7]) == BINT_FAILURE)
 		return (BINT_FAILURE);
 	exp >>= 3;
 	i = 0;

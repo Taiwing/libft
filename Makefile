@@ -74,7 +74,8 @@ CHARC			=	ft_isdigit.c\
 					ft_putchar_fd.c\
 					ft_toupper.c\
 
-BINTC			=	op_bint.c\
+BINTC			=	bintset.c\
+					op_bint.c\
 					shiftleft_bint.c\
 					utility_bint.c\
 					dragon4.c\
@@ -284,6 +285,7 @@ ft_isalnum.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_putchar.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_putchar_fd.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_toupper.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
+bintset.o: bint.h
 op_bint.o: bint.h
 shiftleft_bint.o: bint.h
 utility_bint.o: bint.h
