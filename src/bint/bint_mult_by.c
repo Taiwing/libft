@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   multiply_bint.c                                    :+:      :+:    :+:   */
+/*   bint_mult_by.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/01 15:58:07 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 20:09:23 by yforeau          ###   ########.fr       */
+/*   Created: 2021/04/16 13:24:38 by yforeau           #+#    #+#             */
+/*   Updated: 2021/04/16 13:24:38 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,4 +124,17 @@ int			bint_smult10(t_bint res)
 		SET_BINT_LEN(res, BINT_LEN(res) + 1);
 	}
 	return (BINT_SUCCESS);
+}
+
+/*
+** Multiply in to 10^exp and put it into res
+*/
+int			bint_multpow10(t_bint res, const t_bint in, uint32_t exp)
+{
+	uint32_t	tmp[BINT_SIZE_DEF];
+
+	bintinit(tmp, 0);
+	if (bintset_pow10(tmp, exp) == BINT_FAILURE)
+		return (BINT_FAILURE);
+	return (bint_mult(res, tmp, in));
 }

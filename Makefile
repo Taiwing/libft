@@ -75,16 +75,16 @@ CHARC			=	ft_isdigit.c\
 					ft_toupper.c\
 
 BINTC			=	bintset.c\
-					op_bint.c\
 					shiftleft_bint.c\
 					utility_bint.c\
+					bint_add.c\
 					dragon4.c\
 					log_and_ceil.c\
+					bint_mult.c\
 					divide_bint.c\
 					bint_mathconsts.c\
 					bintcmp.c\
-					pow_bint.c\
-					multiply_bint.c\
+					bint_mult_by.c\
 
 FT_COLLECTORC		=	ft_dir_collector.c\
 					ft_heap_collector.c\
@@ -285,16 +285,16 @@ ft_isalnum.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_putchar.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_putchar_fd.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_toupper.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
-bintset.o: bint.h
-op_bint.o: bint.h
+bintset.o: bint.h bint_mathconsts.h
 shiftleft_bint.o: bint.h
 utility_bint.o: bint.h
+bint_add.o: bint.h
 dragon4.o: dragon4.h bint.h log_and_ceil.h
 log_and_ceil.o: bint_mathconsts.h
+bint_mult.o: bint.h
 divide_bint.o: bint.h
 bintcmp.o: bint.h
-pow_bint.o: bint.h bint_mathconsts.h
-multiply_bint.o: bint.h
+bint_mult_by.o: bint.h
 ft_dir_collector.o: ft_collector.h
 ft_heap_collector.o: ft_collector.h
 ft_exit.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h

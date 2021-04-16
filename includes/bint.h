@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/16 11:59:27 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/16 13:23:23 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void				bintinit(t_bint b, uint32_t size);
 
 int					bintset_u64(t_bint dst, uint64_t u);
 int					bintset_i64(t_bint dst, int64_t i);
+int					bintset_pow2(t_bint res, uint32_t exp);
+int					bintset_pow10(t_bint res, uint32_t exp);
 
 int					bintcmp_abs(const t_bint l, const t_bint r);
 int					bintcmp(const t_bint l, const t_bint r);
@@ -81,18 +83,16 @@ int					bintcmp(const t_bint l, const t_bint r);
 ** bint operations
 */
 
+int					bint_add_abs(t_bint res, const t_bint l, const t_bint r);
 int					bint_add(t_bint res, const t_bint l, const t_bint r);
-int					bint_sadd_u32(t_bint res, uint32_t rig);
+int					bint_sadd_u32_abs(t_bint res, uint32_t rig);
 
 int					bint_mult(t_bint res, const t_bint l, const t_bint r);
 int					bint_mult_u32(t_bint res, const t_bint lef, uint32_t rig);
 int					bint_mult2(t_bint res, const t_bint in);
+int					bint_multpow10(t_bint res, const t_bint in, uint32_t exp);
 int					bint_smult2(t_bint res);
 int					bint_smult10(t_bint res);
-
-int					bint_pow10(t_bint res, uint32_t exp);
-int					bint_multpow10(t_bint res, const t_bint in, uint32_t exp);
-int					bint_pow2(t_bint res, uint32_t exp);
 
 uint32_t			bint_divmod_max9(t_bint dividend, const t_bint divisor);
 int					bint_shiftleft(t_bint res, uint32_t shift);
