@@ -81,6 +81,7 @@ BINTC			=	op_bint.c\
 					log_and_ceil.c\
 					divide_bint.c\
 					bint_mathconsts.c\
+					bintcmp.c\
 					pow_bint.c\
 					multiply_bint.c\
 
@@ -289,6 +290,7 @@ utility_bint.o: bint.h
 dragon4.o: dragon4.h bint.h log_and_ceil.h
 log_and_ceil.o: bint_mathconsts.h
 divide_bint.o: bint.h
+bintcmp.o: bint.h
 pow_bint.o: bint.h bint_mathconsts.h
 multiply_bint.o: bint.h
 ft_dir_collector.o: ft_collector.h

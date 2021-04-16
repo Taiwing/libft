@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/15 20:57:35 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/16 11:49:29 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@
 # define BINT_SIZE(n)			((n[0] & BINT_SIZE_MASK) >> 16)
 # define SET_BINT_LEN(n, len)	(n[0] = (n[0] & ~BINT_LEN_MASK)\
 								| ((len) & BINT_LEN_MASK))
+# define SET_BINT_SIGN(n, sign)	(n[0] = (sign ? n[0] | BINT_SIGN_MASK\
+								: n[0] & ~BINT_SIGN_MASK))
 # define BINT_FAILURE			1
 # define BINT_SUCCESS			0
 
@@ -67,6 +69,7 @@ typedef uint32_t *	t_bint;
 
 int					bintcpy(t_bint dst, const t_bint src);
 int					bintset(t_bint dst, uint64_t u);
+int					bintcmp_abs(const t_bint l, const t_bint r);
 int					bintcmp(const t_bint l, const t_bint r);
 void				bintclr(t_bint b);
 void				bintinit(t_bint b, uint32_t size);
