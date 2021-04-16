@@ -81,6 +81,7 @@ BINTC			=	bintset.c\
 					dragon4.c\
 					log_and_ceil.c\
 					bint_mult.c\
+					bint_sub.c\
 					divide_bint.c\
 					bint_mathconsts.c\
 					bintcmp.c\
@@ -292,6 +293,7 @@ bint_add.o: bint.h
 dragon4.o: dragon4.h bint.h log_and_ceil.h
 log_and_ceil.o: bint_mathconsts.h
 bint_mult.o: bint.h
+bint_sub.o: bint.h
 divide_bint.o: bint.h
 bintcmp.o: bint.h
 bint_mult_by.o: bint.h

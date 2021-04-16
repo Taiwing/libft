@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/16 13:23:23 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/16 16:01:40 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,25 +67,29 @@ typedef uint32_t *	t_bint;
 ** bint utility functions
 */
 
-int					bintcpy(t_bint dst, const t_bint src);
-void				bintclr(t_bint b);
 void				bintinit(t_bint b, uint32_t size);
+void				bintclr(t_bint b);
+int					bintcpy(t_bint dst, const t_bint src);
 
 int					bintset_u64(t_bint dst, uint64_t u);
 int					bintset_i64(t_bint dst, int64_t i);
 int					bintset_pow2(t_bint res, uint32_t exp);
 int					bintset_pow10(t_bint res, uint32_t exp);
 
-int					bintcmp_abs(const t_bint l, const t_bint r);
 int					bintcmp(const t_bint l, const t_bint r);
+int					bintcmp_abs(const t_bint l, const t_bint r);
 
 /*
 ** bint operations
 */
 
-int					bint_add_abs(t_bint res, const t_bint l, const t_bint r);
 int					bint_add(t_bint res, const t_bint l, const t_bint r);
+int					bint_add_abs(t_bint res, const t_bint l, const t_bint r);
 int					bint_sadd_u32_abs(t_bint res, uint32_t rig);
+
+int					bint_sub(t_bint res, const t_bint l, const t_bint r);
+int					bint_sub_abs(t_bint res, const t_bint l, const t_bint r);
+int					bint_ssub_u32_abs(t_bint res, uint32_t rig);
 
 int					bint_mult(t_bint res, const t_bint l, const t_bint r);
 int					bint_mult_u32(t_bint res, const t_bint lef, uint32_t rig);

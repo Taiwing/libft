@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 12:27:08 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/16 13:11:38 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/16 15:40:05 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int			bint_add_abs(t_bint res, const t_bint l, const t_bint r)
 {
 	uint32_t	max;
 
-	max = BINT_LEN(l) > BINT_LEN(r) ? BINT_LEN(l) : BINT_LEN(r);
+	max = BINT_LEN(l) > BINT_LEN(r) ? BINT_LEN(l) + 1 : BINT_LEN(r) + 1;
 	if (max > BINT_SIZE(res) - 1)
 		return (BINT_FAILURE);
 	bintclr(res);
@@ -86,7 +86,7 @@ int			bint_add_abs(t_bint res, const t_bint l, const t_bint r)
 }
 
 /*
-** Add l to r and put the result in res without considering the sign
+** Add l to r and put the result in res
 */
 int			bint_add(t_bint res, const t_bint l, const t_bint r)
 {
@@ -104,11 +104,8 @@ int			bint_add(t_bint res, const t_bint l, const t_bint r)
 		bintclr(res);
 		return (BINT_SUCCESS);
 	}
-	//TODO: uncomment when bint_sub will be implemented
-	/*
 	else if (bint_sub_abs(res, l, r) == BINT_FAILURE)
 		return (BINT_FAILURE);
 	SET_BINT_SIGN(res, cmp > 0 ? BINT_SIGN(l) : BINT_SIGN(r));
-	*/
 	return (BINT_SUCCESS);
 }
