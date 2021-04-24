@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/16 16:01:40 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/24 14:24:04 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 # define BINT_SIZE(n)			((n[0] & BINT_SIZE_MASK) >> 16)
 # define SET_BINT_LEN(n, len)	(n[0] = (n[0] & ~BINT_LEN_MASK)\
 								| ((len) & BINT_LEN_MASK))
-# define SET_BINT_SIGN(n, sign)	(n[0] = (sign ? n[0] | BINT_SIGN_MASK\
+# define SET_BINT_SIGN(n, sign)	(n[0] = ((sign) ? n[0] | BINT_SIGN_MASK\
 								: n[0] & ~BINT_SIGN_MASK))
 # define BINT_FAILURE			1
 # define BINT_SUCCESS			0

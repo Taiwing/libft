@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:15:59 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/16 15:58:38 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/24 14:26:00 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	internal_bint_sub(t_bint res, const t_bint small,
 		*r = carry > *l ? 0xFFFFFFFF - (carry - *l - 1) : *r - carry;
 		carry = carry > *l;
 	}
+	SET_BINT_LEN(res, BINT_LEN(large));
 	while (BINT_LEN(res) && !res[BINT_LEN(res)])
 		SET_BINT_LEN(res, BINT_LEN(res) - 1);
 }
@@ -73,11 +74,13 @@ static void	internal_bint_sub(t_bint res, const t_bint small,
 */
 int			bint_sub_abs(t_bint res, const t_bint l, const t_bint r)
 {
+	int	cmp;
+
 	if (BINT_LEN(l) > BINT_SIZE(res) - 1 || BINT_LEN(r) > BINT_SIZE(res) - 1)
 		return (BINT_FAILURE);
 	bintclr(res);
-	internal_bint_sub(res, BINT_LEN(l) < BINT_LEN(r) ? l : r,
-		BINT_LEN(l) < BINT_LEN(r) ? r : l);
+	if ((cmp = bintcmp_abs(l, r)))
+		internal_bint_sub(res, cmp < 0 ? l : r, cmp < 0 ? r : l);
 	return (BINT_SUCCESS);
 }
 
