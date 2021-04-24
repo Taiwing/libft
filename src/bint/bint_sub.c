@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:15:59 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/24 14:26:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/24 15:16:35 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,16 +91,16 @@ int			bint_sub(t_bint res, const t_bint l, const t_bint r)
 {
 	int	cmp;
 
-	if (!(cmp = bintcmp_abs(l, r)))
+	if (BINT_SIGN(l) == BINT_SIGN(r))
 	{
-		bintclr(res);
-		return (BINT_SUCCESS);
-	}
-	else if (BINT_SIGN(l) == BINT_SIGN(r))
-	{
-		if (bint_sub_abs(res, l, r) == BINT_FAILURE)
+		if (!(cmp = bintcmp_abs(l, r)))
+		{
+			bintclr(res);
+			return (BINT_SUCCESS);
+		}
+		else if (bint_sub_abs(res, l, r) == BINT_FAILURE)
 			return (BINT_FAILURE);
-		SET_BINT_SIGN(res, cmp > 0 ? BINT_SIGN(l) : BINT_SIGN(r));
+		SET_BINT_SIGN(res, cmp > 0 ? BINT_SIGN(l) : !BINT_SIGN(r));
 		return (BINT_SUCCESS);
 	}
 	else if (bint_add_abs(res, l, r) == BINT_FAILURE)

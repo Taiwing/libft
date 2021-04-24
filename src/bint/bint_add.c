@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 12:27:08 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/16 15:40:05 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/24 14:59:22 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	internal_bint_add(t_bint res, const t_bint small,
 	}
 	if (sum == 1 && max < BINT_SIZE(res) - 1)
 		*++r = 1;
-	SET_BINT_LEN(res, max + sum);
+	SET_BINT_LEN(res, max - (!sum));
 	return (!sum || (sum == 1 && max < BINT_SIZE(res) - 1));
 }
 
