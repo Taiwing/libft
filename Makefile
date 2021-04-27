@@ -2,11 +2,11 @@
 
 CC			=	gcc
 #CFLAGS		=	-Wall -Wextra -Werror
-CFLAGS		=	-g -Wall -Wextra -Werror -fsanitize=address,undefined
+CFLAGS		=	-g -Wall -Wextra -fsanitize=address,undefined
 HDIR		=	includes
 SRCDIR		=	src
 HFLAGS		=	-I $(HDIR)
-NAME		=	libft.a
+NAME		=	test_libft
 
 ############################## SOURCES #########################################
 
@@ -23,6 +23,7 @@ T_LSTDIR		=	t_lst
 MEMORYDIR		=	memory
 
 SRCC			=	get_next_line.c\
+					main.c\
 					get_next_line_utils.c\
 					ft_swap_p.c\
 
@@ -218,8 +219,7 @@ vpath			%.c	$(SRCDIR)
 all: $(NAME)
 
 $(NAME): $(ODIR) $(OBJ)
-	ar rc $@ $(patsubst %.o,$(ODIR)/%.o,$(OBJ))
-	ranlib $@
+	$(CC) $(CFLAGS) -o $@ $(patsubst %.o,$(ODIR)/%.o,$(OBJ))
 
 process_long_option.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h\
 	getopt_errors.h
@@ -236,6 +236,7 @@ getopt_errors.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 get_next_line.o: get_next_line.h libft.h ft_getopt.h ft_printf.h t_pbuf.h\
 	ft_collector.h
 ft_ls_files.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
+main.o: ft_printf.h t_pbuf.h
 format_data_utils.o: format_data.h t_params.h t_pdata.h t_pbuf.h libft.h\
 	ft_getopt.h ft_printf.h ft_collector.h
 itoa_unsigned.o: itoa_unsigned.h t_pdata.h t_params.h

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:15:59 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/24 15:16:35 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/24 17:00:39 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,29 +42,31 @@ int			bint_ssub_u32_abs(t_bint res, uint32_t rig)
 static void	internal_bint_sub(t_bint res, const t_bint small,
 	const t_bint large)
 {
+	uint32_t		next_carry;
 	uint32_t		carry;
-	uint32_t		*r;
-	const uint32_t	*c;
-	const uint32_t	*l;
+	uint32_t		i;
 
+	i = 1;
 	carry = 0;
-	r = res;
-	c = small;
-	l = large;
-	while (++c < small + 1 + BINT_LEN(small))
+	next_carry = 0;
+	for (; i < BINT_LEN(small) + 1; ++i, carry = next_carry)
 	{
-		*++r = (*c + carry) > *++l ? 0xFFFFFFFF - (*c + carry - *l - 1)
-			: *l - (*c + carry);
-		carry = (*c + carry) > *l;
+		next_carry = (small[i] + carry) > large[i];
+		res[i] = (small[i] + carry) > large[i]
+			? 0xFFFFFFFF - (small[i] + carry - large[i] - 1)
+			: large[i] - (small[i] + carry);
 	}
-	while (carry && ++l < large + 1 + BINT_LEN(large))
+	for (; i < BINT_LEN(large) + 1; ++i, carry = next_carry)
 	{
-		*r = carry > *l ? 0xFFFFFFFF - (carry - *l - 1) : *r - carry;
-		carry = carry > *l;
+		next_carry = carry > large[i];
+		res[i] = carry > large[i]
+			? 0xFFFFFFFF - (carry - large[i] - 1) : res[i] - carry;
 	}
-	SET_BINT_LEN(res, BINT_LEN(large));
-	while (BINT_LEN(res) && !res[BINT_LEN(res)])
-		SET_BINT_LEN(res, BINT_LEN(res) - 1);
+	for (uint32_t j = BINT_LEN(res); j > i; --j)
+		res[j] = 0;
+	while (i && !res[i])
+		--i;
+	SET_BINT_LEN(res, i);
 }
 
 /*
