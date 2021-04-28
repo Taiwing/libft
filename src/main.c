@@ -428,54 +428,92 @@ enum				e_ftype {
 typedef struct		s_bintcmd
 {
 	const char		*name;
+	int				name_len;
 	enum e_ftype	ftype;
 	void			*f;
 }					t_bintcmd;
 
+#define DEFINE_BINTCMD(name, ftype, f) { name, (sizeof(name) - 1), ftype, f}
 const t_bintcmd		g_bint_commands[] = {
-	{ "bintinit",			V_B_U32,	bintinit			},
-	{ "bintclr",			V_B,		bintclr				},
-	{ "bintcpy",			I_B_B,		bintcpy				},
-	{ "bintset_u64",		I_B_U64,	bintset_u64			},
-	{ "bintset_i64",		I_B_I64,	bintset_i64			},
-	{ "bintset_pow2",		I_B_U32,	bintset_pow2		},
-	{ "bintset_pow10",		I_B_U32,	bintset_pow10		},
-	{ "bintcmp",			I_B_B,		bintcmp				},
-	{ "bintcmp_abs",		I_B_B,		bintcmp_abs			},
-	{ "bint_add",			I_B_B_B,	bint_add			},
-	{ "bint_add_abs",		I_B_B_B,	bint_add_abs		},
-	{ "bint_sadd_u32_abs",	I_B_U32,	bint_sadd_u32_abs	},
-	{ "bint_sub",			I_B_B_B,	bint_sub			},
-	{ "bint_sub_abs",		I_B_B_B,	bint_sub_abs		},
-	{ "bint_ssub_u32_abs",	I_B_U32,	bint_ssub_u32_abs	},
-	{ "bint_mult",			I_B_B_B,	bint_mult			},
-	{ "bint_mult_u32",		I_B_B_U32,	bint_mult_u32		},
-	{ "bint_mult2",			I_B_B,		bint_mult2			},
-	{ "bint_multpow10",		I_B_B_U32,	bint_multpow10		},
-	{ "bint_smult2",		I_B,		bint_smult2			},
-	{ "bint_smult10",		I_B,		bint_smult10		},
-	{ "bint_shiftleft",		I_B_U32,	bint_shiftleft		},
-	{ NULL,					NONE,		NULL				},
+	DEFINE_BINTCMD( "init",			V_B_U32,	bintinit			),
+	DEFINE_BINTCMD( "clr",			V_B,		bintclr				),
+	DEFINE_BINTCMD( "cpy",			I_B_B,		bintcpy				),
+	DEFINE_BINTCMD( "set_u64",		I_B_U64,	bintset_u64			),
+	DEFINE_BINTCMD( "set_i64",		I_B_I64,	bintset_i64			),
+	DEFINE_BINTCMD( "set_pow2",		I_B_U32,	bintset_pow2		),
+	DEFINE_BINTCMD( "set_pow10",	I_B_U32,	bintset_pow10		),
+	DEFINE_BINTCMD( "cmp",			I_B_B,		bintcmp				),
+	DEFINE_BINTCMD( "cmp_abs",		I_B_B,		bintcmp_abs			),
+	DEFINE_BINTCMD( "add",			I_B_B_B,	bint_add			),
+	DEFINE_BINTCMD( "add_abs",		I_B_B_B,	bint_add_abs		),
+	DEFINE_BINTCMD( "sadd_u32_abs",	I_B_U32,	bint_sadd_u32_abs	),
+	DEFINE_BINTCMD( "sub",			I_B_B_B,	bint_sub			),
+	DEFINE_BINTCMD( "sub_abs",		I_B_B_B,	bint_sub_abs		),
+	DEFINE_BINTCMD( "ssub_u32_abs",	I_B_U32,	bint_ssub_u32_abs	),
+	DEFINE_BINTCMD( "mult",			I_B_B_B,	bint_mult			),
+	DEFINE_BINTCMD( "mult_u32",		I_B_B_U32,	bint_mult_u32		),
+	DEFINE_BINTCMD( "mult2",		I_B_B,		bint_mult2			),
+	DEFINE_BINTCMD( "multpow10",	I_B_B_U32,	bint_multpow10		),
+	DEFINE_BINTCMD( "smult2",		I_B,		bint_smult2			),
+	DEFINE_BINTCMD( "smult10",		I_B,		bint_smult10		),
+	DEFINE_BINTCMD( "shiftleft",	I_B_U32,	bint_shiftleft		),
+	DEFINE_BINTCMD( NULL,			NONE,		NULL				),
 };
 
+static int	skip_whites(char **line)
+{
+	char	*l;
+	int		skipped;
+
+	l = *line;
+	while (*l && ft_isspace(*l))
+		++l;
+	skipped = l - *line;
+	*line = l;
+	return (skipped);
+}
+
+static int		read_command_name(char **line)
+{
+	int	len;
+	int	cmdi;
+
+	skip_whites(line);
+	if (!ft_strncmp(*line, "bint", 4))
+	{
+		*line += 4;
+		*line = **line == '_' ? *line + 1 : *line;
+	}
+	for (cmdi = 0; g_bint_commands[cmdi].name; ++cmdi)
+	{
+		len = g_bint_commands[cmdi].name_len;
+		if (!ft_strncmp(*line, g_bint_commands[cmdi].name, len)
+			&& ((*line)[len] == '(' || !(*line)[len]
+			|| ft_isspace((*line)[len])))
+		{
+			*line += len + ((*line)[len] == '(');
+			break ;
+		}
+	}
+	return (cmdi);
+}
 
 /*
 ** TODO:
+** - actually do the parsing
 ** - create a t_bint variables array (like a, b, c, d, etc...) to be able
 **	to assign t_bint variables
-** - actually do the parsing
-** - create a new git branch for t_bint testing (this test file is getting
-**	a little bit ambitious, I would not want to lose it)
 */
 
 static int		parse_input(t_bint *args, char *line)
 {
 	int	cmdi;
 
-	cmdi = -1; //TEMP
 	(void)args; //TEMP
 	(void)line; //TEMP
-	//read command name (allow to skip the bint/bint_ prefix) (err if unknown)
+	cmdi = read_command_name(&line);
+	if (!g_bint_commands[cmdi].name)
+		return (cmdi);
 	//read the BINTF_MAX_ARGS first arguments (err if more than that)
 	//	try to parse as decimal
 	//	try to parse as hex
