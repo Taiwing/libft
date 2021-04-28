@@ -478,7 +478,6 @@ static int		read_command_name(char **line)
 	int	len;
 	int	cmdi;
 
-	skip_whites(line);
 	if (!ft_strncmp(*line, "bint", 4))
 	{
 		*line += 4;
@@ -491,11 +490,46 @@ static int		read_command_name(char **line)
 			&& ((*line)[len] == '(' || !(*line)[len]
 			|| ft_isspace((*line)[len])))
 		{
-			*line += len + ((*line)[len] == '(');
+			*line += len;
 			break ;
 		}
 	}
 	return (cmdi);
+}
+
+static int		read_decimal_bint(t_bint res, char **line)
+{
+	(void)res;
+	(void)line;
+	return (-1);
+}
+
+static int		read_hex_bint(t_bint res, char **line)
+{
+	(void)res;
+	(void)line;
+	return (-1);
+}
+
+static int		read_pow2_bint(t_bint res, char **line)
+{
+	(void)res;
+	(void)line;
+	return (-1);
+}
+
+static int		read_pow10_bint(t_bint res, char **line)
+{
+	(void)res;
+	(void)line;
+	return (-1);
+}
+
+static int		read_var_bint(t_bint res, char **line)
+{
+	(void)res;
+	(void)line;
+	return (-1);
 }
 
 /*
@@ -508,12 +542,8 @@ static int		read_command_name(char **line)
 static int		parse_input(t_bint *args, char *line)
 {
 	int	cmdi;
+	int	expect_par;
 
-	(void)args; //TEMP
-	(void)line; //TEMP
-	cmdi = read_command_name(&line);
-	if (!g_bint_commands[cmdi].name)
-		return (cmdi);
 	//read the BINTF_MAX_ARGS first arguments (err if more than that)
 	//	try to parse as decimal
 	//	try to parse as hex
@@ -521,7 +551,27 @@ static int		parse_input(t_bint *args, char *line)
 	//	try to parse as a power of 10
 	//	try to parse as a variable
 	//	else --> err
-	return (cmdi);
+	skip_whites(&line);
+	cmdi = read_command_name(&line);
+	if (!g_bint_commands[cmdi].name)
+		return (cmdi);
+	if ((expect_par = *line == '('))
+		++line;
+	skip_whites(&line);
+	for (int i = 0; i < BINTF_MAX_ARGS && *line && *line != ')'; ++i)
+	{
+		if (read_decimal_bint(args[i], &line)
+			&& read_hex_bint(args[i], &line)
+			&& read_pow2_bint(args[i], &line)
+			&& read_pow10_bint(args[i], &line)
+			&& read_var_bint(args[i], &line))
+			return (-1);
+		skip_whites(&line);
+	}
+	if (expect_par && *line == ')')
+		++line;
+	skip_whites(&line);
+	return (*line ? -1 : cmdi);
 }
 
 static int		read_input(t_bint *args)
