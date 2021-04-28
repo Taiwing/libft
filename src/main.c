@@ -400,15 +400,6 @@ void	test_mandatory(int ac, char **av)
 	}
 }
 
-#define BINTF_MAX_ARGS 3
-
-typedef struct		s_bintcmd
-{
-	const char		*name;
-	enum e_ftype	ftype;
-	void			*f;
-}					t_bintcmd;
-
 /*
 ** FIRST: return (V for void, I for int)
 ** SECOND AND AFTER: parameters
@@ -431,6 +422,15 @@ enum				e_ftype {
 	I_B,
 	NONE
 };
+
+#define BINTF_MAX_ARGS 3
+
+typedef struct		s_bintcmd
+{
+	const char		*name;
+	enum e_ftype	ftype;
+	void			*f;
+}					t_bintcmd;
 
 const t_bintcmd		g_bint_commands[] = {
 	{ "bintinit",			V_B_U32,	bintinit			},
@@ -472,6 +472,9 @@ static int		parse_input(t_bint *args, char *line)
 {
 	int	cmdi;
 
+	cmdi = -1; //TEMP
+	(void)args; //TEMP
+	(void)line; //TEMP
 	//read command name (allow to skip the bint/bint_ prefix) (err if unknown)
 	//read the BINTF_MAX_ARGS first arguments (err if more than that)
 	//	try to parse as decimal
@@ -487,7 +490,6 @@ static int		read_input(t_bint *args)
 {
 	int		ret;
 	char	*line;
-	char	**argv;
 
 	line = NULL;
 	if ((ret = get_next_line(0, &line)) < 0)
@@ -506,7 +508,7 @@ static void	bintbc(const char *exec)
 	t_bint		args[BINTF_MAX_ARGS]; //store args pointers
 
 	for (int i = 0; i < BINTF_MAX_ARGS; ++i)
-		bintinit(static_args[i]);
+		bintinit(static_args[i], 0);
 	while (1)
 	{
 		for (int i = 0; i < BINTF_MAX_ARGS; ++i)
@@ -536,4 +538,3 @@ int		main(int argc, char **argv)
 		test_mandatory(argc, argv);
 	return (0);
 }
-
