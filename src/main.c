@@ -491,45 +491,104 @@ static int		read_command_name(char **line)
 			|| ft_isspace((*line)[len])))
 		{
 			*line += len;
+			skip_whites(line);
 			break ;
 		}
 	}
 	return (cmdi);
 }
 
-static int		read_decimal_bint(t_bint res, char **line)
+static int		decimal_to_bint(t_bint res, char *str)
+{
+	uint32_t	n;
+	char		*p;
+	int			sign;
+
+	if ((sign = *str == '-'))
+		++str;
+	for (p = str; *p && ft_isdigit(*p); ++p);
+	if (*p || p == str)
+		return (-1);
+	bintclr(res);
+	for (p = str; *p && bint_smult10(res) == BINT_SUCCESS; ++p)
+	{
+		n = (uint32_t)(*p - '0');
+		if (bint_sadd_u32_abs(res, n) == BINT_FAILURE)
+			return (-1);
+	}
+	SET_BINT_SIGN(res, sign);
+	return (*p ? -1 : 0);
+}
+
+static int		hex_to_bint(t_bint res, char *str)
 {
 	(void)res;
-	(void)line;
+	(void)str;
 	return (-1);
 }
 
-static int		read_hex_bint(t_bint res, char **line)
+static int		pow2_to_bint(t_bint res, char *str)
 {
 	(void)res;
-	(void)line;
+	(void)str;
 	return (-1);
 }
 
-static int		read_pow2_bint(t_bint res, char **line)
+static int		pow10_to_bint(t_bint res, char *str)
 {
 	(void)res;
-	(void)line;
+	(void)str;
 	return (-1);
 }
 
-static int		read_pow10_bint(t_bint res, char **line)
+static int		read_var_bint(t_bint res, char *str)
 {
 	(void)res;
-	(void)line;
+	(void)str;
 	return (-1);
 }
 
-static int		read_var_bint(t_bint res, char **line)
+static char		*get_arg(char **line, int expect_com)
 {
-	(void)res;
-	(void)line;
-	return (-1);
+	char	*p;
+	char	*arg;
+
+	p = *line;
+	arg = NULL;
+	while (*p && !ft_isspace(*p) && !(expect_com && *p == ',')
+		&& !(expect_com && *p == ')'))
+		++p;
+	if (p > *line)
+		arg = ft_strndup(*line, (size_t)(p - (*line)));
+	*line = p;
+	return (arg);
+}
+
+static int		read_args(t_bint *args, char **line, int expect_com)
+{
+	int		ret;
+	char	*arg;
+
+	for (int i = 0; i < BINTF_MAX_ARGS && **line && **line != ')'; ++i)
+	{
+		if (i > 0 && expect_com && **line != ',')
+			return (-1);
+		else if (i > 0 && expect_com)
+		{
+			*line = *line + 1;
+			skip_whites(line);
+		}
+		if (!(arg = get_arg(line, expect_com)))
+			return (-1);
+		ret = decimal_to_bint(args[i], arg) && hex_to_bint(args[i], arg)
+			&& pow2_to_bint(args[i], arg) && pow10_to_bint(args[i], arg)
+			&& read_var_bint(args[i], arg);
+		ft_memdel((void **)&arg);
+		if (ret)
+			return (-1);
+		skip_whites(line);
+	}
+	return (0);
 }
 
 /*
@@ -558,17 +617,10 @@ static int		parse_input(t_bint *args, char *line)
 	if ((expect_par = *line == '('))
 		++line;
 	skip_whites(&line);
-	for (int i = 0; i < BINTF_MAX_ARGS && *line && *line != ')'; ++i)
-	{
-		if (read_decimal_bint(args[i], &line)
-			&& read_hex_bint(args[i], &line)
-			&& read_pow2_bint(args[i], &line)
-			&& read_pow10_bint(args[i], &line)
-			&& read_var_bint(args[i], &line))
-			return (-1);
-		skip_whites(&line);
-	}
-	if (expect_par && *line == ')')
+	if (read_args(args, &line, expect_par) || (expect_par && *line != ')')
+		|| (!expect_par && *line == ')'))
+		return (-1);
+	else if (expect_par)
 		++line;
 	skip_whites(&line);
 	return (*line ? -1 : cmdi);
