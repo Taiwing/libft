@@ -65,14 +65,14 @@ int		show;
 	}\
 }
 
-int		bint_print(t_bint n, int info, int base)
+int		bint_print(t_bint n, uint32_t info, uint32_t base)
 {
 	uint32_t	bint_size;
 	uint32_t	bint_sign;
 	uint32_t	bint_len;
 
 	if (base != 2 && base != 16)
-		return (-1);
+		return (BINT_FAILURE);
 	bint_size = BINT_SIZE(n);
 	bint_sign = BINT_SIGN(n);
 	bint_len = BINT_LEN(n);
@@ -90,7 +90,7 @@ int		bint_print(t_bint n, int info, int base)
 	if (info)
 		ft_printf("info block: size = %u | sign = %u | len = %u\n",
 			bint_size, bint_sign, bint_len);
-	return (0);
+	return (BINT_SUCCESS);
 }
 
 void	test_mandatory(int ac, char **av)
@@ -420,6 +420,7 @@ enum				e_ftype {
 	I_B_B_B,
 	I_B_B_U32,
 	I_B,
+	I_B_U32_U32,
 	NONE
 };
 
@@ -435,29 +436,30 @@ typedef struct		s_bintcmd
 
 #define DEFINE_BINTCMD(name, ftype, f) { name, (sizeof(name) - 1), ftype, f}
 const t_bintcmd		g_bint_commands[] = {
-	DEFINE_BINTCMD( "init",			V_B_U32,	bintinit			),
-	DEFINE_BINTCMD( "clr",			V_B,		bintclr				),
-	DEFINE_BINTCMD( "cpy",			I_B_B,		bintcpy				),
-	DEFINE_BINTCMD( "set_u64",		I_B_U64,	bintset_u64			),
-	DEFINE_BINTCMD( "set_i64",		I_B_I64,	bintset_i64			),
-	DEFINE_BINTCMD( "set_pow2",		I_B_U32,	bintset_pow2		),
-	DEFINE_BINTCMD( "set_pow10",	I_B_U32,	bintset_pow10		),
-	DEFINE_BINTCMD( "cmp",			I_B_B,		bintcmp				),
-	DEFINE_BINTCMD( "cmp_abs",		I_B_B,		bintcmp_abs			),
-	DEFINE_BINTCMD( "add",			I_B_B_B,	bint_add			),
-	DEFINE_BINTCMD( "add_abs",		I_B_B_B,	bint_add_abs		),
-	DEFINE_BINTCMD( "sadd_u32_abs",	I_B_U32,	bint_sadd_u32_abs	),
-	DEFINE_BINTCMD( "sub",			I_B_B_B,	bint_sub			),
-	DEFINE_BINTCMD( "sub_abs",		I_B_B_B,	bint_sub_abs		),
-	DEFINE_BINTCMD( "ssub_u32_abs",	I_B_U32,	bint_ssub_u32_abs	),
-	DEFINE_BINTCMD( "mult",			I_B_B_B,	bint_mult			),
-	DEFINE_BINTCMD( "mult_u32",		I_B_B_U32,	bint_mult_u32		),
-	DEFINE_BINTCMD( "mult2",		I_B_B,		bint_mult2			),
-	DEFINE_BINTCMD( "multpow10",	I_B_B_U32,	bint_multpow10		),
-	DEFINE_BINTCMD( "smult2",		I_B,		bint_smult2			),
-	DEFINE_BINTCMD( "smult10",		I_B,		bint_smult10		),
-	DEFINE_BINTCMD( "shiftleft",	I_B_U32,	bint_shiftleft		),
-	DEFINE_BINTCMD( NULL,			NONE,		NULL				),
+	DEFINE_BINTCMD( "init",			V_B_U32,		bintinit			),
+	DEFINE_BINTCMD( "clr",			V_B,			bintclr				),
+	DEFINE_BINTCMD( "cpy",			I_B_B,			bintcpy				),
+	DEFINE_BINTCMD( "set_u64",		I_B_U64,		bintset_u64			),
+	DEFINE_BINTCMD( "set_i64",		I_B_I64,		bintset_i64			),
+	DEFINE_BINTCMD( "set_pow2",		I_B_U32,		bintset_pow2		),
+	DEFINE_BINTCMD( "set_pow10",	I_B_U32,		bintset_pow10		),
+	DEFINE_BINTCMD( "cmp",			I_B_B,			bintcmp				),
+	DEFINE_BINTCMD( "cmp_abs",		I_B_B,			bintcmp_abs			),
+	DEFINE_BINTCMD( "add",			I_B_B_B,		bint_add			),
+	DEFINE_BINTCMD( "add_abs",		I_B_B_B,		bint_add_abs		),
+	DEFINE_BINTCMD( "sadd_u32_abs",	I_B_U32,		bint_sadd_u32_abs	),
+	DEFINE_BINTCMD( "sub",			I_B_B_B,		bint_sub			),
+	DEFINE_BINTCMD( "sub_abs",		I_B_B_B,		bint_sub_abs		),
+	DEFINE_BINTCMD( "ssub_u32_abs",	I_B_U32,		bint_ssub_u32_abs	),
+	DEFINE_BINTCMD( "mult",			I_B_B_B,		bint_mult			),
+	DEFINE_BINTCMD( "mult_u32",		I_B_B_U32,		bint_mult_u32		),
+	DEFINE_BINTCMD( "mult2",		I_B_B,			bint_mult2			),
+	DEFINE_BINTCMD( "multpow10",	I_B_B_U32,		bint_multpow10		),
+	DEFINE_BINTCMD( "smult2",		I_B,			bint_smult2			),
+	DEFINE_BINTCMD( "smult10",		I_B,			bint_smult10		),
+	DEFINE_BINTCMD( "shiftleft",	I_B_U32,		bint_shiftleft		),
+	DEFINE_BINTCMD( "print",		I_B_U32_U32,	bint_print			),
+	DEFINE_BINTCMD( NULL,			NONE,			NULL				),
 };
 
 static int	skip_whites(char **line)
@@ -663,7 +665,15 @@ static void	bintbc(const char *exec)
 		else if (g_bint_commands[cmdi].name == NULL)
 			ft_dprintf(2, "%s: unknown command\n", exec);
 		else
+		{
 			ft_printf("Valid Command\n"); //TEMP (obviously)
+			ft_printf("args[0]:\n");
+			bint_print(args[0], 1, 16);
+			ft_printf("\nargs[1]:\n");
+			bint_print(args[1], 1, 16);
+			ft_printf("\nargs[2]:\n");
+			bint_print(args[2], 1, 16);
+		}
 		//exec_cmd(cmdi ); //TODO
 	}
 }
