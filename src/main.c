@@ -577,11 +577,23 @@ int				hex_to_bint(t_bint res, const char *str)
 	return (BINT_SUCCESS);
 }
 
+/*
+** The exponent is limited to a size 2 because the maximum size of bint is
+** (2^15)-1 = 32767, which means the absolute value can at most 1048544 bits
+** long, so the exponent can't be superior to 1048543. A single uint32_t
+** number is more than enough to hold this value hence the size of exp.
+*/
 int				pow2_to_bint(t_bint res, const char *str)
 {
-	(void)res;
-	(void)str;
-	return (BINT_FAILURE);
+	uint32_t	exp[2];
+
+	if (ft_strncmp(str, "2^", 2) || !str[2])
+		return (BINT_FAILURE);
+	str += 2;
+	bintinit(exp, 2);
+	if (decimal_to_bint(exp, str) == BINT_FAILURE || BINT_SIGN(exp))
+		return (BINT_FAILURE);
+	return (bintset_pow2(res, exp[1]));
 }
 
 int				pow10_to_bint(t_bint res, const char *str)

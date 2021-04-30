@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/24 14:24:04 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/30 19:49:11 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 ** absolute value up to (2^1048544)-1. It can represent (2^1048545)-1 values
 ** (two times more than its length).
 **
-** BINT_SIGN - the sign (1 for negative, 0 for positive) TODO
+** BINT_SIGN - the sign (1 for negative, 0 for positive)
 **
 ** BINT_SIZE - total size of the array (so total number of blocks + 1)
 ** max: FFFF = (2^16)-1 = 65535
@@ -45,6 +45,41 @@
 ** Every bint function will return BINT_FAILURE on failure and BINT_SUCCESS
 ** otherwise. The two exceptions are bintcmp which has a strcmp type return
 ** and bint_divmod_max9 which returns a quotient (returns 10 on error).
+*/
+
+/*
+** TODO (maybe one day): Make the theoretical length of a bint infinite, which
+** means the BINT_SIZE and BINT_LEN must also be able to be arbitrarily long,
+** so that the only real limit are the system limits. The easiest way to do
+** that would be to make the size and length "NULL" terminated, like so:
+**
+** BLOCK 0: SIGN
+** BLOCK 1 ... BLOCK N: SIZE
+** BLOCK N+1 ... BLOCK 2*N: LEN
+** BLOCK (2*N)+1: START OF ABSOLUTE VALUE
+**
+** "NULL" terminated is obvioulsy impossible because 0 must be a possible
+** valid size block, so the first bit would be reserved to that purpose. It
+** would be always set to 1 except on the last size block (which could be
+** first, meaning that the absolute value would start on block 3).
+**
+** The length would always take the same place in the array as the size and
+** would be encoded in the same way (it could obvioulsy be way smaller than
+** the size so it would not necessarily really need this space, but it would
+** be taken for simplicity's sake).
+**
+** So the start of the absolute value of n would be:
+** 1+(BLOCK_LEN(BINT_SIZE(n))*2)
+**
+** The minimum size of a bint would therefore be 3 (but the length could only
+** be zero, and the value also).
+**
+** The maximum length of n would always be:
+** BINT_SIZE(n) - (1+(BLOCK_LEN(BINT_SIZE(n))*2))
+** ex: BINT_SIZE(n) = 3; BINT_LEN_MAX(n) = 3 - (1+(1*2)) = 3 - 3 = 0;
+** ex: BINT_SIZE(n) = 10; BINT_LEN_MAX(n) = 10 - (1+(1*2)) = 10 - 3 = 7;
+** ex: BINT_SIZE(n) = 520; BINT_LEN_MAX(n) = 520 - (1+(1*2)) = 520 - 3 = 517;
+** ex: BINT_SIZE(n) = 2^32; BINT_LEN_MAX(n) = 2^32 - (1+(2*2)) = 2^32 - 5;
 */
 
 # define BINT_SIZE_DEF			520

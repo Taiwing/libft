@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 11:55:38 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/30 17:28:01 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/30 19:59:19 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ int		bintset_pow2(t_bint res, uint32_t exp)
 	uint32_t	index;
 
 	index = exp / 32;
-	if (index > BINT_SIZE(res) - 1)
+	if (index + 1 >= BINT_SIZE(res))
 		return (BINT_FAILURE);
 	i = 0;
 	while (++i <= index + 1)
 		res[i] = 0;
-	res[index + 1] |= 1 << (exp % 32);
+	res[index + 1] |= (uint32_t)1 << (exp % 32);
 	SET_BINT_LEN(res, index + 1);
 	return (BINT_SUCCESS);
 }
