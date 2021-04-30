@@ -596,11 +596,21 @@ int				pow2_to_bint(t_bint res, const char *str)
 	return (bintset_pow2(res, exp[1]));
 }
 
+/*
+** The same holds for the exponent of the pow10, since the resulting value
+** would be even bigger than with a power of 2 for the same exponent.
+*/
 int				pow10_to_bint(t_bint res, const char *str)
 {
-	(void)res;
-	(void)str;
-	return (BINT_FAILURE);
+	uint32_t	exp[2];
+
+	if (ft_strncmp(str, "10^", 3) || !str[3])
+		return (BINT_FAILURE);
+	str += 3;
+	bintinit(exp, 2);
+	if (decimal_to_bint(exp, str) == BINT_FAILURE || BINT_SIGN(exp))
+		return (BINT_FAILURE);
+	return (bintset_pow10(res, exp[1]));
 }
 
 static int		read_var_bint(t_bint res, const char *str)
