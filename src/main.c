@@ -613,11 +613,28 @@ int				pow10_to_bint(t_bint res, const char *str)
 	return (bintset_pow10(res, exp[1]));
 }
 
-static int		read_var_bint(t_bint res, const char *str)
+#define BINT_VARS_LEN	26
+
+/*
+** Right now variable names are only one letter (so 26 variables)
+*/
+static int		get_var_bint(t_bint *res, const char *str)
 {
-	(void)res;
-	(void)str;
-	return (BINT_FAILURE);
+	static uint32_t	vars[BINT_SIZE_DEF * BINT_VARS_LEN] = { 0 };
+	static uint32_t	init = 0;
+	uint32_t		c;
+
+	if (ft_strlen(str) > 1 || !ft_isalpha(*str))
+		return (BINT_FAILURE);
+	if (!init)
+	{
+		for (uint32_t i = 0; i < BINT_VARS_LEN; ++i)
+			bintinit(vars + (BINT_SIZE_DEF * i), 0);
+		init = 1;
+	}
+	c = ft_tolower(*str) - 'a';
+	*res = vars + (BINT_SIZE_DEF * c);
+	return (BINT_SUCCESS);
 }
 
 static char		*get_arg(char **line, int expect_com)
@@ -652,12 +669,11 @@ static int		read_args(t_bint *args, char **line, int expect_com)
 		}
 		if (!(arg = get_arg(line, expect_com)))
 			return (-1);
-		ft_printf("arg: %s\n", arg); //TEMP
 		ret = decimal_to_bint(args[i], arg) == BINT_FAILURE 
 			&& hex_to_bint(args[i], arg) == BINT_FAILURE
 			&& pow2_to_bint(args[i], arg) == BINT_FAILURE
 			&& pow10_to_bint(args[i], arg) == BINT_FAILURE
-			&& read_var_bint(args[i], arg) == BINT_FAILURE;
+			&& get_var_bint(args + i, arg) == BINT_FAILURE;
 		ft_memdel((void **)&arg);
 		if (ret)
 			return (-1);
@@ -678,13 +694,6 @@ static int		parse_input(t_bint *args, char *line)
 	int	cmdi;
 	int	expect_par;
 
-	//read the BINTF_MAX_ARGS first arguments (err if more than that)
-	//	try to parse as decimal
-	//	try to parse as hex
-	//	try to parse as a power of 2
-	//	try to parse as a power of 10
-	//	try to parse as a variable
-	//	else --> err
 	skip_whites(&line);
 	cmdi = read_command_name(&line);
 	if (!g_bint_commands[cmdi].name)
@@ -739,13 +748,15 @@ static void	bintbc(const char *exec)
 			ft_dprintf(2, "%s: unknown command\n", exec);
 		else
 		{
-			ft_printf("Valid Command\n"); //TEMP (obviously)
+			//TEMP (obviously)
+			ft_printf("Valid Command\n");
 			ft_printf("args[0]:\n");
 			bint_print(args[0], 1, 16);
 			ft_printf("\nargs[1]:\n");
 			bint_print(args[1], 1, 16);
 			ft_printf("\nargs[2]:\n");
 			bint_print(args[2], 1, 16);
+			//TEMP
 		}
 		//exec_cmd(cmdi ); //TODO
 	}
