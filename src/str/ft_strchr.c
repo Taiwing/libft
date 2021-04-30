@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 18:20:33 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/08 16:44:17 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/30 11:28:26 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 char	*ft_strchr(const char *s, int c)
 {
 	while (*s && *s != c)
-		s++;
+		++s;
 	return (*s == c ? (char *)s : NULL);
 }

@@ -500,54 +500,102 @@ static int		read_command_name(char **line)
 	return (cmdi);
 }
 
-static int		decimal_to_bint(t_bint res, char *str)
+int				decimal_to_bint(t_bint res, const char *str)
 {
 	uint32_t	n;
-	char		*p;
+	const char	*p;
 	int			sign;
 
 	if ((sign = *str == '-'))
 		++str;
 	for (p = str; *p && ft_isdigit(*p); ++p);
 	if (*p || p == str)
-		return (-1);
+		return (BINT_FAILURE);
 	bintclr(res);
 	for (p = str; *p && bint_smult10(res) == BINT_SUCCESS; ++p)
 	{
 		n = (uint32_t)(*p - '0');
 		if (bint_sadd_u32_abs(res, n) == BINT_FAILURE)
-			return (-1);
+			return (BINT_FAILURE);
 	}
 	SET_BINT_SIGN(res, sign);
-	return (*p ? -1 : 0);
+	return (*p ? BINT_FAILURE : BINT_SUCCESS);
 }
 
-static int		hex_to_bint(t_bint res, char *str)
+#define HEXL 8 //max length in hexadecimal of an unsigned int of 32bits
+
+static int		hextouint32(t_bint res, char hex[HEXL], int i)
+{
+	uint32_t	n;
+	char		*d;
+	const char	digits[] = "0123456789abcdef";
+
+	for (int j = 0; j < HEXL; ++j)
+		hex[j] = ft_tolower(hex[j]);
+	n = 0;
+	for (int k = 0; k < HEXL; ++k)
+	{
+		n <<= 4;
+		if (!(d = ft_strchr(digits, hex[k])))
+			return (BINT_FAILURE);	
+		n |= (uint32_t)(d - digits);
+	}
+	res[i] = n;
+	if (!n && (uint32_t)i == BINT_LEN(res))
+		SET_BINT_LEN(res, (uint32_t)i - 1);
+	if (!BINT_LEN(res))
+		SET_BINT_SIGN(res, 0);
+	return (BINT_SUCCESS);
+}
+
+int				hex_to_bint(t_bint res, const char *str)
+{
+	const char	*p;
+	uint32_t	len;
+	uint32_t	blen;
+	char		hex[HEXL];
+
+	bintclr(res);
+	SET_BINT_SIGN(res, *str == '-');
+	str = *str == '-' ? str + 1 : str;
+	if (str[0] != '0' || !(str[1] == 'x' || str[1] == 'X'))
+		return (BINT_FAILURE);
+	str += 2;
+	for (p = str; *p && (ft_isdigit(*p) || ft_strchr("abcdefABCDEF", *p)); ++p);
+	if (*p || p == str)
+		return (BINT_FAILURE);
+	len = ft_strlen(str);
+	if ((blen = len / HEXL + !!(len % HEXL)) >= BINT_SIZE(res))
+		return (BINT_FAILURE);
+	SET_BINT_LEN(res, blen);
+	len = len % HEXL ? len % HEXL : HEXL;
+	ft_memset((void *)hex, '0', HEXL - len);
+	ft_strncpy(hex + HEXL - len, str, len);
+	for (str += len; hextouint32(res, hex, blen--) == BINT_SUCCESS && blen > 0;
+		str += HEXL)
+		ft_strncpy(hex, str, HEXL);
+	return (BINT_SUCCESS);
+}
+
+int				pow2_to_bint(t_bint res, const char *str)
 {
 	(void)res;
 	(void)str;
-	return (-1);
+	return (BINT_FAILURE);
 }
 
-static int		pow2_to_bint(t_bint res, char *str)
+int				pow10_to_bint(t_bint res, const char *str)
 {
 	(void)res;
 	(void)str;
-	return (-1);
+	return (BINT_FAILURE);
 }
 
-static int		pow10_to_bint(t_bint res, char *str)
+static int		read_var_bint(t_bint res, const char *str)
 {
 	(void)res;
 	(void)str;
-	return (-1);
-}
-
-static int		read_var_bint(t_bint res, char *str)
-{
-	(void)res;
-	(void)str;
-	return (-1);
+	return (BINT_FAILURE);
 }
 
 static char		*get_arg(char **line, int expect_com)
@@ -582,9 +630,12 @@ static int		read_args(t_bint *args, char **line, int expect_com)
 		}
 		if (!(arg = get_arg(line, expect_com)))
 			return (-1);
-		ret = decimal_to_bint(args[i], arg) && hex_to_bint(args[i], arg)
-			&& pow2_to_bint(args[i], arg) && pow10_to_bint(args[i], arg)
-			&& read_var_bint(args[i], arg);
+		ft_printf("arg: %s\n", arg); //TEMP
+		ret = decimal_to_bint(args[i], arg) == BINT_FAILURE 
+			&& hex_to_bint(args[i], arg) == BINT_FAILURE
+			&& pow2_to_bint(args[i], arg) == BINT_FAILURE
+			&& pow10_to_bint(args[i], arg) == BINT_FAILURE
+			&& read_var_bint(args[i], arg) == BINT_FAILURE;
 		ft_memdel((void **)&arg);
 		if (ret)
 			return (-1);
