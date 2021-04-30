@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 11:55:38 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/16 13:24:56 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/30 17:28:01 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ int		bintset_pow2(t_bint res, uint32_t exp)
 /*
 ** Compute 10^exp and put it into res, with: exp <= (2^13)-1
 ** So exp <= 8191 (wich is: 2^0+2^1+2^2+2^3+...+2^11+2^12)
+** If exp is greater than (2^13)-1, then the recursion is
+** gonna kick in and the current result will be multiplied by
+** the result of the next call. This means that every recursion
+** will handle the first 12 bits of the exponent and recurse
+** if any are left.
+** So, as for pow2, the only limits are UINT32_MAX and BINT_SIZE.
 */
 int		bintset_pow10(t_bint res, uint32_t exp)
 {
@@ -68,15 +74,13 @@ int		bintset_pow10(t_bint res, uint32_t exp)
 	uint32_t	cur[BINT_SIZE_DEF];
 	uint32_t	next[BINT_SIZE_DEF];
 
-	if (exp >> 13)
-		return (BINT_FAILURE);
 	bintinit(cur, 0);
 	bintinit(next, 0);
 	if (bintset_u64(cur, (uint64_t)g_pow10_u32[exp & 0x7]) == BINT_FAILURE)
 		return (BINT_FAILURE);
 	exp >>= 3;
 	i = 0;
-	while (exp)
+	while (exp && i < 10)
 	{
 		if (exp & 1)
 		{
@@ -87,5 +91,8 @@ int		bintset_pow10(t_bint res, uint32_t exp)
 		++i;
 		exp >>= 1;
 	}
-	return (bintcpy(res, cur));
+	if (exp && bintset_pow10(next, exp) == BINT_SUCCESS
+		&& bint_mult(res, next, cur) == BINT_SUCCESS)
+		return (BINT_SUCCESS);
+	return (exp ? BINT_FAILURE : bintcpy(res, cur));
 }

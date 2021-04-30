@@ -732,7 +732,7 @@ static void	bintbc(const char *exec)
 int		main(int argc, char **argv)
 {
 	show = argc > 1;
-	setlocale(LC_ALL, "");
+	setlocale(LC_ALL, "C");
 	if (show && !ft_strcmp(argv[1], "bc"))
 		bintbc(argv[0]);
 	else
