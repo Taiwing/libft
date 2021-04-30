@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 11:55:38 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/30 19:59:19 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/04/30 21:54:10 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,33 @@ int		bintset_pow2(t_bint res, uint32_t exp)
 	return (BINT_SUCCESS);
 }
 
+static int	bintset_big_pow10(t_bint res, const t_bint cur, uint32_t exp)
+{
+	int			ret;
+	uint32_t	base[BINT_SIZE_DEF];
+	uint32_t	next[BINT_SIZE_DEF];
+	uint32_t	temp[BINT_SIZE_DEF];
+
+	bintinit(base, 0);
+	bintinit(next, 0);
+	bintinit(temp, 0);
+	ret = bintset_pow10(next, exp);
+	ret = ret == BINT_SUCCESS
+		? bint_mult(base, (t_bint)g_pow10_big[9], (t_bint)g_pow10_big[9])
+		: ret;
+	ret = ret == BINT_SUCCESS ? bint_mult(temp, next, base) : ret;
+	ret = ret == BINT_SUCCESS ? bint_mult(res, temp, cur) : ret;
+	return (ret);
+}
+
 /*
 ** Compute 10^exp and put it into res, with: exp <= (2^13)-1
 ** So exp <= 8191 (wich is: 2^0+2^1+2^2+2^3+...+2^11+2^12)
 ** If exp is greater than (2^13)-1, then the recursion is
-** gonna kick in and the current result will be multiplied by
-** the result of the next call. This means that every recursion
-** will handle the first 12 bits of the exponent and recurse
-** if any are left.
+** gonna kick in and the current result will be multiplied to
+** the result of the next call times 10^(2^13). This means that
+** every recursion will handle the first 12 bits of the exponent
+** and recurse if any are left.
 ** So, as for pow2, the only limits are UINT32_MAX and BINT_SIZE.
 */
 int		bintset_pow10(t_bint res, uint32_t exp)
@@ -91,8 +110,7 @@ int		bintset_pow10(t_bint res, uint32_t exp)
 		++i;
 		exp >>= 1;
 	}
-	if (exp && bintset_pow10(next, exp) == BINT_SUCCESS
-		&& bint_mult(res, next, cur) == BINT_SUCCESS)
+	if (exp && bintset_big_pow10(res, cur, exp) == BINT_SUCCESS)
 		return (BINT_SUCCESS);
 	return (exp ? BINT_FAILURE : bintcpy(res, cur));
 }
