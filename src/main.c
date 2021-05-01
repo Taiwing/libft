@@ -839,15 +839,21 @@ int				hex_to_bint(t_bint res, const char *str)
 */
 int				pow2_to_bint(t_bint res, const char *str)
 {
+	int			ret;
+	int			sign;
 	uint32_t	exp[2];
 
+	sign = *str == '-';
+	str = *str == '-' ? str + 1 : str;
 	if (ft_strncmp(str, "2^", 2) || !str[2])
 		return (BINT_FAILURE);
 	str += 2;
 	bintinit(exp, 2);
 	if (decimal_to_bint(exp, str) == BINT_FAILURE || BINT_SIGN(exp))
 		return (BINT_FAILURE);
-	return (bintset_pow2(res, exp[1]));
+	if ((ret = bintset_pow2(res, exp[1])) == BINT_SUCCESS)
+		SET_BINT_SIGN(res, sign);
+	return (ret);
 }
 
 /*
@@ -856,15 +862,21 @@ int				pow2_to_bint(t_bint res, const char *str)
 */
 int				pow10_to_bint(t_bint res, const char *str)
 {
+	int			ret;
+	int			sign;
 	uint32_t	exp[2];
 
+	sign = *str == '-';
+	str = *str == '-' ? str + 1 : str;
 	if (ft_strncmp(str, "10^", 3) || !str[3])
 		return (BINT_FAILURE);
 	str += 3;
 	bintinit(exp, 2);
 	if (decimal_to_bint(exp, str) == BINT_FAILURE || BINT_SIGN(exp))
 		return (BINT_FAILURE);
-	return (bintset_pow10(res, exp[1]));
+	if ((ret = bintset_pow10(res, exp[1])) == BINT_SUCCESS)
+		SET_BINT_SIGN(res, sign);
+	return (ret);
 }
 
 #define BINT_VARS_LEN	26
