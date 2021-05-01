@@ -923,22 +923,17 @@ int				pow10_to_bint(t_bint res, const char *str)
 /*
 ** Right now variable names are only one letter (so 26 variables)
 */
-static int		get_var_bint(t_bint *res, const char *str)
+static int		get_var_bint(t_bint *res, const char *str, int init)
 {
+	int				c;
 	static uint32_t	vars[BINT_SIZE_DEF * BINT_VARS_LEN] = { 0 };
-	static uint32_t	init = 0;
-	uint32_t		c;
 
 	if (ft_strlen(str) > 1 || !ft_isalpha(*str))
 		return (BINT_FAILURE);
-	if (!init)
-	{
-		for (uint32_t i = 0; i < BINT_VARS_LEN; ++i)
-			bintinit(vars + (BINT_SIZE_DEF * i), 0);
-		init = 1;
-	}
 	c = ft_tolower(*str) - 'a';
 	*res = vars + (BINT_SIZE_DEF * c);
+	if (init && !**res)
+		bintinit(*res, 0);
 	return (BINT_SUCCESS);
 }
 
@@ -978,7 +973,7 @@ static int		read_args(t_bint *args, char **line, int expect_com)
 			&& hex_to_bint(args[i], arg) == BINT_FAILURE
 			&& pow2_to_bint(args[i], arg) == BINT_FAILURE
 			&& pow10_to_bint(args[i], arg) == BINT_FAILURE
-			&& get_var_bint(args + i, arg) == BINT_FAILURE;
+			&& get_var_bint(args + i, arg, 1) == BINT_FAILURE;
 		ft_memdel((void **)&arg);
 		if (ret)
 			return (-1);
