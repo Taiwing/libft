@@ -423,6 +423,7 @@ enum				e_ftype {
 	I_B_B_U32,
 	I_B,
 	I_B_U32_U32,
+	V,
 	NONE
 };
 
@@ -448,6 +449,7 @@ const int			g_ftypes_protos[][BINTF_MAX_ARGS + 2] = {
 	{IR,	BA,		BA,		U32A,	NOPE},
 	{IR,	BA,		NOPE,	NOPE,	NOPE},
 	{IR,	BA,		U32A,	U32A,	NOPE},
+	{VR,	NOPE,	NOPE,	NOPE,	NOPE},
 	{NOPE,	NOPE,	NOPE,	NOPE,	NOPE},
 };
 
@@ -458,6 +460,8 @@ typedef struct		s_bintcmd
 	enum e_ftype	ftype;
 	void			*f;
 }					t_bintcmd;
+
+static void	bc_help(void);
 
 #define DEFINE_BINTCMD(name, ftype, f) { name, (sizeof(name) - 1), ftype, f}
 const t_bintcmd		g_bint_commands[] = {
@@ -484,8 +488,26 @@ const t_bintcmd		g_bint_commands[] = {
 	DEFINE_BINTCMD( "smult10",		I_B,			bint_smult10		),
 	DEFINE_BINTCMD( "shiftleft",	I_B_U32,		bint_shiftleft		),
 	DEFINE_BINTCMD( "print",		I_B_U32_U32,	bint_print			),
+	DEFINE_BINTCMD( "help",			V,				bc_help				),
 	DEFINE_BINTCMD( NULL,			NONE,			NULL				),
 };
+
+static void	bc_help(void)
+{
+	int			ftype;
+	const char	*argtypes[4] = { "t_bint", "uint32_t", "uint64_t", "int64_t" };
+
+	for (int i = 0; g_bint_commands[i].name; ++i)
+	{
+		ftype = g_bint_commands[i].ftype;
+		ft_printf("%1$-16s --  %2$s %1$s(", g_bint_commands[i].name,
+			g_ftypes_protos[ftype][0] == VR ? "void" : "int" );
+		for (int j = 1; g_ftypes_protos[ftype][j] != NOPE; ++j)
+			ft_printf("%s%s", j > 1 ? ", " : "",
+				argtypes[g_ftypes_protos[ftype][j] - 3]);
+		ft_printf(")\n");
+	}
+}
 
 int	v_b_u32(int cmdi, t_bint args[BINTF_MAX_ARGS],
 	uint32_t u32args[BINTF_MAX_ARGS],
@@ -626,6 +648,21 @@ int	i_b_u32_u32(int cmdi, t_bint args[BINTF_MAX_ARGS],
 	return (f(args[0], u32args[1], u32args[2]));
 }
 
+int	v(int cmdi, t_bint args[BINTF_MAX_ARGS],
+	uint32_t u32args[BINTF_MAX_ARGS],
+	uint64_t u64args[BINTF_MAX_ARGS],
+	int64_t i64args[BINTF_MAX_ARGS])
+{
+	void	(*f)(void) = g_bint_commands[cmdi].f;
+
+	(void)args;
+	(void)u32args;
+	(void)u64args;
+	(void)i64args;
+	f();
+	return (BINT_SUCCESS);
+}
+
 static int	bint_to_u32(uint32_t *res, t_bint n)
 {
 	if (BINT_SIGN(n) || BINT_LEN(n) > 1)
@@ -709,6 +746,8 @@ static int	exec_cmd(t_bint args[BINTF_MAX_ARGS], int cmdi)
 		case I_B: ret = i_b(cmdi, args, u32args, u64args, i64args);
 			break;
 		case I_B_U32_U32: ret = i_b_u32_u32(cmdi, args, u32args, u64args, i64args);
+			break;
+		case V: ret = v(cmdi, args, u32args, u64args, i64args);
 			break;
 		default: ret = BINT_FAILURE;
 			break;
