@@ -400,6 +400,8 @@ void	test_mandatory(int ac, char **av)
 	}
 }
 
+#define BINTF_MAX_ARGS 3
+
 /*
 ** FIRST: return (V for void, I for int)
 ** SECOND AND AFTER: parameters
@@ -424,7 +426,30 @@ enum				e_ftype {
 	NONE
 };
 
-#define BINTF_MAX_ARGS 3
+/*
+** NOPE: nothing (end of arguments)
+** VR: void return
+** IR: int return
+** BA: t_bint argument
+** U32A: uint32_t argument
+** U64A: uint64_t argument
+** I64A: int64_t argument
+*/
+enum				e_argtype { NOPE, VR, IR, BA, U32A, U64A, I64A };
+
+const int			g_ftypes_protos[][BINTF_MAX_ARGS + 2] = {
+	{VR,	BA,		U32A,	NOPE,	NOPE},
+	{VR,	BA,		NOPE,	NOPE,	NOPE},
+	{IR,	BA,		BA,		NOPE,	NOPE},
+	{IR,	BA,		U64A,	NOPE,	NOPE},
+	{IR,	BA,		I64A,	NOPE,	NOPE},
+	{IR,	BA,		U32A,	NOPE,	NOPE},
+	{IR,	BA,		BA,		BA,		NOPE},
+	{IR,	BA,		BA,		U32A,	NOPE},
+	{IR,	BA,		NOPE,	NOPE,	NOPE},
+	{IR,	BA,		U32A,	U32A,	NOPE},
+	{NOPE,	NOPE,	NOPE,	NOPE,	NOPE},
+};
 
 typedef struct		s_bintcmd
 {
@@ -461,6 +486,228 @@ const t_bintcmd		g_bint_commands[] = {
 	DEFINE_BINTCMD( "print",		I_B_U32_U32,	bint_print			),
 	DEFINE_BINTCMD( NULL,			NONE,			NULL				),
 };
+
+int	v_b_u32(int cmdi, t_bint args[BINTF_MAX_ARGS],
+	uint32_t u32args[BINTF_MAX_ARGS],
+	uint64_t u64args[BINTF_MAX_ARGS],
+	int64_t i64args[BINTF_MAX_ARGS])
+{
+	void	(*f)(t_bint, uint32_t) = g_bint_commands[cmdi].f;
+
+	(void)u32args;
+	(void)u64args;
+	(void)i64args;
+	f(args[0], u32args[1]);
+	return (BINT_SUCCESS);
+}
+
+int	v_b(int cmdi, t_bint args[BINTF_MAX_ARGS],
+	uint32_t u32args[BINTF_MAX_ARGS],
+	uint64_t u64args[BINTF_MAX_ARGS],
+	int64_t i64args[BINTF_MAX_ARGS])
+{
+	void	(*f)(t_bint) = g_bint_commands[cmdi].f;
+
+	(void)u32args;
+	(void)u64args;
+	(void)i64args;
+	f(args[0]);
+	return (BINT_SUCCESS);
+}
+
+int	i_b_b(int cmdi, t_bint args[BINTF_MAX_ARGS],
+	uint32_t u32args[BINTF_MAX_ARGS],
+	uint64_t u64args[BINTF_MAX_ARGS],
+	int64_t i64args[BINTF_MAX_ARGS])
+{
+	int		(*f)(t_bint, t_bint) = g_bint_commands[cmdi].f;
+
+	(void)u32args;
+	(void)u64args;
+	(void)i64args;
+	return (f(args[0], args[1]));
+}
+
+int	i_b_u64(int cmdi, t_bint args[BINTF_MAX_ARGS],
+	uint32_t u32args[BINTF_MAX_ARGS],
+	uint64_t u64args[BINTF_MAX_ARGS],
+	int64_t i64args[BINTF_MAX_ARGS])
+{
+	int		(*f)(t_bint, uint64_t) = g_bint_commands[cmdi].f;
+
+	(void)u32args;
+	(void)u64args;
+	(void)i64args;
+	return (f(args[0], u64args[1]));
+}
+
+int	i_b_i64(int cmdi, t_bint args[BINTF_MAX_ARGS],
+	uint32_t u32args[BINTF_MAX_ARGS],
+	uint64_t u64args[BINTF_MAX_ARGS],
+	int64_t i64args[BINTF_MAX_ARGS])
+{
+	int		(*f)(t_bint, int64_t) = g_bint_commands[cmdi].f;
+
+	(void)u32args;
+	(void)u64args;
+	(void)i64args;
+	return (f(args[0], i64args[1]));
+}
+
+int	i_b_u32(int cmdi, t_bint args[BINTF_MAX_ARGS],
+	uint32_t u32args[BINTF_MAX_ARGS],
+	uint64_t u64args[BINTF_MAX_ARGS],
+	int64_t i64args[BINTF_MAX_ARGS])
+{
+	int		(*f)(t_bint, uint32_t) = g_bint_commands[cmdi].f;
+
+	(void)u32args;
+	(void)u64args;
+	(void)i64args;
+	return (f(args[0], u32args[1]));
+}
+
+int	i_b_b_b(int cmdi, t_bint args[BINTF_MAX_ARGS],
+	uint32_t u32args[BINTF_MAX_ARGS],
+	uint64_t u64args[BINTF_MAX_ARGS],
+	int64_t i64args[BINTF_MAX_ARGS])
+{
+	int		(*f)(t_bint, t_bint, t_bint) = g_bint_commands[cmdi].f;
+
+	(void)u32args;
+	(void)u64args;
+	(void)i64args;
+	return (f(args[0], args[1], args[2]));
+}
+
+int	i_b_b_u32(int cmdi, t_bint args[BINTF_MAX_ARGS],
+	uint32_t u32args[BINTF_MAX_ARGS],
+	uint64_t u64args[BINTF_MAX_ARGS],
+	int64_t i64args[BINTF_MAX_ARGS])
+{
+	int		(*f)(t_bint, t_bint, uint32_t) = g_bint_commands[cmdi].f;
+
+	(void)u32args;
+	(void)u64args;
+	(void)i64args;
+	return (f(args[0], args[1], u32args[2]));
+}
+
+int	i_b(int cmdi, t_bint args[BINTF_MAX_ARGS],
+	uint32_t u32args[BINTF_MAX_ARGS],
+	uint64_t u64args[BINTF_MAX_ARGS],
+	int64_t i64args[BINTF_MAX_ARGS])
+{
+	int		(*f)(t_bint) = g_bint_commands[cmdi].f;
+
+	(void)u32args;
+	(void)u64args;
+	(void)i64args;
+	return (f(args[0]));
+}
+
+int	i_b_u32_u32(int cmdi, t_bint args[BINTF_MAX_ARGS],
+	uint32_t u32args[BINTF_MAX_ARGS],
+	uint64_t u64args[BINTF_MAX_ARGS],
+	int64_t i64args[BINTF_MAX_ARGS])
+{
+	int		(*f)(t_bint, uint32_t, uint32_t) = g_bint_commands[cmdi].f;
+
+	(void)u32args;
+	(void)u64args;
+	(void)i64args;
+	return (f(args[0], u32args[1], u32args[2]));
+}
+
+static int	bint_to_u32(uint32_t *res, t_bint n)
+{
+	if (BINT_SIGN(n) || BINT_LEN(n) > 1)
+		return (BINT_FAILURE);
+	*res = BINT_LEN(n) ? n[1] : 0;
+	return (BINT_SUCCESS);
+}
+
+static int	bint_to_u64(uint64_t *res, t_bint n)
+{
+	if (BINT_SIGN(n) || BINT_LEN(n) > 2)
+		return (BINT_FAILURE);
+	*res = BINT_LEN(n) ? (uint64_t)n[1] : 0;
+	if (BINT_LEN(n) == 2)
+		*res = *res + ((uint64_t)n[2] << 32);
+	return (BINT_SUCCESS);
+}
+
+static int	bint_to_i64(int64_t *res, t_bint n)
+{
+	uint64_t	abs;
+
+	if (BINT_LEN(n) > 2)
+		return (BINT_FAILURE);
+	abs = BINT_LEN(n) ? (uint64_t)n[1] : 0;
+	if (BINT_LEN(n) == 2)
+		abs += (uint64_t)n[2] << 32;
+
+	if (!BINT_SIGN(n) && abs > (uint64_t)INT64_MAX)
+		return (BINT_FAILURE);
+	else if (BINT_SIGN(n) && abs > (((uint64_t)INT64_MAX) + 1))
+		return (BINT_FAILURE);
+	*res = abs;
+	if (BINT_SIGN(n))
+		*res *= -1;
+	return (BINT_SUCCESS);
+}
+
+static int	exec_cmd(t_bint args[BINTF_MAX_ARGS], int cmdi)
+{
+	uint32_t	u32args[BINTF_MAX_ARGS];
+	uint64_t	u64args[BINTF_MAX_ARGS];
+	int64_t		i64args[BINTF_MAX_ARGS];
+	int			ftype;
+	int			ret;
+
+	ret = BINT_SUCCESS;
+	ftype = g_bint_commands[cmdi].ftype;
+	for (int i = 1; i < BINTF_MAX_ARGS + 2; ++i)
+	{
+		switch (g_ftypes_protos[ftype][i])
+		{
+			case U32A: ret = bint_to_u32(u32args + i - 1, args[i-1]);
+				break;
+			case U64A: ret = bint_to_u64(u64args + i - 1, args[i-1]);
+				break;
+			case I64A: ret = bint_to_i64(i64args + i - 1, args[i-1]);
+				break;
+			default:
+				break;
+		}
+	}
+	switch (ftype)
+	{
+		case V_B_U32: ret = v_b_u32(cmdi, args, u32args, u64args, i64args);
+			break;
+		case V_B: ret = v_b(cmdi, args, u32args, u64args, i64args);
+			break;
+		case I_B_B: ret = i_b_b(cmdi, args, u32args, u64args, i64args);
+			break;
+		case I_B_U64: ret = i_b_u64(cmdi, args, u32args, u64args, i64args);
+			break;
+		case I_B_I64: ret = i_b_i64(cmdi, args, u32args, u64args, i64args);
+			break;
+		case I_B_U32: ret = i_b_u32(cmdi, args, u32args, u64args, i64args);
+			break;
+		case I_B_B_B: ret = i_b_b_b(cmdi, args, u32args, u64args, i64args);
+			break;
+		case I_B_B_U32: ret = i_b_b_u32(cmdi, args, u32args, u64args, i64args);
+			break;
+		case I_B: ret = i_b(cmdi, args, u32args, u64args, i64args);
+			break;
+		case I_B_U32_U32: ret = i_b_u32_u32(cmdi, args, u32args, u64args, i64args);
+			break;
+		default: ret = BINT_FAILURE;
+			break;
+	}
+	return (ret);
+}
 
 static int	skip_whites(char **line)
 {
@@ -682,13 +929,6 @@ static int		read_args(t_bint *args, char **line, int expect_com)
 	return (0);
 }
 
-/*
-** TODO:
-** - actually do the parsing
-** - create a t_bint variables array (like a, b, c, d, etc...) to be able
-**	to assign t_bint variables
-*/
-
 static int		parse_input(t_bint *args, char *line)
 {
 	int	cmdi;
@@ -727,10 +967,12 @@ static int		read_input(t_bint *args)
 
 static void	bintbc(const char *exec)
 {
+	int			ret;
 	int			cmdi; //command id (index in the g_bint_commands array)
-	uint32_t	static_args[BINTF_MAX_ARGS][BINT_SIZE_DEF]; //t_bint array
 	t_bint		args[BINTF_MAX_ARGS]; //store args pointers
+	uint32_t	static_args[BINTF_MAX_ARGS][BINT_SIZE_DEF]; //t_bint array
 
+	ret = -1;
 	for (int i = 0; i < BINTF_MAX_ARGS; ++i)
 		bintinit(static_args[i], 0);
 	while (1)
@@ -740,7 +982,8 @@ static void	bintbc(const char *exec)
 			args[i] = (t_bint)&static_args[i];
 			bintclr(args[i]);
 		}
-		ft_printf("%s> ", exec);
+		ft_printf("[%c]%s> ", ret == -1 ? '\0'
+			: ret == BINT_SUCCESS ? 'S' : 'F', exec);
 		cmdi = read_input(args);
 		if (cmdi < 0)
 			ft_dprintf(2, "%s: invalid command\n", exec);
@@ -757,6 +1000,7 @@ static void	bintbc(const char *exec)
 			ft_printf("\nargs[2]:\n");
 			bint_print(args[2], 1, 16);
 			//TEMP
+			ret = exec_cmd(args, cmdi);
 		}
 		//exec_cmd(cmdi ); //TODO
 	}
