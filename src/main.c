@@ -975,9 +975,9 @@ static int		read_input(t_bint *args)
 static void	bintbc(const char *exec)
 {
 	int			ret;
-	int			cmdi; //command id (index in the g_bint_commands array)
-	t_bint		args[BINTF_MAX_ARGS]; //store args pointers
-	uint32_t	static_args[BINTF_MAX_ARGS][BINT_SIZE_DEF]; //t_bint array
+	int			cmdi;
+	t_bint		args[BINTF_MAX_ARGS];
+	uint32_t	static_args[BINTF_MAX_ARGS][BINT_SIZE_DEF];
 
 	ret = -1;
 	for (int i = 0; i < BINTF_MAX_ARGS; ++i)
@@ -997,19 +997,7 @@ static void	bintbc(const char *exec)
 		else if (g_bint_commands[cmdi].name == NULL)
 			ft_dprintf(2, "%s: unknown command\n", exec);
 		else
-		{
-			//TEMP (obviously)
-			ft_printf("Valid Command\n");
-			ft_printf("args[0]:\n");
-			bint_print(args[0], 1, 16);
-			ft_printf("\nargs[1]:\n");
-			bint_print(args[1], 1, 16);
-			ft_printf("\nargs[2]:\n");
-			bint_print(args[2], 1, 16);
-			//TEMP
 			ret = exec_cmd(args, cmdi);
-		}
-		//exec_cmd(cmdi ); //TODO
 	}
 }
 
