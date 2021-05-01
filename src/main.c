@@ -462,6 +462,7 @@ typedef struct		s_bintcmd
 }					t_bintcmd;
 
 static void	bc_help(void);
+static void	bc_env(void);
 
 #define DEFINE_BINTCMD(name, ftype, f) { name, (sizeof(name) - 1), ftype, f}
 const t_bintcmd		g_bint_commands[] = {
@@ -489,6 +490,7 @@ const t_bintcmd		g_bint_commands[] = {
 	DEFINE_BINTCMD( "shiftleft",	I_B_U32,		bint_shiftleft		),
 	DEFINE_BINTCMD( "print",		I_B_U32_U32,	bint_print			),
 	DEFINE_BINTCMD( "help",			V,				bc_help				),
+	DEFINE_BINTCMD( "env",			V,				bc_env				),
 	DEFINE_BINTCMD( NULL,			NONE,			NULL				),
 };
 
@@ -506,6 +508,29 @@ static void	bc_help(void)
 			ft_printf("%s%s", j > 1 ? ", " : "",
 				argtypes[g_ftypes_protos[ftype][j] - 3]);
 		ft_printf(")\n");
+	}
+}
+
+static int	get_var_bint(t_bint *res, const char *str, int init);
+
+static void	bc_env(void)
+{
+	t_bint	var;
+	int		first;
+	char	name[2] = { 0 };
+
+	first = 1;
+	var = NULL;
+	for (int c = 'a'; c <= 'z'; ++c)
+	{
+		name[0] = c;
+		get_var_bint(&var, name, 0);
+		if (var && *var)
+		{
+			ft_printf("%c%c:\n", first ? '\0' : '\n', c - 32);
+			bint_print(var, 1, 16);
+			first = 0;
+		}
 	}
 }
 
