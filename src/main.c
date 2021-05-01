@@ -520,11 +520,18 @@ int	i_b_b(int cmdi, t_bint args[BINTF_MAX_ARGS],
 	uint64_t u64args[BINTF_MAX_ARGS],
 	int64_t i64args[BINTF_MAX_ARGS])
 {
+	int		ret;
 	int		(*f)(t_bint, t_bint) = g_bint_commands[cmdi].f;
 
 	(void)u32args;
 	(void)u64args;
 	(void)i64args;
+	if (f == bintcmp || f == bintcmp_abs)
+	{
+		ret = f(args[0], args[1]);
+		ft_printf("cmp: %d\n", ret);	
+		return (BINT_SUCCESS);
+	}
 	return (f(args[0], args[1]));
 }
 
