@@ -17,7 +17,8 @@
 #define	CONVERSIONS	"dDibBoOuUxXeEfFgGcCsSpPt%"
 #define	FLAGS		"#0-+ "
 #define	CAST		"hljzL"
-#define	SPACES		"                                                         "
+const char			g_spaces[256] = { [0 ... 255] = ' ' };
+#define SPACES		((char *)g_spaces)
 
 int		ret_orig;
 int		ret_mine;
@@ -26,11 +27,11 @@ char	buf_mine[16384];
 int		margin;
 int		show;
 
-#define	PRINTF_TEST(format, arg) {\
-	ret_orig = sprintf(buf_orig, format, arg);\
-	ret_mine = ft_sprintf(buf_mine, format, arg);\
-	margin = ft_printf("TEST:\t[%s]", format);\
-	ft_printf("%.*s", 50 - margin, SPACES);\
+#define	PRINTF_TEST(format, ...) {\
+	ret_orig = sprintf(buf_orig, format, __VA_ARGS__);\
+	ret_mine = ft_sprintf(buf_mine, format, __VA_ARGS__);\
+	margin = ft_printf("TEST:\t[%s]", #format);\
+	ft_printf("%.*s", 70 - margin, SPACES);\
 	if (ret_orig == ret_mine\
 			&& (ret_orig == -1 || !strncmp(buf_orig, buf_mine, ret_orig)))\
 	{\
@@ -61,6 +62,23 @@ int		show;
 		}\
 		else\
 		ft_printf("ERROR\n");\
+	}\
+}
+
+#define	FT_PRINTF_TEST(format, ...) {\
+	ret_mine = ft_sprintf(buf_mine, format, __VA_ARGS__);\
+	margin = ft_printf("TEST:\t[%s]", #format);\
+	ft_printf("%.*s", 70 - margin, SPACES);\
+	if (ret_mine != -1)\
+	{\
+		ft_printf(C_GREEN"OK\n"C_RESET);\
+		if (show)\
+		ft_printf("%.*s\n", ret_mine, buf_mine);\
+	}\
+	else\
+	{\
+		ft_printf(C_RED "FAILED\n" C_RESET);\
+		ft_printf("ret_mine = %d\n", ret_mine);\
 	}\
 }
 
@@ -122,19 +140,17 @@ void	test_mandatory(int ac, char **av)
 
 	ft_printf("\n\nnot implemented in original function:\n");
 	ft_printf("\nt conversion:\n");
-	ft_printf("\targv:\n");
-	ft_printf("%#*t\t\t%s\n", ac, av);
+
+	FT_PRINTF_TEST("%#*t\t\t%s\n", ac, av);
 
 	unsigned int		int_tab[10] = {
 		0, 1, UINT_MAX, UINT_MAX, INT_MIN, INT_MIN, 6, 654676, 42, 9
 	};
-	ft_printf("\n\tunsigned int array (with 2 fields):\n");
-	ft_printf("%#10.2t\t\tfirst field: %08x\tsecond field: %u\n", int_tab);
+	FT_PRINTF_TEST("%#10.2t\t\tfirst field: %08x\tsecond field: %u\n", int_tab);
 
-	ft_printf("b conversion:\n");
-	ft_printf("\t\tunsigned int array:\n");
-	ft_printf("\t\tdec: %#3t%-32u \n", int_tab + 5);
-	ft_printf("\t\tbin: %#3t%.32b \n", int_tab + 5);
+	ft_printf("\nb conversion:\n");
+	FT_PRINTF_TEST("dec: %#3t%-32u \n", int_tab + 5);
+	FT_PRINTF_TEST("bin: %#3t%.32b \n", int_tab + 5);
 
 	ft_printf("\nBINT tests:\n");
 
