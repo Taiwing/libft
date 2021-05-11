@@ -6,13 +6,12 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 20:05:11 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/11 15:12:38 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/11 16:16:59 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "dragon4.h"
-#include "bint.h"
 #include "log_and_ceil.h"
 
 static int	scale_val(t_bint scale, t_bint scaled_val, t_fltinf *info)

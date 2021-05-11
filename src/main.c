@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include "libft.h"
 #include "ft_printf.h"
-#include "bint.h"
 
 #define C_RED     "\x1b[31m"
 #define C_GREEN   "\x1b[32m"
