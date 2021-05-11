@@ -19,6 +19,7 @@
 #define	CAST		"hljzL"
 const char			g_spaces[256] = { [0 ... 255] = ' ' };
 #define SPACES		((char *)g_spaces)
+#define LINE_WIDTH	80
 
 int		ret_orig;
 int		ret_mine;
@@ -27,20 +28,30 @@ char	buf_mine[16384];
 int		margin;
 int		show;
 int		binterr;
+int		namelen;
+
+#define PRINT_TITLE(fmtl, fmtr, name, reslen) {\
+	namelen = ft_strlen(fmtl) + ft_strlen(fmtr) + ft_strlen(name) + reslen;\
+	if (namelen - 4 > LINE_WIDTH)\
+		margin = ft_printf("%s%.*s...%s", fmtl, namelen - ft_strlen(fmtl)\
+			- ft_strlen(fmtr) - reslen - 7, name, fmtr);\
+	else\
+		margin = ft_printf("%s%s%s", fmtl, name, fmtr);\
+	ft_printf("%.*s", LINE_WIDTH - reslen - margin, SPACES);\
+}
 
 #define	PRINTF_TEST(format, ...) {\
 	ret_orig = sprintf(buf_orig, format, __VA_ARGS__);\
 	ret_mine = ft_sprintf(buf_mine, format, __VA_ARGS__);\
-	margin = ft_printf("TEST:\t[%s]", #format);\
-	ft_printf("%.*s", 70 - margin, SPACES);\
+	PRINT_TITLE("TEST:  [", "]", #format, 2);\
 	if (ret_orig == ret_mine\
 			&& (ret_orig == -1 || !strncmp(buf_orig, buf_mine, ret_orig)))\
 	{\
 		ft_printf(C_GREEN"OK\n"C_RESET);\
 		if (show && ret_orig != -1)\
-		ft_printf("%.*s\n", ret_orig, buf_orig);\
+			ft_printf("%.*s\n", ret_orig, buf_orig);\
 		else if (show)\
-		ft_printf("ERROR\n");\
+			ft_printf("ERROR\n");\
 	}\
 	else\
 	{\
@@ -54,7 +65,7 @@ int		binterr;
 			ft_printf("\n");\
 		}\
 		else\
-		ft_printf("ERROR\n");\
+			ft_printf("ERROR\n");\
 		ft_printf("MINE>\t");\
 		if (ret_mine != -1)\
 		{\
@@ -62,19 +73,18 @@ int		binterr;
 			ft_printf("\n");\
 		}\
 		else\
-		ft_printf("ERROR\n");\
+			ft_printf("ERROR\n");\
 	}\
 }
 
 #define	FT_PRINTF_TEST(format, ...) {\
 	ret_mine = ft_sprintf(buf_mine, format, __VA_ARGS__);\
-	margin = ft_printf("TEST:\t[%s]", #format);\
-	ft_printf("%.*s", 70 - margin, SPACES);\
+	PRINT_TITLE("TEST:  [", "]", #format, 2);\
 	if (ret_mine != -1)\
 	{\
 		ft_printf(C_GREEN"OK\n"C_RESET);\
 		if (show)\
-		ft_printf("%.*s\n", ret_mine, buf_mine);\
+			ft_printf("%.*s\n", ret_mine, buf_mine);\
 	}\
 	else\
 	{\
@@ -84,7 +94,8 @@ int		binterr;
 }
 
 #define BINT_TEST(title, functions, ops) {\
-	if (show) {\
+	if (show)\
+	{\
 		ft_printf("\n//////// BEFORE /////////\n");\
 		bint_print(a, 1, 16);\
 		bint_print(b, 1, 16);\
@@ -93,28 +104,31 @@ int		binterr;
 	}\
 	binterr = 0;\
 	ops;\
-	if (show || binterr) {\
+	if (show || binterr)\
+	{\
 		ft_printf("\n//////// AFTER /////////\n");\
 		bint_print(a, 1, 16);\
 		bint_print(b, 1, 16);\
 		bint_print(c, 1, 16);\
 		bint_print(d, 1, 16);\
 	}\
-	margin = ft_printf("TEST:\t%s (%s)", title, functions);\
-	ft_printf("%.*s", 70 - margin, SPACES);\
+	PRINT_TITLE("TEST:  ", "", title, 2);\
+	if (show)\
+		ft_printf("functions: %s\n", functions);\
 	if (!binterr)\
 		ft_printf(C_GREEN"OK\n"C_RESET);\
 	else\
 		ft_printf(C_RED "KO\n" C_RESET);\
 }
 
-#define BINT_ASSERT(op, test, name) {\
-	if (!binterr) {\
-		op;\
+#define BINT_ASSERT(name, test, ops) {\
+	if (!binterr)\
+	{\
+		ops;\
 		binterr = !(test);\
-		if (show || binterr) {\
-			margin = ft_printf("ASSERT:\t%s", name);\
-			ft_printf("%.*s", 67 - margin, SPACES);\
+		if (show || binterr)\
+		{\
+			PRINT_TITLE("ASSERT:  ", "", name, 7);\
 			if (!binterr)\
 				ft_printf(C_GREEN"SUCCESS\n"C_RESET);\
 			else\
@@ -206,57 +220,63 @@ void	test_mandatory(int ac, char **av)
 	bintinit(c, 0);
 	bintinit(d, 0);
 
-	ft_printf("TEST: bintset_pow2, bintset_pow10, bint_smult2, bint_smult10\n");
+	BINT_TEST(
+		"pow mult test setup",
+		"bintset_u64",
+		{
+			BINT_ASSERT("set b to 1", ret == BINT_SUCCESS,
+				ret = bintset_u64(b, 1));
+			BINT_ASSERT("set d to 1", ret == BINT_SUCCESS,
+				ret = bintset_u64(d, 1));
+		}
+	);
 
-	BINT_TEST("pow mult test setup", "bintset_u64", {
-		BINT_ASSERT(ret = bintset_u64(b, 1), ret == BINT_SUCCESS, "set b to 1");
-		BINT_ASSERT(ret = bintset_u64(d, 1), ret == BINT_SUCCESS, "set d to 1");
-
-	});
-
-	int step = 16;
+	char	assert_name[256];
+	char	test_name[256];
+	int		step = 16;
 	for (uint32_t i = 16; i <= 128; i += step)
 	{
-		ret = bintset_pow2(a, i);
-		ft_printf("\nset a to 2^%u: ret = %s\n", i, ret == BINT_SUCCESS ?
-			"BINT_SUCCESS" : "BINT_FAILURE");
-		bint_print(a, 1, 2);
+		ft_sprintf(test_name, "set vs smult (pow = %u)", i);
+		BINT_TEST(
+			test_name,
+			"bintset_pow2, bintset_pow10, bint_smult2, bint_smult10",
+			{
+				ft_sprintf(assert_name, "set a to 2^%u", i);
+				BINT_ASSERT(assert_name, ret == BINT_SUCCESS,
+					ret = bintset_pow2(a, i));
 
-		ret = BINT_SUCCESS;
-		for (int j = 0; j < step && ret == BINT_SUCCESS; ++j)
-			ret = bint_smult2(b);
-		ft_printf("\nmult b by 2 (%d times): ret = %s\n", step,
-			ret == BINT_SUCCESS ? "BINT_SUCCESS" : "BINT_FAILURE");
-		bint_print(b, 1, 2);
+				ft_sprintf(assert_name, "mult b by 2 (%d times)", step);
+				BINT_ASSERT(
+					assert_name,
+					ret == BINT_SUCCESS,
+					{
+						for (int j = 0; j < step && ret == BINT_SUCCESS; ++j)
+							ret = bint_smult2(b);
+					}
+				);
 
-		ret = bintset_pow10(c, i);
-		ft_printf("\nset c to 10^%u: ret = %s\n", i, ret == BINT_SUCCESS ?
-			"BINT_SUCCESS" : "BINT_FAILURE");
-		bint_print(c, 1, 16);
+				ft_sprintf(assert_name, "set c to 10^%u", i);
+				BINT_ASSERT(assert_name, ret == BINT_SUCCESS,
+					ret = bintset_pow10(c, i));
 
-		ret = BINT_SUCCESS;
-		for (int j = 0; j < step && ret == BINT_SUCCESS; ++j)
-			ret = bint_smult10(d);
-		ft_printf("\nmult d by 10 (%d times): ret = %s\n", step,
-			ret == BINT_SUCCESS ? "BINT_SUCCESS" : "BINT_FAILURE");
-		bint_print(d, 1, 16);
+				ft_sprintf(assert_name, "mult d by 10 (%d times)", step);
+				BINT_ASSERT(
+					assert_name,
+					ret == BINT_SUCCESS,
+					{
+						for (int j = 0; j < step && ret == BINT_SUCCESS; ++j)
+							ret = bint_smult10(d);
+					}
+				);
 
-		ret = bintcmp(a, b);
-		ft_printf("\n%s: a %s b (ret = %d)\n", !ret ? "SUCCESS" : "ERROR",
-			!ret ? "=" : "!=", ret);
-
-		ret = bintcmp(c, d);
-		ft_printf("\n%s: c %s d (ret = %d)\n", !ret ? "SUCCESS" : "ERROR",
-			!ret ? "=" : "!=", ret);
-
-		ret = bintcmp(a, d);
-		ft_printf("\n%s: a %s d (ret = %d)\n", ret ? "SUCCESS" : "ERROR",
-			ret ? "!=" : "=", ret);
-
-		ret = bintcmp(b, c);
-		ft_printf("\n%s: b %s c (ret = %d)\n", ret ? "SUCCESS" : "ERROR",
-			ret ? "!=" : "=", ret);
+				BINT_ASSERT("a == b", !ret, ret = bintcmp(a, b));
+				BINT_ASSERT("c == d", !ret, ret = bintcmp(c, d));
+				BINT_ASSERT("a != d", !!ret, ret = bintcmp(a, d));
+				BINT_ASSERT("b != c", !!ret, ret = bintcmp(b, c));
+			}
+		);
 	}
+
 	if (bintcpy(a, c) == BINT_FAILURE || bintcpy(b, c) == BINT_FAILURE
 		|| bintcmp(a, c) || bintcmp(b, c) || bintcmp(d, c))
 		ft_printf("FAILURE: COULD NOT COPY c to a and to b\n");
