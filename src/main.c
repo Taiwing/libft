@@ -26,6 +26,7 @@ char	buf_orig[16384];
 char	buf_mine[16384];
 int		margin;
 int		show;
+int		binterr;
 
 #define	PRINTF_TEST(format, ...) {\
 	ret_orig = sprintf(buf_orig, format, __VA_ARGS__);\
@@ -43,7 +44,7 @@ int		show;
 	}\
 	else\
 	{\
-		ft_printf(C_RED "FAILED\n" C_RESET);\
+		ft_printf(C_RED "KO\n" C_RESET);\
 		ft_printf("ret_orig = %d\n", ret_orig);\
 		ft_printf("ret_mine = %d\n", ret_mine);\
 		ft_printf("ORIG>\t");\
@@ -77,8 +78,48 @@ int		show;
 	}\
 	else\
 	{\
-		ft_printf(C_RED "FAILED\n" C_RESET);\
+		ft_printf(C_RED "KO\n" C_RESET);\
 		ft_printf("ret_mine = %d\n", ret_mine);\
+	}\
+}
+
+#define BINT_TEST(title, functions, ops) {\
+	if (show) {\
+		ft_printf("\n//////// BEFORE /////////\n");\
+		bint_print(a, 1, 16);\
+		bint_print(b, 1, 16);\
+		bint_print(c, 1, 16);\
+		bint_print(d, 1, 16);\
+	}\
+	binterr = 0;\
+	ops;\
+	if (show || binterr) {\
+		ft_printf("\n//////// AFTER /////////\n");\
+		bint_print(a, 1, 16);\
+		bint_print(b, 1, 16);\
+		bint_print(c, 1, 16);\
+		bint_print(d, 1, 16);\
+	}\
+	margin = ft_printf("TEST:\t%s (%s)", title, functions);\
+	ft_printf("%.*s", 70 - margin, SPACES);\
+	if (!binterr)\
+		ft_printf(C_GREEN"OK\n"C_RESET);\
+	else\
+		ft_printf(C_RED "KO\n" C_RESET);\
+}
+
+#define BINT_ASSERT(op, test, name) {\
+	if (!binterr) {\
+		op;\
+		binterr = !(test);\
+		if (show || binterr) {\
+			margin = ft_printf("ASSERT:\t%s", name);\
+			ft_printf("%.*s", 67 - margin, SPACES);\
+			if (!binterr)\
+				ft_printf(C_GREEN"SUCCESS\n"C_RESET);\
+			else\
+				ft_printf(C_RED "FAILURE\n" C_RESET);\
+		}\
 	}\
 }
 
@@ -166,17 +207,12 @@ void	test_mandatory(int ac, char **av)
 	bintinit(d, 0);
 
 	ft_printf("TEST: bintset_pow2, bintset_pow10, bint_smult2, bint_smult10\n");
-	ft_printf("TEST: a = b = c = d = 0\n");
 
-	ret = bintset_u64(b, 1);
-	ft_printf("\nset b to 1: ret = %s\n", ret == BINT_SUCCESS ?
-		"BINT_SUCCESS" : "BINT_FAILURE");
-	bint_print(b, 1, 16);
+	BINT_TEST("pow mult test setup", "bintset_u64", {
+		BINT_ASSERT(ret = bintset_u64(b, 1), ret == BINT_SUCCESS, "set b to 1");
+		BINT_ASSERT(ret = bintset_u64(d, 1), ret == BINT_SUCCESS, "set d to 1");
 
-	ret = bintset_u64(d, 1);
-	ft_printf("\nset d to 1: ret = %s\n", ret == BINT_SUCCESS ?
-		"BINT_SUCCESS" : "BINT_FAILURE");
-	bint_print(d, 1, 16);
+	});
 
 	int step = 16;
 	for (uint32_t i = 16; i <= 128; i += step)
