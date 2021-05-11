@@ -2,7 +2,7 @@
 
 CC			=	gcc
 #CFLAGS		=	-Wall -Wextra -Werror
-CFLAGS		=	-g -Wall -Wextra -Werror -fsanitize=address,undefined
+CFLAGS		=	-g -Wall -Wextra -fsanitize=address,undefined
 HDIR		=	includes
 SRCDIR		=	src
 HFLAGS		=	-I $(HDIR)
@@ -271,7 +271,8 @@ ft_lst_move_front.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_lst_merge.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_lst_size.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 bint_add.o: bint.h
-dragon4.o: dragon4.h bint.h log_and_ceil.h
+dragon4.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h dragon4.h\
+	bint.h log_and_ceil.h
 dragon42.o: dragon4.h bint.h log_and_ceil.h ft_printf.h t_pbuf.h
 log_and_ceil.o: bint_mathconsts.h
 bint_sub.o: bint.h

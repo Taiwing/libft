@@ -6,10 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 20:05:11 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/11 13:20:06 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/11 14:59:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "dragon4.h"
 #include "bint.h"
 #include "log_and_ceil.h"
@@ -41,22 +42,14 @@ static int	scale_val(t_bint scale, t_bint scaled_val, t_fltinf *info)
 	return (digit_exp);
 }
 
-/*
-** TODO:
-**
-** Add BINT_LEN(scaled_val) condition to the loop and add the
-** trailing remaining 0s after in the dragon4 function
-** (while cutoff_exp is not reached).
-*/
-static char	*ftostr(t_bint scale, t_bint scaled_val,
-		t_fltinf *info, char *cur_digit)
+static int	init_ftostr(t_bint scale, t_bint scaled_val, t_fltinf *info)
 {
-	uint32_t	hi_block;
 	int			prec;
+	int			hi_block;
 	int			cutoff_exp;
 
 	prec = info->prec + info->digit_exp > 16383 ?
-	16383 - info->digit_exp : info->prec;
+		16383 - info->digit_exp : info->prec;
 	cutoff_exp = info->conv == 'f' || info->conv == 'F' ?
 		-prec : info->digit_exp - prec - 1;
 	hi_block = scale[BINT_LEN(scale)];
@@ -66,13 +59,29 @@ static char	*ftostr(t_bint scale, t_bint scaled_val,
 		bint_shiftleft(scale, (uint32_t)prec);
 		bint_shiftleft(scaled_val, (uint32_t)prec);
 	}
+	return (cutoff_exp);
+}
+
+static char	*ftostr(t_bint scale, t_bint scaled_val,
+		t_fltinf *info, char *cur_digit)
+{
+	int			cutoff_exp;
+
+	cutoff_exp = init_ftostr(scale, scaled_val, info);
 	while ((info->digit = bint_divmod_max9(scaled_val, scale)) < 10
 		&& --info->digit_exp > cutoff_exp)
 	{
 		*cur_digit++ = (char)(48 + info->digit);
+		if (!BINT_LEN(scaled_val))
+			break ;
 		bint_smult10(scaled_val);
 	}
-	return (cur_digit);
+	if (info->digit_exp > cutoff_exp)
+	{
+		ft_memset((void *)cur_digit, '0', --info->digit_exp - cutoff_exp);
+		info->digit = 0;
+	}
+	return (cur_digit + info->digit_exp - cutoff_exp);
 }
 
 static char	*round_up9(char *cur_digit, char *buf, int *exp10, int conv)
