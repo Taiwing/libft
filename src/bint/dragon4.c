@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 20:05:11 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/11 14:59:13 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/11 15:12:38 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	scale_val(t_bint scale, t_bint scaled_val, t_fltinf *info)
 static int	init_ftostr(t_bint scale, t_bint scaled_val, t_fltinf *info)
 {
 	int			prec;
-	int			hi_block;
+	uint32_t	hi_block;
 	int			cutoff_exp;
 
 	prec = info->prec + info->digit_exp > 16383 ?
