@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/30 19:49:11 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/04 06:28:23 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ int					bintset_pow10(t_bint res, uint32_t exp);
 
 int					bintcmp(const t_bint l, const t_bint r);
 int					bintcmp_abs(const t_bint l, const t_bint r);
+
+int					dragon42(char *buf, int fd, const t_bint n);
 
 /*
 ** bint operations

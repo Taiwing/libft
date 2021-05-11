@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 15:00:29 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/16 11:29:05 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/11 13:06:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	substract_bintxu32(t_bint res, const t_bint b, uint32_t q)
 		prod >>= 32;
 		diff = (diff >> 32) & 1;
 	}
-	while (BINT_LEN(res) > 1 && !res[BINT_LEN(res)])
+	while (BINT_LEN(res) && !res[BINT_LEN(res)])
 		SET_BINT_LEN(res, BINT_LEN(res) - 1);
 }
 

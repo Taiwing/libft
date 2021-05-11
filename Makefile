@@ -79,6 +79,7 @@ T_LSTC			=	ft_lst_move_back.c\
 
 BINTC			=	bint_add.c\
 					dragon4.c\
+					dragon42.c\
 					log_and_ceil.c\
 					bint_sub.c\
 					divide_bint.c\
@@ -271,6 +272,7 @@ ft_lst_merge.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 ft_lst_size.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h ft_collector.h
 bint_add.o: bint.h
 dragon4.o: dragon4.h bint.h log_and_ceil.h
+dragon42.o: dragon4.h bint.h log_and_ceil.h ft_printf.h t_pbuf.h
 log_and_ceil.o: bint_mathconsts.h
 bint_sub.o: bint.h
 divide_bint.o: bint.h

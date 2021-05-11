@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 20:05:11 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/16 13:22:02 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/11 13:20:06 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ static int	scale_val(t_bint scale, t_bint scaled_val, t_fltinf *info)
 	return (digit_exp);
 }
 
+/*
+** TODO:
+**
+** Add BINT_LEN(scaled_val) condition to the loop and add the
+** trailing remaining 0s after in the dragon4 function
+** (while cutoff_exp is not reached).
+*/
 static char	*ftostr(t_bint scale, t_bint scaled_val,
 		t_fltinf *info, char *cur_digit)
 {
@@ -59,12 +66,9 @@ static char	*ftostr(t_bint scale, t_bint scaled_val,
 		bint_shiftleft(scale, (uint32_t)prec);
 		bint_shiftleft(scaled_val, (uint32_t)prec);
 	}
-	while (1)
+	while ((info->digit = bint_divmod_max9(scaled_val, scale)) < 10
+		&& --info->digit_exp > cutoff_exp)
 	{
-		--info->digit_exp;
-		info->digit = bint_divmod_max9(scaled_val, scale);
-		if (!BINT_LEN(scaled_val) || (info->digit_exp == cutoff_exp))
-			break ;
 		*cur_digit++ = (char)(48 + info->digit);
 		bint_smult10(scaled_val);
 	}
@@ -117,10 +121,8 @@ int			dragon4(t_fltinf *info, char *buf)
 	bint_smult2(scaled_val);
 	cmp = bintcmp(scaled_val, scale);
 	round_down = !cmp ? !(info->digit & 1) : cmp < 0;
-	if (round_down)
-		*cur_digit++ = (char)(48 + info->digit);
-	else if (info->digit < 9)
-		*cur_digit++ = (char)(48 + info->digit + 1);
+	if (round_down || info->digit < 9)
+		*cur_digit++ = (char)(48 + info->digit + !round_down);
 	else
 		cur_digit = round_up9(cur_digit, buf, &(info->exp10), info->conv);
 	return ((int)(cur_digit - buf));

@@ -65,31 +65,25 @@ int		show;
 	}\
 }
 
-int		bint_print(t_bint n, uint32_t info, uint32_t base)
+int		bint_print(const t_bint n, uint32_t info, uint32_t base)
 {
-	uint32_t	bint_size;
-	uint32_t	bint_sign;
-	uint32_t	bint_len;
-
-	if (base != 2 && base != 16)
+	if (base != 2 && base != 10 && base != 16)
 		return (BINT_FAILURE);
-	bint_size = BINT_SIZE(n);
-	bint_sign = BINT_SIGN(n);
-	bint_len = BINT_LEN(n);
+	if (base == 10 && (dragon42(NULL, 1, n) == -1 || !ft_printf("\n")))
+		return (BINT_FAILURE);
 	ft_printf(base == 2 ? "0b " : base == 16 ? "0x " : "");
-	if (!bint_len)
-		ft_printf("0\n");
-	for (int i = bint_len; i > 0; --i)
+	for (int i = BINT_LEN(n); base != 10 && i >= 0; --i)
 	{
-		if (base == 16)
+		if (!i)
+			ft_printf("%s", BINT_LEN(n) ? "" : "0\n");
+		else if (base == 16)
 			ft_printf("%08x%c", n[i], i > 1 ? ' ' : '\n');
 		else if (base == 2)
 			ft_printf("%032b%c", n[i], i > 1 ? ' ' : '\n');
-		//TODO: add the base 10 mode later (harder to do)
 	}
 	if (info)
 		ft_printf("info block: size = %u | sign = %u | len = %u\n",
-			bint_size, bint_sign, bint_len);
+			BINT_SIZE(n), BINT_SIGN(n), BINT_LEN(n));
 	return (BINT_SUCCESS);
 }
 
@@ -104,6 +98,8 @@ void	test_mandatory(int ac, char **av)
 	PRINTF_TEST("%f", DBL_MAX);
 	PRINTF_TEST("%Lf", LDBL_MIN);
 	PRINTF_TEST("%e", 1.000);
+	PRINTF_TEST("%f", 1000.00);
+	PRINTF_TEST("%g", 1000.00);
 	PRINTF_TEST("%e", 4242.42424242);
 	PRINTF_TEST("%e", 0.0004242);
 	PRINTF_TEST("%.3e", 0.0004242);
