@@ -106,15 +106,15 @@ int		namelen;
 	ops;\
 	if (show || binterr)\
 	{\
-		ft_printf("\n//////// AFTER /////////\n");\
+		ft_printf("//////// AFTER /////////\n");\
 		bint_print(a, 1, 16);\
 		bint_print(b, 1, 16);\
 		bint_print(c, 1, 16);\
 		bint_print(d, 1, 16);\
 	}\
-	PRINT_TITLE("TEST:  ", "", title, 2);\
 	if (show)\
 		ft_printf("functions: %s\n", functions);\
+	PRINT_TITLE("TEST:  ", "", title, 2);\
 	if (!binterr)\
 		ft_printf(C_GREEN"OK\n"C_RESET);\
 	else\
@@ -343,26 +343,26 @@ void	test_mandatory(int ac, char **av)
 		}
 	);
 
+	bintset_u64(a, UINT64_MAX);
+	bintset_u64(b, UINT64_MAX);
+	bintset_u64(c, UINT64_MAX);
 	BINT_TEST(
 		"x + x == 2 * x (where x == UINT64_MAX)",
 		"bint_add, bint_smult2",
 		{
-			bintset_u64(a, UINT64_MAX);
-			bintset_u64(b, UINT64_MAX);
-			bintset_u64(c, UINT64_MAX);
 			bint_add(d, a, b);
 			bint_smult2(a);
 			BINT_ASSERT("d = a + b = 2 * a", !ret, ret = bintcmp(a, d));
 		}
 	);
 
+	bintset_u64(a, UINT64_MAX);
+	bintset_u64(b, UINT64_MAX);
+	bintset_u64(c, UINT64_MAX);
 	BINT_TEST(
 		"x - x == 0 (where x == UINT64_MAX)",
 		"bint_sub",
 		{
-			bintset_u64(a, UINT64_MAX);
-			bintset_u64(b, UINT64_MAX);
-			bintset_u64(c, UINT64_MAX);
 			bint_sub(d, a, b);
 			bintclr(a);
 			BINT_ASSERT("d = a - b = 0", !ret && !BINT_LEN(d),
@@ -370,39 +370,55 @@ void	test_mandatory(int ac, char **av)
 		}
 	);
 
+	bintset_u64(a, UINT64_MAX);
+	bintset_u64(b, UINT64_MAX - 1);
+	bintset_u64(c, 1);
 	BINT_TEST(
 		"x - (x-1) == 1 (where x == UINT64_MAX)",
 		"bint_sub",
 		{
-			bintset_u64(a, UINT64_MAX);
-			bintset_u64(b, UINT64_MAX - 1);
-			bintset_u64(c, 1);
 			bint_sub(d, a, b);
 			BINT_ASSERT("d == a - b == 1", !ret, ret = bintcmp(d, c));
 		}
 	);
 
+	bintset_u64(a, UINT64_MAX);
+	bintset_u64(b, UINT64_MAX - 1);
+	bintset_u64(c, 1);
+	SET_BINT_SIGN(c, 1);
 	BINT_TEST(
 		"(x-1) - x == -1 (where x == UINT64_MAX)",
 		"bint_sub",
 		{
-			bintset_u64(a, UINT64_MAX);
-			bintset_u64(b, UINT64_MAX - 1);
-			bintset_u64(c, 1);
-			SET_BINT_SIGN(c, 1);
 			bint_sub(d, b, a);
 			BINT_ASSERT("d == b - a == -1", !ret, ret = bintcmp(d, c));
 		}
 	);
 
+	bintset_u64(a, UINT64_MAX);
+	bint_smult2(a);
+	bintset_u64(b, UINT64_MAX);
+	bintset_u64(c, UINT64_MAX);
 	BINT_TEST(
 		"(2 * x) - x == x (where x == UINT64_MAX)",
 		"bint_sub",
 		{
-			bintset_u64(a, UINT64_MAX);
-			bint_smult2(a);
-			bintset_u64(b, UINT64_MAX);
-			bintset_u64(c, UINT64_MAX);
+			bint_sub(d, a, b);
+			BINT_ASSERT("d == a - b == c", !ret, ret = bintcmp(d, c));
+		}
+	);
+
+	bintset_u64(a, UINT64_MAX);
+	bint_smult2(a);
+	bint_smult2(a);
+	bintset_u64(b, UINT64_MAX);
+	bint_smult2(b);
+	bintset_u64(c, UINT64_MAX);
+	bint_smult2(c);
+	BINT_TEST(
+		"(2 * x) - x == x (where x == 2 * UINT64_MAX)",
+		"bint_sub",
+		{
 			bint_sub(d, a, b);
 			BINT_ASSERT("d == a - b == c", !ret, ret = bintcmp(d, c));
 		}
