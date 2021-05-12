@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:57:21 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/12 18:58:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/12 19:13:03 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static int	scale_val(t_bint scale, t_bint scaled_val,
 	bintset_u64(scale, 2);
 	log2 = logbase2_32(n[BINT_LEN(n)]) + ((BINT_LEN(n) - 1) * 32);
 	digit_exp = ft_ceil(((int)log2) * LOG10_2 - 0.69);
-	*log10 = digit_exp;
 	ret = BINT_SUCCESS;
 	if (digit_exp > 0)
 	{
@@ -36,7 +35,8 @@ static int	scale_val(t_bint scale, t_bint scaled_val,
 	if (ret == BINT_SUCCESS && bintcmp(scaled_val, scale) < 0)
 		ret = bint_smult10(scaled_val);
 	else if (ret == BINT_SUCCESS)
-		++(*log10);
+		++digit_exp;
+	*log10 = digit_exp;
 	return (ret);
 }
 
