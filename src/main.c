@@ -331,131 +331,82 @@ void	test_mandatory(int ac, char **av)
 				bint_smult2(d));
 		}
 	);
-	{
-		ft_printf("\nTEST: bint_sub, bint_sub_abs\n");
-		ft_printf("TEST: c = b - d (where d = 2*b) \n");
-		/* set c to: b - d */
-		ret = bint_sub(c, b, d);
-		ft_printf("%s: c = b - d\n", ret == BINT_FAILURE ? "ERROR" : "SUCCESS");
-		/* check that c == -b */
-		ret = bintcmp_abs(c, b);
-		ft_printf("\n%s: c %s -b (ret = %d)\n", !ret && BINT_SIGN(c) ?
-			"SUCCESS" : "ERROR", !ret && BINT_SIGN(c) ? "=" : "!=", ret);
-		ft_printf("\n/////////////////////// AFTER /////////////////////////\n");
-		bint_print(a, 1, 16);
-		bint_print(b, 1, 16);
-		bint_print(c, 1, 16);
-		bint_print(d, 1, 16);
-	}
+
+	BINT_TEST(
+		"x - (2 * x) == x",
+		"bint_sub, bint_sub_abs",
+		{
+			BINT_ASSERT("c = b - d", ret == BINT_SUCCESS,
+				ret = bint_sub(c, b, d));
+			BINT_ASSERT("c == -b", !ret && BINT_SIGN(c),
+				ret = bintcmp_abs(c, b));
+		}
+	);
+
 	bintset_u64(a, UINT64_MAX);
 	bintset_u64(b, UINT64_MAX);
 	bintset_u64(c, UINT64_MAX);
-	bintclr(d);
-	{
-		ft_printf("\nTEST: bint_add, bint_sub\n");
-		ft_printf("TEST: a = b = c = UINT64_MAX && d = 0\n");
-		ft_printf("\n/////////////////////// BEFORE /////////////////////////\n");
-		bint_print(a, 1, 16);
-		bint_print(b, 1, 16);
-		bint_print(c, 1, 16);
-		bint_print(d, 1, 16);
-		/* set d to: a + b */
-		bint_add(d, a, b);
-		bint_smult2(a);
-		ft_printf("\n%s: d = a + b = 2 * a\n", bintcmp(a, d) ? "ERROR" : "SUCCESS");
-		ft_printf("\n/////////////////////// AFTER /////////////////////////\n");
-		bint_print(a, 1, 16);
-		bint_print(b, 1, 16);
-		bint_print(c, 1, 16);
-		bint_print(d, 1, 16);
-	}
+	BINT_TEST(
+		"x + x == 2 * x (where x == UINT64_MAX)",
+		"bint_add, bint_smult2",
+		{
+			bint_add(d, a, b);
+			bint_smult2(a);
+			BINT_ASSERT("d = a + b = 2 * a", !ret, ret = bintcmp(a, d));
+		}
+	);
+
 	bintset_u64(a, UINT64_MAX);
 	bintset_u64(b, UINT64_MAX);
 	bintset_u64(c, UINT64_MAX);
-	bintclr(d);
-	{
-		ft_printf("\nTEST: bint_sub\n");
-		ft_printf("TEST: a = b = c = UINT64_MAX && d = 0\n");
-		ft_printf("\n/////////////////////// BEFORE /////////////////////////\n");
-		bint_print(a, 1, 16);
-		bint_print(b, 1, 16);
-		bint_print(c, 1, 16);
-		bint_print(d, 1, 16);
-		/* set d to: a - b */
-		bint_sub(d, a, b);
-		bintclr(a);
-		ft_printf("\n%s: d = a - b = 0\n", bintcmp(a, d) ? "ERROR" : "SUCCESS");
-		ft_printf("\n/////////////////////// AFTER /////////////////////////\n");
-		bint_print(a, 1, 16);
-		bint_print(b, 1, 16);
-		bint_print(c, 1, 16);
-		bint_print(d, 1, 16);
-	}
+	BINT_TEST(
+		"x - x == 0 (where x == UINT64_MAX)",
+		"bint_sub",
+		{
+			bint_sub(d, a, b);
+			bintclr(a);
+			BINT_ASSERT("d = a - b = 0", !ret && !BINT_LEN(d),
+				ret = bintcmp(a, d));
+		}
+	);
+
 	bintset_u64(a, UINT64_MAX);
 	bintset_u64(b, UINT64_MAX - 1);
 	bintset_u64(c, 1);
-	bintclr(d);
-	{
-		ft_printf("\nTEST: bint_sub\n");
-		ft_printf("TEST: a = UINT64_MAX && b = UINT64_MAX-1 && c = 1 && d = 0\n");
-		ft_printf("\n/////////////////////// BEFORE /////////////////////////\n");
-		bint_print(a, 1, 16);
-		bint_print(b, 1, 16);
-		bint_print(c, 1, 16);
-		bint_print(d, 1, 16);
-		/* set d to: a - b */
-		bint_sub(d, a, b);
-		ft_printf("\n%s: d = a - b = 1\n", bintcmp(c, d) ? "ERROR" : "SUCCESS");
-		ft_printf("\n/////////////////////// AFTER /////////////////////////\n");
-		bint_print(a, 1, 16);
-		bint_print(b, 1, 16);
-		bint_print(c, 1, 16);
-		bint_print(d, 1, 16);
-	}
+	BINT_TEST(
+		"x - (x-1) == 1 (where x == UINT64_MAX)",
+		"bint_sub",
+		{
+			bint_sub(d, a, b);
+			BINT_ASSERT("d == a - b == 1", !ret, ret = bintcmp(d, c));
+		}
+	);
+
 	bintset_u64(a, UINT64_MAX);
 	bintset_u64(b, UINT64_MAX - 1);
 	bintset_u64(c, 1);
 	SET_BINT_SIGN(c, 1);
-	bintclr(d);
-	{
-		ft_printf("\nTEST: bint_sub\n");
-		ft_printf("TEST: a = UINT64_MAX && b = UINT64_MAX-1 && c = -1 && d = 0\n");
-		ft_printf("\n/////////////////////// BEFORE /////////////////////////\n");
-		bint_print(a, 1, 16);
-		bint_print(b, 1, 16);
-		bint_print(c, 1, 16);
-		bint_print(d, 1, 16);
-		/* set d to: b - a */
-		bint_sub(d, b, a);
-		ft_printf("\n%s: d = b - a = -1\n", bintcmp(c, d) ? "ERROR" : "SUCCESS");
-		ft_printf("\n/////////////////////// AFTER /////////////////////////\n");
-		bint_print(a, 1, 16);
-		bint_print(b, 1, 16);
-		bint_print(c, 1, 16);
-		bint_print(d, 1, 16);
-	}
+	BINT_TEST(
+		"(x-1) - x == -1 (where x == UINT64_MAX)",
+		"bint_sub",
+		{
+			bint_sub(d, b, a);
+			BINT_ASSERT("d == b - a == -1", !ret, ret = bintcmp(d, c));
+		}
+	);
+
 	bintset_u64(a, UINT64_MAX);
 	bint_smult2(a);
 	bintset_u64(b, UINT64_MAX);
 	bintset_u64(c, UINT64_MAX);
-	bintclr(d);
-	{
-		ft_printf("\nTEST: bint_sub\n");
-		ft_printf("TEST: b = c = UINT64_MAXb && a = 2*UINT64_MAX && d = 0\n");
-		ft_printf("\n/////////////////////// BEFORE /////////////////////////\n");
-		bint_print(a, 1, 16);
-		bint_print(b, 1, 16);
-		bint_print(c, 1, 16);
-		bint_print(d, 1, 16);
-		/* set d to: a - b */
-		bint_sub(d, a, b);
-		ft_printf("\n%s: d = a - b = c\n", bintcmp(c, d) ? "ERROR" : "SUCCESS");
-		ft_printf("\n/////////////////////// AFTER /////////////////////////\n");
-		bint_print(a, 1, 16);
-		bint_print(b, 1, 16);
-		bint_print(c, 1, 16);
-		bint_print(d, 1, 16);
-	}
+	BINT_TEST(
+		"(2 * x) - x == x (where x == UINT64_MAX)",
+		"bint_sub",
+		{
+			bint_sub(d, a, b);
+			BINT_ASSERT("d == a - b == c", !ret, ret = bintcmp(d, c));
+		}
+	);
 }
 
 #define BINTF_MAX_ARGS 3
