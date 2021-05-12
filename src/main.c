@@ -209,6 +209,7 @@ void	test_mandatory(int ac, char **av)
 
 	ft_printf("\nBINT tests:\n");
 
+	uint32_t	i;
 	int			ret;
 	uint32_t	a[BINT_SIZE_DEF];
 	uint32_t	b[BINT_SIZE_DEF];
@@ -234,7 +235,7 @@ void	test_mandatory(int ac, char **av)
 	char	assert_name[256];
 	char	test_name[256];
 	int		step = 16;
-	for (uint32_t i = 16; i <= 128; i += step)
+	for (i = 16; i <= 128; i += step)
 	{
 		ft_sprintf(test_name, "set vs smult (pow = %u)", i);
 		BINT_TEST(
@@ -277,69 +278,59 @@ void	test_mandatory(int ac, char **av)
 		);
 	}
 
-	if (bintcpy(a, c) == BINT_FAILURE || bintcpy(b, c) == BINT_FAILURE
-		|| bintcmp(a, c) || bintcmp(b, c) || bintcmp(d, c))
-		ft_printf("FAILURE: COULD NOT COPY c to a and to b\n");
-	else
-	{
-		ft_printf("\nTEST: bint_sub, bint_mult_u32\n");
-		ft_printf("TEST: a = b = c = d = 10^128\n");
-		ft_printf("\n/////////////////////// BEFORE /////////////////////////\n");
-		bint_print(a, 1, 16);
-		bint_print(b, 1, 16);
-		bint_print(c, 1, 16);
-		bint_print(d, 1, 16);
-		/* set a to: a * 10 */
-		ret = bint_smult10(a);
-		ft_printf("\n%s: a = a * 10\n", ret == BINT_FAILURE ? "ERROR" : "SUCCESS");
-		/* set b to: c * 9 */
-		ret = bint_mult_u32(b, c, 9);
-		ft_printf("%s: b = c * 9\n", ret == BINT_FAILURE ? "ERROR" : "SUCCESS");
-		/* set c to 0 */
-		bintclr(c);
-		/* set c to: a - b */
-		ret = bint_sub(c, a, b);
-		ft_printf("%s: c = a - b\n", ret == BINT_FAILURE ? "ERROR" : "SUCCESS");
-		/* check that c == d */
-		ret = bintcmp(c, d);
-		ft_printf("\n%s: c %s d (ret = %d)\n", !ret ? "SUCCESS" : "ERROR",
-			!ret ? "=" : "!=", ret);
-		ft_printf("\n/////////////////////// AFTER /////////////////////////\n");
-		bint_print(a, 1, 16);
-		bint_print(b, 1, 16);
-		bint_print(c, 1, 16);
-		bint_print(d, 1, 16);
-	}
-	if (bintcpy(a, c) == BINT_FAILURE || bintcpy(b, c) == BINT_FAILURE
-		|| bintcmp(a, c) || bintcmp(b, c) || bintcmp(d, c))
-		ft_printf("FAILURE: COULD NOT COPY c to a and to b\n");
-	else
-	{
-		ft_printf("\nTEST: bint_sub, bint_add_abs, BINT_SET_SIGN\n");
-		ft_printf("TEST: a = b = c = d = 10^128\n");
-		ft_printf("\n/////////////////////// BEFORE /////////////////////////\n");
-		bint_print(a, 1, 16);
-		bint_print(b, 1, 16);
-		bint_print(c, 1, 16);
-		bint_print(d, 1, 16);
-		/* set a to: -a */
-		SET_BINT_SIGN(a, 1);
-		ft_printf("\n%s: a = -a\n", bintcmp_abs(a, b) || !BINT_SIGN(a) ?
-			"ERROR" : "SUCCESS");
-		/* set c to: a - b */
-		ret = bint_sub(c, a, b);
-		ft_printf("%s: c = a - b\n", ret == BINT_FAILURE ? "ERROR" : "SUCCESS");
-		/* check that c < 0 && c == -(2 * d) */
-		bint_smult2(d);
-		ret = bintcmp_abs(c, d);
-		ft_printf("\n%s: c %s -(2 * d) (ret = %d)\n", !ret && BINT_SIGN(c) ?
-			"SUCCESS" : "ERROR", !ret && BINT_SIGN(c) ? "=" : "!=", ret);
-		ft_printf("\n/////////////////////// AFTER /////////////////////////\n");
-		bint_print(a, 1, 16);
-		bint_print(b, 1, 16);
-		bint_print(c, 1, 16);
-		bint_print(d, 1, 16);
-	}
+	BINT_TEST(
+		"sub pow10 test setup",
+		"bintcpy",
+		{
+			BINT_ASSERT("a = c", ret == BINT_SUCCESS, ret = bintcpy(a, c));
+			BINT_ASSERT("b = c", ret == BINT_SUCCESS, ret = bintcpy(b, c));
+			BINT_ASSERT("a == c", !ret, ret = bintcmp(a, c));
+			BINT_ASSERT("b == c", !ret, ret = bintcmp(b, c));
+			BINT_ASSERT("d == c", !ret, ret = bintcmp(d, c));
+		}
+	);
+
+	i -= step;
+	ft_sprintf(test_name, "(x * 10) - (x * 9) == x (where x == 10^%u)", i);
+	BINT_TEST(
+		test_name,
+		"bint_sub, bint_mult_u32",
+		{
+			BINT_ASSERT("a *= 10", ret == BINT_SUCCESS,
+				ret = bint_smult10(a));
+			BINT_ASSERT("b = c * 9", ret == BINT_SUCCESS,
+				ret = bint_mult_u32(b, c, 9));
+			BINT_ASSERT("c = a - b", ret == BINT_SUCCESS,
+				ret = bint_sub(c, a, b));
+			BINT_ASSERT("c == d", !ret, ret = bintcmp(c, d));
+		}
+	);
+
+	BINT_TEST(
+		"sub negtive pow10/pow2 test setup",
+		"bintcpy",
+		{
+			BINT_ASSERT("a = c", ret == BINT_SUCCESS, ret = bintcpy(a, c));
+			BINT_ASSERT("b = c", ret == BINT_SUCCESS, ret = bintcpy(b, c));
+			BINT_ASSERT("a == c", !ret, ret = bintcmp(a, c));
+			BINT_ASSERT("b == c", !ret, ret = bintcmp(b, c));
+			BINT_ASSERT("d == c", !ret, ret = bintcmp(d, c));
+		}
+	);
+
+	ft_sprintf(test_name, "-x - x == -(2 * x) (where x == 10^%u)", i);
+	BINT_TEST(
+		test_name,
+		"bint_sub, bint_add_abs, BINT_SET_SIGN",
+		{
+			BINT_ASSERT("a = -a", !bintcmp_abs(a, b) && BINT_SIGN(a),
+				SET_BINT_SIGN(a, 1));
+			BINT_ASSERT("c = a - b", ret == BINT_SUCCESS,
+				ret = bint_sub(c, a, b));
+			BINT_ASSERT("c == -(2 * d)", !bintcmp_abs(c, d) && BINT_SIGN(c),
+				bint_smult2(d));
+		}
+	);
 	{
 		ft_printf("\nTEST: bint_sub, bint_sub_abs\n");
 		ft_printf("TEST: c = b - d (where d = 2*b) \n");
