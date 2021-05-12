@@ -6,38 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:15:59 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/12 14:22:49 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/12 15:00:52 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
-
-/*
-** Substract rig from res, or res from rig and put the result in res without
-** considering the sign. The smallest value is always gonna be substracted
-** from the biggest one.
-*/
-int			bint_ssub_u32_abs(t_bint res, uint32_t rig)
-{
-	uint32_t	*r;
-	uint32_t	carry;
-
-	r = res;
-	carry = 0;
-	if (BINT_LEN(res) == 1 && rig >= r[1])
-		r[1] = rig - r[1];
-	else
-		carry = rig;
-	while (carry && ++r < res + 1 + BINT_LEN(res))
-	{
-		carry = rig > *r;
-		*r = carry ? 0xFFFFFFFF - (rig - *r - 1) : *r - rig;
-		rig = carry;
-	}
-	if (BINT_LEN(res) && !res[BINT_LEN(res)])
-		SET_BINT_LEN(res, BINT_LEN(res) - 1);
-	return (BINT_SUCCESS);
-}
 
 static void	internal_bint_sub(t_bint res, const t_bint small,
 	const t_bint large)
@@ -58,6 +31,31 @@ static void	internal_bint_sub(t_bint res, const t_bint small,
 	SET_BINT_LEN(res, BINT_LEN(large));
 	while (BINT_LEN(res) && !res[BINT_LEN(res)])
 		SET_BINT_LEN(res, BINT_LEN(res) - 1);
+}
+
+/*
+** Substract rig from res, or res from rig and put the result in res without
+** considering the sign. The smallest value is always gonna be substracted
+** from the biggest one.
+*/
+int			bint_ssub_u32_abs(t_bint res, uint32_t rig)
+{
+	int			cmp;
+	uint32_t	cpy[2];
+
+	if (!rig)
+		return (BINT_SUCCESS);
+	else if (!BINT_LEN(res))
+		return (bintset_u64(res, (uint64_t)rig));
+	bintinit(cpy, 2);
+	bintset_u64(cpy, (uint64_t)rig);
+	if (!(cmp = bintcmp_abs(res, cpy)))
+		bintclr(res);
+	else if (cmp > 0)
+		internal_bint_sub(res, cpy, res);
+	else
+		internal_bint_sub(res, res, cpy);
+	return (BINT_SUCCESS);
 }
 
 /*
