@@ -6,11 +6,36 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 12:27:08 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/24 14:59:22 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/14 15:42:11 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
+
+static int	internal_bint_add(t_bint res, const t_bint small,
+	const t_bint large)
+{
+	uint32_t	i;
+	uint64_t	sum;
+
+	sum = 0;
+	for (i = 1; i <= BINT_LEN(large); ++i)
+	{
+		if (i <= BINT_LEN(small))
+			sum += (uint64_t)large[i] + (uint64_t)small[i];
+		else
+			sum += (uint64_t)large[i];
+		res[i] = sum & 0xFFFFFFFF;
+		sum >>= 32;
+	}
+	if (sum && i >= BINT_SIZE(res))
+		return (BINT_FAILURE);
+	else if (sum)
+		res[i] = sum;
+	SET_BINT_LEN(res, i - (!sum));
+	bintclean(res);
+	return (BINT_SUCCESS);
+}
 
 /*
 ** Add rig to res and put the result in res without considering the sign
@@ -38,51 +63,17 @@ int			bint_sadd_u32_abs(t_bint res, uint32_t rig)
 	return (BINT_SUCCESS);
 }
 
-static int	internal_bint_add(t_bint res, const t_bint small,
-	const t_bint large, uint32_t max)
-{
-	uint64_t		sum;
-	uint32_t		*r;
-	const uint32_t	*c;
-	const uint32_t	*l;
-
-	sum = 0;
-	r = res;
-	c = small;
-	l = large;
-	while (++c < small + 1 + BINT_LEN(small))
-	{
-		sum += (uint64_t)(*++l) + *c;
-		*++r = sum & 0xFFFFFFFF;
-		sum >>= 32;
-	}
-	while (++l < large + 1 + BINT_LEN(large))
-	{
-		sum += (uint64_t)(*l);
-		*++r = sum & 0xFFFFFFFF;
-		sum >>= 32;
-	}
-	if (sum == 1 && max < BINT_SIZE(res) - 1)
-		*++r = 1;
-	SET_BINT_LEN(res, max - (!sum));
-	return (!sum || (sum == 1 && max < BINT_SIZE(res) - 1));
-}
-
 /*
 ** Add l to r and put the result in res without considering the sign
 */
 int			bint_add_abs(t_bint res, const t_bint l, const t_bint r)
 {
-	uint32_t	max;
+	t_bint		small;
+	t_bint		large;
 
-	max = BINT_LEN(l) > BINT_LEN(r) ? BINT_LEN(l) + 1 : BINT_LEN(r) + 1;
-	if (max > BINT_SIZE(res) - 1)
-		return (BINT_FAILURE);
-	bintclr(res);
-	if (!internal_bint_add(res, BINT_LEN(l) < BINT_LEN(r) ? l : r,
-			BINT_LEN(l) < BINT_LEN(r) ? r : l, max))
-		return (BINT_FAILURE);
-	return (BINT_SUCCESS);
+	small = BINT_LEN(l) > BINT_LEN(r) ? r : l;
+	large = BINT_LEN(l) > BINT_LEN(r) ? l : r;
+	return (internal_bint_add(res, small, large));
 }
 
 /*

@@ -492,6 +492,7 @@ static void	bc_env(void);
 #define DEFINE_BINTCMD(name, ftype, f) { name, (sizeof(name) - 1), ftype, f}
 const t_bintcmd		g_bint_commands[] = {
 	DEFINE_BINTCMD( "init",			V_B_U32,		bintinit			),
+	DEFINE_BINTCMD( "clean",		V_B,			bintclean			),
 	DEFINE_BINTCMD( "clr",			V_B,			bintclr				),
 	DEFINE_BINTCMD( "cpy",			I_B_B,			bintcpy				),
 	DEFINE_BINTCMD( "set_u64",		I_B_U64,		bintset_u64			),

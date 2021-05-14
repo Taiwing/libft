@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/04 06:28:23 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/14 15:37:32 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@
 ** ex: BINT_SIZE(n) = 2^32; BINT_LEN_MAX(n) = 2^32 - (1+(2*2)) = 2^32 - 5;
 */
 
-# define BINT_SIZE_DEF			520
 # define BINT_LEN_MASK			0x00007FFF
 # define BINT_SIGN_MASK			0x00008000
 # define BINT_SIZE_MASK			0xFFFF0000
@@ -93,6 +92,12 @@
 								| ((len) & BINT_LEN_MASK))
 # define SET_BINT_SIGN(n, sign)	(n[0] = ((sign) ? n[0] | BINT_SIGN_MASK\
 								: n[0] & ~BINT_SIGN_MASK))
+
+# define BINT_SIZE_DEF			520
+# define BINT_MAX_LEN			(BINT_SIZE_DEF - 1)
+# define BINT_MAX_LOG2			(BINT_MAX_LEN * 32)
+//# define BINT_MAX_LOG10			(BINT_MAX_LOG2)
+
 # define BINT_FAILURE			1
 # define BINT_SUCCESS			0
 
@@ -103,6 +108,7 @@ typedef uint32_t *	t_bint;
 */
 
 void				bintinit(t_bint b, uint32_t size);
+void				bintclean(t_bint b);
 void				bintclr(t_bint b);
 int					bintcpy(t_bint dst, const t_bint src);
 

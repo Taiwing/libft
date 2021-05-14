@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:15:59 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/12 15:00:52 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/14 15:35:14 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ static void	internal_bint_sub(t_bint res, const t_bint small,
 		diff = (diff >> 32) & 1;
 	}
 	SET_BINT_LEN(res, BINT_LEN(large));
-	while (BINT_LEN(res) && !res[BINT_LEN(res)])
-		SET_BINT_LEN(res, BINT_LEN(res) - 1);
+	bintclean(res);
 }
 
 /*
