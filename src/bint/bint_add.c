@@ -6,27 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 12:27:08 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/14 17:31:31 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/14 18:48:03 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
-
-/*
-** Add r to l and put the result in res without considering the sign
-*/
-int			bint_add_u64_abs(t_bint res, const t_bint l, uint64_t r)
-{
-	uint32_t	cpy[3];
-
-	if (!r)
-		return (res != l ? bintcpy(res, l) : BINT_SUCCESS);
-	else if (!BINT_LEN(l))
-		return (bintset_u64(res, r));
-	bintinit(cpy, 3);
-	bintset_u64(cpy, r);
-	return (bint_add_abs(res, res, cpy));
-}
 
 /*
 ** Add l to r and put the result in res without considering the sign
@@ -81,4 +65,20 @@ int			bint_add(t_bint res, const t_bint l, const t_bint r)
 		return (BINT_FAILURE);
 	SET_BINT_SIGN(res, cmp > 0 ? BINT_SIGN(l) : BINT_SIGN(r));
 	return (BINT_SUCCESS);
+}
+
+/*
+** Add r to l and put the result in res
+*/
+int			bint_add_u64(t_bint res, const t_bint l, uint64_t r)
+{
+	uint32_t	cpy[3];
+
+	if (!r)
+		return (res != l ? bintcpy(res, l) : BINT_SUCCESS);
+	else if (!BINT_LEN(l))
+		return (bintset_u64(res, r));
+	bintinit(cpy, 3);
+	bintset_u64(cpy, r);
+	return (bint_add(res, l, cpy));
 }

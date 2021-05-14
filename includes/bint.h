@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/14 17:38:24 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/14 18:52:35 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,12 +127,12 @@ int					dragon42(char *buf, int fd, const t_bint n);
 */
 
 int					bint_add(t_bint res, const t_bint l, const t_bint r);
+int					bint_add_u64(t_bint res, const t_bint l, uint64_t r);
 int					bint_add_abs(t_bint res, const t_bint l, const t_bint r);
-int					bint_add_u64_abs(t_bint res, const t_bint l, uint64_t r);
 
 int					bint_sub(t_bint res, const t_bint l, const t_bint r);
+int					bint_sub_u64(t_bint res, const t_bint l, uint64_t r);
 int					bint_sub_abs(t_bint res, const t_bint l, const t_bint r);
-int					bint_sub_u64_abs(t_bint res, const t_bint l, uint64_t r);
 
 int					bint_mult(t_bint res, const t_bint l, const t_bint r);
 int					bint_mult_u32(t_bint res, const t_bint lef, uint32_t rig);

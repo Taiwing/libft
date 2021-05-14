@@ -6,32 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:15:59 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/14 17:35:13 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/14 18:50:58 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
-
-/*
-** Substract r from l, or l from r and put the result in res without
-** considering the sign. The smallest value is always gonna be substracted
-** from the biggest one.
-*/
-int			bint_sub_u64_abs(t_bint res, const t_bint l, uint64_t r)
-{
-	uint32_t	cpy[3];
-
-	if (!r)
-		return (res != l ? bintcpy(res, l) : BINT_SUCCESS);
-	else if (!BINT_LEN(res))
-		return (bintset_u64(res, r));
-	bintinit(cpy, 3);
-	bintset_u64(cpy, r);
-	if (bintcmp_abs(res, cpy))
-		return (bint_sub_abs(res, res, cpy));
-	bintclr(res);
-	return (BINT_SUCCESS);
-}
 
 /*
 ** Substract r from l, or l from r and put the result in res without
@@ -88,4 +67,25 @@ int			bint_sub(t_bint res, const t_bint l, const t_bint r)
 		return (BINT_FAILURE);
 	SET_BINT_SIGN(res, BINT_SIGN(l));
 	return (BINT_SUCCESS);
+}
+
+/*
+** Substract r from l and put the result in res
+*/
+int			bint_sub_u64(t_bint res, const t_bint l, uint64_t r)
+{
+	uint32_t	cpy[3];
+
+	if (!r)
+		return (res != l ? bintcpy(res, l) : BINT_SUCCESS);
+	else if (!BINT_LEN(l))
+	{
+		if (bintset_u64(res, r) == BINT_FAILURE)
+			return (BINT_FAILURE);
+		SET_BINT_SIGN(res, 1);
+		return (BINT_SUCCESS);
+	}
+	bintinit(cpy, 3);
+	bintset_u64(cpy, r);
+	return (bint_sub(res, l, cpy));
 }

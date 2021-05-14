@@ -505,10 +505,10 @@ const t_bintcmd		g_bint_commands[] = {
 	DEFINE_BINTCMD( "cmp_abs",		I_B_B,			bintcmp_abs			),
 	DEFINE_BINTCMD( "add",			I_B_B_B,		bint_add			),
 	DEFINE_BINTCMD( "add_abs",		I_B_B_B,		bint_add_abs		),
-	DEFINE_BINTCMD( "add_u64_abs",	I_B_B_U64,		bint_add_u64_abs	),
+	DEFINE_BINTCMD( "add_u64",		I_B_B_U64,		bint_add_u64		),
 	DEFINE_BINTCMD( "sub",			I_B_B_B,		bint_sub			),
 	DEFINE_BINTCMD( "sub_abs",		I_B_B_B,		bint_sub_abs		),
-	DEFINE_BINTCMD( "sub_u64_abs",	I_B_B_U64,		bint_sub_u64_abs	),
+	DEFINE_BINTCMD( "sub_u64",		I_B_B_U64,		bint_sub_u64		),
 	DEFINE_BINTCMD( "mult",			I_B_B_B,		bint_mult			),
 	DEFINE_BINTCMD( "mult_u32",		I_B_B_U32,		bint_mult_u32		),
 	DEFINE_BINTCMD( "mult2",		I_B_B,			bint_mult2			),
@@ -876,7 +876,7 @@ int				decimal_to_bint(t_bint res, const char *str)
 	for (p = str; *p && bint_smult10(res) == BINT_SUCCESS; ++p)
 	{
 		n = (uint32_t)(*p - '0');
-		if (bint_add_u64_abs(res, res, n) == BINT_FAILURE)
+		if (bint_add_u64(res, res, n) == BINT_FAILURE)
 			return (BINT_FAILURE);
 	}
 	SET_BINT_SIGN(res, sign);
