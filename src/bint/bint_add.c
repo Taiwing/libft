@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 12:27:08 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/14 16:02:12 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/14 16:19:05 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,16 @@ int			bint_add_abs(t_bint res, const t_bint l, const t_bint r)
 
 	small = BINT_LEN(l) > BINT_LEN(r) ? r : l;
 	large = BINT_LEN(l) > BINT_LEN(r) ? l : r;
-	for (i = 1, sum = 0; i <= BINT_LEN(large) && i < BINT_SIZE(res); ++i)
+	if (BINT_LEN(large) >= BINT_SIZE(res))
+		return (BINT_FAILURE);
+	for (i = 1, sum = 0; i <= BINT_LEN(large); ++i)
 	{
-		if (i <= BINT_LEN(small))
-			sum += (uint64_t)large[i] + (uint64_t)small[i];
-		else
-			sum += (uint64_t)large[i];
+		sum += (uint64_t)large[i];
+		sum += i <= BINT_LEN(small) ? (uint64_t)small[i] : 0;
 		res[i] = sum & 0xFFFFFFFF;
 		sum >>= 32;
 	}
-	if (i >= BINT_SIZE(res))
+	if (sum && i >= BINT_SIZE(res))
 		return (BINT_FAILURE);
 	else if (sum)
 		res[i] = sum;

@@ -6,31 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:15:59 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/14 15:35:14 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/14 17:10:19 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
-
-static void	internal_bint_sub(t_bint res, const t_bint small,
-	const t_bint large)
-{
-	uint32_t	i;
-	uint64_t	diff;
-
-	diff = 0;
-	for (i = 1; i <= BINT_LEN(large); ++i)
-	{
-		if (i <= BINT_LEN(small))
-			diff = (uint64_t)large[i] - (uint64_t)small[i] - diff;
-		else
-			diff = (uint64_t)large[i] - diff;
-		res[i] = diff & 0xFFFFFFFF;
-		diff = (diff >> 32) & 1;
-	}
-	SET_BINT_LEN(res, BINT_LEN(large));
-	bintclean(res);
-}
 
 /*
 ** Substract rig from res, or res from rig and put the result in res without
@@ -39,7 +19,6 @@ static void	internal_bint_sub(t_bint res, const t_bint small,
 */
 int			bint_ssub_u32_abs(t_bint res, uint32_t rig)
 {
-	int			cmp;
 	uint32_t	cpy[2];
 
 	if (!rig)
@@ -48,12 +27,9 @@ int			bint_ssub_u32_abs(t_bint res, uint32_t rig)
 		return (bintset_u64(res, (uint64_t)rig));
 	bintinit(cpy, 2);
 	bintset_u64(cpy, (uint64_t)rig);
-	if (!(cmp = bintcmp_abs(res, cpy)))
-		bintclr(res);
-	else if (cmp > 0)
-		internal_bint_sub(res, cpy, res);
-	else
-		internal_bint_sub(res, res, cpy);
+	if (bintcmp_abs(res, cpy))
+		return (bint_sub_abs(res, res, cpy));
+	bintclr(res);
 	return (BINT_SUCCESS);
 }
 
@@ -64,13 +40,28 @@ int			bint_ssub_u32_abs(t_bint res, uint32_t rig)
 */
 int			bint_sub_abs(t_bint res, const t_bint l, const t_bint r)
 {
-	int	cmp;
+	uint32_t	i;
+	int			cmp;
+	uint64_t	diff;
+	t_bint		small;
+	t_bint		large;
 
-	if (BINT_LEN(l) > BINT_SIZE(res) - 1 || BINT_LEN(r) > BINT_SIZE(res) - 1)
-		return (BINT_FAILURE);
-	bintclr(res);
-	if ((cmp = bintcmp_abs(l, r)))
-		internal_bint_sub(res, cmp < 0 ? l : r, cmp < 0 ? r : l);
+	cmp = bintcmp_abs(l, r);
+	small = cmp > 0 ? r : l;
+	large = cmp > 0 ? l : r;
+	for (i = 1, diff = 0; i <= BINT_LEN(large); ++i)
+	{
+		diff = (uint64_t)large[i] - diff;
+		diff -= i <= BINT_LEN(small) ? (uint64_t)small[i] : 0;
+		if (i < BINT_SIZE(res))
+			res[i] = diff & 0xFFFFFFFF;
+		else if (diff)
+			return (BINT_FAILURE);
+		diff = (diff >> 32) & 1;
+	}
+	SET_BINT_LEN(res, BINT_LEN(large) < BINT_SIZE(res)
+		? BINT_LEN(large) : BINT_SIZE(res) - 1);
+	bintclean(res);
 	return (BINT_SUCCESS);
 }
 
