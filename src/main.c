@@ -294,7 +294,7 @@ void	test_mandatory(int ac, char **av)
 	ft_sprintf(test_name, "(x * 10) - (x * 9) == x (where x == 10^%u)", i);
 	BINT_TEST(
 		test_name,
-		"bint_sub, bint_mult_u32",
+		"bint_sub, bint_mult_u32, bint_smult10",
 		{
 			BINT_ASSERT("a *= 10", ret == BINT_SUCCESS,
 				ret = bint_smult10(a));
@@ -321,7 +321,7 @@ void	test_mandatory(int ac, char **av)
 	ft_sprintf(test_name, "-x - x == -(2 * x) (where x == 10^%u)", i);
 	BINT_TEST(
 		test_name,
-		"bint_sub, bint_add_abs, BINT_SET_SIGN",
+		"bint_sub, SET_BINT_SIGN, bint_smult2",
 		{
 			BINT_ASSERT("a = -a", !bintcmp_abs(a, b) && BINT_SIGN(a),
 				SET_BINT_SIGN(a, 1));
@@ -334,7 +334,7 @@ void	test_mandatory(int ac, char **av)
 
 	BINT_TEST(
 		"x - (2 * x) == x",
-		"bint_sub, bint_sub_abs",
+		"bint_sub",
 		{
 			BINT_ASSERT("c = b - d", ret == BINT_SUCCESS,
 				ret = bint_sub(c, b, d));
