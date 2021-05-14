@@ -6,27 +6,27 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:15:59 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/14 17:10:19 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/14 17:35:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
 
 /*
-** Substract rig from res, or res from rig and put the result in res without
+** Substract r from l, or l from r and put the result in res without
 ** considering the sign. The smallest value is always gonna be substracted
 ** from the biggest one.
 */
-int			bint_ssub_u32_abs(t_bint res, uint32_t rig)
+int			bint_sub_u64_abs(t_bint res, const t_bint l, uint64_t r)
 {
-	uint32_t	cpy[2];
+	uint32_t	cpy[3];
 
-	if (!rig)
-		return (BINT_SUCCESS);
+	if (!r)
+		return (res != l ? bintcpy(res, l) : BINT_SUCCESS);
 	else if (!BINT_LEN(res))
-		return (bintset_u64(res, (uint64_t)rig));
-	bintinit(cpy, 2);
-	bintset_u64(cpy, (uint64_t)rig);
+		return (bintset_u64(res, r));
+	bintinit(cpy, 3);
+	bintset_u64(cpy, r);
 	if (bintcmp_abs(res, cpy))
 		return (bint_sub_abs(res, res, cpy));
 	bintclr(res);

@@ -448,6 +448,7 @@ enum				e_ftype {
 	I_B_B_U32,
 	I_B,
 	I_B_U32_U32,
+	I_B_B_U64,
 	V,
 	NONE
 };
@@ -474,6 +475,7 @@ const int			g_ftypes_protos[][BINTF_MAX_ARGS + 2] = {
 	{IR,	BA,		BA,		U32A,	NOPE},
 	{IR,	BA,		NOPE,	NOPE,	NOPE},
 	{IR,	BA,		U32A,	U32A,	NOPE},
+	{IR,	BA,		BA,		U64A,	NOPE},
 	{VR,	NOPE,	NOPE,	NOPE,	NOPE},
 	{NOPE,	NOPE,	NOPE,	NOPE,	NOPE},
 };
@@ -503,10 +505,10 @@ const t_bintcmd		g_bint_commands[] = {
 	DEFINE_BINTCMD( "cmp_abs",		I_B_B,			bintcmp_abs			),
 	DEFINE_BINTCMD( "add",			I_B_B_B,		bint_add			),
 	DEFINE_BINTCMD( "add_abs",		I_B_B_B,		bint_add_abs		),
-	DEFINE_BINTCMD( "sadd_u32_abs",	I_B_U32,		bint_sadd_u32_abs	),
+	DEFINE_BINTCMD( "add_u64_abs",	I_B_B_U64,		bint_add_u64_abs	),
 	DEFINE_BINTCMD( "sub",			I_B_B_B,		bint_sub			),
 	DEFINE_BINTCMD( "sub_abs",		I_B_B_B,		bint_sub_abs		),
-	DEFINE_BINTCMD( "ssub_u32_abs",	I_B_U32,		bint_ssub_u32_abs	),
+	DEFINE_BINTCMD( "sub_u64_abs",	I_B_B_U64,		bint_sub_u64_abs	),
 	DEFINE_BINTCMD( "mult",			I_B_B_B,		bint_mult			),
 	DEFINE_BINTCMD( "mult_u32",		I_B_B_U32,		bint_mult_u32		),
 	DEFINE_BINTCMD( "mult2",		I_B_B,			bint_mult2			),
@@ -699,6 +701,19 @@ int	i_b_u32_u32(int cmdi, t_bint args[BINTF_MAX_ARGS],
 	return (f(args[0], u32args[1], u32args[2]));
 }
 
+int	i_b_b_u64(int cmdi, t_bint args[BINTF_MAX_ARGS],
+	uint32_t u32args[BINTF_MAX_ARGS],
+	uint64_t u64args[BINTF_MAX_ARGS],
+	int64_t i64args[BINTF_MAX_ARGS])
+{
+	int		(*f)(t_bint, t_bint, uint64_t) = g_bint_commands[cmdi].f;
+
+	(void)u32args;
+	(void)u64args;
+	(void)i64args;
+	return (f(args[0], args[1], u64args[2]));
+}
+
 int	v(int cmdi, t_bint args[BINTF_MAX_ARGS],
 	uint32_t u32args[BINTF_MAX_ARGS],
 	uint64_t u64args[BINTF_MAX_ARGS],
@@ -798,6 +813,8 @@ static int	exec_cmd(t_bint args[BINTF_MAX_ARGS], int cmdi)
 			break;
 		case I_B_U32_U32: ret = i_b_u32_u32(cmdi, args, u32args, u64args, i64args);
 			break;
+		case I_B_B_U64: ret = i_b_b_u64(cmdi, args, u32args, u64args, i64args);
+			break;
 		case V: ret = v(cmdi, args, u32args, u64args, i64args);
 			break;
 		default: ret = BINT_FAILURE;
@@ -859,7 +876,7 @@ int				decimal_to_bint(t_bint res, const char *str)
 	for (p = str; *p && bint_smult10(res) == BINT_SUCCESS; ++p)
 	{
 		n = (uint32_t)(*p - '0');
-		if (bint_sadd_u32_abs(res, n) == BINT_FAILURE)
+		if (bint_add_u64_abs(res, res, n) == BINT_FAILURE)
 			return (BINT_FAILURE);
 	}
 	SET_BINT_SIGN(res, sign);

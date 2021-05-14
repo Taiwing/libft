@@ -6,36 +6,26 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 12:27:08 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/14 16:19:05 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/14 17:31:31 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
 
 /*
-** Add rig to res and put the result in res without considering the sign
+** Add r to l and put the result in res without considering the sign
 */
-int			bint_sadd_u32_abs(t_bint res, uint32_t rig)
+int			bint_add_u64_abs(t_bint res, const t_bint l, uint64_t r)
 {
-	uint32_t	*r;
-	uint64_t	sum;
+	uint32_t	cpy[3];
 
-	r = res;
-	sum = rig;
-	while (sum && ++r < res + 1 + BINT_LEN(res))
-	{
-		sum += (uint64_t)(*r);
-		*r = (uint32_t)(sum & 0xFFFFFFFF);
-		sum >>= 32;
-	}
-	if (sum)
-	{
-		if (BINT_LEN(res) + 1 > BINT_SIZE(res) - 1)
-			return (BINT_FAILURE);
-		*r = (uint32_t)sum;
-		SET_BINT_LEN(res, BINT_LEN(res) + 1);
-	}
-	return (BINT_SUCCESS);
+	if (!r)
+		return (res != l ? bintcpy(res, l) : BINT_SUCCESS);
+	else if (!BINT_LEN(l))
+		return (bintset_u64(res, r));
+	bintinit(cpy, 3);
+	bintset_u64(cpy, r);
+	return (bint_add_abs(res, res, cpy));
 }
 
 /*
