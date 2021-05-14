@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 15:16:39 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/14 15:34:38 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/14 15:47:22 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	bintclean(t_bint b)
 {
 	uint32_t	len;
 
-	for (uint32_t i = BINT_SIZE(b) - 1; i > BINT_LEN(b); --i)
-		b[i] = 0;
-	for (len = BINT_LEN(b); len > 0 && !b[len]; --len);
+	for (len = BINT_SIZE(b) - 1; len > BINT_LEN(b); --len)
+		b[len] = 0;
+	for (; len > 0 && !b[len]; --len);
 	SET_BINT_LEN(b, len);
 }
 
