@@ -6,36 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 12:27:08 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/14 15:42:11 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/05/14 16:02:12 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
-
-static int	internal_bint_add(t_bint res, const t_bint small,
-	const t_bint large)
-{
-	uint32_t	i;
-	uint64_t	sum;
-
-	sum = 0;
-	for (i = 1; i <= BINT_LEN(large); ++i)
-	{
-		if (i <= BINT_LEN(small))
-			sum += (uint64_t)large[i] + (uint64_t)small[i];
-		else
-			sum += (uint64_t)large[i];
-		res[i] = sum & 0xFFFFFFFF;
-		sum >>= 32;
-	}
-	if (sum && i >= BINT_SIZE(res))
-		return (BINT_FAILURE);
-	else if (sum)
-		res[i] = sum;
-	SET_BINT_LEN(res, i - (!sum));
-	bintclean(res);
-	return (BINT_SUCCESS);
-}
 
 /*
 ** Add rig to res and put the result in res without considering the sign
@@ -68,12 +43,29 @@ int			bint_sadd_u32_abs(t_bint res, uint32_t rig)
 */
 int			bint_add_abs(t_bint res, const t_bint l, const t_bint r)
 {
+	uint32_t	i;
+	uint64_t	sum;
 	t_bint		small;
 	t_bint		large;
 
 	small = BINT_LEN(l) > BINT_LEN(r) ? r : l;
 	large = BINT_LEN(l) > BINT_LEN(r) ? l : r;
-	return (internal_bint_add(res, small, large));
+	for (i = 1, sum = 0; i <= BINT_LEN(large) && i < BINT_SIZE(res); ++i)
+	{
+		if (i <= BINT_LEN(small))
+			sum += (uint64_t)large[i] + (uint64_t)small[i];
+		else
+			sum += (uint64_t)large[i];
+		res[i] = sum & 0xFFFFFFFF;
+		sum >>= 32;
+	}
+	if (i >= BINT_SIZE(res))
+		return (BINT_FAILURE);
+	else if (sum)
+		res[i] = sum;
+	SET_BINT_LEN(res, i - (!sum));
+	bintclean(res);
+	return (BINT_SUCCESS);
 }
 
 /*
