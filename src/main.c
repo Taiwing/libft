@@ -423,6 +423,18 @@ void	test_mandatory(int ac, char **av)
 			BINT_ASSERT("d == a - b == c", !ret, ret = bintcmp(d, c));
 		}
 	);
+
+	bintset_pow10(a, 128);
+	bintset_pow10(b, 256);
+	bintset_pow10(c, 384);
+	BINT_TEST(
+		"10^x * 10^y == 10^(x+y) (where x == 128 && y == 256)",
+		"bint_mult",
+		{
+			bint_mult(d, a, b);
+			BINT_ASSERT("d == a * b == c", !ret, ret = bintcmp(d, c));
+		}
+	);
 }
 
 #define BINTF_MAX_ARGS 3
