@@ -435,9 +435,25 @@ void	test_mandatory(int ac, char **av)
 			BINT_ASSERT("d == a * b == c", !ret, ret = bintcmp(d, c));
 		}
 	);
+
+	/*
+	#define MODTC 6
+	#define MODTL 4
+	int64_t modtable[MODTC][MODTL] = [
+		[ 117, 17, 6, 15, 6, 15 ],
+		[ –117, 17, –7, 2, –6, –15 ],
+		[ –117, –17, 6, –15, 6, –15 ],
+		[ 117, –17, –7, –2, –6, 15 ],
+	];
+	bintset_u64(a, 117);
+	for (int i = 0; i < MODTL + 1; ++i)
+	{
+		bintset_i64(
+	}
+	*/
 }
 
-#define BINTF_MAX_ARGS 3
+#define BINTF_MAX_ARGS 4
 
 /*
 ** FIRST: return (V for void, I for int)
@@ -461,6 +477,7 @@ enum				e_ftype {
 	I_B,
 	I_B_U32_U32,
 	I_B_B_U64,
+	I_B_B_B_B,
 	V,
 	NONE
 };
@@ -477,19 +494,20 @@ enum				e_ftype {
 enum				e_argtype { NOPE, VR, IR, BA, U32A, U64A, I64A };
 
 const int			g_ftypes_protos[][BINTF_MAX_ARGS + 2] = {
-	{VR,	BA,		U32A,	NOPE,	NOPE},
-	{VR,	BA,		NOPE,	NOPE,	NOPE},
-	{IR,	BA,		BA,		NOPE,	NOPE},
-	{IR,	BA,		U64A,	NOPE,	NOPE},
-	{IR,	BA,		I64A,	NOPE,	NOPE},
-	{IR,	BA,		U32A,	NOPE,	NOPE},
-	{IR,	BA,		BA,		BA,		NOPE},
-	{IR,	BA,		BA,		U32A,	NOPE},
-	{IR,	BA,		NOPE,	NOPE,	NOPE},
-	{IR,	BA,		U32A,	U32A,	NOPE},
-	{IR,	BA,		BA,		U64A,	NOPE},
-	{VR,	NOPE,	NOPE,	NOPE,	NOPE},
-	{NOPE,	NOPE,	NOPE,	NOPE,	NOPE},
+	{VR,	BA,		U32A,	NOPE,	NOPE,	NOPE},
+	{VR,	BA,		NOPE,	NOPE,	NOPE,	NOPE},
+	{IR,	BA,		BA,		NOPE,	NOPE,	NOPE},
+	{IR,	BA,		U64A,	NOPE,	NOPE,	NOPE},
+	{IR,	BA,		I64A,	NOPE,	NOPE,	NOPE},
+	{IR,	BA,		U32A,	NOPE,	NOPE,	NOPE},
+	{IR,	BA,		BA,		BA,		NOPE,	NOPE},
+	{IR,	BA,		BA,		U32A,	NOPE,	NOPE},
+	{IR,	BA,		NOPE,	NOPE,	NOPE,	NOPE},
+	{IR,	BA,		U32A,	U32A,	NOPE,	NOPE},
+	{IR,	BA,		BA,		U64A,	NOPE,	NOPE},
+	{IR,	BA,		BA,		BA,		BA,		NOPE},
+	{VR,	NOPE,	NOPE,	NOPE,	NOPE,	NOPE},
+	{NOPE,	NOPE,	NOPE,	NOPE,	NOPE,	NOPE},
 };
 
 typedef struct		s_bintcmd
@@ -528,6 +546,8 @@ const t_bintcmd		g_bint_commands[] = {
 	DEFINE_BINTCMD( "smult2",		I_B,			bint_smult2			),
 	DEFINE_BINTCMD( "smult10",		I_B,			bint_smult10		),
 	DEFINE_BINTCMD( "shiftleft",	I_B_U32,		bint_shiftleft		),
+	DEFINE_BINTCMD( "divide",		I_B_B_B_B,		bint_divide			),
+	DEFINE_BINTCMD( "divmod",		I_B_B_B_B,		bint_divmod			),
 	DEFINE_BINTCMD( "print",		I_B_U32_U32,	bint_print			),
 	DEFINE_BINTCMD( "help",			V,				bc_help				),
 	DEFINE_BINTCMD( "env",			V,				bc_env				),
@@ -726,6 +746,19 @@ int	i_b_b_u64(int cmdi, t_bint args[BINTF_MAX_ARGS],
 	return (f(args[0], args[1], u64args[2]));
 }
 
+int	i_b_b_b_b(int cmdi, t_bint args[BINTF_MAX_ARGS],
+	uint32_t u32args[BINTF_MAX_ARGS],
+	uint64_t u64args[BINTF_MAX_ARGS],
+	int64_t i64args[BINTF_MAX_ARGS])
+{
+	int		(*f)(t_bint, t_bint, t_bint, t_bint) = g_bint_commands[cmdi].f;
+
+	(void)u32args;
+	(void)u64args;
+	(void)i64args;
+	return (f(args[0], args[1], args[2], args[3]));
+}
+
 int	v(int cmdi, t_bint args[BINTF_MAX_ARGS],
 	uint32_t u32args[BINTF_MAX_ARGS],
 	uint64_t u64args[BINTF_MAX_ARGS],
@@ -820,6 +853,8 @@ static int	exec_cmd(t_bint args[BINTF_MAX_ARGS], int cmdi)
 		case I_B_B_B: ret = i_b_b_b(cmdi, args, u32args, u64args, i64args);
 			break;
 		case I_B_B_U32: ret = i_b_b_u32(cmdi, args, u32args, u64args, i64args);
+			break;
+		case I_B_B_B_B: ret = i_b_b_b_b(cmdi, args, u32args, u64args, i64args);
 			break;
 		case I_B: ret = i_b(cmdi, args, u32args, u64args, i64args);
 			break;

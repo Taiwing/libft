@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 19:22:38 by yforeau           #+#    #+#             */
-/*   Updated: 2021/06/08 14:57:56 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/06/08 16:35:08 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	bint_divide(t_bint quotient, t_bint remainder,
 	int			(*rop)(t_bint, t_bint, t_bint) = bint_sub;
 	int			(*qop)(t_bint, t_bint, uint64_t) = bint_add_u64;
 
-	if (!BINT_LEN(divisor) && (!quotient && !remainder))
+	if (!BINT_LEN(divisor) || (!quotient && !remainder))
 		return (BINT_FAILURE);
 	if (!remainder)
 	{
@@ -58,8 +58,10 @@ int	bint_divide(t_bint quotient, t_bint remainder,
 	}
 	if (bintcpy(remainder, dividend) == BINT_FAILURE)
 		return (BINT_FAILURE);
-	rop = BINT_SIGN(dividend) == BINT_SIGN(divisor) ? bint_add : rop;
-	qop = BINT_SIGN(dividend) == BINT_SIGN(divisor) ? bint_sub_u64 : qop;
+	if (quotient)
+		bintclr(quotient);
+	rop = BINT_SIGN(dividend) != BINT_SIGN(divisor) ? bint_add : rop;
+	qop = BINT_SIGN(dividend) != BINT_SIGN(divisor) ? bint_sub_u64 : qop;
 	while (bintcmp_abs(remainder, divisor) >= 0 && ret == BINT_SUCCESS)
 	{
 		ret = rop(remainder, remainder, divisor);
