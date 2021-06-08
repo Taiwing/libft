@@ -436,21 +436,54 @@ void	test_mandatory(int ac, char **av)
 		}
 	);
 
-	/*
 	#define MODTC 6
 	#define MODTL 4
-	int64_t modtable[MODTC][MODTL] = [
-		[ 117, 17, 6, 15, 6, 15 ],
-		[ –117, 17, –7, 2, –6, –15 ],
-		[ –117, –17, 6, –15, 6, –15 ],
-		[ 117, –17, –7, –2, –6, 15 ],
-	];
-	bintset_u64(a, 117);
-	for (int i = 0; i < MODTL + 1; ++i)
+	int64_t modtable[MODTL][MODTC] = {
+		{ 117, 17, 6, 15, 6, 15 },
+		{ -117, 17, -7, 2, -6, -15 },
+		{ -117, -17, 6, -15, 6, -15 },
+		{ 117, -17, -7, -2, -6, 15 },
+	};
+	uint32_t e[BINT_SIZE_DEF];
+	uint32_t f[BINT_SIZE_DEF];
+	uint32_t g[BINT_SIZE_DEF];
+	uint32_t h[BINT_SIZE_DEF];
+	bintinit(e, 0);
+	bintinit(f, 0);
+	bintinit(g, 0);
+	bintinit(h, 0);
+	for (int i = 0; i < MODTL; ++i)
 	{
-		bintset_i64(
+		bintset_i64(a, modtable[i][0]);
+		bintset_i64(b, modtable[i][1]);
+		bintset_i64(c, modtable[i][2]);
+		bintset_i64(d, modtable[i][3]);
+		bintset_i64(e, modtable[i][4]);
+		bintset_i64(f, modtable[i][5]);
+		ft_sprintf(test_name, "divmod vs divide => a/b (a = %ld, b = %ld)",
+			modtable[i][0], modtable[i][1]);
+		BINT_TEST(
+			test_name,
+			"bint_divmod, bint_divide",
+			{
+				bint_divmod(g, h, a, b);
+				ft_sprintf(assert_name, "g == a / b == %ld / %ld ==  %ld",
+					modtable[i][0], modtable[i][1], modtable[i][2]);
+				BINT_ASSERT(assert_name, !ret, ret = bintcmp(g, c));
+				ft_sprintf(assert_name, "h == a %% b == %ld / %ld ==  %ld",
+					modtable[i][0], modtable[i][1], modtable[i][3]);
+				BINT_ASSERT(assert_name, !ret, ret = bintcmp(h, d));
+
+				bint_divide(g, h, a, b);
+				ft_sprintf(assert_name, "g == a / b == %ld / %ld ==  %ld",
+					modtable[i][0], modtable[i][1], modtable[i][4]);
+				BINT_ASSERT(assert_name, !ret, ret = bintcmp(g, e));
+				ft_sprintf(assert_name, "h == a %% b == %ld / %ld ==  %ld",
+					modtable[i][0], modtable[i][1], modtable[i][5]);
+				BINT_ASSERT(assert_name, !ret, ret = bintcmp(h, f));
+			}
+		);
 	}
-	*/
 }
 
 #define BINTF_MAX_ARGS 4
