@@ -2,7 +2,7 @@
 
 CC			=	gcc
 #CFLAGS		=	-Wall -Wextra -Werror
-CFLAGS		=	-g -Wall -Wextra -fsanitize=address,undefined
+CFLAGS		=	-g -Wall -Wextra -Werror -fsanitize=address,undefined
 HDIR		=	includes
 SRCDIR		=	src
 HFLAGS		=	-I $(HDIR)
@@ -81,8 +81,9 @@ BINTC			=	bint_add.c\
 					dragon4.c\
 					dragon42.c\
 					log_and_ceil.c\
+					bint_divide.c\
 					bint_sub.c\
-					divide_bint.c\
+					bint_divmod_max9.c\
 					bintset.c\
 					bint_mult_by.c\
 					bint_mult.c\
@@ -289,8 +290,9 @@ dragon4.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h\
 dragon42.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h\
 	dragon4.h log_and_ceil.h
 log_and_ceil.o: bint_mathconsts.h
+bint_divide.o: bint.h
 bint_sub.o: bint.h
-divide_bint.o: bint.h
+bint_divmod_max9.o: bint.h
 bintset.o: bint.h bint_mathconsts.h
 bint_mult_by.o: bint.h
 bint_mult.o: bint.h

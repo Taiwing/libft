@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/14 18:52:35 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/06/08 14:51:22 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,12 @@ int					bint_multpow10(t_bint res, const t_bint in, uint32_t exp);
 int					bint_smult2(t_bint res);
 int					bint_smult10(t_bint res);
 
+int					bint_divide(t_bint quotient, t_bint remainder,
+	const t_bint dividend, const t_bint divisor);
+int					bint_divmod(t_bint quotient, t_bint remainder,
+	const t_bint dividend, const t_bint divisor);
 uint32_t			bint_divmod_max9(t_bint dividend, const t_bint divisor);
+
 int					bint_shiftleft(t_bint res, uint32_t shift);
 
 #endif
