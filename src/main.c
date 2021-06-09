@@ -97,20 +97,20 @@ int		namelen;
 	if (show)\
 	{\
 		ft_printf("\n//////// BEFORE /////////\n");\
-		bint_print(a, 1, 16);\
-		bint_print(b, 1, 16);\
-		bint_print(c, 1, 16);\
-		bint_print(d, 1, 16);\
+		bint_print(a, 16, 1);\
+		bint_print(b, 16, 1);\
+		bint_print(c, 16, 1);\
+		bint_print(d, 16, 1);\
 	}\
 	binterr = 0;\
 	ops;\
 	if (show || binterr)\
 	{\
 		ft_printf("//////// AFTER /////////\n");\
-		bint_print(a, 1, 16);\
-		bint_print(b, 1, 16);\
-		bint_print(c, 1, 16);\
-		bint_print(d, 1, 16);\
+		bint_print(a, 16, 1);\
+		bint_print(b, 16, 1);\
+		bint_print(c, 16, 1);\
+		bint_print(d, 16, 1);\
 	}\
 	if (show)\
 		ft_printf("functions: %s\n", functions);\
@@ -137,10 +137,13 @@ int		namelen;
 	}\
 }
 
-int		bint_print(const t_bint n, uint32_t info, uint32_t base)
+int		bint_print(const t_bint n, uint32_t base, uint32_t info)
 {
+	base = !base ? 10 : base;
 	if (base != 2 && base != 10 && base != 16)
 		return (BINT_FAILURE);
+	if (!info && BINT_SIGN(n))
+		ft_printf("-");
 	if (base == 10 && (dragon42(NULL, 1, n) == -1 || !ft_printf("\n")))
 		return (BINT_FAILURE);
 	ft_printf(base == 2 ? "0b " : base == 16 ? "0x " : "");
@@ -621,7 +624,7 @@ static void	bc_env(void)
 		if (var && *var)
 		{
 			ft_printf("%c%c:\n", first ? '\0' : '\n', c - 32);
-			bint_print(var, 1, 16);
+			bint_print(var, 16, 1);
 			first = 0;
 		}
 	}
