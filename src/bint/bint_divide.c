@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 19:22:38 by yforeau           #+#    #+#             */
-/*   Updated: 2021/06/08 16:35:08 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/06/08 19:29:38 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,24 @@ int	bint_divmod(t_bint quotient, t_bint remainder,
 	return (BINT_SUCCESS);
 }
 
+static int	base_case_divide(t_bint quotient, t_bint remainder,
+	const t_bint dividend, const t_bint divisor)
+{
+	int			ret = BINT_SUCCESS;
+	int			(*rop)(t_bint, t_bint, t_bint) = bint_sub;
+	int			(*qop)(t_bint, t_bint, uint64_t) = bint_add_u64;
+
+	rop = BINT_SIGN(dividend) != BINT_SIGN(divisor) ? bint_add : rop;
+	qop = BINT_SIGN(dividend) != BINT_SIGN(divisor) ? bint_sub_u64 : qop;
+	while (bintcmp_abs(remainder, divisor) >= 0 && ret == BINT_SUCCESS)
+	{
+		ret = rop(remainder, remainder, divisor);
+		if (quotient && ret == BINT_SUCCESS)
+			ret = qop(quotient, quotient, 1);
+	}
+	return (ret);
+}
+
 /*
 ** Divide dividend by divisor, return the quotient and the remainder where:
 ** quotient = dividend/divisor = quotient > 0 ? floor(quotient) : ceil(quotient)
@@ -44,10 +62,7 @@ int	bint_divmod(t_bint quotient, t_bint remainder,
 int	bint_divide(t_bint quotient, t_bint remainder,
 	const t_bint dividend, const t_bint divisor)
 {
-	int			ret = BINT_SUCCESS;
 	uint32_t	local_remainder[BINT_SIZE_DEF];
-	int			(*rop)(t_bint, t_bint, t_bint) = bint_sub;
-	int			(*qop)(t_bint, t_bint, uint64_t) = bint_add_u64;
 
 	if (!BINT_LEN(divisor) || (!quotient && !remainder))
 		return (BINT_FAILURE);
@@ -60,13 +75,5 @@ int	bint_divide(t_bint quotient, t_bint remainder,
 		return (BINT_FAILURE);
 	if (quotient)
 		bintclr(quotient);
-	rop = BINT_SIGN(dividend) != BINT_SIGN(divisor) ? bint_add : rop;
-	qop = BINT_SIGN(dividend) != BINT_SIGN(divisor) ? bint_sub_u64 : qop;
-	while (bintcmp_abs(remainder, divisor) >= 0 && ret == BINT_SUCCESS)
-	{
-		ret = rop(remainder, remainder, divisor);
-		if (quotient && ret == BINT_SUCCESS)
-			ret = qop(quotient, quotient, 1);
-	}
-	return (BINT_SUCCESS);
+	return (base_case_divide(quotient, remainder, dividend, divisor));
 }
