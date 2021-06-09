@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/06/08 14:51:22 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/06/09 13:33:16 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void				bintinit(t_bint b, uint32_t size);
 void				bintclean(t_bint b);
 void				bintclr(t_bint b);
 int					bintcpy(t_bint dst, const t_bint src);
+uint32_t			bintlog2(t_bint b);
 
 int					bintset_u64(t_bint dst, uint64_t u);
 int					bintset_i64(t_bint dst, int64_t i);

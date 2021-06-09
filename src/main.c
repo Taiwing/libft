@@ -556,6 +556,7 @@ typedef struct		s_bintcmd
 
 static void	bc_help(void);
 static void	bc_env(void);
+static void	bc_log2(const t_bint n);
 
 #define DEFINE_BINTCMD(name, ftype, f) { name, (sizeof(name) - 1), ftype, f}
 const t_bintcmd		g_bint_commands[] = {
@@ -587,6 +588,7 @@ const t_bintcmd		g_bint_commands[] = {
 	DEFINE_BINTCMD( "print",		I_B_U32_U32,	bint_print			),
 	DEFINE_BINTCMD( "help",			V,				bc_help				),
 	DEFINE_BINTCMD( "env",			V,				bc_env				),
+	DEFINE_BINTCMD( "log2",			V_B,			bc_log2				),
 	DEFINE_BINTCMD( NULL,			NONE,			NULL				),
 };
 
@@ -628,6 +630,14 @@ static void	bc_env(void)
 			first = 0;
 		}
 	}
+}
+
+static void	bc_log2(const t_bint n)
+{
+	uint32_t	log2;
+
+	log2 = bintlog2(n);
+	ft_printf("%u\n", log2);
 }
 
 int	v_b_u32(int cmdi, t_bint args[BINTF_MAX_ARGS],
