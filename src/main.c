@@ -583,6 +583,7 @@ const t_bintcmd		g_bint_commands[] = {
 	DEFINE_BINTCMD( "smult2",		I_B,			bint_smult2			),
 	DEFINE_BINTCMD( "smult10",		I_B,			bint_smult10		),
 	DEFINE_BINTCMD( "shiftleft",	I_B_U32,		bint_shiftleft		),
+	DEFINE_BINTCMD( "shiftright",	I_B_U32,		bint_shiftright		),
 	DEFINE_BINTCMD( "divide",		I_B_B_B_B,		bint_divide			),
 	DEFINE_BINTCMD( "divmod",		I_B_B_B_B,		bint_divmod			),
 	DEFINE_BINTCMD( "print",		I_B_U32_U32,	bint_print			),
