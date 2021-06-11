@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 19:22:38 by yforeau           #+#    #+#             */
-/*   Updated: 2021/06/08 19:29:38 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/06/11 20:26:04 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,76 @@ int	bint_divmod(t_bint quotient, t_bint remainder,
 	return (BINT_SUCCESS);
 }
 
-static int	base_case_divide(t_bint quotient, t_bint remainder,
+static int	first_digit_divide(t_bint quotient, const t_bint numerator,
+		const t_bint denominator)
+{
+	uint32_t	carry;
+	uint32_t	len;
+	uint32_t	d;
+	uint64_t	n;
+
+	bintclr(quotient);
+	if (bintcmp_abs(numerator, denominator) < 0)
+		return (BINT_SUCCESS);
+	len = BINT_LEN(numerator) - BINT_LEN(denominator) + 1;
+	if (BINT_SIZE(quotient) <= len)
+		return (BINT_FAILURE);
+	carry = 0;
+	d = denominator[BINT_LEN(denominator)];
+	SET_BINT_LEN(quotient, len);
+	for (uint32_t i = 0; i < len; ++i)
+	{
+		n = ((uint64_t)carry << 32) + numerator[BINT_LEN(numerator) - i];
+		quotient[len - i] = n / d;
+		carry = n % d;
+	}
+	bintclean(quotient);
+	SET_BINT_SIGN(quotient, BINT_SIGN(numerator) != BINT_SIGN(denominator));
+	return (BINT_SUCCESS);
+}
+
+static int	init_fast_divide(t_bint n, t_bint d,
 	const t_bint dividend, const t_bint divisor)
 {
-	int			ret = BINT_SUCCESS;
-	int			(*rop)(t_bint, t_bint, t_bint) = bint_sub;
-	int			(*qop)(t_bint, t_bint, uint64_t) = bint_add_u64;
+	bintinit(n, 0);
+	bintinit(d, 0);
+	if (bintcpy(n, dividend) == BINT_FAILURE)
+		return (BINT_FAILURE);
+	if (bintcpy(d, divisor) == BINT_FAILURE)
+		return (BINT_FAILURE);
+	SET_BINT_SIGN(n, 0);
+	SET_BINT_SIGN(d, 0);
+	return (BINT_SUCCESS);
+}
 
-	rop = BINT_SIGN(dividend) != BINT_SIGN(divisor) ? bint_add : rop;
-	qop = BINT_SIGN(dividend) != BINT_SIGN(divisor) ? bint_sub_u64 : qop;
-	while (bintcmp_abs(remainder, divisor) >= 0 && ret == BINT_SUCCESS)
+#include "libft.h"
+int		bint_print(const t_bint n, uint32_t base, uint32_t info);
+
+static int	fast_divide(t_bint q, t_bint r,
+	const t_bint dividend, const t_bint divisor)
+{
+	int			ret;
+	uint32_t	n[BINT_SIZE_DEF];
+	uint32_t	d[BINT_SIZE_DEF];
+	uint32_t	tmp[BINT_SIZE_DEF];
+
+	bintinit(tmp, 0);
+	ret = init_fast_divide(n, d, dividend, divisor);
+	ret = ret == BINT_SUCCESS ? first_digit_divide(q, n, d) : ret;
+	while (bintcmp_abs(r, divisor) >= 0 && ret == BINT_SUCCESS)
 	{
-		ret = rop(remainder, remainder, divisor);
-		if (quotient && ret == BINT_SUCCESS)
-			ret = qop(quotient, quotient, 1);
+		ret = bint_mult(tmp, q, d);
+		ret = ret == BINT_SUCCESS ? bint_sub(r, n, tmp) : ret;
+		ret = ret == BINT_SUCCESS ? first_digit_divide(tmp, r, d) : ret;
+		if (ret == BINT_SUCCESS && (BINT_LEN(tmp) > 1
+			|| (BINT_LEN(tmp) == 1 && tmp[1] >= 2)))
+			ret = bint_shiftright(tmp, 1);
+		ret = ret == BINT_SUCCESS ? bint_add(q, q, tmp) : ret;
+	}
+	if (ret == BINT_SUCCESS && BINT_LEN(r) && BINT_SIGN(r))
+	{
+		ret = bint_sub_u64(q, q, 1);
+		ret = ret == BINT_SUCCESS ? bint_add(r, r, d) : ret;
 	}
 	return (ret);
 }
@@ -75,5 +131,11 @@ int	bint_divide(t_bint quotient, t_bint remainder,
 		return (BINT_FAILURE);
 	if (quotient)
 		bintclr(quotient);
-	return (base_case_divide(quotient, remainder, dividend, divisor));
+	if (bintcmp_abs(remainder, divisor) < 0)
+		return (BINT_SUCCESS);
+	if (fast_divide(quotient, remainder, dividend, divisor) == BINT_FAILURE)
+		return (BINT_FAILURE);
+	SET_BINT_SIGN(remainder, BINT_SIGN(dividend));
+	SET_BINT_SIGN(quotient, BINT_SIGN(dividend) != BINT_SIGN(divisor));
+	return (BINT_SUCCESS);
 }
