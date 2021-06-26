@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 19:22:38 by yforeau           #+#    #+#             */
-/*   Updated: 2021/06/11 20:26:04 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/06/26 14:59:11 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,6 @@ static int	init_fast_divide(t_bint n, t_bint d,
 	SET_BINT_SIGN(d, 0);
 	return (BINT_SUCCESS);
 }
-
-#include "libft.h"
-int		bint_print(const t_bint n, uint32_t base, uint32_t info);
 
 static int	fast_divide(t_bint q, t_bint r,
 	const t_bint dividend, const t_bint divisor)
