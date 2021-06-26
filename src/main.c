@@ -558,6 +558,8 @@ static void	bc_help(void);
 static void	bc_env(void);
 static void	bc_exit(void);
 static void	bc_log2(const t_bint n);
+static void	bc_is_odd(const t_bint n);
+static void	bc_is_even(const t_bint n);
 
 #define DEFINE_BINTCMD(name, ftype, f) { name, (sizeof(name) - 1), ftype, f}
 const t_bintcmd		g_bint_commands[] = {
@@ -593,6 +595,8 @@ const t_bintcmd		g_bint_commands[] = {
 	DEFINE_BINTCMD( "exit",			V,				bc_exit				),
 	DEFINE_BINTCMD( "quit",			V,				bc_exit				),
 	DEFINE_BINTCMD( "log2",			V_B,			bc_log2				),
+	DEFINE_BINTCMD( "is_odd",		V_B,			bc_is_odd			),
+	DEFINE_BINTCMD( "is_even",		V_B,			bc_is_even			),
 	DEFINE_BINTCMD( NULL,			NONE,			NULL				),
 };
 
@@ -647,6 +651,22 @@ static void	bc_log2(const t_bint n)
 
 	log2 = bintlog2(n);
 	ft_printf("%u\n", log2);
+}
+
+static void	bc_is_odd(const t_bint n)
+{
+	int	is_odd;
+
+	is_odd = bint_is_odd(n);
+	ft_printf("%s\n", is_odd ? "true" : "false");
+}
+
+static void	bc_is_even(const t_bint n)
+{
+	int	is_even;
+
+	is_even = bint_is_even(n);
+	ft_printf("%s\n", is_even ? "true" : "false");
 }
 
 int	v_b_u32(int cmdi, t_bint args[BINTF_MAX_ARGS],
