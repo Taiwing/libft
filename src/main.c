@@ -1237,13 +1237,21 @@ static void	bintbc(const char *exec)
 	}
 }
 
+static void	bc_cleanup(void)
+{
+	ft_rand_source(NULL, 0, NULL, 1);
+}
+
 int		main(int argc, char **argv)
 {
 	show = argc > 1;
 	setlocale(LC_ALL, "C");
+	ft_rand_source(NULL, 0, "/dev/urandom", 0);
+	ft_atexit(bc_cleanup);
 	if (show && !ft_strcmp(argv[1], "bc"))
 		bintbc(argv[0]);
 	else
 		test_mandatory(argc, argv);
+	ft_exit(NULL, EXIT_SUCCESS);
 	return (0);
 }

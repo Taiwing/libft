@@ -12,6 +12,7 @@ NAME		=	test_libft
 
 MEMORYDIR		=	memory
 FT_LSDIR		=	ft_ls
+RANDDIR			=	rand
 INTDIR			=	int
 T_LSTDIR		=	t_lst
 BINTDIR			=	bint
@@ -39,6 +40,8 @@ MEMORYC			=	ft_memccpy.c\
 					ft_memalloc.c\
 
 FT_LSC			=	ft_ls_files.c\
+
+RANDC			=	ft_rand_source.c\
 
 INTC			=	ft_rand.c\
 					ft_intlen.c\
@@ -192,6 +195,7 @@ STRC			=	ft_strchr.c\
 ODIR			=	obj
 OBJ				=	$(patsubst %.c,%.o,$(MEMORYC))\
 					$(patsubst %.c,%.o,$(FT_LSC))\
+					$(patsubst %.c,%.o,$(RANDC))\
 					$(patsubst %.c,%.o,$(INTC))\
 					$(patsubst %.c,%.o,$(T_LSTC))\
 					$(patsubst %.c,%.o,$(BINTC))\
@@ -207,6 +211,7 @@ vpath			%.o	$(ODIR)
 vpath			%.h	$(HDIR)
 vpath			%.c	$(SRCDIR)/$(MEMORYDIR)
 vpath			%.c	$(SRCDIR)/$(FT_LSDIR)
+vpath			%.c	$(SRCDIR)/$(RANDDIR)
 vpath			%.c	$(SRCDIR)/$(INTDIR)
 vpath			%.c	$(SRCDIR)/$(T_LSTDIR)
 vpath			%.c	$(SRCDIR)/$(BINTDIR)
@@ -236,6 +241,7 @@ ft_memswap.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_memdel.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_memalloc.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_ls_files.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
+ft_rand.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_atoi.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_putnbr_fd.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_putnbr.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
@@ -294,8 +300,7 @@ bint_shift.o: bint.h
 dragon42.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h\
 	dragon4.h log_and_ceil.h
 log_and_ceil.o: bint_mathconsts.h
-bint_divide.o: bint.h libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
-	ft_collector.h
+bint_divide.o: bint.h
 bint_sub.o: bint.h
 bint_divmod_max9.o: bint.h
 bintset.o: bint.h bint_mathconsts.h
