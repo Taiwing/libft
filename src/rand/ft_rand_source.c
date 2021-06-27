@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/27 15:39:34 by yforeau           #+#    #+#             */
-/*   Updated: 2021/06/27 15:48:56 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/06/27 16:43:24 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 #include <limits.h>
 #include <unistd.h>
 #include <fcntl.h>
-
-#define BUF_SIZE	4096
-#define	BUF_BYTES	(BUF_SIZE * sizeof(uint64_t))
 
 static char	*ft_flush_fd(int *fd)
 {
