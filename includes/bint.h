@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/05 15:37:26 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/05 21:12:31 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ extern const uint32_t	g_pow10_u32[8];
 extern const uint32_t	*g_pow10_big[10];
 extern const uint8_t	g_logtable[256];
 extern const uint32_t	g_bint_zero[2];
+extern const uint32_t	g_bint_one[2];
 extern const uint32_t	g_bint_max[BINT_SIZE_DEF];
 extern const uint32_t	g_bint_min[BINT_SIZE_DEF];
 

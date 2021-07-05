@@ -1141,10 +1141,11 @@ typedef struct		s_bintconst
 	const t_bint	b;
 }					t_bintconst;
 
-#define BINT_CONSTS_LEN	3
+#define BINT_CONSTS_LEN	4
 
 t_bintconst	bintconsts[BINT_CONSTS_LEN + 1] = {
 	{ "g_bint_zero", g_bint_zero },
+	{ "g_bint_one", g_bint_one },
 	{ "g_bint_max", g_bint_max },
 	{ "g_bint_min", g_bint_min },
 	{ NULL, NULL },

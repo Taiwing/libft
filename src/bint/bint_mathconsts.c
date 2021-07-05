@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:13:08 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/05 15:35:36 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/05 21:11:51 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,11 @@ const uint8_t	g_logtable[256] =
 const uint32_t	g_bint_zero[2] = {
 	[ 1 ] = 0,
 	[ 0 ] = 2 << 16
+};
+
+const uint32_t	g_bint_one[2] = {
+	[ 1 ] = 1,
+	[ 0 ] = (2 << 16) + 1
 };
 
 const uint32_t	g_bint_max[BINT_SIZE_DEF] = {
