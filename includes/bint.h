@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/06/26 14:41:44 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/05 15:37:26 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ int					bintcpy(t_bint dst, const t_bint src);
 uint32_t			bintlog2(const t_bint b);
 int					bint_is_odd(const t_bint b);
 int					bint_is_even(const t_bint b);
+int					bint_rand(t_bint n, const t_bint min,
+	const t_bint max, uint64_t rand_sign);
 
 int					bintset_u64(t_bint dst, uint64_t u);
 int					bintset_i64(t_bint dst, int64_t i);
@@ -152,5 +154,16 @@ uint32_t			bint_divmod_max9(t_bint dividend, const t_bint divisor);
 
 int					bint_shiftleft(t_bint res, uint32_t shift);
 int					bint_shiftright(t_bint res, uint32_t shift);
+
+/*
+** Bint math constants
+*/
+
+extern const uint32_t	g_pow10_u32[8];
+extern const uint32_t	*g_pow10_big[10];
+extern const uint8_t	g_logtable[256];
+extern const uint32_t	g_bint_zero[2];
+extern const uint32_t	g_bint_max[BINT_SIZE_DEF];
+extern const uint32_t	g_bint_min[BINT_SIZE_DEF];
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 19:22:38 by yforeau           #+#    #+#             */
-/*   Updated: 2021/06/26 14:59:11 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/05 20:31:26 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,14 +115,15 @@ static int	fast_divide(t_bint q, t_bint r,
 int	bint_divide(t_bint quotient, t_bint remainder,
 	const t_bint dividend, const t_bint divisor)
 {
-	uint32_t	local_remainder[BINT_SIZE_DEF];
+	uint32_t	local_bint[BINT_SIZE_DEF];
 
 	if (!BINT_LEN(divisor) || (!quotient && !remainder))
 		return (BINT_FAILURE);
-	if (!remainder)
+	if (!quotient || !remainder)
 	{
-		bintinit(local_remainder, 0);
-		remainder = local_remainder;
+		bintinit(local_bint, 0);
+		quotient = !quotient ? local_bint : quotient;
+		remainder = !remainder ? local_bint : remainder;
 	}
 	if (bintcpy(remainder, dividend) == BINT_FAILURE)
 		return (BINT_FAILURE);

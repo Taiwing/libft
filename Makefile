@@ -2,7 +2,7 @@
 
 CC			=	gcc
 #CFLAGS		=	-Wall -Wextra -Werror
-CFLAGS		=	-g -Wall -Wextra -Werror -fsanitize=address,undefined
+CFLAGS		=	-g -Wall -Wextra# -fsanitize=address,undefined
 HDIR		=	includes
 SRCDIR		=	src
 HFLAGS		=	-I $(HDIR)
@@ -299,13 +299,14 @@ dragon4.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h\
 bint_shift.o: bint.h
 dragon42.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h\
 	dragon4.h log_and_ceil.h
-log_and_ceil.o: bint_mathconsts.h
+log_and_ceil.o: bint.h
 bint_divide.o: bint.h
 bint_sub.o: bint.h
 bint_divmod_max9.o: bint.h
-bintset.o: bint.h bint_mathconsts.h
+bintset.o: bint.h
 bint_mult_by.o: bint.h
 bint_mult.o: bint.h
+bint_mathconsts.o: bint.h
 bintcmp.o: bint.h
 get_next_option_argument.o: permute_order.h ft_getopt.h process_long_option.h\
 	libft.h ft_printf.h t_pbuf.h bint.h ft_collector.h

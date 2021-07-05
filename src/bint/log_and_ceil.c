@@ -6,11 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 16:23:52 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/14 18:44:35 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/05 15:39:14 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bint_mathconsts.h"
+#include "bint.h"
 
 int			ft_ceil(double d)
 {

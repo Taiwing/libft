@@ -487,6 +487,16 @@ void	test_mandatory(int ac, char **av)
 			}
 		);
 	}
+
+	/*
+	BINT_TEST(
+		"rand numbers",
+		"bint_rand, bint_divide",
+		{
+
+		}
+	);
+	*/
 }
 
 #define BINTF_MAX_ARGS 4
@@ -514,6 +524,7 @@ enum				e_ftype {
 	I_B_U32_U32,
 	I_B_B_U64,
 	I_B_B_B_B,
+	I_B_B_B_U64,
 	V,
 	NONE
 };
@@ -542,6 +553,7 @@ const int			g_ftypes_protos[][BINTF_MAX_ARGS + 2] = {
 	{IR,	BA,		U32A,	U32A,	NOPE,	NOPE},
 	{IR,	BA,		BA,		U64A,	NOPE,	NOPE},
 	{IR,	BA,		BA,		BA,		BA,		NOPE},
+	{IR,	BA,		BA,		BA,		U64A,	NOPE},
 	{VR,	NOPE,	NOPE,	NOPE,	NOPE,	NOPE},
 	{NOPE,	NOPE,	NOPE,	NOPE,	NOPE,	NOPE},
 };
@@ -597,6 +609,7 @@ const t_bintcmd		g_bint_commands[] = {
 	DEFINE_BINTCMD( "log2",			V_B,			bc_log2				),
 	DEFINE_BINTCMD( "is_odd",		V_B,			bc_is_odd			),
 	DEFINE_BINTCMD( "is_even",		V_B,			bc_is_even			),
+	DEFINE_BINTCMD( "rand",			I_B_B_B_U64,	bint_rand			),
 	DEFINE_BINTCMD( NULL,			NONE,			NULL				),
 };
 
@@ -834,6 +847,18 @@ int	i_b_b_b_b(int cmdi, t_bint args[BINTF_MAX_ARGS],
 	return (f(args[0], args[1], args[2], args[3]));
 }
 
+int	i_b_b_b_u64(int cmdi, t_bint args[BINTF_MAX_ARGS],
+	uint32_t u32args[BINTF_MAX_ARGS],
+	uint64_t u64args[BINTF_MAX_ARGS],
+	int64_t i64args[BINTF_MAX_ARGS])
+{
+	int		(*f)(t_bint, t_bint, t_bint, uint64_t) = g_bint_commands[cmdi].f;
+
+	(void)u32args;
+	(void)i64args;
+	return (f(args[0], args[1], args[2], u64args[3]));
+}
+
 int	v(int cmdi, t_bint args[BINTF_MAX_ARGS],
 	uint32_t u32args[BINTF_MAX_ARGS],
 	uint64_t u64args[BINTF_MAX_ARGS],
@@ -930,6 +955,8 @@ static int	exec_cmd(t_bint args[BINTF_MAX_ARGS], int cmdi)
 		case I_B_B_U32: ret = i_b_b_u32(cmdi, args, u32args, u64args, i64args);
 			break;
 		case I_B_B_B_B: ret = i_b_b_b_b(cmdi, args, u32args, u64args, i64args);
+			break;
+		case I_B_B_B_U64: ret = i_b_b_b_u64(cmdi, args, u32args, u64args, i64args);
 			break;
 		case I_B: ret = i_b(cmdi, args, u32args, u64args, i64args);
 			break;

@@ -6,11 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:13:08 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/30 21:31:12 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/05 15:35:36 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdint.h>
+#include "bint.h"
 
 const uint32_t	g_pow10_u32[8] =
 {
@@ -222,4 +222,19 @@ const uint8_t	g_logtable[256] =
 	7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
 	7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
 	7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7
+};
+
+const uint32_t	g_bint_zero[2] = {
+	[ 1 ] = 0,
+	[ 0 ] = 2 << 16
+};
+
+const uint32_t	g_bint_max[BINT_SIZE_DEF] = {
+	[ 1 ... BINT_SIZE_DEF - 1] = UINT32_MAX,
+	[ 0 ] = (BINT_SIZE_DEF << 16) + BINT_MAX_LEN
+};
+
+const uint32_t	g_bint_min[BINT_SIZE_DEF] = {
+	[ 1 ... BINT_SIZE_DEF - 1] = UINT32_MAX,
+	[ 0 ] = (BINT_SIZE_DEF << 16) + (1 << 15) + BINT_MAX_LEN
 };

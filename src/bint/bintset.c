@@ -6,12 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 11:55:38 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/30 21:54:10 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/05 15:39:20 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
-#include "bint_mathconsts.h"
 
 int		bintset_u64(t_bint dst, uint64_t u)
 {
