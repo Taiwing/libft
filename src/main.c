@@ -1135,17 +1135,53 @@ int				pow10_to_bint(t_bint res, const char *str)
 	return (ret);
 }
 
+typedef struct		s_bintconst
+{
+	const char		*name;
+	const t_bint	b;
+}					t_bintconst;
+
+#define BINT_CONSTS_LEN	3
+
+t_bintconst	bintconsts[BINT_CONSTS_LEN + 1] = {
+	{ "g_bint_zero", g_bint_zero },
+	{ "g_bint_max", g_bint_max },
+	{ "g_bint_min", g_bint_min },
+	{ NULL, NULL },
+};
+
+static int		get_const_bint(t_bint *res, const char *str)
+{
+	static uint32_t	constb[BINT_SIZE_DEF];
+
+	bintinit(constb, 0);
+	for (t_bintconst *p = bintconsts; p->name; ++p)
+	{
+		if (!ft_strcmp(str, p->name))
+		{
+			if (bintcpy(constb, p->b) == BINT_FAILURE)
+				return (BINT_FAILURE);
+			*res = constb;
+			return (BINT_SUCCESS);
+		}
+	}
+	return (BINT_FAILURE);
+}
+
 #define BINT_VARS_LEN	26
 
 /*
 ** Right now variable names are only one letter (so 26 variables)
+** And there are 3 constants.
 */
 static int		get_var_bint(t_bint *res, const char *str, int init)
 {
 	int				c;
 	static uint32_t	vars[BINT_SIZE_DEF * BINT_VARS_LEN] = { 0 };
 
-	if (ft_strlen(str) > 1 || !ft_isalpha(*str))
+	if (ft_strlen(str) > 1)
+		return (get_const_bint(res, str));
+	else if (!ft_isalpha(*str))
 		return (BINT_FAILURE);
 	c = ft_tolower(*str) - 'a';
 	*res = vars + (BINT_SIZE_DEF * c);
