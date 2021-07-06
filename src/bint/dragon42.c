@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:57:21 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/12 19:13:03 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/06 21:11:24 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ static int	scale_val(t_bint scale, t_bint scaled_val,
 	int			ret;
 	uint32_t	log2;
 	int			digit_exp;
-	uint32_t	tmp[BINT_SIZE_DEF];
+	uint32_t	tmp[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
-	bintinit(tmp, 0);
 	bintset_u64(scale, 2);
 	log2 = logbase2_32(n[BINT_LEN(n)]) + ((BINT_LEN(n) - 1) * 32);
 	digit_exp = ft_ceil(((int)log2) * LOG10_2 - 0.69);
@@ -87,8 +86,8 @@ static int	binttostr(t_bint scale, t_bint scaled_val, char *cur_digit, int fd)
 
 int			dragon42(char *buf, int fd, const t_bint n)
 {
-	uint32_t	scaled_val[BINT_SIZE_DEF];
-	uint32_t	scale[BINT_SIZE_DEF];
+	uint32_t	scaled_val[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t	scale[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 	int			log10;
 	int			ret;
 
@@ -96,8 +95,6 @@ int			dragon42(char *buf, int fd, const t_bint n)
 	log10 = 1;
 	if (BINT_LEN(n))
 	{
-		bintinit(scale, 0);
-		bintinit(scaled_val, 0);
 		ret = bint_mult2(scaled_val, n) == BINT_FAILURE;
 		ret = !ret ? scale_val(scale, scaled_val, n, &log10) == BINT_FAILURE
 			: ret;

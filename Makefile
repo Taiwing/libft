@@ -2,7 +2,7 @@
 
 CC			=	gcc
 #CFLAGS		=	-Wall -Wextra -Werror
-CFLAGS		=	-g -Wall -Wextra
+CFLAGS		=	-Wall -Wextra -pg
 HDIR		=	includes
 SRCDIR		=	src
 HFLAGS		=	-I $(HDIR)
@@ -23,7 +23,8 @@ FT_PRINTFDIR	=	ft_printf
 WTDIR			=	wt
 STRDIR			=	str
 
-SRCC			=	main.c\
+SRCC			=	modexpTests.c\
+					main.c\
 					ft_swap_p.c\
 					get_next_line.c\
 					get_next_line_utils.c\
@@ -248,7 +249,7 @@ ft_putnbr_fd.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_putnbr.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_itoa.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 main.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h\
-	ft_printf.h
+	ft_printf.h modexpTests.h
 ft_lst_move_back.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
 	ft_collector.h
 ft_lst_push_params.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\

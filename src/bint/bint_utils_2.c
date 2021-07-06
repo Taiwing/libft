@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 14:20:22 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/05 20:21:30 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/06 21:14:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,9 @@ int			bint_is_even(const t_bint b)
 
 static int	bint_rand_internal(t_bint n, const t_bint min, const t_bint max)
 {
-	uint32_t	dist[BINT_SIZE_DEF];
-	uint32_t	remainder[BINT_SIZE_DEF];
+	uint32_t	dist[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t	remainder[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
-	bintinit(dist, 0);
-	bintinit(remainder, 0);
 	if (bint_sub_abs(dist, max, min) == BINT_FAILURE)
 		return (BINT_FAILURE);
 	if (!ft_rand_source((void *)(n + 1),

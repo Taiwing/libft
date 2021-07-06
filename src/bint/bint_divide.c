@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 19:22:38 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/06 13:29:54 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/06 21:01:45 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	first_digit_divide(t_bint quotient, const t_bint numerator,
 	uint32_t	d;
 	uint64_t	n;
 
-	bintclr(quotient);
+	bintcpy(quotient, g_bint_zero);
 	if (bintcmp_abs(numerator, denominator) < 0)
 		return (BINT_SUCCESS);
 	len = BINT_LEN(numerator) - BINT_LEN(denominator) + 1;
@@ -52,13 +52,13 @@ static int	first_digit_divide(t_bint quotient, const t_bint numerator,
 		return (BINT_FAILURE);
 	carry = 0;
 	d = denominator[BINT_LEN(denominator)];
-	SET_BINT_LEN(quotient, len);
 	for (uint32_t i = 0; i < len; ++i)
 	{
 		n = ((uint64_t)carry << 32) + numerator[BINT_LEN(numerator) - i];
 		quotient[len - i] = n / d;
 		carry = n % d;
 	}
+	SET_BINT_LEN(quotient, len);
 	bintclean(quotient);
 	SET_BINT_SIGN(quotient, BINT_SIGN(numerator) != BINT_SIGN(denominator));
 	return (BINT_SUCCESS);
@@ -67,8 +67,6 @@ static int	first_digit_divide(t_bint quotient, const t_bint numerator,
 static int	init_fast_divide(t_bint n, t_bint d,
 	const t_bint dividend, const t_bint divisor)
 {
-	bintinit(n, 0);
-	bintinit(d, 0);
 	if (bintcpy(n, dividend) == BINT_FAILURE)
 		return (BINT_FAILURE);
 	if (bintcpy(d, divisor) == BINT_FAILURE)
@@ -82,11 +80,10 @@ static int	fast_divide(t_bint q, t_bint r,
 	const t_bint dividend, const t_bint divisor)
 {
 	int			ret;
-	uint32_t	n[BINT_SIZE_DEF];
-	uint32_t	d[BINT_SIZE_DEF];
-	uint32_t	tmp[BINT_SIZE_DEF];
+	uint32_t	n[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t	d[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t	tmp[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
-	bintinit(tmp, 0);
 	ret = init_fast_divide(n, d, dividend, divisor);
 	ret = ret == BINT_SUCCESS ? first_digit_divide(q, n, d) : ret;
 	while (bintcmp_abs(r, divisor) >= 0 && ret == BINT_SUCCESS)
@@ -119,13 +116,12 @@ static int	fast_divide(t_bint q, t_bint r,
 int	bint_divide(t_bint quotient, t_bint remainder,
 	const t_bint dividend, const t_bint divisor)
 {
-	uint32_t	local_bint[BINT_SIZE_DEF];
+	uint32_t	local_bint[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
 	if (!BINT_LEN(divisor) || (!quotient && !remainder))
 		return (BINT_FAILURE);
 	if (!quotient || !remainder)
 	{
-		bintinit(local_bint, 0);
 		quotient = !quotient ? local_bint : quotient;
 		remainder = !remainder ? local_bint : remainder;
 	}
@@ -139,5 +135,11 @@ int	bint_divide(t_bint quotient, t_bint remainder,
 		return (BINT_FAILURE);
 	SET_BINT_SIGN(remainder, BINT_SIGN(dividend));
 	SET_BINT_SIGN(quotient, BINT_SIGN(dividend) != BINT_SIGN(divisor));
+	/*
+	if (quotient != local_bint)
+		bintclean(quotient);
+	if (remainder != local_bint)
+		bintclean(remainder);
+	*/
 	return (BINT_SUCCESS);
 }

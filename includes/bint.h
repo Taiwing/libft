@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/06 13:53:33 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/06 21:16:11 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,16 @@
 # define BINT_FAILURE			1
 # define BINT_SUCCESS			0
 
+# define DEFLEN(len)			(len ? len : BINT_SIZE_DEF)
+# define BINT_DEFAULT(len)		{[0] = (DEFLEN(len) << 16),\
+								[ 1 ... DEFLEN(len) - 1] = 0} 
+
 typedef uint32_t *	t_bint;
 
 /*
 ** bint utility functions
 */
 
-void				bintinit(t_bint b, uint32_t size);
 void				bintclean(t_bint b);
 void				bintclr(t_bint b);
 int					bintcpy(t_bint dst, const t_bint src);

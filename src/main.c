@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include "libft.h"
 #include "ft_printf.h"
+#include "modexpTests.h"
 
 #define C_RED     "\x1b[31m"
 #define C_GREEN   "\x1b[32m"
@@ -216,15 +217,10 @@ void	test_mandatory(int ac, char **av)
 
 	uint32_t	i;
 	int			ret;
-	uint32_t	a[BINT_SIZE_DEF];
-	uint32_t	b[BINT_SIZE_DEF];
-	uint32_t	c[BINT_SIZE_DEF];
-	uint32_t	d[BINT_SIZE_DEF];
-
-	bintinit(a, 0);
-	bintinit(b, 0);
-	bintinit(c, 0);
-	bintinit(d, 0);
+	uint32_t	a[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t	b[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t	c[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t	d[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
 	BINT_TEST(
 		"pow mult test setup",
@@ -449,14 +445,10 @@ void	test_mandatory(int ac, char **av)
 		{ -117, -17, 6, -15, 6, -15 },
 		{ 117, -17, -7, -2, -6, 15 },
 	};
-	uint32_t e[BINT_SIZE_DEF];
-	uint32_t f[BINT_SIZE_DEF];
-	uint32_t g[BINT_SIZE_DEF];
-	uint32_t h[BINT_SIZE_DEF];
-	bintinit(e, 0);
-	bintinit(f, 0);
-	bintinit(g, 0);
-	bintinit(h, 0);
+	uint32_t e[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t f[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t g[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t h[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 	for (int i = 0; i < MODTL; ++i)
 	{
 		bintset_i64(a, modtable[i][0]);
@@ -636,6 +628,49 @@ void	test_mandatory(int ac, char **av)
 			BINT_ASSERT("d == e", !ret, ret = bintcmp(d, e));
 		}
 	);
+
+	//for (int i = 0; modexpTests[i][0] != NULL; ++i)
+	for (int i = 0; i < 75 && modexpTests[i][0] != NULL; ++i)
+	{
+		bintclr(a);
+		bintclr(b);
+		bintclr(c);
+		bintclr(d);
+		bintclr(e);
+		ft_sprintf(test_name, "modexp generated test nb %d", i + 1);
+		BINT_TEST(
+			test_name,
+			"bint_modexp",
+			{
+				BINT_ASSERT(
+					"set a to defined value",
+					ret == BINT_SUCCESS,
+					ret = decimal_to_bint(a, modexpTests[i][0])
+				);
+				BINT_ASSERT(
+					"set b to defined value (exponent)",
+					ret == BINT_SUCCESS,
+					ret = decimal_to_bint(b, modexpTests[i][1])
+				);
+				BINT_ASSERT(
+					"set c to defined value (modulo)",
+					ret == BINT_SUCCESS,
+					ret = decimal_to_bint(c, modexpTests[i][2])
+				);
+				BINT_ASSERT(
+					"set e to defined value (result)",
+					ret == BINT_SUCCESS,
+					ret = decimal_to_bint(e, modexpTests[i][3])
+				);
+				BINT_ASSERT(
+					"bint_modexp(d, a, b, c) succeeds",
+					ret == BINT_SUCCESS,
+					ret = bint_modexp(d, a, b, c)
+				);
+				BINT_ASSERT("d == e", !ret, ret = bintcmp(d, e));
+			}
+		);
+	}
 }
 
 #define BINTF_MAX_ARGS 4
@@ -714,7 +749,6 @@ static void	bc_is_even(const t_bint n);
 
 #define DEFINE_BINTCMD(name, ftype, f) { name, (sizeof(name) - 1), ftype, f}
 const t_bintcmd		g_bint_commands[] = {
-	DEFINE_BINTCMD( "init",			V_B_U32,		bintinit			),
 	DEFINE_BINTCMD( "clean",		V_B,			bintclean			),
 	DEFINE_BINTCMD( "clr",			V_B,			bintclr				),
 	DEFINE_BINTCMD( "cpy",			I_B_B,			bintcpy				),
@@ -1237,14 +1271,13 @@ int				hex_to_bint(t_bint res, const char *str)
 int				pow2_to_bint(t_bint res, const char *str)
 {
 	int			sign;
-	uint32_t	exp[2];
+	uint32_t	exp[2] = BINT_DEFAULT(2);
 
 	sign = *str == '-';
 	str = *str == '-' ? str + 1 : str;
 	if (ft_strncmp(str, "2^", 2) || !str[2])
 		return (BINT_FAILURE);
 	str += 2;
-	bintinit(exp, 2);
 	if (decimal_to_bint(exp, str) == BINT_FAILURE || BINT_SIGN(exp))
 		return (BINT_FAILURE);
 	return (bintset_pow2(res, exp[1], sign));
@@ -1257,14 +1290,13 @@ int				pow2_to_bint(t_bint res, const char *str)
 int				pow10_to_bint(t_bint res, const char *str)
 {
 	int			sign;
-	uint32_t	exp[2];
+	uint32_t	exp[2] = BINT_DEFAULT(2);
 
 	sign = *str == '-';
 	str = *str == '-' ? str + 1 : str;
 	if (ft_strncmp(str, "10^", 3) || !str[3])
 		return (BINT_FAILURE);
 	str += 3;
-	bintinit(exp, 2);
 	if (decimal_to_bint(exp, str) == BINT_FAILURE || BINT_SIGN(exp))
 		return (BINT_FAILURE);
 	return (bintset_pow10(res, exp[1], sign));
@@ -1288,9 +1320,8 @@ t_bintconst	bintconsts[BINT_CONSTS_LEN + 1] = {
 
 static int		get_const_bint(t_bint *res, const char *str)
 {
-	static uint32_t	constb[BINT_SIZE_DEF];
+	static uint32_t	constb[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
-	bintinit(constb, 0);
 	for (t_bintconst *p = bintconsts; p->name; ++p)
 	{
 		if (!ft_strcmp(str, p->name))
@@ -1322,7 +1353,7 @@ static int		get_var_bint(t_bint *res, const char *str, int init)
 	c = ft_tolower(*str) - 'a';
 	*res = vars + (BINT_SIZE_DEF * c);
 	if (init && !**res)
-		bintinit(*res, 0);
+		**res = BINT_SIZE_DEF << 16;
 	return (BINT_SUCCESS);
 }
 
@@ -1412,11 +1443,11 @@ static void	bintbc(const char *exec)
 	int			ret;
 	int			cmdi;
 	t_bint		args[BINTF_MAX_ARGS];
-	uint32_t	static_args[BINTF_MAX_ARGS][BINT_SIZE_DEF];
+	uint32_t	static_args[BINTF_MAX_ARGS][BINT_SIZE_DEF] = {
+		[ 0 ... BINTF_MAX_ARGS - 1] = BINT_DEFAULT(0)
+	};
 
 	ret = -1;
-	for (int i = 0; i < BINTF_MAX_ARGS; ++i)
-		bintinit(static_args[i], 0);
 	while (1)
 	{
 		for (int i = 0; i < BINTF_MAX_ARGS; ++i)

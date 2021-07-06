@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:15:59 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/14 18:50:58 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/06 21:10:28 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int			bint_sub(t_bint res, const t_bint l, const t_bint r)
 */
 int			bint_sub_u64(t_bint res, const t_bint l, uint64_t r)
 {
-	uint32_t	cpy[3];
+	uint32_t	cpy[3] = BINT_DEFAULT(3);
 
 	if (!r)
 		return (res != l ? bintcpy(res, l) : BINT_SUCCESS);
@@ -85,7 +85,6 @@ int			bint_sub_u64(t_bint res, const t_bint l, uint64_t r)
 		SET_BINT_SIGN(res, 1);
 		return (BINT_SUCCESS);
 	}
-	bintinit(cpy, 3);
 	bintset_u64(cpy, r);
 	return (bint_sub(res, l, cpy));
 }

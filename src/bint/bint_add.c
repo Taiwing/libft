@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 12:27:08 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/14 18:48:03 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/06 21:12:46 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,12 @@ int			bint_add(t_bint res, const t_bint l, const t_bint r)
 */
 int			bint_add_u64(t_bint res, const t_bint l, uint64_t r)
 {
-	uint32_t	cpy[3];
+	uint32_t	cpy[3] = BINT_DEFAULT(3);
 
 	if (!r)
 		return (res != l ? bintcpy(res, l) : BINT_SUCCESS);
 	else if (!BINT_LEN(l))
 		return (bintset_u64(res, r));
-	bintinit(cpy, 3);
 	bintset_u64(cpy, r);
 	return (bint_add(res, l, cpy));
 }

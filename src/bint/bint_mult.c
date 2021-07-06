@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 13:12:45 by yforeau           #+#    #+#             */
-/*   Updated: 2021/04/16 13:12:46 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/06 21:01:03 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,15 @@ static int	internal_bint_mult(t_bint res, const t_bint s,
 int			bint_mult(t_bint res, const t_bint l, const t_bint r)
 {
 	uint32_t	max;
+	uint32_t	test[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
 	max = BINT_LEN(l) + BINT_LEN(r);
 	if (l == res || r == res || max > BINT_SIZE_DEF - 1)
 		return (BINT_FAILURE);
-	bintclr(res);
-	if (internal_bint_mult(res, BINT_LEN(l) < BINT_LEN(r) ? l : r,
-		BINT_LEN(l) < BINT_LEN(r) ? r : l, BINT_SIZE(res)) == BINT_FAILURE)
+	if (internal_bint_mult(test, BINT_LEN(l) < BINT_LEN(r) ? l : r,
+		BINT_LEN(l) < BINT_LEN(r) ? r : l, BINT_SIZE(test)) == BINT_FAILURE)
 		return (BINT_FAILURE);
-	SET_BINT_LEN(res, (max > 0 && res[max] == 0 ? max - 1 : max));
-	SET_BINT_SIGN(res, BINT_SIGN(l) != BINT_SIGN(r));
-	return (BINT_SUCCESS);
+	SET_BINT_LEN(test, (max > 0 && test[max] == 0 ? max - 1 : max));
+	SET_BINT_SIGN(test, BINT_SIGN(l) != BINT_SIGN(r));
+	return (bintcpy(res, test));
 }

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 20:05:11 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/06 11:20:32 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/06 21:12:15 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,8 @@
 static int	scale_val(t_bint scale, t_bint scaled_val, t_fltinf *info)
 {
 	int			digit_exp;
-	uint32_t	tmp[BINT_SIZE_DEF];
+	uint32_t	tmp[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
-	bintinit(tmp, 0);
-	bintinit(scale, 0);
-	bintinit(scaled_val, 0);
 	bintset_u64(scaled_val, info->mantissa);
 	bint_shiftleft(scaled_val, info->exp > 0 ? info->exp + 1 : 1);
 	bintset_pow2(scale, info->exp > 0 ? 1 : 1 - info->exp, 0);
@@ -111,8 +108,8 @@ static char	*round_up9(char *cur_digit, char *buf, int *exp10, int conv)
 
 int			dragon4(t_fltinf *info, char *buf)
 {
-	uint32_t	scaled_val[BINT_SIZE_DEF];
-	uint32_t	scale[BINT_SIZE_DEF];
+	uint32_t	scaled_val[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t	scale[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 	char		*cur_digit;
 	int			round_down;
 	int			cmp;

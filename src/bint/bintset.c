@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 11:55:38 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/06 12:08:08 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/06 21:01:29 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,10 @@ int		bintset_pow2(t_bint b, uint32_t exp, uint32_t sign)
 static int	bintset_big_pow10(t_bint b, const t_bint cur, uint32_t exp)
 {
 	int			ret;
-	uint32_t	base[BINT_SIZE_DEF];
-	uint32_t	next[BINT_SIZE_DEF];
-	uint32_t	temp[BINT_SIZE_DEF];
+	uint32_t	base[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t	next[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t	temp[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
-	bintinit(base, 0);
-	bintinit(next, 0);
-	bintinit(temp, 0);
 	ret = bintset_pow10(next, exp, 0);
 	ret = ret == BINT_SUCCESS
 		? bint_mult(base, (t_bint)g_pow10_big[9], (t_bint)g_pow10_big[9])
@@ -92,11 +89,9 @@ static int	bintset_big_pow10(t_bint b, const t_bint cur, uint32_t exp)
 int		bintset_pow10(t_bint b, uint32_t exp, uint32_t sign)
 {
 	uint32_t	i;
-	uint32_t	cur[BINT_SIZE_DEF];
-	uint32_t	next[BINT_SIZE_DEF];
+	uint32_t	cur[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t	next[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
-	bintinit(cur, 0);
-	bintinit(next, 0);
 	if (bintset_u64(cur, (uint64_t)g_pow10_u32[exp & 0x7]) == BINT_FAILURE)
 		return (BINT_FAILURE);
 	SET_BINT_SIGN(cur, !!sign);

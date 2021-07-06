@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 14:20:03 by yforeau           #+#    #+#             */
-/*   Updated: 2021/06/26 14:20:15 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/06 21:16:26 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,14 @@ void		bintclean(t_bint b)
 {
 	uint32_t	len;
 
-	for (len = BINT_SIZE(b) - 1; len > BINT_LEN(b); --len)
-		b[len] = 0;
-	for (; len > 0 && !b[len]; --len);
+	for (len = BINT_LEN(b); len > 0 && !b[len]; --len);
 	SET_BINT_LEN(b, len);
 }
 
 void		bintclr(t_bint b)
 {
 	SET_BINT_LEN(b, 0);
-	bintclean(b);
 	SET_BINT_SIGN(b, 0);
-}
-
-void		bintinit(t_bint b, uint32_t size)
-{
-	size = size ? size : BINT_SIZE_DEF;
-	b[0] = size << 16;
-	bintclr(b);
 }
 
 uint32_t	bintlog2(t_bint b)
