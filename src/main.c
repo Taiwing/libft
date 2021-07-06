@@ -488,11 +488,29 @@ void	test_mandatory(int ac, char **av)
 		);
 	}
 
-	BINT_TEST("set mask to g_bint_max", "bintset_mask",
+	BINT_TEST(
+		"set mask to g_bint_max (with bitlen == BINT_MAX_LOG2)",
+		"bintset_mask",
 		{
 			bintclr(a);
 			bintset_mask(a, BINT_MAX_LOG2, 0);
 			BINT_ASSERT("a == g_bint_max", !ret, ret = bintcmp(a, g_bint_max));
+		}
+	);
+
+	int bitlen = ((BINT_SIZE(a) - 1) * 32) + 1;
+	BINT_TEST(
+		"try to set a mask with bitlen == ((BINT_SIZE(a) - 1) * 32) + 1",
+		"bintset_mask",
+		{
+			bintclr(a);
+			BINT_ASSERT("bitlen == BINT_MAX_LOG2 + 1",
+				!ret, ret = bitlen != BINT_MAX_LOG2 + 1);
+			BINT_ASSERT(
+				"bintset_mask cleanly fails with a too big bitlen value",
+				ret == BINT_FAILURE,
+				ret = bintset_mask(a, bitlen, 0)
+			);
 		}
 	);
 
