@@ -534,47 +534,69 @@ void	test_mandatory(int ac, char **av)
 		);
 	}
 
+	bintclr(a);
 	BINT_TEST(
-		"rand numbers",
+		"generate positive bint between 0 and g_bint_max",
 		"bint_rand, bint_divide",
 		{
-			bintclr(a);
-			BINT_ASSERT("generate positive bint between 0 and g_bint_max",
-				!ret,
-				{
-					ret = bint_rand(a, g_bint_zero, g_bint_max, 0);
-					ret = ret == BINT_FAILURE;
-					ret = !ret ? bintcmp(g_bint_zero, a) > 0 : ret;
-					ret = !ret ? bintcmp(g_bint_max, a) < 0 : ret;
-					ret = !ret ? BINT_SIGN(a) : ret;
-				}
+			BINT_ASSERT(
+				"bint_rand succeeds",
+				ret == BINT_SUCCESS,
+				ret = bint_rand(a, g_bint_zero, g_bint_max, 0)
 			);
-			bintclr(b);
-			BINT_ASSERT("generate bint between g_bint_max and g_bint_max",
-				!ret,
-				{
-					ret = bint_rand(b, g_bint_max, g_bint_max, 0);
-					ret = ret == BINT_FAILURE;
-					ret = !ret ? bintcmp(g_bint_max, b) : ret;
-					ret = !ret ? BINT_SIGN(b) : ret;
-				}
+			BINT_ASSERT(
+				"a >= g_bint_zero",
+				ret >= 0,
+				ret = bintcmp(a, g_bint_zero)
 			);
-			bintclr(c);
-			bintclr(d);
-			bintset_mask(d, BINT_MAX_LOG2 / 2, 0);
-			ft_sprintf(assert_name,
-				"generate positive number between 0 and (2^%d)-1",
-				BINT_MAX_LOG2 / 2);
-			BINT_ASSERT(assert_name,
-				!ret,
-				{
-					ret = bint_rand(c, g_bint_zero, d, 0);
-					ret = ret == BINT_FAILURE;
-					ret = !ret ? bintcmp(g_bint_zero, c) > 0 : ret;
-					ret = !ret ? bintcmp(d, c) < 0 : ret;
-					ret = !ret ? BINT_SIGN(c) : ret;
-				}
+			BINT_ASSERT(
+				"a <= g_bint_max",
+				ret <= 0,
+				ret = bintcmp(a, g_bint_max)
 			);
+			BINT_ASSERT("a is positive", !ret, ret = BINT_SIGN(a));
+		}
+	);
+	bintclr(b);
+	BINT_TEST(
+		"generate bint between g_bint_max and g_bint_max",
+		"bint_rand, bint_divide",
+		{
+			BINT_ASSERT(
+				"bint_rand succeeds",
+				ret == BINT_SUCCESS,
+				ret = bint_rand(b, g_bint_max, g_bint_max, 0)
+			);
+			BINT_ASSERT("b == g_bint_max", !ret, ret = bintcmp(b, g_bint_max));
+			BINT_ASSERT("b is positive", !ret, ret = BINT_SIGN(b));
+		}
+	);
+	bintclr(c);
+	bintclr(d);
+	bintset_mask(d, BINT_MAX_LOG2 / 2, 0);
+	ft_sprintf(test_name,
+		"generate positive number between 0 and (2^%d)-1",
+		BINT_MAX_LOG2 / 2);
+	BINT_TEST(
+		test_name,
+		"bint_rand, bint_divide",
+		{
+			BINT_ASSERT(
+				"bint_rand succeeds",
+				ret == BINT_SUCCESS,
+				ret = bint_rand(c, g_bint_zero, d, 0)
+			);
+			BINT_ASSERT(
+				"c >= g_bint_zero",
+				ret >= 0,
+				ret = bintcmp(c, g_bint_zero)
+			);
+			BINT_ASSERT(
+				"c <= d",
+				ret <= 0,
+				ret = bintcmp(c, d)
+			);
+			BINT_ASSERT("c is positive", !ret, ret = BINT_SIGN(c));
 		}
 	);
 }
