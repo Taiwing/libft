@@ -488,15 +488,50 @@ void	test_mandatory(int ac, char **av)
 		);
 	}
 
-	/*
 	BINT_TEST(
 		"rand numbers",
 		"bint_rand, bint_divide",
 		{
-
+			bintclr(a);
+			BINT_ASSERT("generate positive bint between 0 and g_bint_max",
+				!ret,
+				{
+					ret = bint_rand(a, g_bint_zero, g_bint_max, 0);
+					ret = ret == BINT_FAILURE;
+					ret = !ret ? bintcmp(g_bint_zero, a) > 0 : ret;
+					ret = !ret ? bintcmp(g_bint_max, a) < 0 : ret;
+					ret = !ret ? BINT_SIGN(a) : ret;
+				}
+			);
+			bintclr(b);
+			BINT_ASSERT("generate bint between g_bint_max and g_bint_max",
+				!ret,
+				{
+					ret = bint_rand(b, g_bint_max, g_bint_max, 0);
+					ret = ret == BINT_FAILURE;
+					ret = !ret ? bintcmp(g_bint_max, b) : ret;
+					ret = !ret ? BINT_SIGN(b) : ret;
+				}
+			);
+			bintclr(c);
+			bintclr(d);
+			bintset_pow2(d, (BINT_MAX_LOG2 / 2) + 1);
+			bint_sub_u64(d, d, 1);
+			ft_sprintf(assert_name,
+				"generate positive number between 0 and (2^%d)-1",
+				(BINT_MAX_LOG2 / 2) + 1);
+			BINT_ASSERT(assert_name,
+				!ret,
+				{
+					ret = bint_rand(c, g_bint_zero, d, 0);
+					ret = ret == BINT_FAILURE;
+					ret = !ret ? bintcmp(g_bint_zero, c) > 0 : ret;
+					ret = !ret ? bintcmp(d, c) < 0 : ret;
+					ret = !ret ? BINT_SIGN(c) : ret;
+				}
+			);
 		}
 	);
-	*/
 }
 
 #define BINTF_MAX_ARGS 4
