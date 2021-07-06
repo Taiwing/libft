@@ -557,6 +557,7 @@ void	test_mandatory(int ac, char **av)
 			BINT_ASSERT("a is positive", !ret, ret = BINT_SIGN(a));
 		}
 	);
+
 	bintclr(b);
 	BINT_TEST(
 		"generate bint between g_bint_max and g_bint_max",
@@ -571,6 +572,7 @@ void	test_mandatory(int ac, char **av)
 			BINT_ASSERT("b is positive", !ret, ret = BINT_SIGN(b));
 		}
 	);
+
 	bintclr(c);
 	bintclr(d);
 	bintset_mask(d, BINT_MAX_LOG2 / 2, 0);
