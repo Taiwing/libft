@@ -488,6 +488,34 @@ void	test_mandatory(int ac, char **av)
 		);
 	}
 
+	BINT_TEST("set mask to g_bint_max", "bintset_mask",
+		{
+			bintclr(a);
+			bintset_mask(a, BINT_MAX_LOG2, 0);
+			BINT_ASSERT("a == g_bint_max", !ret, ret = bintcmp(a, g_bint_max));
+		}
+	);
+
+	#define XPOWS_LEN	7
+	int xpows[XPOWS_LEN] = { 0, 1, 2, 3, 4005, BINT_MAX_LOG2 / 2, BINT_MAX_LOG2 - 1 };
+	for (int i = 0, xpow = 0; i < XPOWS_LEN; ++i)
+	{
+		xpow = xpows[i];
+		ft_sprintf(test_name,
+			"bint_setmask(a, x, 0) == (2^x)-1 (where x == %d)", xpow);
+		BINT_TEST(
+			test_name,
+			"bintset_mask",
+			{
+				bintclr(a);
+				bintset_mask(a, xpow, 0);
+				bintset_pow2(b, xpow, 0);
+				bint_sub_u64(b, b, 1);
+				BINT_ASSERT("a == b", !ret, ret = bintcmp(a, b));
+			}
+		);
+	}
+
 	BINT_TEST(
 		"rand numbers",
 		"bint_rand, bint_divide",
@@ -515,11 +543,10 @@ void	test_mandatory(int ac, char **av)
 			);
 			bintclr(c);
 			bintclr(d);
-			bintset_pow2(d, (BINT_MAX_LOG2 / 2) + 1, 0);
-			bint_sub_u64(d, d, 1);
+			bintset_mask(d, BINT_MAX_LOG2 / 2, 0);
 			ft_sprintf(assert_name,
 				"generate positive number between 0 and (2^%d)-1",
-				(BINT_MAX_LOG2 / 2) + 1);
+				BINT_MAX_LOG2 / 2);
 			BINT_ASSERT(assert_name,
 				!ret,
 				{
