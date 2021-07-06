@@ -137,6 +137,8 @@ int		namelen;
 	}\
 }
 
+int		decimal_to_bint(t_bint res, const char *str);
+
 int		bint_print(const t_bint n, uint32_t base, uint32_t info)
 {
 	base = !base ? 10 : base;
@@ -601,6 +603,39 @@ void	test_mandatory(int ac, char **av)
 			BINT_ASSERT("c is positive", !ret, ret = BINT_SIGN(c));
 		}
 	);
+
+	bintclr(a);
+	bintclr(b);
+	bintclr(c);
+	bintclr(d);
+	BINT_TEST(
+		"modexp basic big test (from rosetta code)",
+		"bint_modexp",
+		{
+			BINT_ASSERT(
+				"set a to defined value",
+				ret == BINT_SUCCESS,
+				ret = decimal_to_bint(a, "2988348162058574136915891421498819466320163312926952423791023078876139")
+			);
+			BINT_ASSERT(
+				"set b to defined value (exponent)",
+				ret == BINT_SUCCESS,
+				ret = decimal_to_bint(b, "2351399303373464486466122544523690094744975233415544072992656881240319")
+			);
+			BINT_ASSERT(
+				"set e to defined value (result)",
+				ret == BINT_SUCCESS,
+				ret = decimal_to_bint(e, "1527229998585248450016808958343740453059")
+			);
+			bintset_pow10(c, 40, 0);
+			BINT_ASSERT(
+				"bint_modexp(d, a, b, c) succeeds",
+				ret == BINT_SUCCESS,
+				ret = bint_modexp(d, a, b, c)
+			);
+			BINT_ASSERT("d == e", !ret, ret = bintcmp(d, e));
+		}
+	);
 }
 
 #define BINTF_MAX_ARGS 4
@@ -710,6 +745,7 @@ const t_bintcmd		g_bint_commands[] = {
 	DEFINE_BINTCMD( "is_odd",		V_B,			bc_is_odd			),
 	DEFINE_BINTCMD( "is_even",		V_B,			bc_is_even			),
 	DEFINE_BINTCMD( "rand",			I_B_B_B_U64,	bint_rand			),
+	DEFINE_BINTCMD( "modexp",		I_B_B_B_B,		bint_modexp			),
 	DEFINE_BINTCMD( "print",		I_B_U32_U32,	bint_print			),
 	DEFINE_BINTCMD( "help",			V,				bc_help				),
 	DEFINE_BINTCMD( "env",			V,				bc_env				),

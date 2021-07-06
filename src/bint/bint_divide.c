@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 19:22:38 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/05 20:31:26 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/06 13:29:54 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 ** remainder = dividend - (divisor * floor(dividend/divisor))
 **
 ** quotient can be NULL if we dont need it
+**
+** This computation is congruent with modular arithmetic.
 */
 int	bint_divmod(t_bint quotient, t_bint remainder,
 	const t_bint dividend, const t_bint divisor)
@@ -111,6 +113,8 @@ static int	fast_divide(t_bint q, t_bint r,
 ** remainder = dividend - (divisor * quotient)
 **
 ** quotient or remainder can be NULL if we dont need one or the other
+**
+** This computation is equivalent to the modulo operation of ANSI C.
 */
 int	bint_divide(t_bint quotient, t_bint remainder,
 	const t_bint dividend, const t_bint divisor)

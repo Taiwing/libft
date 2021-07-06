@@ -2,7 +2,7 @@
 
 CC			=	gcc
 #CFLAGS		=	-Wall -Wextra -Werror
-CFLAGS		=	-g -Wall -Wextra# -fsanitize=address,undefined
+CFLAGS		=	-g -Wall -Wextra
 HDIR		=	includes
 SRCDIR		=	src
 HFLAGS		=	-I $(HDIR)
@@ -94,6 +94,7 @@ BINTC			=	bint_add.c\
 					bint_mult_by.c\
 					bint_mult.c\
 					bint_mathconsts.c\
+					bint_mod.c\
 					bintcmp.c\
 
 FT_GETOPTC		=	get_next_option_argument.c\
@@ -303,10 +304,11 @@ log_and_ceil.o: bint.h
 bint_divide.o: bint.h
 bint_sub.o: bint.h
 bint_divmod_max9.o: bint.h
-bintset.o: bint.h
+bintset.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 bint_mult_by.o: bint.h
 bint_mult.o: bint.h
 bint_mathconsts.o: bint.h
+bint_mod.o: bint.h
 bintcmp.o: bint.h
 get_next_option_argument.o: permute_order.h ft_getopt.h process_long_option.h\
 	libft.h ft_printf.h t_pbuf.h bint.h ft_collector.h
