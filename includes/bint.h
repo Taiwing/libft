@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/05 21:12:31 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/06 11:08:41 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,8 @@ int					bint_rand(t_bint n, const t_bint min,
 
 int					bintset_u64(t_bint dst, uint64_t u);
 int					bintset_i64(t_bint dst, int64_t i);
-int					bintset_pow2(t_bint res, uint32_t exp);
-int					bintset_pow10(t_bint res, uint32_t exp);
+int					bintset_pow2(t_bint res, uint32_t exp, uint32_t sign);
+int					bintset_pow10(t_bint res, uint32_t exp, uint32_t sign);
 
 int					bintcmp(const t_bint l, const t_bint r);
 int					bintcmp_abs(const t_bint l, const t_bint r);

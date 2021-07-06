@@ -247,7 +247,7 @@ void	test_mandatory(int ac, char **av)
 			{
 				ft_sprintf(assert_name, "set a to 2^%u", i);
 				BINT_ASSERT(assert_name, ret == BINT_SUCCESS,
-					ret = bintset_pow2(a, i));
+					ret = bintset_pow2(a, i, 0));
 
 				ft_sprintf(assert_name, "mult b by 2 (%d times)", step);
 				BINT_ASSERT(
@@ -261,7 +261,7 @@ void	test_mandatory(int ac, char **av)
 
 				ft_sprintf(assert_name, "set c to 10^%u", i);
 				BINT_ASSERT(assert_name, ret == BINT_SUCCESS,
-					ret = bintset_pow10(c, i));
+					ret = bintset_pow10(c, i, 0));
 
 				ft_sprintf(assert_name, "mult d by 10 (%d times)", step);
 				BINT_ASSERT(
@@ -427,9 +427,9 @@ void	test_mandatory(int ac, char **av)
 		}
 	);
 
-	bintset_pow10(a, 128);
-	bintset_pow10(b, 256);
-	bintset_pow10(c, 384);
+	bintset_pow10(a, 128, 0);
+	bintset_pow10(b, 256, 0);
+	bintset_pow10(c, 384, 0);
 	BINT_TEST(
 		"10^x * 10^y == 10^(x+y) (where x == 128 && y == 256)",
 		"bint_mult",
@@ -515,7 +515,7 @@ void	test_mandatory(int ac, char **av)
 			);
 			bintclr(c);
 			bintclr(d);
-			bintset_pow2(d, (BINT_MAX_LOG2 / 2) + 1);
+			bintset_pow2(d, (BINT_MAX_LOG2 / 2) + 1, 0);
 			bint_sub_u64(d, d, 1);
 			ft_sprintf(assert_name,
 				"generate positive number between 0 and (2^%d)-1",
@@ -616,8 +616,8 @@ const t_bintcmd		g_bint_commands[] = {
 	DEFINE_BINTCMD( "cpy",			I_B_B,			bintcpy				),
 	DEFINE_BINTCMD( "set_u64",		I_B_U64,		bintset_u64			),
 	DEFINE_BINTCMD( "set_i64",		I_B_I64,		bintset_i64			),
-	DEFINE_BINTCMD( "set_pow2",		I_B_U32,		bintset_pow2		),
-	DEFINE_BINTCMD( "set_pow10",	I_B_U32,		bintset_pow10		),
+	DEFINE_BINTCMD( "set_pow2",		I_B_U32_U32,	bintset_pow2		),
+	DEFINE_BINTCMD( "set_pow10",	I_B_U32_U32,	bintset_pow10		),
 	DEFINE_BINTCMD( "cmp",			I_B_B,			bintcmp				),
 	DEFINE_BINTCMD( "cmp_abs",		I_B_B,			bintcmp_abs			),
 	DEFINE_BINTCMD( "add",			I_B_B_B,		bint_add			),
@@ -1130,7 +1130,6 @@ int				hex_to_bint(t_bint res, const char *str)
 */
 int				pow2_to_bint(t_bint res, const char *str)
 {
-	int			ret;
 	int			sign;
 	uint32_t	exp[2];
 
@@ -1142,9 +1141,7 @@ int				pow2_to_bint(t_bint res, const char *str)
 	bintinit(exp, 2);
 	if (decimal_to_bint(exp, str) == BINT_FAILURE || BINT_SIGN(exp))
 		return (BINT_FAILURE);
-	if ((ret = bintset_pow2(res, exp[1])) == BINT_SUCCESS)
-		SET_BINT_SIGN(res, sign);
-	return (ret);
+	return (bintset_pow2(res, exp[1], sign));
 }
 
 /*
@@ -1153,7 +1150,6 @@ int				pow2_to_bint(t_bint res, const char *str)
 */
 int				pow10_to_bint(t_bint res, const char *str)
 {
-	int			ret;
 	int			sign;
 	uint32_t	exp[2];
 
@@ -1165,9 +1161,7 @@ int				pow10_to_bint(t_bint res, const char *str)
 	bintinit(exp, 2);
 	if (decimal_to_bint(exp, str) == BINT_FAILURE || BINT_SIGN(exp))
 		return (BINT_FAILURE);
-	if ((ret = bintset_pow10(res, exp[1])) == BINT_SUCCESS)
-		SET_BINT_SIGN(res, sign);
-	return (ret);
+	return (bintset_pow10(res, exp[1], sign));
 }
 
 typedef struct		s_bintconst

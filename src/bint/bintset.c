@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 11:55:38 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/05 15:39:20 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/06 11:10:00 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ int		bintset_i64(t_bint dst, int64_t i)
 /*
 ** Compute 2^exp and put it into res
 ** exp is only limited by UINT32_MAX and BINT_SIZE
+** sign sets res sign
 */
-int		bintset_pow2(t_bint res, uint32_t exp)
+int		bintset_pow2(t_bint res, uint32_t exp, uint32_t sign)
 {
 	uint32_t	i;
 	uint32_t	index;
@@ -54,6 +55,7 @@ int		bintset_pow2(t_bint res, uint32_t exp)
 		res[i] = 0;
 	res[index + 1] |= (uint32_t)1 << (exp % 32);
 	SET_BINT_LEN(res, index + 1);
+	SET_BINT_SIGN(res, !!sign);
 	return (BINT_SUCCESS);
 }
 
@@ -67,7 +69,7 @@ static int	bintset_big_pow10(t_bint res, const t_bint cur, uint32_t exp)
 	bintinit(base, 0);
 	bintinit(next, 0);
 	bintinit(temp, 0);
-	ret = bintset_pow10(next, exp);
+	ret = bintset_pow10(next, exp, 0);
 	ret = ret == BINT_SUCCESS
 		? bint_mult(base, (t_bint)g_pow10_big[9], (t_bint)g_pow10_big[9])
 		: ret;
@@ -85,8 +87,9 @@ static int	bintset_big_pow10(t_bint res, const t_bint cur, uint32_t exp)
 ** every recursion will handle the first 12 bits of the exponent
 ** and recurse if any are left.
 ** So, as for pow2, the only limits are UINT32_MAX and BINT_SIZE.
+** The sign can be set with the sign parameter.
 */
-int		bintset_pow10(t_bint res, uint32_t exp)
+int		bintset_pow10(t_bint res, uint32_t exp, uint32_t sign)
 {
 	uint32_t	i;
 	uint32_t	cur[BINT_SIZE_DEF];
@@ -96,6 +99,7 @@ int		bintset_pow10(t_bint res, uint32_t exp)
 	bintinit(next, 0);
 	if (bintset_u64(cur, (uint64_t)g_pow10_u32[exp & 0x7]) == BINT_FAILURE)
 		return (BINT_FAILURE);
+	SET_BINT_SIGN(cur, !!sign);
 	exp >>= 3;
 	i = 0;
 	while (exp && i < 10)

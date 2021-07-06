@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 20:05:11 by yforeau           #+#    #+#             */
-/*   Updated: 2021/05/11 16:16:59 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/06 11:20:32 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	scale_val(t_bint scale, t_bint scaled_val, t_fltinf *info)
 	bintinit(scaled_val, 0);
 	bintset_u64(scaled_val, info->mantissa);
 	bint_shiftleft(scaled_val, info->exp > 0 ? info->exp + 1 : 1);
-	bintset_pow2(scale, info->exp > 0 ? 1 : 1 - info->exp);
+	bintset_pow2(scale, info->exp > 0 ? 1 : 1 - info->exp, 0);
 	digit_exp = ft_ceil(((int)info->log2 + info->exp) * LOG10_2 - 0.69);
 	if (info->conv == 'f' || info->conv == 'F')
 		digit_exp = digit_exp <= -info->prec ? 1 - info->prec : digit_exp;
