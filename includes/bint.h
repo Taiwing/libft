@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/06 11:08:41 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/06 12:06:21 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,11 @@ int					bint_is_even(const t_bint b);
 int					bint_rand(t_bint n, const t_bint min,
 	const t_bint max, uint64_t rand_sign);
 
-int					bintset_u64(t_bint dst, uint64_t u);
-int					bintset_i64(t_bint dst, int64_t i);
-int					bintset_pow2(t_bint res, uint32_t exp, uint32_t sign);
-int					bintset_pow10(t_bint res, uint32_t exp, uint32_t sign);
+int					bintset_u64(t_bint b, uint64_t u);
+int					bintset_i64(t_bint b, int64_t i);
+int					bintset_pow2(t_bint b, uint32_t exp, uint32_t sign);
+int					bintset_pow10(t_bint b, uint32_t exp, uint32_t sign);
+int					bintset_mask(t_bint b, uint32_t bitlen, uint32_t sign);
 
 int					bintcmp(const t_bint l, const t_bint r);
 int					bintcmp_abs(const t_bint l, const t_bint r);
