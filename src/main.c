@@ -712,7 +712,8 @@ void	test_mandatory(int ac, char **av)
 		);
 	}
 
-	for (int i = 0; modmul_tests[i][0] != NULL; ++i)
+	//for (int i = 0; modmul_tests[i][0] != NULL; ++i)
+	for (int i = 0; i < 75 && modmul_tests[i][0] != NULL; ++i)
 	{
 		bintclr(a);
 		bintclr(b);

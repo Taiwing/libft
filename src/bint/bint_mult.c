@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 13:12:45 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/06 21:01:03 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/07 10:29:10 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ int			bint_mult(t_bint res, const t_bint l, const t_bint r)
 	uint32_t	max;
 	uint32_t	test[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
-	max = BINT_LEN(l) + BINT_LEN(r);
-	if (l == res || r == res || max > BINT_SIZE_DEF - 1)
+	if ((max = BINT_LEN(l) + BINT_LEN(r)) >= BINT_SIZE_DEF)
 		return (BINT_FAILURE);
 	if (internal_bint_mult(test, BINT_LEN(l) < BINT_LEN(r) ? l : r,
 		BINT_LEN(l) < BINT_LEN(r) ? r : l, BINT_SIZE(test)) == BINT_FAILURE)

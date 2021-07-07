@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 13:18:25 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/07 08:56:52 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/07 10:33:45 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,6 @@ static int	bint_smod(t_bint res, const t_bint mod, t_bint tmp)
 	if (bintcpy(tmp, res))
 		return (BINT_FAILURE);
 	return (bint_divide(NULL, res, tmp, mod));
-}
-
-static int	bint_smult(t_bint res, const t_bint r, t_bint tmp)
-{
-	if (bint_mult(tmp, res, r) == BINT_FAILURE
-		|| bintcpy(res, tmp) == BINT_FAILURE)
-		return (BINT_FAILURE);
-	return (BINT_SUCCESS);
 }
 
 /*
@@ -46,10 +38,10 @@ int			bint_modexp(t_bint res, const t_bint a,
 	while (bintcmp(local_b, g_bint_zero))
 	{
 		if (bint_is_odd(local_b)
-			&& (bint_smult(res, local_a, tmp) == BINT_FAILURE
+			&& (bint_mult(res, res, local_a) == BINT_FAILURE
 			|| bint_smod(res, c, tmp) == BINT_FAILURE))
 			return (BINT_FAILURE);
-		if (bint_smult(local_a, local_a, tmp) == BINT_FAILURE
+		if (bint_mult(local_a, local_a, local_a) == BINT_FAILURE
 			|| bint_smod(local_a, c, tmp) == BINT_FAILURE
 			|| bint_shiftright(local_b, 1) == BINT_FAILURE)
 			return (BINT_FAILURE);
@@ -60,10 +52,8 @@ int			bint_modexp(t_bint res, const t_bint a,
 static int	bint_modinv_op(t_bint old, t_bint new,
 	const t_bint q, t_bint tmp)
 {
-	uint32_t	tmp2[BINT_SIZE_DEF] = BINT_DEFAULT(0);
-
 	if (bintcpy(tmp, new) == BINT_FAILURE
-		|| bint_smult(new, q, tmp2) == BINT_FAILURE
+		|| bint_mult(new, new, q) == BINT_FAILURE
 		|| bint_sub(new, old, new) == BINT_FAILURE
 		|| bintcpy(old, tmp))
 		return (BINT_FAILURE);
@@ -107,11 +97,10 @@ int			bint_modmul(t_bint res, const t_bint a,
 {
 	uint32_t	tmp[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 	uint32_t	tmp2[BINT_SIZE_DEF] = BINT_DEFAULT(0);
-	uint32_t	tmp3[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
 	if (bint_divide(NULL, tmp, a, c) == BINT_FAILURE
 		|| bint_divide(NULL, tmp2, b, c) == BINT_FAILURE
-		|| bint_smult(tmp, tmp2, tmp3) == BINT_FAILURE
+		|| bint_mult(tmp, tmp, tmp2) == BINT_FAILURE
 		|| bint_divide(NULL, res, tmp, c) == BINT_FAILURE)
 		return (BINT_FAILURE);
 	return (BINT_SUCCESS);
