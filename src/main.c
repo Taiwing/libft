@@ -672,6 +672,45 @@ void	test_mandatory(int ac, char **av)
 			}
 		);
 	}
+
+	//for (int i = 0; modinv_tests[i][0] != NULL; ++i)
+	for (int i = 0; modinv_tests[i][0] != NULL; ++i)
+	{
+		bintclr(a);
+		bintclr(b);
+		bintclr(c);
+		bintclr(d);
+		bintclr(e);
+		ft_sprintf(test_name, "modinv generated test nb %d", i + 1);
+		BINT_TEST(
+			test_name,
+			"bint_modinv",
+			{
+				BINT_ASSERT(
+					"set a to defined value",
+					ret == BINT_SUCCESS,
+					ret = decimal_to_bint(a, modinv_tests[i][0])
+				);
+				BINT_ASSERT(
+					"set b to defined value (modulo)",
+					ret == BINT_SUCCESS,
+					ret = decimal_to_bint(b, modinv_tests[i][1])
+				);
+				BINT_ASSERT(
+					"set c to defined value (result)",
+					ret == BINT_SUCCESS,
+					ret = decimal_to_bint(c, modinv_tests[i][2])
+				);
+				BINT_ASSERT(
+					"bint_modinv(d, e, a, b) succeeds",
+					ret == BINT_SUCCESS,
+					ret = bint_modinv(d, e, a, b)
+				);
+				BINT_ASSERT("d == c", !ret, ret = bintcmp(d, c));
+				BINT_ASSERT("e == 1", !ret, ret = bintcmp(e, g_bint_one));
+			}
+		);
+	}
 }
 
 #define BINTF_MAX_ARGS 4
