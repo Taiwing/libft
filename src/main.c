@@ -11,6 +11,7 @@
 #include "ft_printf.h"
 #include "modexp_tests.h"
 #include "modinv_tests.h"
+#include "modmul_tests.h"
 
 #define C_RED     "\x1b[31m"
 #define C_GREEN   "\x1b[32m"
@@ -707,6 +708,48 @@ void	test_mandatory(int ac, char **av)
 				);
 				BINT_ASSERT("d == c", !ret, ret = bintcmp(d, c));
 				BINT_ASSERT("e == 1", !ret, ret = bintcmp(e, g_bint_one));
+			}
+		);
+	}
+
+	for (int i = 0; modmul_tests[i][0] != NULL; ++i)
+	{
+		bintclr(a);
+		bintclr(b);
+		bintclr(c);
+		bintclr(d);
+		bintclr(e);
+		ft_sprintf(test_name, "modmul generated test nb %d", i + 1);
+		BINT_TEST(
+			test_name,
+			"bint_modexp",
+			{
+				BINT_ASSERT(
+					"set a to defined value",
+					ret == BINT_SUCCESS,
+					ret = decimal_to_bint(a, modmul_tests[i][0])
+				);
+				BINT_ASSERT(
+					"set b to defined value",
+					ret == BINT_SUCCESS,
+					ret = decimal_to_bint(b, modmul_tests[i][1])
+				);
+				BINT_ASSERT(
+					"set c to defined value (modulo)",
+					ret == BINT_SUCCESS,
+					ret = decimal_to_bint(c, modmul_tests[i][2])
+				);
+				BINT_ASSERT(
+					"set e to defined value (result)",
+					ret == BINT_SUCCESS,
+					ret = decimal_to_bint(e, modmul_tests[i][3])
+				);
+				BINT_ASSERT(
+					"bint_modmul(d, a, b, c) succeeds",
+					ret == BINT_SUCCESS,
+					ret = bint_modmul(d, a, b, c)
+				);
+				BINT_ASSERT("d == e", !ret, ret = bintcmp(d, e));
 			}
 		);
 	}

@@ -29,6 +29,7 @@ SRCC			=	main.c\
 					modinv_tests.c\
 					get_next_line.c\
 					get_next_line_utils.c\
+					modmul_tests.c\
 
 MEMORYC			=	ft_memccpy.c\
 					ft_memcpy.c\
@@ -250,7 +251,7 @@ ft_putnbr_fd.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_putnbr.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_itoa.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 main.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h\
-	ft_printf.h modexp_tests.h modinv_tests.h
+	ft_printf.h modexp_tests.h modinv_tests.h modmul_tests.h
 ft_lst_move_back.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
 	ft_collector.h
 ft_lst_push_params.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
