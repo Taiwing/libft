@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 13:18:25 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/07 08:16:40 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/07 08:56:52 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,21 @@ int			bint_modinv(t_bint t, t_bint gcd,
 	if (gcd && bintcpy(gcd, r) == BINT_FAILURE)
 		return (BINT_FAILURE);
 	if (BINT_SIGN(t) && bint_add(t, t, b) == BINT_FAILURE)
+		return (BINT_FAILURE);
+	return (BINT_SUCCESS);
+}
+
+int			bint_modmul(t_bint res, const t_bint a,
+	const t_bint b, const t_bint c)
+{
+	uint32_t	tmp[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t	tmp2[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+	uint32_t	tmp3[BINT_SIZE_DEF] = BINT_DEFAULT(0);
+
+	if (bint_divide(NULL, tmp, a, c) == BINT_FAILURE
+		|| bint_divide(NULL, tmp2, b, c) == BINT_FAILURE
+		|| bint_smult(tmp, tmp2, tmp3) == BINT_FAILURE
+		|| bint_divide(NULL, res, tmp, c) == BINT_FAILURE)
 		return (BINT_FAILURE);
 	return (BINT_SUCCESS);
 }

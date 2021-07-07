@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/07 08:16:07 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/07 09:01:43 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,8 @@ int					bint_modexp(t_bint res, const t_bint a,
 	const t_bint b, const t_bint c);
 int					bint_modinv(t_bint t, t_bint gcd,
 	const t_bint a, const t_bint b);
+int					bint_modmul(t_bint res, const t_bint a,
+	const t_bint b, const t_bint c);
 
 int					bint_shiftleft(t_bint res, uint32_t shift);
 int					bint_shiftright(t_bint res, uint32_t shift);
