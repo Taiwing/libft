@@ -23,9 +23,10 @@ FT_PRINTFDIR	=	ft_printf
 WTDIR			=	wt
 STRDIR			=	str
 
-SRCC			=	modexpTests.c\
-					main.c\
+SRCC			=	main.c\
 					ft_swap_p.c\
+					modexp_tests.c\
+					modinv_tests.c\
 					get_next_line.c\
 					get_next_line_utils.c\
 
@@ -249,7 +250,7 @@ ft_putnbr_fd.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_putnbr.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_itoa.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 main.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h\
-	ft_printf.h modexpTests.h
+	ft_printf.h modexp_tests.h modinv_tests.h
 ft_lst_move_back.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
 	ft_collector.h
 ft_lst_push_params.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\

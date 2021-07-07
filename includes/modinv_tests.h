@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   modexpTests.h                                      :+:      :+:    :+:   */
+/*   modinv_tests.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/06 16:07:23 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/06 16:14:49 by yforeau          ###   ########.fr       */
+/*   Created: 2021/07/07 08:23:11 by yforeau           #+#    #+#             */
+/*   Updated: 2021/07/07 08:23:38 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MODEXPTESTS_H
-# define MODEXPTESTS_H
+#ifndef MODINV_TESTS_H
+# define MODINV_TESTS_H
 
-extern const char *modexpTests[128][4];
+extern const char *modinv_tests[125][3];
 
 #endif

@@ -9,7 +9,8 @@
 #include <stdlib.h>
 #include "libft.h"
 #include "ft_printf.h"
-#include "modexpTests.h"
+#include "modexp_tests.h"
+#include "modinv_tests.h"
 
 #define C_RED     "\x1b[31m"
 #define C_GREEN   "\x1b[32m"
@@ -629,8 +630,8 @@ void	test_mandatory(int ac, char **av)
 		}
 	);
 
-	//for (int i = 0; modexpTests[i][0] != NULL; ++i)
-	for (int i = 0; i < 75 && modexpTests[i][0] != NULL; ++i)
+	//for (int i = 0; modexp_tests[i][0] != NULL; ++i)
+	for (int i = 0; i < 75 && modexp_tests[i][0] != NULL; ++i)
 	{
 		bintclr(a);
 		bintclr(b);
@@ -645,22 +646,22 @@ void	test_mandatory(int ac, char **av)
 				BINT_ASSERT(
 					"set a to defined value",
 					ret == BINT_SUCCESS,
-					ret = decimal_to_bint(a, modexpTests[i][0])
+					ret = decimal_to_bint(a, modexp_tests[i][0])
 				);
 				BINT_ASSERT(
 					"set b to defined value (exponent)",
 					ret == BINT_SUCCESS,
-					ret = decimal_to_bint(b, modexpTests[i][1])
+					ret = decimal_to_bint(b, modexp_tests[i][1])
 				);
 				BINT_ASSERT(
 					"set c to defined value (modulo)",
 					ret == BINT_SUCCESS,
-					ret = decimal_to_bint(c, modexpTests[i][2])
+					ret = decimal_to_bint(c, modexp_tests[i][2])
 				);
 				BINT_ASSERT(
 					"set e to defined value (result)",
 					ret == BINT_SUCCESS,
-					ret = decimal_to_bint(e, modexpTests[i][3])
+					ret = decimal_to_bint(e, modexp_tests[i][3])
 				);
 				BINT_ASSERT(
 					"bint_modexp(d, a, b, c) succeeds",
