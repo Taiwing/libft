@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 13:18:25 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/07 10:33:45 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/07 18:03:08 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int			bint_modexp(t_bint res, const t_bint a,
 		|| bintcpy(res, g_bint_one) == BINT_FAILURE
 		|| bint_smod(local_a, c, tmp) == BINT_FAILURE)
 		return (BINT_FAILURE);
+	if (!bintcmp(local_a, g_bint_zero))
+		return (bintcpy(res, g_bint_zero));
 	while (bintcmp(local_b, g_bint_zero))
 	{
 		if (bint_is_odd(local_b)
