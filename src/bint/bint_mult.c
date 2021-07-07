@@ -6,13 +6,13 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 13:12:45 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/07 10:29:10 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/07 11:02:37 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bint.h"
 
-static int	internal_bint_mult(t_bint res, const t_bint s,
+static int	long_multiplication(t_bint res, const t_bint s,
 	const t_bint l, uint32_t limit)
 {
 	uint64_t	prod;
@@ -36,7 +36,7 @@ static int	internal_bint_mult(t_bint res, const t_bint s,
 				return (BINT_FAILURE);
 			res[j] = (uint32_t)(prod & 0xFFFFFFFF);
 		}
-		res++;
+		++res;
 	}
 	return (BINT_SUCCESS);
 }
@@ -51,7 +51,7 @@ int			bint_mult(t_bint res, const t_bint l, const t_bint r)
 
 	if ((max = BINT_LEN(l) + BINT_LEN(r)) >= BINT_SIZE_DEF)
 		return (BINT_FAILURE);
-	if (internal_bint_mult(test, BINT_LEN(l) < BINT_LEN(r) ? l : r,
+	if (long_multiplication(test, BINT_LEN(l) < BINT_LEN(r) ? l : r,
 		BINT_LEN(l) < BINT_LEN(r) ? r : l, BINT_SIZE(test)) == BINT_FAILURE)
 		return (BINT_FAILURE);
 	SET_BINT_LEN(test, (max > 0 && test[max] == 0 ? max - 1 : max));
