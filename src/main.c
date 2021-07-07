@@ -780,6 +780,7 @@ const t_bintcmd		g_bint_commands[] = {
 	DEFINE_BINTCMD( "is_even",		V_B,			bc_is_even			),
 	DEFINE_BINTCMD( "rand",			I_B_B_B_U64,	bint_rand			),
 	DEFINE_BINTCMD( "modexp",		I_B_B_B_B,		bint_modexp			),
+	DEFINE_BINTCMD( "modinv",		I_B_B_B_B,		bint_modinv			),
 	DEFINE_BINTCMD( "print",		I_B_U32_U32,	bint_print			),
 	DEFINE_BINTCMD( "help",			V,				bc_help				),
 	DEFINE_BINTCMD( "env",			V,				bc_env				),
