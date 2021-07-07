@@ -2,7 +2,7 @@
 
 CC			=	gcc
 #CFLAGS		=	-Wall -Wextra -Werror
-CFLAGS		=	-Wall -Wextra -pg
+CFLAGS		=	-Wall -Wextra -g
 HDIR		=	includes
 SRCDIR		=	src
 HFLAGS		=	-I $(HDIR)

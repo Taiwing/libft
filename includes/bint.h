@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/07 09:01:43 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/07 13:23:46 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,11 @@
 # define DEFLEN(len)			(len ? len : BINT_SIZE_DEF)
 # define BINT_DEFAULT(len)		{[0] = (DEFLEN(len) << 16),\
 								[ 1 ... DEFLEN(len) - 1] = 0} 
+
+// TODO: check that it takes less time than the loop in long_multiplication
+/*
+# define BINT_DEFAULT(len)		{[0] = (DEFLEN(len) << 16)}
+*/
 
 typedef uint32_t *	t_bint;
 
