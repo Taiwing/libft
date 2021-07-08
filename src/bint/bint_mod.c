@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 13:18:25 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/07 18:03:08 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/08 12:29:12 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ int			bint_modexp(t_bint res, const t_bint a,
 	uint32_t	local_a[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 	uint32_t	local_b[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
+	if (!bintcmp(c, g_bint_one))
+		return (bintcpy(res, g_bint_zero));
 	if (bintcpy(local_a, a) == BINT_FAILURE
 		|| bintcpy(local_b, b) == BINT_FAILURE
 		|| bintcpy(res, g_bint_one) == BINT_FAILURE
 		|| bint_smod(local_a, c, tmp) == BINT_FAILURE)
 		return (BINT_FAILURE);
-	if (!bintcmp(local_a, g_bint_zero))
+	if (!bintcmp(local_a, g_bint_zero) && bintcmp(b, g_bint_zero))
 		return (bintcpy(res, g_bint_zero));
 	while (bintcmp(local_b, g_bint_zero))
 	{
