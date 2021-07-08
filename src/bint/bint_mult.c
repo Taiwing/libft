@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 13:12:45 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/08 13:21:56 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/08 13:30:48 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ static int	bint_split_at(t_bint high, t_bint low,
 	return (BINT_SUCCESS);
 }
 
-static int	karatsuba_result(t_bint res,
-	uint32_t z[3][BINT_SIZE_DEF], uint32_t m)
+static int	karatsuba_result(t_bint res, uint32_t z[3][BINT_SIZE_DEF],
+	uint32_t m, uint32_t sign)
 {
 	if (bint_sub(z[1], z[1], z[2]) == BINT_FAILURE
 		|| bint_sub(z[1], z[1], z[0]) == BINT_FAILURE
@@ -73,6 +73,7 @@ static int	karatsuba_result(t_bint res,
 		|| bint_add(z[1], z[0], z[1]) == BINT_FAILURE
 		|| bint_add(res, z[1], z[2]) == BINT_FAILURE)
 		return (BINT_FAILURE);
+	SET_BINT_SIGN(res, sign);
 	return (BINT_SUCCESS);
 }
 
@@ -104,7 +105,7 @@ static int	karatsuba(t_bint res, const t_bint s, const t_bint l)
 	cmp = bintcmp_abs(low[1], low[0]);
 	if (karatsuba(z[1], low[cmp <= 0], low[cmp > 0]) == BINT_FAILURE)
 		return (BINT_FAILURE);
-	return (karatsuba_result(res, z, m));
+	return (karatsuba_result(res, z, m, BINT_SIGN(s) != BINT_SIGN(l)));
 }
 
 /*
