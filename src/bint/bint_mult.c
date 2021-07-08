@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 13:12:45 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/07 17:21:02 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/07/08 13:21:56 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,33 @@
 
 /*
 ** Standard multiplication algorithm
+**
+** s is the smaller number and l the larger one
 */
-static int	long_multiplication(t_bint res, const t_bint s,
-	const t_bint l, uint32_t limit)
+static int	long_multiplication(t_bint res, const t_bint s, const t_bint l)
 {
 	uint64_t	prod;
-	uint32_t	i;
-	uint32_t	j;
+	uint32_t	max;
+	t_bint		r;
 
-	// TODO: check that it takes less time with this than
-	// with BINT_DEFAULT macro
-	/*
-	for (uint32_t k = 1; k <= BINT_LEN(l); ++k)
-		res[k] = 0;
-	*/
-	i = 0;
-	while (++i <= BINT_LEN(s))
+	if ((max = BINT_LEN(s) + BINT_LEN(l)) >= BINT_SIZE(res))
+		return (BINT_FAILURE);
+	r = res;
+	for (uint32_t i = 1, j; i <= BINT_LEN(s); ++i, ++r)
 	{
-		if (s[i])
+		if (!s[i])
+			continue;
+		prod = 0;
+		for (j = 1; j <= BINT_LEN(l); ++j)
 		{
-			j = 0;
-			prod = 0;
-			while (++j <= BINT_LEN(l))
-			{
-				prod += res[j] + (l[j] * (uint64_t)s[i]);
-				res[j] = prod & 0xFFFFFFFF;
-				prod >>= 32;
-			}
-			if (j >= limit)
-				return (BINT_FAILURE);
-			res[j] = (uint32_t)(prod & 0xFFFFFFFF);
+			prod += r[j] + (l[j] * (uint64_t)s[i]);
+			r[j] = prod & 0xFFFFFFFF;
+			prod >>= 32;
 		}
-		++res;
+		r[j] = (uint32_t)(prod & 0xFFFFFFFF);
 	}
+	SET_BINT_LEN(res, (max > 0 && res[max] == 0 ? max - 1 : max));
+	SET_BINT_SIGN(res, BINT_SIGN(s) != BINT_SIGN(l));
 	return (BINT_SUCCESS);
 }
 
@@ -94,7 +88,7 @@ static int	karatsuba(t_bint res, const t_bint s, const t_bint l)
 	uint32_t	m;
 
 	if (BINT_LEN(l) < 10 || BINT_LEN(s) < 2)
-		return (long_multiplication(res, s, l, BINT_SIZE(res)));
+		return (long_multiplication(res, s, l));
 	m = (BINT_LEN(s) / 2) + (BINT_LEN(s) % 2);
 	if (bint_split_at(high[0], low[0], s, m) == BINT_FAILURE
 		|| bint_split_at(high[1], low[1], l, m) == BINT_FAILURE)
@@ -119,23 +113,18 @@ static int	karatsuba(t_bint res, const t_bint s, const t_bint l)
 int			bint_mult(t_bint res, const t_bint l, const t_bint r)
 {
 	int				cmp;
-	uint32_t		max;
 	t_bint			small;
 	t_bint			large;
 	uint32_t		tmp[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
-	if ((max = BINT_LEN(l) + BINT_LEN(r)) >= BINT_SIZE_DEF)
-		return (BINT_FAILURE);
 	cmp = bintcmp_abs(l, r);
 	small = cmp < 0 ? l : r;
 	large = cmp >= 0 ? l : r;
-	if (long_multiplication(tmp, small, large, BINT_SIZE(tmp)) == BINT_FAILURE)
+	if (long_multiplication(tmp, small, large) == BINT_FAILURE)
 		return (BINT_FAILURE);
 	/*
 	if (karatsuba(tmp, small, large) == BINT_FAILURE)
 		return (BINT_FAILURE);
 	*/
-	SET_BINT_LEN(tmp, (max > 0 && tmp[max] == 0 ? max - 1 : max));
-	SET_BINT_SIGN(tmp, BINT_SIGN(l) != BINT_SIGN(r));
 	return (bintcpy(res, tmp));
 }
