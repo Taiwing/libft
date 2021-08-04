@@ -6,13 +6,13 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 08:27:20 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/07 08:27:44 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/04 18:08:18 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MODEXP_TESTS_H
 # define MODEXP_TESTS_H
 
-extern const char *modexp_tests[128][4];
+extern const char *modexp_tests[128][5];
 
 #endif

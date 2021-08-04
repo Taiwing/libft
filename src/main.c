@@ -639,7 +639,8 @@ void	test_mandatory(int ac, char **av)
 		bintclr(c);
 		bintclr(d);
 		bintclr(e);
-		ft_sprintf(test_name, "modexp generated test nb %d", i + 1);
+		ft_sprintf(test_name, "modexp generated test nb %d (%s bits)",
+			i + 1, modexp_tests[i][4]);
 		BINT_TEST(
 			test_name,
 			"bint_modexp",
@@ -681,7 +682,8 @@ void	test_mandatory(int ac, char **av)
 		bintclr(c);
 		bintclr(d);
 		bintclr(e);
-		ft_sprintf(test_name, "modinv generated test nb %d", i + 1);
+		ft_sprintf(test_name, "modinv generated test nb %d (%s bits)",
+			i + 1, modinv_tests[i][3]);
 		BINT_TEST(
 			test_name,
 			"bint_modinv",
@@ -720,7 +722,8 @@ void	test_mandatory(int ac, char **av)
 		bintclr(c);
 		bintclr(d);
 		bintclr(e);
-		ft_sprintf(test_name, "modmul generated test nb %d", i + 1);
+		ft_sprintf(test_name, "modmul generated test nb %d (%s bits)",
+			i + 1, modmul_tests[i][4]);
 		BINT_TEST(
 			test_name,
 			"bint_modexp",
