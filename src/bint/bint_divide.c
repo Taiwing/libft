@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 19:22:38 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/06 21:01:45 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/04 19:25:43 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	first_digit_divide(t_bint quotient, const t_bint numerator,
 	uint32_t	d;
 	uint64_t	n;
 
-	bintcpy(quotient, g_bint_zero);
+	bintcpy(quotient, BINT_ZERO);
 	if (bintcmp_abs(numerator, denominator) < 0)
 		return (BINT_SUCCESS);
 	len = BINT_LEN(numerator) - BINT_LEN(denominator) + 1;

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 13:12:45 by yforeau           #+#    #+#             */
-/*   Updated: 2021/08/04 18:26:20 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/04 19:36:53 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static int	long_multiplication(t_bint res, const t_bint s, const t_bint l)
 	return (BINT_SUCCESS);
 }
 
+#ifdef KARATSUBA_MULT
 static int	bint_split_at(t_bint high, t_bint low,
 	const t_bint orig, uint32_t at)
 {
@@ -114,6 +115,8 @@ static int	karatsuba(t_bint res, const t_bint s, const t_bint l)
 	return (karatsuba_result(res, z, m, BINT_SIGN(s) != BINT_SIGN(l)));
 }
 
+#endif
+
 /*
 ** Multiply l by r and put the result in res
 */
@@ -127,7 +130,12 @@ int			bint_mult(t_bint res, const t_bint l, const t_bint r)
 	cmp = bintcmp_abs(l, r);
 	small = cmp < 0 ? l : r;
 	large = cmp >= 0 ? l : r;
+#ifndef KARATSUBA_MULT
 	if (long_multiplication(tmp, small, large) == BINT_FAILURE)
 		return (BINT_FAILURE);
+#else
+	if (karatsuba(tmp, small, large) == BINT_FAILURE)
+		return (BINT_FAILURE);
+#endif
 	return (bintcpy(res, tmp));
 }

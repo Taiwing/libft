@@ -6,12 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 14:20:22 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/06 21:14:13 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/04 19:25:11 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-#include "bint.h"
+#include "libft.h"
 
 int			bint_is_odd(const t_bint b)
 {
@@ -35,7 +34,7 @@ static int	bint_rand_internal(t_bint n, const t_bint min, const t_bint max)
 		return (BINT_FAILURE);
 	SET_BINT_LEN(n, BINT_LEN(dist));
 	bintclean(n);
-	if (bintcmp_abs(dist, g_bint_max) < 0)
+	if (bintcmp_abs(dist, BINT_MAX) < 0)
 	{
 		if (bint_add_u64(dist, dist, 1) == BINT_FAILURE)
 			return (BINT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 13:18:25 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/08 12:29:12 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/04 19:24:42 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ int			bint_modexp(t_bint res, const t_bint a,
 	uint32_t	local_a[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 	uint32_t	local_b[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
-	if (!bintcmp(c, g_bint_one))
-		return (bintcpy(res, g_bint_zero));
+	if (!bintcmp(c, BINT_ONE))
+		return (bintcpy(res, BINT_ZERO));
 	if (bintcpy(local_a, a) == BINT_FAILURE
 		|| bintcpy(local_b, b) == BINT_FAILURE
-		|| bintcpy(res, g_bint_one) == BINT_FAILURE
+		|| bintcpy(res, BINT_ONE) == BINT_FAILURE
 		|| bint_smod(local_a, c, tmp) == BINT_FAILURE)
 		return (BINT_FAILURE);
-	if (!bintcmp(local_a, g_bint_zero) && bintcmp(b, g_bint_zero))
-		return (bintcpy(res, g_bint_zero));
-	while (bintcmp(local_b, g_bint_zero))
+	if (!bintcmp(local_a, BINT_ZERO) && bintcmp(b, BINT_ZERO))
+		return (bintcpy(res, BINT_ZERO));
+	while (bintcmp(local_b, BINT_ZERO))
 	{
 		if (bint_is_odd(local_b)
 			&& (bint_mult(res, res, local_a) == BINT_FAILURE
@@ -79,12 +79,12 @@ int			bint_modinv(t_bint t, t_bint gcd,
 	uint32_t	newr[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 	uint32_t	newt[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
-	if (bintcpy(t, g_bint_zero) == BINT_FAILURE
+	if (bintcpy(t, BINT_ZERO) == BINT_FAILURE
 		|| bintcpy(r, b) == BINT_FAILURE
 		|| bintcpy(newr, a) == BINT_FAILURE
-		|| bintcpy(newt, g_bint_one) == BINT_FAILURE)
+		|| bintcpy(newt, BINT_ONE) == BINT_FAILURE)
 		return (BINT_FAILURE);
-	while (bintcmp(newr, g_bint_zero))
+	while (bintcmp(newr, BINT_ZERO))
 		if (bint_divide(q, NULL, r, newr) == BINT_FAILURE
 			|| bint_modinv_op(t, newt, q, tmp) == BINT_FAILURE
 			|| bint_modinv_op(r, newr, q, tmp) == BINT_FAILURE)

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 11:55:38 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/06 21:01:29 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/04 19:24:09 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int		bintset_pow10(t_bint b, uint32_t exp, uint32_t sign)
 /*
 ** Set a bint bit mask. The result will be a bint of log2 == bitlen
 ** where all the bits are set to 1. For example a call with
-** bitlen == BINT_MAX_LOG2 and sign == 0 will be equal to g_bint_max.
+** bitlen == BINT_MAX_LOG2 and sign == 0 will be equal to BINT_MAX.
 */
 int		bintset_mask(t_bint b, uint32_t bitlen, uint32_t sign)
 {

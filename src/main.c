@@ -485,12 +485,12 @@ void	test_mandatory(int ac, char **av)
 	}
 
 	BINT_TEST(
-		"set mask to g_bint_max (with bitlen == BINT_MAX_LOG2)",
+		"set mask to BINT_MAX (with bitlen == BINT_MAX_LOG2)",
 		"bintset_mask",
 		{
 			bintclr(a);
 			bintset_mask(a, BINT_MAX_LOG2, 0);
-			BINT_ASSERT("a == g_bint_max", !ret, ret = bintcmp(a, g_bint_max));
+			BINT_ASSERT("a == BINT_MAX", !ret, ret = bintcmp(a, BINT_MAX));
 		}
 	);
 
@@ -532,23 +532,23 @@ void	test_mandatory(int ac, char **av)
 
 	bintclr(a);
 	BINT_TEST(
-		"generate positive bint between 0 and g_bint_max",
+		"generate positive bint between 0 and BINT_MAX",
 		"bint_rand, bint_divide",
 		{
 			BINT_ASSERT(
 				"bint_rand succeeds",
 				ret == BINT_SUCCESS,
-				ret = bint_rand(a, g_bint_zero, g_bint_max, 0)
+				ret = bint_rand(a, BINT_ZERO, BINT_MAX, 0)
 			);
 			BINT_ASSERT(
-				"a >= g_bint_zero",
+				"a >= BINT_ZERO",
 				ret >= 0,
-				ret = bintcmp(a, g_bint_zero)
+				ret = bintcmp(a, BINT_ZERO)
 			);
 			BINT_ASSERT(
-				"a <= g_bint_max",
+				"a <= BINT_MAX",
 				ret <= 0,
-				ret = bintcmp(a, g_bint_max)
+				ret = bintcmp(a, BINT_MAX)
 			);
 			BINT_ASSERT("a is positive", !ret, ret = BINT_SIGN(a));
 		}
@@ -556,15 +556,15 @@ void	test_mandatory(int ac, char **av)
 
 	bintclr(b);
 	BINT_TEST(
-		"generate bint between g_bint_max and g_bint_max",
+		"generate bint between BINT_MAX and BINT_MAX",
 		"bint_rand, bint_divide",
 		{
 			BINT_ASSERT(
 				"bint_rand succeeds",
 				ret == BINT_SUCCESS,
-				ret = bint_rand(b, g_bint_max, g_bint_max, 0)
+				ret = bint_rand(b, BINT_MAX, BINT_MAX, 0)
 			);
-			BINT_ASSERT("b == g_bint_max", !ret, ret = bintcmp(b, g_bint_max));
+			BINT_ASSERT("b == BINT_MAX", !ret, ret = bintcmp(b, BINT_MAX));
 			BINT_ASSERT("b is positive", !ret, ret = BINT_SIGN(b));
 		}
 	);
@@ -582,12 +582,12 @@ void	test_mandatory(int ac, char **av)
 			BINT_ASSERT(
 				"bint_rand succeeds",
 				ret == BINT_SUCCESS,
-				ret = bint_rand(c, g_bint_zero, d, 0)
+				ret = bint_rand(c, BINT_ZERO, d, 0)
 			);
 			BINT_ASSERT(
-				"c >= g_bint_zero",
+				"c >= BINT_ZERO",
 				ret >= 0,
-				ret = bintcmp(c, g_bint_zero)
+				ret = bintcmp(c, BINT_ZERO)
 			);
 			BINT_ASSERT(
 				"c <= d",
@@ -709,7 +709,7 @@ void	test_mandatory(int ac, char **av)
 					ret = bint_modinv(d, e, a, b)
 				);
 				BINT_ASSERT("d == c", !ret, ret = bintcmp(d, c));
-				BINT_ASSERT("e == 1", !ret, ret = bintcmp(e, g_bint_one));
+				BINT_ASSERT("e == 1", !ret, ret = bintcmp(e, BINT_ONE));
 			}
 		);
 	}
@@ -1399,10 +1399,10 @@ typedef struct		s_bintconst
 #define BINT_CONSTS_LEN	4
 
 t_bintconst	bintconsts[BINT_CONSTS_LEN + 1] = {
-	{ "g_bint_zero", g_bint_zero },
-	{ "g_bint_one", g_bint_one },
-	{ "g_bint_max", g_bint_max },
-	{ "g_bint_min", g_bint_min },
+	{ "BINT_ZERO", BINT_ZERO },
+	{ "BINT_ONE", BINT_ONE },
+	{ "BINT_MAX", BINT_MAX },
+	{ "BINT_MIN", BINT_MIN },
 	{ NULL, NULL },
 };
 

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/07 13:23:46 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/04 19:28:52 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,5 +182,10 @@ extern const uint32_t	g_bint_zero[2];
 extern const uint32_t	g_bint_one[2];
 extern const uint32_t	g_bint_max[BINT_SIZE_DEF];
 extern const uint32_t	g_bint_min[BINT_SIZE_DEF];
+
+# define	BINT_ZERO	((const t_bint)g_bint_zero)
+# define	BINT_ONE	((const t_bint)g_bint_one)
+# define	BINT_MIN	((const t_bint)g_bint_min)
+# define	BINT_MAX	((const t_bint)g_bint_max)
 
 #endif
