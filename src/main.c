@@ -632,7 +632,7 @@ void	test_mandatory(int ac, char **av)
 	);
 
 	//for (int i = 0; modexp_tests[i][0] != NULL; ++i)
-	for (int i = 0; i < 75 && modexp_tests[i][0] != NULL; ++i)
+	for (int i = 0; i < 125 && modexp_tests[i][0] != NULL; ++i)
 	{
 		bintclr(a);
 		bintclr(b);
@@ -715,7 +715,7 @@ void	test_mandatory(int ac, char **av)
 	}
 
 	//for (int i = 0; modmul_tests[i][0] != NULL; ++i)
-	for (int i = 0; i < 75 && modmul_tests[i][0] != NULL; ++i)
+	for (int i = 0; i < 125 && modmul_tests[i][0] != NULL; ++i)
 	{
 		bintclr(a);
 		bintclr(b);

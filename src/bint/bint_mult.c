@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 13:12:45 by yforeau           #+#    #+#             */
-/*   Updated: 2021/07/08 13:30:48 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/04 18:26:20 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,12 @@ static int	karatsuba_result(t_bint res, uint32_t z[3][BINT_SIZE_DEF],
 
 /*
 ** Karatsuba multiplication algorithm: recursive divide and conquer
+**
+** This is not used as of yet because this way too slow, actually
+** it is slower than the original which is obviously not the goal.
+** I really don't know how I could optimize this function... Maybe
+** with multithreading... Who knows ? Anyway, it seems way out of
+** scope for what I need it for, so this will have to wait.
 */
 static int	karatsuba(t_bint res, const t_bint s, const t_bint l)
 {
@@ -123,9 +129,5 @@ int			bint_mult(t_bint res, const t_bint l, const t_bint r)
 	large = cmp >= 0 ? l : r;
 	if (long_multiplication(tmp, small, large) == BINT_FAILURE)
 		return (BINT_FAILURE);
-	/*
-	if (karatsuba(tmp, small, large) == BINT_FAILURE)
-		return (BINT_FAILURE);
-	*/
 	return (bintcpy(res, tmp));
 }
