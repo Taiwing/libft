@@ -2,7 +2,7 @@
 
 CC			=	gcc
 #CFLAGS		=	-Wall -Wextra -Werror
-CFLAGS		=	-g -Wall -Wextra
+CFLAGS		=	-g -Wall -Wextra -Werror -fsanitize=address,undefined
 HDIR		=	includes
 SRCDIR		=	src
 HFLAGS		=	-I $(HDIR)
