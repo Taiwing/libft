@@ -6,7 +6,7 @@ CFLAGS		=	-g -Wall -Wextra -Werror -fsanitize=address,undefined
 HDIR		=	includes
 SRCDIR		=	src
 HFLAGS		=	-I $(HDIR)
-NAME		=	test_libft
+NAME		=	libft.a
 
 ############################## SOURCES #########################################
 
@@ -24,11 +24,7 @@ T_LSTDIR		=	t_lst
 MEMORYDIR		=	memory
 
 SRCC			=	get_next_line.c\
-					main.c\
-					modexp_tests.c\
 					get_next_line_utils.c\
-					modinv_tests.c\
-					modmul_tests.c\
 					ft_swap_p.c\
 
 FT_GETOPTC		=	process_long_option.c\
@@ -232,7 +228,8 @@ vpath			%.c	$(SRCDIR)
 all: $(NAME)
 
 $(NAME): $(ODIR) $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $(patsubst %.o,$(ODIR)/%.o,$(OBJ))
+	ar rc $@ $(patsubst %.o,$(ODIR)/%.o,$(OBJ))
+	ranlib $@
 
 process_long_option.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
 	ft_collector.h getopt_errors.h
@@ -250,8 +247,6 @@ getopt_errors.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
 get_next_line.o: get_next_line.h libft.h ft_getopt.h ft_printf.h t_pbuf.h\
 	bint.h ft_collector.h
 ft_ls_files.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
-main.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h\
-	ft_printf.h modexp_tests.h modinv_tests.h modmul_tests.h
 format_data_utils.o: format_data.h t_params.h t_pdata.h t_pbuf.h libft.h\
 	ft_getopt.h ft_printf.h bint.h ft_collector.h
 itoa_unsigned.o: itoa_unsigned.h t_pdata.h t_params.h

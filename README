@@ -2,3 +2,7 @@
 
 My full personal library in C, with get_next_line, ft_printf and ft_getopt
 included.
+
+The tests directory holds test programs for some libft functions. For
+example the tests/bint project is a big ints calculator to test the
+bint library. It also has automated tests.
