@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:37:37 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/20 00:11:02 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/04 19:56:14 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,6 @@ void		lc_conversion(t_pdata *loc, t_farg *args, t_params *conv)
 	wint_t	nb;
 
 	fetch(args, conv->arg, C_WINT_T, (void *)(&nb));
-	if (nb < 0)
-	{
-		loc->n = -1;
-		return ;
-	}
 	l = byte_len(nb);
 	add_to_buf(loc, NULL, 0, l);
 	if (loc->n == -1)
