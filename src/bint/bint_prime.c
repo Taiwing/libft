@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 22:44:18 by yforeau           #+#    #+#             */
-/*   Updated: 2021/08/05 09:55:23 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/05 11:53:33 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,22 +71,21 @@ int			bint_is_prime(t_bint n, uint64_t k, uint64_t *ret)
 {
 	uint32_t	d[BINT_SIZE_DEF] = BINT_DEFAULT(0);
 
-	k = k > BINT_K_MAX ? BINT_K_MAX + 1: k + 1;
+	k = k > BINT_K_MAX ? BINT_K_MAX : k;
+	*ret = k + 1;
 	if (bintcmp(n, BINT_FOUR) < 0)
-		*ret = bintcmp(n, BINT_TWO) < 0 ? k : 0;
+		*ret = bintcmp(n, BINT_TWO) < 0 ? *ret: 0;
 	else if (bint_is_odd(n))
 	{
 		if (bint_sub(d, n, BINT_ONE) == BINT_FAILURE)
 			return (BINT_FAILURE);
-		// TODO: maybe optimize this loop
-		while (bint_is_even(d))
-			if (bint_shiftright(d, 1) == BINT_FAILURE)
-				return (BINT_FAILURE);
-		for (*ret = 0; --k && !*ret;)
+		if (bint_shift_to_first_digit(d) == BINT_FAILURE)
+			return (BINT_FAILURE);
+		for (*ret = 0, ++k; !*ret && --k;)
 			if (bint_miller_test(n, d, ret) == BINT_FAILURE)
 				return (BINT_FAILURE);
+		*ret = k;
 	}
-	*ret = k;
 	return (BINT_SUCCESS);
 }
 
