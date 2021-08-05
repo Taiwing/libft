@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/08/04 19:28:52 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/05 09:53:54 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@
 # define BINT_DEFAULT(len)		{[0] = (DEFLEN(len) << 16),\
 								[ 1 ... DEFLEN(len) - 1] = 0} 
 
+# define BINT_K_MAX				100
+
 // TODO: check that it takes less time than the loop in long_multiplication
 /*
 # define BINT_DEFAULT(len)		{[0] = (DEFLEN(len) << 16)}
@@ -171,6 +173,10 @@ int					bint_modmul(t_bint res, const t_bint a,
 int					bint_shiftleft(t_bint res, uint32_t shift);
 int					bint_shiftright(t_bint res, uint32_t shift);
 
+int					bint_is_prime(t_bint n, uint64_t k, uint64_t *ret);
+int					bint_find_prime(t_bint n, uint64_t k,
+	uint64_t size, uint64_t print);
+
 /*
 ** Bint math constants
 */
@@ -180,11 +186,29 @@ extern const uint32_t	*g_pow10_big[10];
 extern const uint8_t	g_logtable[256];
 extern const uint32_t	g_bint_zero[2];
 extern const uint32_t	g_bint_one[2];
+extern const uint32_t	g_bint_two[2];
+extern const uint32_t	g_bint_three[2];
+extern const uint32_t	g_bint_four[2];
+extern const uint32_t	g_bint_five[2];
+extern const uint32_t	g_bint_six[2];
+extern const uint32_t	g_bint_seven[2];
+extern const uint32_t	g_bint_eight[2];
+extern const uint32_t	g_bint_nine[2];
+extern const uint32_t	g_bint_ten[2];
 extern const uint32_t	g_bint_max[BINT_SIZE_DEF];
 extern const uint32_t	g_bint_min[BINT_SIZE_DEF];
 
 # define	BINT_ZERO	((const t_bint)g_bint_zero)
 # define	BINT_ONE	((const t_bint)g_bint_one)
+# define	BINT_TWO	((const t_bint)g_bint_two)
+# define	BINT_THREE	((const t_bint)g_bint_three)
+# define	BINT_FOUR	((const t_bint)g_bint_four)
+# define	BINT_FIVE	((const t_bint)g_bint_five)
+# define	BINT_SIX	((const t_bint)g_bint_six)
+# define	BINT_SEVEN	((const t_bint)g_bint_seven)
+# define	BINT_EIGHT	((const t_bint)g_bint_eight)
+# define	BINT_NINE	((const t_bint)g_bint_nine)
+# define	BINT_TEN	((const t_bint)g_bint_ten)
 # define	BINT_MIN	((const t_bint)g_bint_min)
 # define	BINT_MAX	((const t_bint)g_bint_max)
 

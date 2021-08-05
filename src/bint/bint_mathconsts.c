@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:13:08 by yforeau           #+#    #+#             */
-/*   Updated: 2021/08/04 19:28:20 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/05 08:55:59 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,6 +231,51 @@ const uint32_t	g_bint_zero[2] = {
 
 const uint32_t	g_bint_one[2] = {
 	[ 1 ] = 1,
+	[ 0 ] = (2 << 16) + 1
+};
+
+const uint32_t	g_bint_two[2] = {
+	[ 1 ] = 2,
+	[ 0 ] = (2 << 16) + 1
+};
+
+const uint32_t	g_bint_three[2] = {
+	[ 1 ] = 3,
+	[ 0 ] = (2 << 16) + 1
+};
+
+const uint32_t	g_bint_four[2] = {
+	[ 1 ] = 4,
+	[ 0 ] = (2 << 16) + 1
+};
+
+const uint32_t	g_bint_five[2] = {
+	[ 1 ] = 5,
+	[ 0 ] = (2 << 16) + 1
+};
+
+const uint32_t	g_bint_six[2] = {
+	[ 1 ] = 6,
+	[ 0 ] = (2 << 16) + 1
+};
+
+const uint32_t	g_bint_seven[2] = {
+	[ 1 ] = 7,
+	[ 0 ] = (2 << 16) + 1
+};
+
+const uint32_t	g_bint_eight[2] = {
+	[ 1 ] = 8,
+	[ 0 ] = (2 << 16) + 1
+};
+
+const uint32_t	g_bint_nine[2] = {
+	[ 1 ] = 9,
+	[ 0 ] = (2 << 16) + 1
+};
+
+const uint32_t	g_bint_ten[2] = {
+	[ 1 ] = 10,
 	[ 0 ] = (2 << 16) + 1
 };
 

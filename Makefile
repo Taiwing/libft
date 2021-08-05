@@ -90,6 +90,7 @@ BINTC			=	bint_utils_1.c\
 					bint_mathconsts.c\
 					bintcmp.c\
 					bint_mult_by.c\
+					bint_prime.c\
 					bint_utils_2.c\
 					bint_divide.c\
 
@@ -317,6 +318,7 @@ bint_sub.o: bint.h
 bint_mathconsts.o: bint.h
 bintcmp.o: bint.h
 bint_mult_by.o: bint.h
+bint_prime.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 bint_utils_2.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 bint_divide.o: bint.h
 ft_dir_collector.o: ft_collector.h

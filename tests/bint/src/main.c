@@ -785,6 +785,7 @@ enum				e_ftype {
 	I_B_B_U64,
 	I_B_B_B_B,
 	I_B_B_B_U64,
+	I_B_U64_U64_U64,
 	V,
 	NONE
 };
@@ -814,6 +815,7 @@ const int			g_ftypes_protos[][BINTF_MAX_ARGS + 2] = {
 	{IR,	BA,		BA,		U64A,	NOPE,	NOPE},
 	{IR,	BA,		BA,		BA,		BA,		NOPE},
 	{IR,	BA,		BA,		BA,		U64A,	NOPE},
+	{IR,	BA,		U64A,	U64A,	U64A,	NOPE},
 	{VR,	NOPE,	NOPE,	NOPE,	NOPE,	NOPE},
 	{NOPE,	NOPE,	NOPE,	NOPE,	NOPE,	NOPE},
 };
@@ -835,45 +837,46 @@ static void	bc_is_even(const t_bint n);
 
 #define DEFINE_BINTCMD(name, ftype, f) { name, (sizeof(name) - 1), ftype, f}
 const t_bintcmd		g_bint_commands[] = {
-	DEFINE_BINTCMD( "clean",		V_B,			bintclean			),
-	DEFINE_BINTCMD( "clr",			V_B,			bintclr				),
-	DEFINE_BINTCMD( "cpy",			I_B_B,			bintcpy				),
-	DEFINE_BINTCMD( "set_u64",		I_B_U64,		bintset_u64			),
-	DEFINE_BINTCMD( "set_i64",		I_B_I64,		bintset_i64			),
-	DEFINE_BINTCMD( "set_pow2",		I_B_U32_U32,	bintset_pow2		),
-	DEFINE_BINTCMD( "set_pow10",	I_B_U32_U32,	bintset_pow10		),
-	DEFINE_BINTCMD( "set_mask",		I_B_U32_U32,	bintset_mask		),
-	DEFINE_BINTCMD( "cmp",			I_B_B,			bintcmp				),
-	DEFINE_BINTCMD( "cmp_abs",		I_B_B,			bintcmp_abs			),
-	DEFINE_BINTCMD( "add",			I_B_B_B,		bint_add			),
-	DEFINE_BINTCMD( "add_abs",		I_B_B_B,		bint_add_abs		),
-	DEFINE_BINTCMD( "add_u64",		I_B_B_U64,		bint_add_u64		),
-	DEFINE_BINTCMD( "sub",			I_B_B_B,		bint_sub			),
-	DEFINE_BINTCMD( "sub_abs",		I_B_B_B,		bint_sub_abs		),
-	DEFINE_BINTCMD( "sub_u64",		I_B_B_U64,		bint_sub_u64		),
-	DEFINE_BINTCMD( "mult",			I_B_B_B,		bint_mult			),
-	DEFINE_BINTCMD( "mult_u32",		I_B_B_U32,		bint_mult_u32		),
-	DEFINE_BINTCMD( "mult2",		I_B_B,			bint_mult2			),
-	DEFINE_BINTCMD( "multpow10",	I_B_B_U32,		bint_multpow10		),
-	DEFINE_BINTCMD( "smult2",		I_B,			bint_smult2			),
-	DEFINE_BINTCMD( "smult10",		I_B,			bint_smult10		),
-	DEFINE_BINTCMD( "shiftleft",	I_B_U32,		bint_shiftleft		),
-	DEFINE_BINTCMD( "shiftright",	I_B_U32,		bint_shiftright		),
-	DEFINE_BINTCMD( "divide",		I_B_B_B_B,		bint_divide			),
-	DEFINE_BINTCMD( "divmod",		I_B_B_B_B,		bint_divmod			),
-	DEFINE_BINTCMD( "log2",			V_B,			bc_log2				),
-	DEFINE_BINTCMD( "is_odd",		V_B,			bc_is_odd			),
-	DEFINE_BINTCMD( "is_even",		V_B,			bc_is_even			),
-	DEFINE_BINTCMD( "rand",			I_B_B_B_U64,	bint_rand			),
-	DEFINE_BINTCMD( "modexp",		I_B_B_B_B,		bint_modexp			),
-	DEFINE_BINTCMD( "modinv",		I_B_B_B_B,		bint_modinv			),
-	DEFINE_BINTCMD( "modmul",		I_B_B_B_B,		bint_modmul			),
-	DEFINE_BINTCMD( "print",		I_B_U32_U32,	bint_print			),
-	DEFINE_BINTCMD( "help",			V,				bc_help				),
-	DEFINE_BINTCMD( "env",			V,				bc_env				),
-	DEFINE_BINTCMD( "exit",			V,				bc_exit				),
-	DEFINE_BINTCMD( "quit",			V,				bc_exit				),
-	DEFINE_BINTCMD( NULL,			NONE,			NULL				),
+	DEFINE_BINTCMD( "clean",		V_B,				bintclean			),
+	DEFINE_BINTCMD( "clr",			V_B,				bintclr				),
+	DEFINE_BINTCMD( "cpy",			I_B_B,				bintcpy				),
+	DEFINE_BINTCMD( "set_u64",		I_B_U64,			bintset_u64			),
+	DEFINE_BINTCMD( "set_i64",		I_B_I64,			bintset_i64			),
+	DEFINE_BINTCMD( "set_pow2",		I_B_U32_U32,		bintset_pow2		),
+	DEFINE_BINTCMD( "set_pow10",	I_B_U32_U32,		bintset_pow10		),
+	DEFINE_BINTCMD( "set_mask",		I_B_U32_U32,		bintset_mask		),
+	DEFINE_BINTCMD( "cmp",			I_B_B,				bintcmp				),
+	DEFINE_BINTCMD( "cmp_abs",		I_B_B,				bintcmp_abs			),
+	DEFINE_BINTCMD( "add",			I_B_B_B,			bint_add			),
+	DEFINE_BINTCMD( "add_abs",		I_B_B_B,			bint_add_abs		),
+	DEFINE_BINTCMD( "add_u64",		I_B_B_U64,			bint_add_u64		),
+	DEFINE_BINTCMD( "sub",			I_B_B_B,			bint_sub			),
+	DEFINE_BINTCMD( "sub_abs",		I_B_B_B,			bint_sub_abs		),
+	DEFINE_BINTCMD( "sub_u64",		I_B_B_U64,			bint_sub_u64		),
+	DEFINE_BINTCMD( "mult",			I_B_B_B,			bint_mult			),
+	DEFINE_BINTCMD( "mult_u32",		I_B_B_U32,			bint_mult_u32		),
+	DEFINE_BINTCMD( "mult2",		I_B_B,				bint_mult2			),
+	DEFINE_BINTCMD( "multpow10",	I_B_B_U32,			bint_multpow10		),
+	DEFINE_BINTCMD( "smult2",		I_B,				bint_smult2			),
+	DEFINE_BINTCMD( "smult10",		I_B,				bint_smult10		),
+	DEFINE_BINTCMD( "shiftleft",	I_B_U32,			bint_shiftleft		),
+	DEFINE_BINTCMD( "shiftright",	I_B_U32,			bint_shiftright		),
+	DEFINE_BINTCMD( "divide",		I_B_B_B_B,			bint_divide			),
+	DEFINE_BINTCMD( "divmod",		I_B_B_B_B,			bint_divmod			),
+	DEFINE_BINTCMD( "log2",			V_B,				bc_log2				),
+	DEFINE_BINTCMD( "is_odd",		V_B,				bc_is_odd			),
+	DEFINE_BINTCMD( "is_even",		V_B,				bc_is_even			),
+	DEFINE_BINTCMD( "rand",			I_B_B_B_U64,		bint_rand			),
+	DEFINE_BINTCMD( "modexp",		I_B_B_B_B,			bint_modexp			),
+	DEFINE_BINTCMD( "modinv",		I_B_B_B_B,			bint_modinv			),
+	DEFINE_BINTCMD( "modmul",		I_B_B_B_B,			bint_modmul			),
+	DEFINE_BINTCMD( "find_prime",	I_B_U64_U64_U64,	bint_find_prime		),
+	DEFINE_BINTCMD( "print",		I_B_U32_U32,		bint_print			),
+	DEFINE_BINTCMD( "help",			V,					bc_help				),
+	DEFINE_BINTCMD( "env",			V,					bc_env				),
+	DEFINE_BINTCMD( "exit",			V,					bc_exit				),
+	DEFINE_BINTCMD( "quit",			V,					bc_exit				),
+	DEFINE_BINTCMD( NULL,			NONE,				NULL				),
 };
 
 static void	bc_help(void)
@@ -1122,6 +1125,19 @@ int	i_b_b_b_u64(int cmdi, t_bint args[BINTF_MAX_ARGS],
 	return (f(args[0], args[1], args[2], u64args[3]));
 }
 
+int	i_b_u64_u64_u64(int cmdi, t_bint args[BINTF_MAX_ARGS],
+	uint32_t u32args[BINTF_MAX_ARGS],
+	uint64_t u64args[BINTF_MAX_ARGS],
+	int64_t i64args[BINTF_MAX_ARGS])
+{
+	int		(*f)(t_bint, uint64_t, uint64_t, uint64_t) =
+		g_bint_commands[cmdi].f;
+
+	(void)u32args;
+	(void)i64args;
+	return (f(args[0], u64args[1], u64args[2], u64args[3]));
+}
+
 int	v(int cmdi, t_bint args[BINTF_MAX_ARGS],
 	uint32_t u32args[BINTF_MAX_ARGS],
 	uint64_t u64args[BINTF_MAX_ARGS],
@@ -1226,6 +1242,8 @@ static int	exec_cmd(t_bint args[BINTF_MAX_ARGS], int cmdi)
 		case I_B_U32_U32: ret = i_b_u32_u32(cmdi, args, u32args, u64args, i64args);
 			break;
 		case I_B_B_U64: ret = i_b_b_u64(cmdi, args, u32args, u64args, i64args);
+			break;
+		case I_B_U64_U64_U64: ret = i_b_u64_u64_u64(cmdi, args, u32args, u64args, i64args);
 			break;
 		case V: ret = v(cmdi, args, u32args, u64args, i64args);
 			break;
