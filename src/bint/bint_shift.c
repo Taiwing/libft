@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 16:41:15 by yforeau           #+#    #+#             */
-/*   Updated: 2021/08/05 11:38:14 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/05 12:26:56 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int			bint_shiftright(t_bint res, uint32_t shift)
 	return (BINT_SUCCESS);
 }
 
-int			bint_shift_to_first_digit(t_bint res)
+int			bint_shift_zeroes(t_bint res)
 {
 	uint32_t	i;
 	uint32_t	shift;

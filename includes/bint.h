@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/08/05 11:39:12 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/05 12:26:47 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ int					bint_modmul(t_bint res, const t_bint a,
 
 int					bint_shiftleft(t_bint res, uint32_t shift);
 int					bint_shiftright(t_bint res, uint32_t shift);
-int					bint_shift_to_first_digit(t_bint res);
+int					bint_shift_zeroes(t_bint res);
 
 int					bint_is_prime(t_bint n, uint64_t k, uint64_t *ret);
 int					bint_find_prime(t_bint n, uint64_t k,

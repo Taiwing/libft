@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 22:44:18 by yforeau           #+#    #+#             */
-/*   Updated: 2021/08/05 11:53:33 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/05 12:27:14 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int			bint_is_prime(t_bint n, uint64_t k, uint64_t *ret)
 	{
 		if (bint_sub(d, n, BINT_ONE) == BINT_FAILURE)
 			return (BINT_FAILURE);
-		if (bint_shift_to_first_digit(d) == BINT_FAILURE)
+		if (bint_shift_zeroes(d) == BINT_FAILURE)
 			return (BINT_FAILURE);
 		for (*ret = 0, ++k; !*ret && --k;)
 			if (bint_miller_test(n, d, ret) == BINT_FAILURE)

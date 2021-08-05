@@ -834,6 +834,7 @@ static void	bc_exit(void);
 static void	bc_log2(const t_bint n);
 static void	bc_is_odd(const t_bint n);
 static void	bc_is_even(const t_bint n);
+static int	bc_is_prime(const t_bint n, uint64_t k);
 
 #define DEFINE_BINTCMD(name, ftype, f) { name, (sizeof(name) - 1), ftype, f}
 const t_bintcmd		g_bint_commands[] = {
@@ -871,6 +872,8 @@ const t_bintcmd		g_bint_commands[] = {
 	DEFINE_BINTCMD( "modinv",		I_B_B_B_B,			bint_modinv			),
 	DEFINE_BINTCMD( "modmul",		I_B_B_B_B,			bint_modmul			),
 	DEFINE_BINTCMD( "find_prime",	I_B_U64_U64_U64,	bint_find_prime		),
+	DEFINE_BINTCMD( "is_prime",		I_B_U64,			bc_is_prime			),
+	DEFINE_BINTCMD( "shift_zeroes",	I_B,				bint_shift_zeroes	),
 	DEFINE_BINTCMD( "print",		I_B_U32_U32,		bint_print			),
 	DEFINE_BINTCMD( "help",			V,					bc_help				),
 	DEFINE_BINTCMD( "env",			V,					bc_env				),
@@ -946,6 +949,17 @@ static void	bc_is_even(const t_bint n)
 
 	is_even = bint_is_even(n);
 	ft_printf("%s\n", is_even ? "true" : "false");
+}
+
+static int	bc_is_prime(const t_bint n, uint64_t k)
+{
+	int			ret;
+	uint64_t	is_prime;
+
+	k = !k ? 12 : k;
+	if ((ret = bint_is_prime(n, k, &is_prime)) == BINT_SUCCESS)
+		ft_printf("%s\n", !is_prime ? "true" : "false");
+	return (ret);
 }
 
 int	v_b_u32(int cmdi, t_bint args[BINTF_MAX_ARGS],
