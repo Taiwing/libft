@@ -632,6 +632,7 @@ void	test_mandatory(int ac, char **av)
 	);
 
 	//for (int i = 0; modexp_tests[i][0] != NULL; ++i)
+	//works well up to 150 if -O3 is set
 	for (int i = 0; i < 125 && modexp_tests[i][0] != NULL; ++i)
 	{
 		bintclr(a);
