@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 14:20:22 by yforeau           #+#    #+#             */
-/*   Updated: 2021/08/04 19:25:11 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/13 16:35:45 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,14 @@ int			bint_rand(t_bint n, const t_bint min,
 	else if (!cmp)
 		return (BINT_SUCCESS);
 	return (bint_rand_internal(n, min, max));
+}
+
+int			bint_to_u64(uint64_t *res, const t_bint n)
+{
+	if (BINT_SIGN(n) || BINT_LEN(n) > 2)
+		return (BINT_FAILURE);
+	*res = BINT_LEN(n) ? (uint64_t)n[1] : 0;
+	if (BINT_LEN(n) == 2)
+		*res = *res + ((uint64_t)n[2] << 32);
+	return (BINT_SUCCESS);
 }

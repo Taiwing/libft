@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 12:01:14 by yforeau           #+#    #+#             */
-/*   Updated: 2021/08/05 12:26:47 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/13 16:36:05 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ int					bint_is_odd(const t_bint b);
 int					bint_is_even(const t_bint b);
 int					bint_rand(t_bint n, const t_bint min,
 	const t_bint max, uint64_t rand_sign);
+int					bint_to_u64(uint64_t *res, const t_bint n);
 
 int					bintset_u64(t_bint b, uint64_t u);
 int					bintset_i64(t_bint b, int64_t i);

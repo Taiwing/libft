@@ -1176,16 +1176,6 @@ static int	bint_to_u32(uint32_t *res, t_bint n)
 	return (BINT_SUCCESS);
 }
 
-static int	bint_to_u64(uint64_t *res, t_bint n)
-{
-	if (BINT_SIGN(n) || BINT_LEN(n) > 2)
-		return (BINT_FAILURE);
-	*res = BINT_LEN(n) ? (uint64_t)n[1] : 0;
-	if (BINT_LEN(n) == 2)
-		*res = *res + ((uint64_t)n[2] << 32);
-	return (BINT_SUCCESS);
-}
-
 static int	bint_to_i64(int64_t *res, t_bint n)
 {
 	uint64_t	abs;
