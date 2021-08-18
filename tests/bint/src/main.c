@@ -1198,15 +1198,15 @@ static int	bint_to_i64(int64_t *res, t_bint n)
 
 static int	exec_cmd(t_bint args[BINTF_MAX_ARGS], int cmdi)
 {
-	uint32_t	u32args[BINTF_MAX_ARGS];
-	uint64_t	u64args[BINTF_MAX_ARGS];
-	int64_t		i64args[BINTF_MAX_ARGS];
+	uint32_t	u32args[BINTF_MAX_ARGS] = { 0 };
+	uint64_t	u64args[BINTF_MAX_ARGS] = { 0 };
+	int64_t		i64args[BINTF_MAX_ARGS] = { 0 };
 	int			ftype;
 	int			ret;
 
 	ret = BINT_SUCCESS;
 	ftype = g_bint_commands[cmdi].ftype;
-	for (int i = 1; i < BINTF_MAX_ARGS + 2; ++i)
+	for (int i = 1; i <= BINTF_MAX_ARGS; ++i)
 	{
 		switch (g_ftypes_protos[ftype][i])
 		{
