@@ -6,14 +6,17 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 18:16:14 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/06 18:16:17 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/18 23:09:40 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl(char const *s)
+int	ft_putendl(char const *s)
 {
-	ft_putstr(s);
-	ft_putchar(10);
+	int ret;
+
+	if ((ret = ft_putstr(s)) >= 0 && ft_putchar(10) == 1)
+		return (ret + 1);
+	return (-1);
 }

@@ -6,13 +6,13 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 18:18:27 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/06 18:18:29 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/18 23:04:49 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr(char const *s)
+int	ft_putstr(char const *s)
 {
-	write(1, s, ft_strlen(s));
+	return (write(1, s, ft_strlen(s)));
 }

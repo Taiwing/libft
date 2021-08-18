@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 05:59:39 by yforeau           #+#    #+#             */
-/*   Updated: 2019/01/17 11:47:05 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/18 23:03:03 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void	getopt_puterr(const char *str)
+int		getopt_puterr(const char *str)
 {
-	write(2, str, ft_strlen(str));
+	return(write(2, str, ft_strlen(str)));
 }
 
 void	option_puterr(const char *prefix, const char *name)
@@ -27,11 +27,11 @@ void	option_puterr(const char *prefix, const char *name)
 	getopt_puterr("'");
 }
 
-void	print_short_error(int missing, char *prog_name, char c)
+int		print_short_error(int missing, char *prog_name, char c)
 {
-	getopt_puterr(prog_name);
-	getopt_puterr(missing ? ": option requires an argument -- "
-					: ": illegal option -- ");
-	write(2, &c, 1);
-	getopt_puterr("\n");
+	if (getopt_puterr(prog_name) < 0 || getopt_puterr(missing ?
+		": option requires an argument -- " : ": illegal option -- ") < 0
+		|| write(2, &c, 1) < 0)
+		return (-1);
+	return (getopt_puterr("\n"));
 }

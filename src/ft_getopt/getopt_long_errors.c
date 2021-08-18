@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 05:57:41 by yforeau           #+#    #+#             */
-/*   Updated: 2019/04/29 18:04:19 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/18 23:20:33 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,18 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static void	ambig_option_puterr(char **argv, char *prefix,
+static int	ambig_option_puterr(char **argv, char *prefix,
 								t_optdata *d, unsigned char *ambig_set)
 {
-	getopt_puterr(*argv);
-	getopt_puterr(": option `");
-	getopt_puterr(prefix);
-	if (ambig_set)
-		write(2, d->nextchar, ft_strchr(d->nextchar, '=') - d->nextchar);
-	else
-		getopt_puterr(d->nextchar);
-	getopt_puterr("' is ambiguous");
+	if (getopt_puterr(*argv) < 0 || getopt_puterr(": option `") < 0
+		|| getopt_puterr(prefix) < 0)
+		return (-1);
+	if (ambig_set &&
+		write(2, d->nextchar, ft_strchr(d->nextchar, '=') - d->nextchar) < 0)
+		return (-1);
+	else if (!ambig_set && getopt_puterr(d->nextchar) < 0)
+		return (-1);
+	return (getopt_puterr("' is ambiguous"));
 }
 
 void		print_ambig_error(t_optdata *d, unsigned char *ambig_set,

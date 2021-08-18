@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 05:00:00 by yforeau           #+#    #+#             */
-/*   Updated: 2019/01/11 06:47:28 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/18 23:01:25 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 # include "ft_getopt.h"
 
-void	getopt_puterr(const char *str);
+int		getopt_puterr(const char *str);
 void	option_puterr(const char *prefix, const char *name);
-void	print_short_error(int missing, char *prog_name, char c);
+int		print_short_error(int missing, char *prog_name, char c);
 void	print_ambig_error(t_optdata *d, unsigned char *ambig_set,
 						char **argv, char *prefix);
 int		unknown_long_option_error(t_optdata *d, char **argv, char *prefix);
