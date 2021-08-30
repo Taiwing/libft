@@ -21,6 +21,7 @@ RANDDIR			=	rand
 INTDIR			=	int
 WTDIR			=	wt
 T_LSTDIR		=	t_lst
+UNIXDIR			=	unix
 MEMORYDIR		=	memory
 
 SRCC			=	get_next_line.c\
@@ -182,6 +183,8 @@ T_LSTC			=	ft_lstdelone.c\
 					ft_lst_push_front.c\
 					ft_lst_sorted_insert.c\
 
+UNIXC			=	ft_exec_name.c\
+
 MEMORYC			=	ft_memmove.c\
 					ft_memcmp.c\
 					ft_memcpy.c\
@@ -205,6 +208,7 @@ OBJ				=	$(patsubst %.c,%.o,$(FT_GETOPTC))\
 					$(patsubst %.c,%.o,$(INTC))\
 					$(patsubst %.c,%.o,$(WTC))\
 					$(patsubst %.c,%.o,$(T_LSTC))\
+					$(patsubst %.c,%.o,$(UNIXC))\
 					$(patsubst %.c,%.o,$(MEMORYC))\
 					$(patsubst %.c,%.o,$(SRCC))\
 
@@ -221,6 +225,7 @@ vpath			%.c	$(SRCDIR)/$(RANDDIR)
 vpath			%.c	$(SRCDIR)/$(INTDIR)
 vpath			%.c	$(SRCDIR)/$(WTDIR)
 vpath			%.c	$(SRCDIR)/$(T_LSTDIR)
+vpath			%.c	$(SRCDIR)/$(UNIXDIR)
 vpath			%.c	$(SRCDIR)/$(MEMORYDIR)
 vpath			%.c	$(SRCDIR)
 
@@ -421,6 +426,7 @@ ft_lst_push_front.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
 	ft_collector.h
 ft_lst_sorted_insert.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
 	ft_collector.h
+ft_exec_name.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_memmove.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_memcmp.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_memcpy.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
