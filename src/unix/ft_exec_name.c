@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 12:26:39 by yforeau           #+#    #+#             */
-/*   Updated: 2021/08/30 12:46:58 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/08/30 12:55:51 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ char	*ft_exec_name(const char *path)
 
 	exec_name = path;
 	while (*exec_name && (ptr = ft_strchr(exec_name, '/')))
-		exec_name = ptr;
+		exec_name = ptr + 1;
 	return ((char *)exec_name);
 }
