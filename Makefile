@@ -12,6 +12,7 @@ NAME		=	libft.a
 
 FT_GETOPTDIR	=	ft_getopt
 FT_LSDIR		=	ft_ls
+MATHDIR			=	math
 FT_PRINTFDIR	=	ft_printf
 CHARDIR			=	char
 BINTDIR			=	bint
@@ -38,6 +39,8 @@ FT_GETOPTC		=	process_long_option.c\
 					getopt_errors.c\
 
 FT_LSC			=	ft_ls_files.c\
+
+MATHC			=	ft_sqrt.c\
 
 FT_PRINTFC		=	format_data_utils.c\
 					itoa_unsigned.c\
@@ -199,6 +202,7 @@ MEMORYC			=	ft_memmove.c\
 ODIR			=	obj
 OBJ				=	$(patsubst %.c,%.o,$(FT_GETOPTC))\
 					$(patsubst %.c,%.o,$(FT_LSC))\
+					$(patsubst %.c,%.o,$(MATHC))\
 					$(patsubst %.c,%.o,$(FT_PRINTFC))\
 					$(patsubst %.c,%.o,$(CHARC))\
 					$(patsubst %.c,%.o,$(BINTC))\
@@ -216,6 +220,7 @@ vpath			%.o	$(ODIR)
 vpath			%.h	$(HDIR)
 vpath			%.c	$(SRCDIR)/$(FT_GETOPTDIR)
 vpath			%.c	$(SRCDIR)/$(FT_LSDIR)
+vpath			%.c	$(SRCDIR)/$(MATHDIR)
 vpath			%.c	$(SRCDIR)/$(FT_PRINTFDIR)
 vpath			%.c	$(SRCDIR)/$(CHARDIR)
 vpath			%.c	$(SRCDIR)/$(BINTDIR)

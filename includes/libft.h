@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2021/08/30 12:45:16 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/01 15:03:52 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,8 @@ void					*ft_rand_source(void *dst, size_t size,
 									const char *src, int flush);
 
 char					*ft_exec_name(const char *path);
+
+double					ft_sqrt(double y);
 
 # define FT_LS_UNKNOWN	0x00
 # define FT_LS_FIFO		0x01
