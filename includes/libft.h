@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/01 15:03:52 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/07 23:59:14 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,15 @@ void					*ft_rand_source(void *dst, size_t size,
 char					*ft_exec_name(const char *path);
 
 double					ft_sqrt(double y);
+
+enum e_secatoi			{
+	FT_E_OVERFLOW		= -1,
+	FT_E_UNDERFLOW		= -2,
+	FT_E_NOT_A_NUMBER	= -3,
+};
+
+int						ft_secatoi(int *dest, int min, int max,
+	const char *nptr);
 
 # define FT_LS_UNKNOWN	0x00
 # define FT_LS_FIFO		0x01
