@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/07 23:59:14 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/21 13:50:27 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ char					*ft_strnstr(const char *s1, const char *s2, size_t n);
 int						ft_strcmp(const char *s1, const char *s2);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
 int						ft_ignore_case_strcmp(const char *s1, const char *s2);
+int						ft_ignore_case_strncmp(const char *s1, const char *s2,
+							size_t n);
 int						ft_atoi(const char *nptr);
 int						ft_isalpha(int c);
 int						ft_isdigit(int c);
