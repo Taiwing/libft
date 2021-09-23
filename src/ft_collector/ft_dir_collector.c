@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 13:58:47 by yforeau           #+#    #+#             */
-/*   Updated: 2019/04/20 14:21:57 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/23 13:06:53 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,12 @@ void	ft_closedir(void *dirp)
 	closedir((DIR *)dirp);
 }
 
+#ifdef THREAD_SAFE
+# include "thread_safe.h"
+MUTEXIFY(t_stack*, ft_dir_container, void)
+#else
 t_stack	*ft_dir_container(void)
+#endif
 {
 	static t_stack	*st = NULL;
 

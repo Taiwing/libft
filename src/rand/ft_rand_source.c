@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/27 15:39:34 by yforeau           #+#    #+#             */
-/*   Updated: 2021/06/27 16:43:24 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/23 13:09:33 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,14 @@ static char	*ft_flush_fd(int *fd)
 ** or NULL on failure.
 */
 
+#ifdef THREAD_SAFE
+# include "thread_safe.h"
+MUTEXIFY(void*, ft_rand_source, void*, dst, size_t, size,
+	const char*, src, int, flush)
+#else
 void		*ft_rand_source(void *dst, size_t size,
 	const char *src, int flush)
+#endif
 {
 	int			rd;
 	static int	fd = -1;

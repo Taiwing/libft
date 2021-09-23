@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 13:26:56 by yforeau           #+#    #+#             */
-/*   Updated: 2019/03/29 19:50:28 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/23 12:51:42 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 #ifdef NO_COLLEC
 
+#ifdef THREAD_SAFE
+MUTEXIFY(char**, ft_strsplit, char const*, s, char, c)
+#else
 char	**ft_strsplit(char const *s, char c)
+#endif
 {
 	static int	i = 0;
 	int			l;
@@ -45,7 +49,11 @@ char	**ft_strsplit(char const *s, char c)
 
 #else
 
+#ifdef THREAD_SAFE
+MUTEXIFY(char**, ft_strsplit, char const*, s, char, c)
+#else
 char	**ft_strsplit(char const *s, char c)
+#endif
 {
 	static int	i = 0;
 	int			l;

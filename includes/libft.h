@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/21 13:50:27 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/22 17:23:03 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 #  include <dirent.h>
 
 void					*ft_secmalloc(size_t size);
+# endif
+# ifdef	THREAD_SAFE
+#  include "thread_safe.h"
 # endif
 
 typedef unsigned char	t_uchar;

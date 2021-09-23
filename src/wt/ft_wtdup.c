@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 11:11:08 by yforeau           #+#    #+#             */
-/*   Updated: 2019/03/29 19:53:31 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/22 23:53:57 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 #ifdef NO_COLLEC
 
+#ifdef THREAD_SAFE
+MUTEXIFY(char**, ft_wtdup, char**, wt)
+#else
 char	**ft_wtdup(char **wt)
+#endif
 {
 	static int	size = 0;
 	char		*p;
@@ -40,7 +44,11 @@ char	**ft_wtdup(char **wt)
 
 #else
 
+#ifdef THREAD_SAFE
+MUTEXIFY(char**, ft_wtdup, char**, wt)
+#else
 char	**ft_wtdup(char **wt)
+#endif
 {
 	static int	size = 0;
 	char		*p;

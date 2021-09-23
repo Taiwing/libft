@@ -6,14 +6,19 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 09:23:28 by yforeau           #+#    #+#             */
-/*   Updated: 2019/03/28 13:01:02 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/23 13:07:45 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "ft_collector.h"
 
+#ifdef THREAD_SAFE
+# include "thread_safe.h"
+MUTEXIFY(void*, ft_heap_collector, void*, ptr, int, hs_do)
+#else
 void	*ft_heap_collector(void *ptr, int hs_do)
+#endif
 {
 	static void		**heap_stack = NULL;
 	static size_t	size = 0;

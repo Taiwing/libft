@@ -1,8 +1,8 @@
 ############################## COMPILE VAR #####################################
 
 CC			=	gcc
-#CFLAGS		=	-Wall -Wextra -Werror
-CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=address,undefined
+#CFLAGS		=	-Wall -Wextra -Werror -DTHREAD_SAFE
+CFLAGS		=	-Wall -Wextra -Werror -DTHREAD_SAFE -g -fsanitize=address,undefined
 HDIR		=	includes
 SRCDIR		=	src
 HFLAGS		=	-I $(HDIR)
@@ -26,6 +26,7 @@ UNIXDIR			=	unix
 MEMORYDIR		=	memory
 
 SRCC			=	get_next_line.c\
+					thread_safe.c\
 					get_next_line_utils.c\
 					ft_swap_p.c\
 
@@ -260,37 +261,24 @@ itoa_unsigned.o: ft_printf_internal.h t_pdata.h dragon4.h
 itoa.o: ft_printf_internal.h t_pdata.h dragon4.h
 basic_conversions.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h\
 	ft_getopt.h ft_printf.h bint.h ft_collector.h
-float_formats.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h ft_collector.h
-get_conv.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h ft_collector.h
-itoa_cast.o: ft_printf_internal.h t_pdata.h dragon4.h
-get_flags.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h ft_collector.h
-fetch.o: ft_printf_internal.h t_pdata.h dragon4.h
-itoa_signed.o: ft_printf_internal.h t_pdata.h dragon4.h
-parser.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h ft_collector.h
-uni_conversions.o: ft_printf_internal.h t_pdata.h dragon4.h
-format_data.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h ft_collector.h
-efg_conversions.o: ft_printf_internal.h t_pdata.h dragon4.h log_and_ceil.h
-ft_printf.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h ft_collector.h
-tab_conversion.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h ft_collector.h
-pdata.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h ft_collector.h
-ft_isdigit.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
-ft_isascii.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
-ft_isprint.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
-ft_isalpha.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
-ft_tolower.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
-ft_isalnum.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
-ft_putchar.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
-ft_putchar_fd.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
-ft_isspace.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
-ft_toupper.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
+t_pdata.o: t_pdata.h libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
+	ft_collector.h
+tab_conversion.o: get_conv.h t_farg.h t_params.h parser.h t_pbuf.h t_pdata.h\
+	fetch.h libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
+convert_alloc.o: conversions.h t_farg.h t_pdata.h t_params.h format_data.h\
+	t_pbuf.h libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
+ft_isdigit.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
+ft_isascii.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
+ft_isprint.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
+ft_isalpha.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
+ft_tolower.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
+ft_isalnum.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
+ft_putchar.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
+ft_putchar_fd.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
+	ft_collector.h
+ft_isspace.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
+ft_toupper.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
+thread_safe.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 bint_utils_1.o: bint.h
 dragon42.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h dragon4.h\
 	log_and_ceil.h

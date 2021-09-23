@@ -6,13 +6,17 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:45:13 by yforeau           #+#    #+#             */
-/*   Updated: 2018/10/09 01:45:15 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/23 12:58:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+#ifdef THREAD_SAFE
+VOID_MUTEXIFY(ft_lst_reverse, t_list**, lst)
+#else
 void	ft_lst_reverse(t_list **lst)
+#endif
 {
 	static t_list	*prev = 0;
 	t_list			*next;

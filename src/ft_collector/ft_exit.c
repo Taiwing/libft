@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 11:16:55 by yforeau           #+#    #+#             */
-/*   Updated: 2019/04/29 17:57:24 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/23 13:20:29 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@
 ** ft_exitmsg stores the begining of the exit message (typically the name
 ** of the program) and returns it.
 */
-
+#ifdef THREAD_SAFE
+MUTEXIFY(char*, ft_exitmsg, char*, str)
+#else
 char	*ft_exitmsg(char *str)
+#endif
 {
 	static char	*msg = NULL;
 
@@ -45,8 +48,11 @@ char	*ft_exitmsg(char *str)
 ** something else since the prototype is really not restrictive (void input,
 ** void output).
 */
-
+#ifdef THREAD_SAFE
+VOID_MUTEXIFY(ft_atexit, t_atexitf, handler)
+#else
 void	ft_atexit(t_atexitf handler)
+#endif
 {
 	static t_atexitf	farr[ATEXIT_MAX];
 	static size_t		i = 0;

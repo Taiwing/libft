@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 17:59:48 by yforeau           #+#    #+#             */
-/*   Updated: 2021/06/27 15:58:54 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/23 12:47:24 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@
 ** the values can be guessed (so this should *not* be used for security
 ** purposes, encryption, etc...).
 */
+#ifdef THREAD_SAFE
+MUTEXIFY(unsigned int, ft_rand, void)
+#else
 unsigned int	ft_rand(void)
+#endif
 {
 	static unsigned int	lfsr = START_STATE;
 	unsigned int		bit;
@@ -43,8 +47,18 @@ unsigned int	ft_rand(void)
 ** return: store the value in the given n pointer
 ** or NULL on error or on bad input
 */
-
+/*
+#ifdef THREAD_SAFE
+MUTEXIFY(uint64_t*, ft_rand_uint64, uint64_t*, n, uint64_t, min, uint64_t, max)
+#else
 uint64_t		*ft_rand_uint64(uint64_t *n, uint64_t min, uint64_t max)
+#endif
+*/
+#ifdef THREAD_SAFE
+MUTEXIFY(uint64_t*, ft_rand_uint64, uint64_t*, n, uint64_t, min, uint64_t, max)
+#else
+uint64_t		*ft_rand_uint64(uint64_t *n, uint64_t min, uint64_t max)
+#endif
 {
 	uint64_t		dist;
 	static int		i = BUF_SIZE;

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:55:35 by yforeau           #+#    #+#             */
-/*   Updated: 2019/09/07 07:42:08 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/23 13:01:18 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,11 @@ static int		ft_read_file(t_gnl *cur, char **line, t_list **lst)
 	return (r);
 }
 
+#ifdef THREAD_SAFE
+MUTEXIFY(int, get_next_line, const int, fd, char**, line)
+#else
 int				get_next_line(const int fd, char **line)
+#endif
 {
 	int				r;
 	size_t			l;
