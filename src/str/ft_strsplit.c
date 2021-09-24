@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 13:26:56 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/23 12:51:42 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/24 18:31:15 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,13 @@ char	**ft_strsplit(char const *s, char c)
 		++l;
 	if (l && !(cpy = ft_strndup(s, l)))
 		i = -1;
+#ifdef THREAD_SAFE
+	if (i != -1 && !(tb = cpy ? ts_ft_strsplit(s + l, c)
+		: (char **)ft_secmalloc(i * sizeof(char *))))
+#else
 	if (i != -1 && !(tb = cpy ? ft_strsplit(s + l, c)
 		: (char **)ft_secmalloc(i * sizeof(char *))))
+#endif
 		i = -1;
 	if (i == -1 && cpy)
 		free(cpy);
@@ -72,8 +77,13 @@ char	**ft_strsplit(char const *s, char c)
 		++l;
 	if (l && !(cpy = ft_strndup(s, l)))
 		i = -1;
+#ifdef THREAD_SAFE
+	if (i != -1 && !(tb = cpy ? ts_ft_strsplit(s + l, c)
+		: (char **)ft_secmalloc(i * sizeof(char *))))
+#else
 	if (i != -1 && !(tb = cpy ? ft_strsplit(s + l, c)
 		: (char **)ft_secmalloc(i * sizeof(char *))))
+#endif
 		i = -1;
 	if (i == -1 && cpy)
 		free(ft_heap_collector(cpy, FT_COLLEC_GET));

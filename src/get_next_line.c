@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:55:35 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/23 13:01:18 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/24 17:33:29 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,11 @@ int				get_next_line(const int fd, char **line)
 			r = -1;
 	}
 	else if (r != -1 && (r = ft_read_file(cur, line, &lst)) > 0)
+#ifdef THREAD_SAFE
+		return (ts_get_next_line(fd, line));
+#else
 		return (get_next_line(fd, line));
+#endif
 	if (r == -1 && cur)
 		rm_cur(&lst, cur);
 	return (r == -1 ? -1 : *line != NULL);

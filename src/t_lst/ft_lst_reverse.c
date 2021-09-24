@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:45:13 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/23 12:58:13 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/24 17:43:32 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ void	ft_lst_reverse(t_list **lst)
 	(*lst)->next = prev;
 	prev = *lst;
 	if (next)
+#ifdef THREAD_SAFE
+		ts_ft_lst_reverse(&next);
+#else
 		ft_lst_reverse(&next);
+#endif
 	if (!(*lst)->next)
 	{
 		*lst = prev;

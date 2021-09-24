@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/08 17:06:54 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/23 12:50:05 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/24 17:41:11 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ char	**ft_split_whitespaces(char *str)
 		++l;
 	if (l && !(p = ft_strndup(str, l)))
 		size = -1;
+#ifdef THREAD_SAFE
+	if (size != -1 && !(tb = p ? ts_ft_split_whitespaces(str + l) :
+#else
 	if (size != -1 && !(tb = p ? ft_split_whitespaces(str + l) :
+#endif
 		(char **)ft_secmalloc(size * sizeof(char *))))
 		size = -1;
 	if (size == -1 && p)
@@ -72,7 +76,11 @@ char	**ft_split_whitespaces(char *str)
 		++l;
 	if (l && !(p = ft_strndup(str, l)))
 		size = -1;
+#ifdef THREAD_SAFE
+	if (size != -1 && !(tb = p ? ts_ft_split_whitespaces(str + l) :
+#else
 	if (size != -1 && !(tb = p ? ft_split_whitespaces(str + l) :
+#endif
 		(char **)ft_secmalloc(size * sizeof(char *))))
 		size = -1;
 	if (size == -1 && p)
