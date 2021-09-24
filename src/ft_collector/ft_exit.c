@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 11:16:55 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/23 13:20:29 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/24 20:07:06 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char	*ft_exitmsg(char *str)
 ** void output).
 */
 #ifdef THREAD_SAFE
+void	ft_exit_atexit(char *err, int ret);
 VOID_MUTEXIFY(ft_atexit, t_atexitf, handler)
 #else
 void	ft_atexit(t_atexitf handler)
@@ -67,9 +68,35 @@ void	ft_atexit(t_atexitf handler)
 	else
 	{
 		handler();
+#ifdef THREAD_SAFE
+		ft_exit_atexit("ft_atexit: no space left", EXIT_FAILURE);
+#else
 		ft_exit("ft_atexit: no space left", EXIT_FAILURE);
+#endif
 	}
 }
+
+#ifdef THREAD_SAFE
+void	ft_exit_atexit(char *err, int ret)
+{
+	char	*msg;
+
+	if (err)
+	{
+		if ((msg = ft_exitmsg(NULL)))
+		{
+			ft_putstr_fd(msg, 2);
+			if (*err)
+				ft_putstr_fd(": ", 2);
+		}
+		ft_putstr_fd(err, 2);
+		ft_putchar_fd('\n', 2);
+	}
+	ts_ft_atexit(NULL);
+	ft_heap_collector(NULL, FT_COLLEC_FREE);
+	exit(ret);
+}
+#endif
 
 void	ft_exit(char *err, int ret)
 {
