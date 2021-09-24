@@ -1,8 +1,8 @@
 ############################## COMPILE VAR #####################################
 
 CC			=	gcc
-#CFLAGS		=	-Wall -Wextra -Werror -DTHRADE_SAFE
-CFLAGS		=	-Wall -Wextra -Werror -DTHRADE_SAFE -g -fsanitize=address,undefined
+#CFLAGS		=	-Wall -Wextra -Werror -DTHREAD_SAFE
+CFLAGS		=	-Wall -Wextra -Werror -DTHREAD_SAFE -g -fsanitize=address,undefined
 HDIR		=	includes
 SRCDIR		=	src
 HFLAGS		=	-I $(HDIR)
