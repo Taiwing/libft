@@ -925,7 +925,7 @@ static void	bc_env(void)
 
 static void	bc_exit(void)
 {
-	ft_exit(NULL, EXIT_SUCCESS);
+	ft_exit(NULL, 0, EXIT_SUCCESS);
 }
 
 static void	bc_log2(const t_bint n)
@@ -1541,9 +1541,9 @@ static int		read_input(t_bint *args)
 
 	line = NULL;
 	if ((ret = get_next_line(0, &line)) < 0)
-		ft_exit("read_input: get_next_line error\n", EXIT_FAILURE);
+		ft_exit("read_input: get_next_line error", 0, EXIT_FAILURE);
 	else if (!ret)
-		ft_exit(NULL, EXIT_SUCCESS);
+		ft_exit(NULL, 0, EXIT_SUCCESS);
 	ret = parse_input(args, line);
 	ft_memdel((void **)&line);
 	return (ret);
@@ -1593,6 +1593,6 @@ int		main(int argc, char **argv)
 		bintbc(argv[0]);
 	else
 		test_mandatory(argc, argv);
-	ft_exit(NULL, EXIT_SUCCESS);
+	ft_exit(NULL, 0, EXIT_SUCCESS);
 	return (0);
 }

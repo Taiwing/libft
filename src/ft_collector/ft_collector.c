@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 10:28:41 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/28 19:49:07 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/28 09:02:48 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void			*ft_get_stack_ptr(void **stack, size_t *i, void *ptr)
 		}
 	}
 	if (ptr)
-		ft_exit("ft_get_stack_ptr: invalid pointer", EXIT_FAILURE);
+		ft_exit("ft_get_stack_ptr: invalid pointer", 0, EXIT_FAILURE);
 	return (NULL);
 }
 
@@ -85,7 +85,7 @@ void			*ft_collector(t_stack *st, void *ptr, int gs_do)
 		if (!(st->stack = ft_check_stack_size(st->stack, &(st->size), st->i)))
 		{
 			st->cleanf(ptr);
-			ft_exit("ft_collector: no space left", EXIT_FAILURE);
+			ft_exit("ft_collector: no space left", 0, EXIT_FAILURE);
 		}
 		else
 			st->stack[st->i++] = ptr;

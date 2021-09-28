@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 09:23:28 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/23 13:07:45 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/28 08:58:14 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	*ft_heap_collector(void *ptr, int hs_do)
 		if (!(heap_stack = ft_check_stack_size(heap_stack, &size, i)))
 		{
 			free(ptr);
-			ft_exit("ft_heap_collector: no space left", EXIT_FAILURE);
+			ft_exit("ft_heap_collector: no space left", 0, EXIT_FAILURE);
 		}
 		else
 			heap_stack[i++] = ptr;

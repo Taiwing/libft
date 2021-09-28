@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 09:41:53 by yforeau           #+#    #+#             */
-/*   Updated: 2019/04/20 14:19:09 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/09/28 08:55:55 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef void	(*t_atexitf)(void);
 
 char			*ft_exitmsg(char *str);
 void			ft_atexit(t_atexitf handler);
-void			ft_exit(char *err, int ret);
+void			ft_exit(char *err, int errcode, int ret);
 void			**ft_check_stack_size(void **stack, size_t *size, size_t i);
 void			*ft_get_stack_ptr(void **stack, size_t *i, void *ptr);
 void			*ft_heap_collector(void *ptr, int hs_do);
