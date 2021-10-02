@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 14:55:23 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/02 17:24:15 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/02 21:35:59 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,16 @@ typedef struct	s_start_thread_args
 
 static void	*start_thread(void *start_thread_args)
 {
-	t_start_thread_args	*args;
+	t_start_thread_args	*args = start_thread_args;
+	void				*arg = args->arg;
+	t_threadf			start_routine = args->start_routine;
 
-	args = start_thread_args;
 	ft_mutex_lock(&g_thread_count_mutex);
 	g_thread_id = (t_thread_id)++g_thread_count;
 	args->id = g_thread_id;
 	ft_mutex_unlock(&g_thread_count_mutex);
-	if (args->start_routine)
-		return (args->start_routine(args->arg));
+	if (start_routine)
+		return (start_routine(arg));
 	return (NULL);
 }
 
