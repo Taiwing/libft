@@ -2,4 +2,6 @@
   sources of get_next_line, ft_printf and ft_getopt into different directories
   in src and in includes
 - replace every useless MUTEXIFY call by thread local storage variables (only
-  when the function state does not need to be shared between threads).
+  when the function state does not need to be shared between threads)
+- be careful with every potentially nested exit calls (check that it's not
+  possible/problematic, and fix it otherwise)
