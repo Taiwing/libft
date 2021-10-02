@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/22 17:23:03 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/01 23:47:43 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@
 # else
 #  include <dirent.h>
 
+typedef void			(*t_atexitf)(void);
+
 void					*ft_secmalloc(size_t size);
+void					ft_atexit(t_atexitf handler);
+void					ft_exit(char *err, int errcode, int ret);
 # endif
 # ifdef	THREAD_SAFE
 #  include "thread_safe.h"

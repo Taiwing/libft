@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 09:23:28 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/28 08:58:14 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/01 20:28:03 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	*ft_heap_collector(void *ptr, int hs_do)
 		while (i > 0)
 			free(heap_stack[--i]);
 		free(heap_stack);
+		heap_stack = NULL;
 	}
 	return (NULL);
 }
