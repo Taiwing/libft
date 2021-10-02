@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:55:03 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/02 17:18:04 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/02 17:39:55 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 # define THREAD_SAFE_H
 # ifdef THREAD_SAFE
 #  include <pthread.h>
+#  include <stdint.h>
 #  include "ft_mutex.h"
+#  include "ft_exit.h"
 
 /*
 ** t_ft_thread: libft thread structure
