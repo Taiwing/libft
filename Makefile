@@ -13,6 +13,7 @@ NAME		=	libft.a
 FT_GETOPTDIR	=	ft_getopt
 FT_LSDIR		=	ft_ls
 MATHDIR			=	math
+FT_THREADDIR	=	ft_thread
 FT_PRINTFDIR	=	ft_printf
 CHARDIR			=	char
 BINTDIR			=	bint
@@ -26,7 +27,7 @@ UNIXDIR			=	unix
 MEMORYDIR		=	memory
 
 SRCC			=	get_next_line.c\
-					thread_safe.c\
+					ft_thread_atexit.c\
 					get_next_line_utils.c\
 					ft_swap_p.c\
 
@@ -43,8 +44,13 @@ FT_LSC			=	ft_ls_files.c\
 
 MATHC			=	ft_sqrt.c\
 
-FT_PRINTFC		=	ft_printf_internal.c\
-					pdata_add.c\
+FT_THREADC		=	ft_thread_join.c\
+					ft_thread_create.c\
+					ft_thread_self.c\
+					ft_mutex.c\
+					ft_thread_error.c\
+
+FT_PRINTFC		=	format_data_utils.c\
 					itoa_unsigned.c\
 					itoa.c\
 					basic_conversions.c\
@@ -199,6 +205,7 @@ ODIR			=	obj
 OBJ				=	$(patsubst %.c,%.o,$(FT_GETOPTC))\
 					$(patsubst %.c,%.o,$(FT_LSC))\
 					$(patsubst %.c,%.o,$(MATHC))\
+					$(patsubst %.c,%.o,$(FT_THREADC))\
 					$(patsubst %.c,%.o,$(FT_PRINTFC))\
 					$(patsubst %.c,%.o,$(CHARC))\
 					$(patsubst %.c,%.o,$(BINTC))\
@@ -217,6 +224,7 @@ vpath			%.h	$(HDIR)
 vpath			%.c	$(SRCDIR)/$(FT_GETOPTDIR)
 vpath			%.c	$(SRCDIR)/$(FT_LSDIR)
 vpath			%.c	$(SRCDIR)/$(MATHDIR)
+vpath			%.c	$(SRCDIR)/$(FT_THREADDIR)
 vpath			%.c	$(SRCDIR)/$(FT_PRINTFDIR)
 vpath			%.c	$(SRCDIR)/$(CHARDIR)
 vpath			%.c	$(SRCDIR)/$(BINTDIR)
@@ -249,8 +257,27 @@ get_short_option.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h\
 	getopt_errors.h
 permute_order.o: ft_getopt.h
 init_getopt.o: ft_getopt.h
-getopt_errors.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
-get_next_line.o: get_next_line.h libft.h ft_getopt.h ft_printf.h bint.h\
+getopt_errors.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
+	ft_collector.h
+get_next_line.o: get_next_line.h libft.h ft_getopt.h ft_printf.h t_pbuf.h\
+	bint.h ft_collector.h
+ft_ls_files.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
+ft_thread_atexit.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
+	ft_collector.h
+ft_thread_join.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
+	ft_collector.h
+ft_thread_create.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
+	ft_collector.h
+ft_thread_self.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
+	ft_collector.h
+ft_mutex.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
+ft_thread_error.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
+	ft_collector.h
+format_data_utils.o: format_data.h t_params.h t_pdata.h t_pbuf.h libft.h\
+	ft_getopt.h ft_printf.h bint.h ft_collector.h
+itoa_unsigned.o: itoa_unsigned.h t_pdata.h t_params.h
+itoa.o: fetch.h t_farg.h itoa_signed.h t_pdata.h itoa_unsigned.h t_params.h
+t_pdata_stralloc.o: t_pdata.h libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
 	ft_collector.h
 ft_ls_files.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
 ft_printf_internal.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h\
@@ -278,7 +305,6 @@ ft_putchar_fd.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
 	ft_collector.h
 ft_isspace.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 ft_toupper.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
-thread_safe.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h
 bint_utils_1.o: bint.h
 dragon42.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h dragon4.h\
 	log_and_ceil.h

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 11:16:55 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/28 08:55:16 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/02 17:19:59 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	ft_exit_atexit(char *err, int errcode, int ret)
 		}
 		ft_putchar_fd('\n', 2);
 	}
+	ft_set_thread_error(errcode ? errcode : ret);
 	ts_ft_atexit(NULL);
 	ft_heap_collector(NULL, FT_COLLEC_FREE);
 	exit(ret);
@@ -123,6 +124,10 @@ void	ft_exit(char *err, int errcode, int ret)
 		}
 		ft_putchar_fd('\n', 2);
 	}
+#ifdef THREAD_SAFE
+	ft_set_thread_error(errcode ? errcode : ret);
+	ft_thread_atexit(NULL);
+#endif
 	ft_atexit(NULL);
 	ft_heap_collector(NULL, FT_COLLEC_FREE);
 	exit(ret);

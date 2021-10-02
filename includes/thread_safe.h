@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:55:03 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/24 20:46:57 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/02 17:18:04 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,91 +14,43 @@
 # define THREAD_SAFE_H
 # ifdef THREAD_SAFE
 #  include <pthread.h>
+#  include "ft_mutex.h"
 
 /*
-** Mutexify Macro
+** t_ft_thread: libft thread structure
 **
-** Create a thread safe version of given function.
-**
-** More precisely, it will generate a wrapper function that will call the
-** original function between mutex locks, store the return on the stack
-** (if any) and return it when the mutex is released.
+** id: is the libft assigned id (returned by ft_thread_self)
+** thread: is the pthread thread structre (used for pthread_join)
 */
 
-// Fetch 10th argument since we need up to 8 arguments in the __VA_ARGS__ array
-#  define _GET_NTH_ARG(_1, _2, _3, _4, _5, _6, _7, _8, _9, N, ...) N
+typedef uint64_t	t_thread_id;
 
-// Depending on the size of __VA_ARGS__, the size is gonna be the 10th argument
-#  define _COUNT_VARARGS(...) \
-	_GET_NTH_ARG("", ##__VA_ARGS__, 8, 7, 6, 5, 4, 3, 2, 1, 0)
+typedef struct		s_ft_thread
+{
+	t_thread_id		id;
+	pthread_t		thread;
+}					t_ft_thread;
 
-// Mutex format macros
-#  define _TS_N
-#  define _TS_C	,
-
-// Calls for each possible size of __VA_ARGS__
-#  define _FE_0(ACTION)
-#  define _FE_1(ACTION, _1)\
-	ACTION(_1, _TS_N)
-#  define _FE_2(ACTION, _1, _2)\
-	ACTION(_1, _2)
-#  define _FE_3(ACTION, _1, _2, _3)\
-	ACTION(_1, _2) _TS_C _FE_2(ACTION, _3, _TS_N)
-#  define _FE_4(ACTION, _1, _2, _3, _4)\
-	ACTION(_1, _2) _TS_C _FE_2(ACTION, _3, _4)
-#  define _FE_5(ACTION, _1, _2, _3, _4, _5)\
-	ACTION(_1, _2) _TS_C _FE_4(ACTION, _3, _4, _5, _TS_N)
-#  define _FE_6(ACTION, _1, _2, _3, _4, _5, _6)\
-	ACTION(_1, _2) _TS_C _FE_4(ACTION, _3, _4, _5, _6)
-#  define _FE_7(ACTION, _1, _2, _3, _4, _5, _6, _7)\
-	ACTION(_1, _2) _TS_C _FE_6(ACTION, _3, _4, _5, _6, _7, _TS_N)
-#  define _FE_8(ACTION, _1, _2, _3, _4, _5, _6, _7, _8)\
-	ACTION(_1, _2) _TS_C _FE_6(ACTION, _3, _4, _5, _6, _7, _8)
-
-// Loop on __VA_ARGS__
-#  define _EXEC_ACTION_TWO_BY_TWO(ACTION, ...)\
-	_GET_NTH_ARG("", ##__VA_ARGS__, _FE_8, _FE_7, _FE_6, _FE_5, _FE_4,\
-		_FE_3, _FE_2, _FE_1, _FE_0)(ACTION, ##__VA_ARGS__)
-
-// Build arguments
-#  define _TAKE_BOTH(_1, _2) _1 _2
-#  define _TS_PROTOTYPE(...)\
-	_EXEC_ACTION_TWO_BY_TWO(_TAKE_BOTH, __VA_ARGS__) 
-#  define _TAKE_NAME(_1, _2) _2
-#  define _TS_VARNAMES(...)\
-	_EXEC_ACTION_TWO_BY_TWO(_TAKE_NAME, __VA_ARGS__) 
-
-// MUTEXIFY: where the actual magic happens
-#  define MUTEXIFY(RET, NAME, ...)\
-RET	ts_##NAME(_TS_PROTOTYPE(__VA_ARGS__));\
-pthread_mutex_t	NAME##_mutex = PTHREAD_MUTEX_INITIALIZER;\
-RET	NAME(_TS_PROTOTYPE(__VA_ARGS__))\
-{\
-	RET	ret;\
-	ft_mutex_lock(&NAME##_mutex);\
-	ret = ts_##NAME(_TS_VARNAMES(__VA_ARGS__));\
-	ft_mutex_unlock(&NAME##_mutex);\
-	return (ret);\
-}\
-RET	ts_##NAME(_TS_PROTOTYPE(__VA_ARGS__))
-
-// VOID_MUTEXIFY: where the actual magic happens for void functions
-#  define VOID_MUTEXIFY(NAME, ...)\
-void ts_##NAME(_TS_PROTOTYPE(__VA_ARGS__));\
-pthread_mutex_t	NAME##_mutex = PTHREAD_MUTEX_INITIALIZER;\
-void NAME(_TS_PROTOTYPE(__VA_ARGS__))\
-{\
-	ft_mutex_lock(&NAME##_mutex);\
-	ts_##NAME(_TS_VARNAMES(__VA_ARGS__));\
-	ft_mutex_unlock(&NAME##_mutex);\
-}\
-void ts_##NAME(_TS_PROTOTYPE(__VA_ARGS__))
+typedef void		*(*t_threadf)(void *);
 
 /*
-** Mutex utility functions
+** ft_thread globals
 */
-void					ft_mutex_lock(pthread_mutex_t *mutex);
-void					ft_mutex_unlock(pthread_mutex_t *mutex);
+
+extern __thread t_thread_id	g_thread_id;
+
+/*
+** ft_thread functions
+*/
+t_thread_id	ft_thread_self(void);
+uint64_t	ft_thread_count(void);
+int			ft_thread_create(t_ft_thread *thread, const pthread_attr_t *attr,
+				t_threadf start_routine, void *arg);
+int			ft_thread_join(t_ft_thread *thread, void **retval);
+int			ft_thread_error(void);
+void		ft_set_thread_error(int errcode);
+void		ft_thread_atexit(t_atexitf handler);
+void		ft_thread_exit(void);
 
 # endif
 #endif
