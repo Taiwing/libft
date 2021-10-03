@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 11:16:55 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/03 14:43:42 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/03 15:03:15 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	ft_exit(char *err, int errcode, int ret)
 
 #ifdef THREAD_SAFE
 /*
-** ft_thread_exit: simple ft_thread_atexit compatible exit call
+** ft_thread_exit: simple ft_atexit compatible exit call
 */
 void	ft_thread_exit(void)
 {
