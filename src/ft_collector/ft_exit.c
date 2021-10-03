@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 11:16:55 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/02 17:19:59 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/03 14:43:42 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,15 @@ char	*ft_exitmsg(char *str)
 ** something else since the prototype is really not restrictive (void input,
 ** void output).
 */
-#ifdef THREAD_SAFE
-void	ft_exit_atexit(char *err, int errcode, int ret);
-VOID_MUTEXIFY(ft_atexit, t_atexitf, handler)
-#else
 void	ft_atexit(t_atexitf handler)
-#endif
 {
-	static t_atexitf	farr[ATEXIT_MAX];
-	static size_t		i = 0;
+#ifdef THREAD_SAFE
+	static __thread t_atexitf	farr[ATEXIT_MAX];
+	static __thread size_t		i = 0;
+#else
+	static t_atexitf			farr[ATEXIT_MAX];
+	static size_t				i = 0;
+#endif
 
 	if (!handler)
 	{
@@ -68,67 +68,47 @@ void	ft_atexit(t_atexitf handler)
 	else
 	{
 		handler();
-#ifdef THREAD_SAFE
-		ft_exit_atexit("ft_atexit: no space left", 0, EXIT_FAILURE);
-#else
 		ft_exit("ft_atexit: no space left", 0, EXIT_FAILURE);
-#endif
 	}
 }
 
-#ifdef THREAD_SAFE
-void	ft_exit_atexit(char *err, int errcode, int ret)
+static void	print_exit(char *err, int errcode)
 {
 	char	*msg;
 
-	if (err)
+	if ((msg = ft_exitmsg(NULL)))
 	{
-		if ((msg = ft_exitmsg(NULL)))
-		{
-			ft_putstr_fd(msg, 2);
-			if (*err)
-				ft_putstr_fd(": ", 2);
-		}
-		ft_putstr_fd(err, 2);
-		if (errcode && (msg = strerror(errcode)))
-		{
-			ft_putstr_fd(": ", 2);
-			ft_putstr_fd(msg, 2);
-		}
-		ft_putchar_fd('\n', 2);
+		ft_putstr_fd(msg, STDERR_FILENO);
+		if (*err)
+			ft_putstr_fd(": ", STDERR_FILENO);
 	}
-	ft_set_thread_error(errcode ? errcode : ret);
-	ts_ft_atexit(NULL);
-	ft_heap_collector(NULL, FT_COLLEC_FREE);
-	exit(ret);
+	ft_putstr_fd(err, STDERR_FILENO);
+	if (errcode && (msg = strerror(errcode)))
+	{
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(msg, STDERR_FILENO);
+	}
+	ft_putchar_fd('\n', STDERR_FILENO);
 }
-#endif
 
 void	ft_exit(char *err, int errcode, int ret)
 {
-	char	*msg;
-
-	if (err)
-	{
-		if ((msg = ft_exitmsg(NULL)))
-		{
-			ft_putstr_fd(msg, 2);
-			if (*err)
-				ft_putstr_fd(": ", 2);
-		}
-		ft_putstr_fd(err, 2);
-		if (errcode && (msg = strerror(errcode)))
-		{
-			ft_putstr_fd(": ", 2);
-			ft_putstr_fd(msg, 2);
-		}
-		ft_putchar_fd('\n', 2);
-	}
 #ifdef THREAD_SAFE
 	ft_set_thread_error(errcode ? errcode : ret);
-	ft_thread_atexit(NULL);
 #endif
 	ft_atexit(NULL);
+	if (err)
+		print_exit(err, errcode);
 	ft_heap_collector(NULL, FT_COLLEC_FREE);
 	exit(ret);
 }
+
+#ifdef THREAD_SAFE
+/*
+** ft_thread_exit: simple ft_thread_atexit compatible exit call
+*/
+void	ft_thread_exit(void)
+{
+	pthread_exit(NULL);
+}
+#endif

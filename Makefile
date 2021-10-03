@@ -45,7 +45,6 @@ MATHC			=	ft_sqrt.c\
 
 FT_THREADC		=	ft_thread_join.c\
 					ft_thread_create.c\
-					ft_thread_atexit.c\
 					ft_thread_self.c\
 					ft_mutex.c\
 					ft_thread_error.c\
@@ -266,8 +265,6 @@ ft_ls_files.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h\
 ft_thread_join.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
 	ft_collector.h ft_exit.h
 ft_thread_create.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
-	ft_collector.h ft_exit.h
-ft_thread_atexit.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
 	ft_collector.h ft_exit.h
 ft_thread_self.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
 	ft_collector.h ft_exit.h

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:55:03 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/02 17:39:55 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/03 14:09:10 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #  include <pthread.h>
 #  include <stdint.h>
 #  include "ft_mutex.h"
-#  include "ft_exit.h"
 
 /*
 ** t_ft_thread: libft thread structure
@@ -51,7 +50,6 @@ int			ft_thread_create(t_ft_thread *thread, const pthread_attr_t *attr,
 int			ft_thread_join(t_ft_thread *thread, void **retval);
 int			ft_thread_error(void);
 void		ft_set_thread_error(int errcode);
-void		ft_thread_atexit(t_atexitf handler);
 void		ft_thread_exit(void);
 
 # endif
