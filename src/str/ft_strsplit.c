@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 13:26:56 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/24 18:31:15 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/03 13:23:25 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 #ifdef NO_COLLEC
 
-#ifdef THREAD_SAFE
-MUTEXIFY(char**, ft_strsplit, char const*, s, char, c)
-#else
 char	**ft_strsplit(char const *s, char c)
-#endif
 {
-	static int	i = 0;
-	int			l;
-	char		*cpy;
-	char		**tb;
+#ifdef THREAD_SAFE
+	static __thread int	i = 0;
+#else
+	static int			i = 0;
+#endif
+	int					l;
+	char				*cpy;
+	char				**tb;
 
 	if (!s)
 		return (NULL);
@@ -37,13 +37,8 @@ char	**ft_strsplit(char const *s, char c)
 		++l;
 	if (l && !(cpy = ft_strndup(s, l)))
 		i = -1;
-#ifdef THREAD_SAFE
-	if (i != -1 && !(tb = cpy ? ts_ft_strsplit(s + l, c)
-		: (char **)ft_secmalloc(i * sizeof(char *))))
-#else
 	if (i != -1 && !(tb = cpy ? ft_strsplit(s + l, c)
 		: (char **)ft_secmalloc(i * sizeof(char *))))
-#endif
 		i = -1;
 	if (i == -1 && cpy)
 		free(cpy);
@@ -54,16 +49,16 @@ char	**ft_strsplit(char const *s, char c)
 
 #else
 
-#ifdef THREAD_SAFE
-MUTEXIFY(char**, ft_strsplit, char const*, s, char, c)
-#else
 char	**ft_strsplit(char const *s, char c)
-#endif
 {
-	static int	i = 0;
-	int			l;
-	char		*cpy;
-	char		**tb;
+#ifdef THREAD_SAFE
+	static __thread int	i = 0;
+#else
+	static int			i = 0;
+#endif
+	int					l;
+	char				*cpy;
+	char				**tb;
 
 	if (!s)
 		return (NULL);
@@ -77,13 +72,8 @@ char	**ft_strsplit(char const *s, char c)
 		++l;
 	if (l && !(cpy = ft_strndup(s, l)))
 		i = -1;
-#ifdef THREAD_SAFE
-	if (i != -1 && !(tb = cpy ? ts_ft_strsplit(s + l, c)
-		: (char **)ft_secmalloc(i * sizeof(char *))))
-#else
 	if (i != -1 && !(tb = cpy ? ft_strsplit(s + l, c)
 		: (char **)ft_secmalloc(i * sizeof(char *))))
-#endif
 		i = -1;
 	if (i == -1 && cpy)
 		free(ft_heap_collector(cpy, FT_COLLEC_GET));

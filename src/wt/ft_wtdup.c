@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 11:11:08 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/24 17:40:02 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/03 13:14:19 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 #ifdef NO_COLLEC
 
-#ifdef THREAD_SAFE
-MUTEXIFY(char**, ft_wtdup, char**, wt)
-#else
 char	**ft_wtdup(char **wt)
-#endif
 {
-	static int	size = 0;
-	char		*p;
-	char		**tb;
+#ifdef THREAD_SAFE
+	static __thread int	size = 0;
+#else
+	static int			size = 0;
+#endif
+	char				*p;
+	char				**tb;
 
 	if (!wt)
 		return (NULL);
@@ -32,11 +32,7 @@ char	**ft_wtdup(char **wt)
 		size = -1;
 	else if (!*wt)
 		p = NULL;
-#ifdef THREAD_SAFE
-	if (size != -1 && !(tb = p ? ts_ft_wtdup(++wt) :
-#else
 	if (size != -1 && !(tb = p ? ft_wtdup(++wt) :
-#endif
 		(char **)ft_secmalloc(size * sizeof(char *))))
 		size = -1;
 	if (size == -1 && p)
@@ -48,15 +44,15 @@ char	**ft_wtdup(char **wt)
 
 #else
 
-#ifdef THREAD_SAFE
-MUTEXIFY(char**, ft_wtdup, char**, wt)
-#else
 char	**ft_wtdup(char **wt)
-#endif
 {
-	static int	size = 0;
-	char		*p;
-	char		**tb;
+#ifdef THREAD_SAFE
+	static __thread int	size = 0;
+#else
+	static int			size = 0;
+#endif
+	char				*p;
+	char				**tb;
 
 	if (!wt)
 		return (NULL);
@@ -66,11 +62,7 @@ char	**ft_wtdup(char **wt)
 		size = -1;
 	else if (!*wt)
 		p = NULL;
-#ifdef THREAD_SAFE
-	if (size != -1 && !(tb = p ? ts_ft_wtdup(++wt) :
-#else
 	if (size != -1 && !(tb = p ? ft_wtdup(++wt) :
-#endif
 		(char **)ft_secmalloc(size * sizeof(char *))))
 		size = -1;
 	if (size == -1 && p)

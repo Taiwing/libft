@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 17:59:48 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/23 12:47:24 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/03 13:07:28 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,16 @@ unsigned int	ft_rand(void)
 ** return: store the value in the given n pointer
 ** or NULL on error or on bad input
 */
-/*
-#ifdef THREAD_SAFE
-MUTEXIFY(uint64_t*, ft_rand_uint64, uint64_t*, n, uint64_t, min, uint64_t, max)
-#else
 uint64_t		*ft_rand_uint64(uint64_t *n, uint64_t min, uint64_t max)
-#endif
-*/
-#ifdef THREAD_SAFE
-MUTEXIFY(uint64_t*, ft_rand_uint64, uint64_t*, n, uint64_t, min, uint64_t, max)
-#else
-uint64_t		*ft_rand_uint64(uint64_t *n, uint64_t min, uint64_t max)
-#endif
 {
-	uint64_t		dist;
-	static int		i = BUF_SIZE;
-	static uint64_t	buf[BUF_SIZE];
+	uint64_t					dist;
+#ifdef THREAD_SAFE
+	static __thread int			i = BUF_SIZE;
+	static __thread uint64_t	buf[BUF_SIZE];
+#else
+	static int					i = BUF_SIZE;
+	static uint64_t				buf[BUF_SIZE];
+#endif
 
 	if (!n || max < min)
 		return (NULL);
