@@ -97,7 +97,8 @@ BINTC			=	bint_utils_1.c\
 					bint_utils_2.c\
 					bint_divide.c\
 
-FT_COLLECTORC		=	ft_dir_collector.c\
+FT_COLLECTORC		=	ft_first_exit.c\
+					ft_dir_collector.c\
 					ft_heap_collector.c\
 					ft_exit.c\
 					ft_secmalloc.c\
@@ -357,6 +358,8 @@ bint_prime.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h\
 bint_utils_2.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h\
 	ft_exit.h
 bint_divide.o: bint.h
+ft_first_exit.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h\
+	ft_collector.h ft_exit.h
 ft_dir_collector.o: ft_collector.h ft_exit.h
 ft_heap_collector.o: ft_collector.h ft_exit.h
 ft_exit.o: libft.h ft_getopt.h ft_printf.h t_pbuf.h bint.h ft_collector.h\
