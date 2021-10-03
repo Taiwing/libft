@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 11:16:55 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/03 15:44:53 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/03 16:39:36 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	ft_exit(char *err, int errcode, int ret)
 	ft_set_first_exit(err, errcode, ret);
 	ft_atexit(NULL);
 	ft_get_first_exit(&err, &errcode, &ret);
-	if (err)
+	if (err || errcode)
 		print_exit(err, errcode);
 	ft_heap_collector(NULL, FT_COLLEC_FREE);
 	exit(ret);
