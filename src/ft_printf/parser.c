@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 17:34:35 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/14 16:02:47 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/22 22:12:56 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,30 +92,6 @@ void		parser_alloc(t_pdata *data, char **fmt, t_farg *args)
 	else
 	{
 		add_to_buf_alloc(data, *fmt, 0, ft_strlen(*fmt));
-		*fmt = ft_strchr(*fmt, 0);
-	}
-}
-
-void		parser_pbuf(t_pbuf *buf, char **fmt, t_farg *args)
-{
-	t_params	conv;
-	char		*mod;
-
-	mod = ft_strchr(*fmt, '%');
-	if (mod == *fmt)
-	{
-		init_conv(&conv);
-		if (get_conv(fmt, args, &conv))
-			convert_pbuf(buf, args, &conv, fmt);
-	}
-	else if (mod)
-	{
-		add_to_pbuf(buf, *fmt, 0, mod - *fmt);
-		*fmt = mod;
-	}
-	else
-	{
-		add_to_pbuf(buf, *fmt, 0, ft_strlen(*fmt));
 		*fmt = ft_strchr(*fmt, 0);
 	}
 }

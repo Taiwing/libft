@@ -1,1 +1,1 @@
--sn ../../ libft.a -f '-Wall -Wextra'
+-sn ../.. libft.a -f '-Wall -Wextra'

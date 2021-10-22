@@ -5,7 +5,7 @@ CC			=	gcc
 CFLAGS		=	-Wall -Wextra -g -fsanitize=address,undefined
 HDIR		=	includes
 SRCDIR		=	src
-SUB1D		=	../../
+SUB1D		=	../..
 HFLAGS		=	-I $(HDIR) -I $(SUB1D)/$(HDIR)
 LIBS		=	$(SUB1D)/libft.a
 NAME		=	exec
