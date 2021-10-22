@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 14:21:57 by yforeau           #+#    #+#             */
-/*   Updated: 2019/02/14 16:12:31 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/22 19:02:36 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@
 
 int	ft_bufprintf(t_pbuf *buf, const char *format, ...)
 {
-	t_farg	args;
+	t_farg	args = { 0 };
 
-	args.arr = NULL;
 	va_start(args.cur, format);
 	va_copy(args.ref, args.cur);
 	while (*format && buf->n != -1)

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 18:15:53 by yforeau           #+#    #+#             */
-/*   Updated: 2019/04/29 18:17:01 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/22 19:08:02 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@
 
 int	ft_asprintf(char **str, const char *format, ...)
 {
+	t_farg	args = { 0 };
 	t_pdata	data;
-	t_farg	args;
 
 	init_buf_alloc(&data, str);
-	args.arr = NULL;
 	va_start(args.cur, format);
 	va_copy(args.ref, args.cur);
 	while (*format && data.n != -1)
@@ -42,11 +41,10 @@ int	ft_asprintf(char **str, const char *format, ...)
 
 int	ft_asprintf(char **str, const char *format, ...)
 {
+	t_farg	args = { 0 };
 	t_pdata	data;
-	t_farg	args;
 
 	init_buf_alloc(&data, str);
-	args.arr = NULL;
 	va_start(args.cur, format);
 	va_copy(args.ref, args.cur);
 	while (*format && data.n != -1)

@@ -1,8 +1,8 @@
 ############################## COMPILE VAR #####################################
 
 CC			=	gcc
-#CFLAGS		=	-Wall -Wextra -Werror
-CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=address,undefined
+#CFLAGS		=	-Wall -Wextra
+CFLAGS		=	-Wall -Wextra -g -fsanitize=address,undefined
 HDIR		=	includes
 SRCDIR		=	src
 SUB1D		=	../../
@@ -13,9 +13,6 @@ NAME		=	exec
 ############################## SOURCES #########################################
 
 SRCC			=	main.c\
-					modexp_tests.c\
-					modinv_tests.c\
-					modmul_tests.c\
 
 ODIR			=	obj
 OBJ				=	$(patsubst %.c,%.o,$(SRCC))
@@ -35,7 +32,7 @@ $(NAME): $(SUB1D)/libft.a $(ODIR) $(OBJ)
 $(SUB1D)/libft.a:
 	make -C $(SUB1D)
 
-main.o: libft.h ft_printf.h modexp_tests.h modinv_tests.h modmul_tests.h
+main.o: ft_printf.h
 %.o: %.c
 	@mkdir -p $(ODIR)
 	$(CC) -c $(CFLAGS) $< $(HFLAGS) -o $(ODIR)/$@
