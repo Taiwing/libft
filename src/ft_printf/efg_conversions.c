@@ -6,14 +6,12 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 20:36:57 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/19 23:53:36 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/24 13:04:18 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fetch.h"
-#include "t_params.h"
+#include "ft_printf_internal.h"
 #include "log_and_ceil.h"
-#include "float_formats.h"
 
 static int	check_infnan(t_pdata *loc, t_bitd *raw, int is_long, int maj)
 {
@@ -24,15 +22,15 @@ static int	check_infnan(t_pdata *loc, t_bitd *raw, int is_long, int maj)
 			|| (!is_long && !raw->sd.mantissa))
 		{
 			if ((is_long && raw->ld.sign) || (!is_long && raw->sd.sign))
-				add_to_buf(loc, NULL, '-', 1);
-			add_to_buf(loc, maj ? "INF" : "inf", 0, 3);
+				pdata_add(loc, NULL, '-', 1);
+			pdata_add(loc, maj ? "INF" : "inf", 0, 3);
 		}
 		else
-			add_to_buf(loc, maj ? "NAN" : "nan", 0, 3);
+			pdata_add(loc, maj ? "NAN" : "nan", 0, 3);
 		return (1);
 	}
 	if ((is_long && raw->ld.sign) || (!is_long && raw->sd.sign))
-		add_to_buf(loc, NULL, '-', 1);
+		pdata_add(loc, NULL, '-', 1);
 	return (0);
 }
 

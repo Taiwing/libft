@@ -6,13 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/25 17:17:30 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/20 00:08:58 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/24 13:25:59 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_conv.h"
-#include "parser.h"
-#include "fetch.h"
+#include "ft_printf_internal.h"
 #include "libft.h"
 
 /*
@@ -57,7 +55,7 @@ static void	apply_hash(t_pdata *l, t_params *conv, t_farg *tab, char **beg)
 		if (**beg == '%')
 			parser(l, beg, tab);
 		else
-			add_to_buf(l, NULL, **beg ? *(*beg)++ : **beg, 1);
+			pdata_add(l, NULL, **beg ? *(*beg)++ : **beg, 1);
 	}
 }
 
@@ -77,7 +75,7 @@ static char	*tab_parsing(t_pdata *l, char *fmt, t_farg *tab, t_params *conv)
 			break ;
 		while (tab->i == conv->fw && tab->j < conv->prec && *beg && l->n != -1)
 		{
-			init_conv(&cnv);
+			cnv = (t_params)CONV_INIT;
 			if (!(mod = ft_strchr(beg, '%')) || !get_conv(&mod, tab, &cnv))
 				break ;
 			beg = mod;

@@ -6,13 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 23:44:40 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/19 23:59:59 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/24 13:06:29 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fetch.h"
-#include "itoa_signed.h"
-#include "itoa_unsigned.h"
+#include "ft_printf_internal.h"
 
 /*
 ** TODO: Change the cast for the fetch (INT by default is alright if va_arg is

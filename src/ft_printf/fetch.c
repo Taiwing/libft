@@ -6,12 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/31 13:55:58 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/11 15:59:46 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/24 13:04:01 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fetch.h"
-#include "t_params.h"
+#include "ft_printf_internal.h"
 
 /*
 ** fetch() uses the va_list macros to fetch arguments

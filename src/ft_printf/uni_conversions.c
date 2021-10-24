@@ -6,13 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:37:37 by yforeau           #+#    #+#             */
-/*   Updated: 2021/08/04 19:56:14 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/24 13:07:28 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fetch.h"
-#include "t_pdata.h"
-#include "t_params.h"
+#include "ft_printf_internal.h"
 
 static int	byte_len(wint_t c)
 {
@@ -47,7 +45,7 @@ void		lc_conversion(t_pdata *loc, t_farg *args, t_params *conv)
 
 	fetch(args, conv->arg, C_WINT_T, (void *)(&nb));
 	l = byte_len(nb);
-	add_to_buf(loc, NULL, 0, l);
+	pdata_add(loc, NULL, 0, l);
 	if (loc->n == -1)
 		return ;
 	conv_wint(loc->buf, l, nb);
@@ -61,7 +59,7 @@ void		ls_conversion(t_pdata *loc, t_farg *args, t_params *conv)
 
 	fetch(args, conv->arg, C_WCHAR_T_P, (void *)(&wstr));
 	if (!wstr)
-		add_to_buf(loc, "(null)", 0,
+		pdata_add(loc, "(null)", 0,
 		(conv->prec > 5 || conv->prec < 0) ? 6 : conv->prec);
 	else if (wstr)
 	{
@@ -71,7 +69,7 @@ void		ls_conversion(t_pdata *loc, t_farg *args, t_params *conv)
 			l = byte_len(*wstr);
 			if (conv->prec == -1 || (i + l) <= conv->prec)
 			{
-				add_to_buf(loc, NULL, 0, l);
+				pdata_add(loc, NULL, 0, l);
 				if (loc->n != -1)
 					conv_wint(loc->buf + loc->n - l, l, *wstr++);
 			}

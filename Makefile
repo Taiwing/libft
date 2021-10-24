@@ -42,13 +42,11 @@ FT_LSC			=	ft_ls_files.c\
 
 MATHC			=	ft_sqrt.c\
 
-FT_PRINTFC		=	format_data_utils.c\
+FT_PRINTFC		=	pdata_add.c\
 					itoa_unsigned.c\
 					itoa.c\
-					t_pdata_stralloc.c\
 					basic_conversions.c\
 					float_formats.c\
-					convert_str.c\
 					get_conv.c\
 					itoa_cast.c\
 					get_flags.c\
@@ -57,14 +55,11 @@ FT_PRINTFC		=	format_data_utils.c\
 					ft_printf_utils.c\
 					parser.c\
 					uni_conversions.c\
-					convert.c\
 					format_data.c\
-					ft_asprintf.c\
 					efg_conversions.c\
 					ft_printf.c\
-					t_pdata.c\
 					tab_conversion.c\
-					convert_alloc.c\
+					pdata.c\
 
 CHARC			=	ft_isdigit.c\
 					ft_isascii.c\
@@ -256,42 +251,33 @@ getopt_errors.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
 get_next_line.o: get_next_line.h libft.h ft_getopt.h ft_printf.h bint.h\
 	ft_collector.h
 ft_ls_files.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
-format_data_utils.o: format_data.h t_params.h t_pdata.h libft.h ft_getopt.h\
+pdata_add.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h ft_printf.h\
+	bint.h ft_collector.h
+itoa_unsigned.o: ft_printf_internal.h t_pdata.h
+itoa.o: ft_printf_internal.h t_pdata.h
+basic_conversions.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h\
 	ft_printf.h bint.h ft_collector.h
-itoa_unsigned.o: itoa_unsigned.h t_pdata.h t_params.h
-itoa.o: fetch.h t_farg.h itoa_signed.h t_pdata.h itoa_unsigned.h t_params.h
-t_pdata_stralloc.o: t_pdata.h libft.h ft_getopt.h ft_printf.h bint.h\
+float_formats.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
+	ft_printf.h bint.h ft_collector.h
+get_conv.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h ft_printf.h\
+	bint.h ft_collector.h
+itoa_cast.o: ft_printf_internal.h t_pdata.h
+get_flags.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h ft_printf.h\
+	bint.h ft_collector.h
+fetch.o: ft_printf_internal.h t_pdata.h
+itoa_signed.o: ft_printf_internal.h t_pdata.h
+parser.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h ft_printf.h\
+	bint.h ft_collector.h
+uni_conversions.o: ft_printf_internal.h t_pdata.h
+format_data.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h ft_printf.h\
+	bint.h ft_collector.h
+efg_conversions.o: ft_printf_internal.h t_pdata.h log_and_ceil.h
+ft_printf.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h ft_printf.h\
+	bint.h ft_collector.h
+tab_conversion.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h\
+	ft_printf.h bint.h ft_collector.h
+pdata.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h ft_printf.h bint.h\
 	ft_collector.h
-basic_conversions.o: fetch.h t_farg.h libft.h ft_getopt.h ft_printf.h bint.h\
-	ft_collector.h itoa_unsigned.h t_pdata.h t_params.h
-float_formats.o: ft_printf_utils.h t_pdata.h dragon4.h t_params.h
-convert_str.o: conversions.h t_farg.h t_pdata.h t_params.h format_data.h\
-	libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
-get_conv.o: get_flags.h t_farg.h t_params.h libft.h ft_getopt.h ft_printf.h\
-	bint.h ft_collector.h
-itoa_cast.o: itoa.h t_farg.h t_params.h t_pdata.h
-get_flags.o: t_params.h fetch.h t_farg.h libft.h ft_getopt.h ft_printf.h\
-	bint.h ft_collector.h
-fetch.o: fetch.h t_farg.h t_params.h
-itoa_signed.o: itoa_signed.h t_pdata.h
-parser.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h get_conv.h\
-	t_farg.h t_params.h convert.h t_pdata.h
-uni_conversions.o: fetch.h t_farg.h t_pdata.h t_params.h
-convert.o: conversions.h t_farg.h t_pdata.h t_params.h format_data.h libft.h\
-	ft_getopt.h ft_printf.h bint.h ft_collector.h
-format_data.o: format_data_utils.h t_pdata.h t_params.h format_data.h libft.h\
-	ft_getopt.h ft_printf.h bint.h ft_collector.h
-ft_asprintf.o: parser.h t_farg.h t_pdata.h t_params.h libft.h ft_getopt.h\
-	ft_printf.h bint.h ft_collector.h
-efg_conversions.o: fetch.h t_farg.h t_params.h log_and_ceil.h float_formats.h\
-	t_pdata.h dragon4.h
-ft_printf.o: parser.h t_farg.h t_pdata.h t_params.h libft.h ft_getopt.h\
-	ft_printf.h bint.h ft_collector.h
-t_pdata.o: t_pdata.h libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
-tab_conversion.o: get_conv.h t_farg.h t_params.h parser.h t_pdata.h fetch.h\
-	libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
-convert_alloc.o: conversions.h t_farg.h t_pdata.h t_params.h format_data.h\
-	libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
 ft_isdigit.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
 ft_isascii.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
 ft_isprint.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h

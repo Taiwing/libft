@@ -6,12 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/31 16:32:21 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/19 23:59:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/24 13:06:20 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_params.h"
-#include "fetch.h"
+#include "ft_printf_internal.h"
 #include "libft.h"
 
 static int	doll_sign(char *f)

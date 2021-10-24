@@ -6,11 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 23:21:53 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/20 00:00:49 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/24 13:06:38 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "itoa.h"
+#include "ft_printf_internal.h"
 
 void	check_cast(t_params *conv, int cast)
 {

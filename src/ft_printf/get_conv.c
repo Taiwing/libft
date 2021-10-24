@@ -6,11 +6,11 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 18:34:46 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/19 23:57:39 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/24 13:06:00 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_flags.h"
+#include "ft_printf_internal.h"
 #include "libft.h"
 
 static int	get_type(char **fmt, t_params *conv)

@@ -6,12 +6,12 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 00:17:59 by yforeau           #+#    #+#             */
-/*   Updated: 2018/12/20 00:04:59 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/24 13:06:47 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
-#include "itoa_signed.h"
+#include "ft_printf_internal.h"
 
 void	itoa_sint(t_pdata *loc, int si)
 {
@@ -28,7 +28,7 @@ void	itoa_sint(t_pdata *loc, int si)
 		si /= 10;
 	}
 	i = 0;
-	add_to_buf(loc, NULL, 0, size + sign);
+	pdata_add(loc, NULL, 0, size + sign);
 	if (loc->n == -1)
 		return ;
 	while (size--)
@@ -51,7 +51,7 @@ void	itoa_slint(t_pdata *loc, long int si)
 		si /= 10;
 	}
 	i = 0;
-	add_to_buf(loc, NULL, 0, size + sign);
+	pdata_add(loc, NULL, 0, size + sign);
 	if (loc->n == -1)
 		return ;
 	while (size--)
@@ -74,7 +74,7 @@ void	itoa_sllint(t_pdata *loc, long long int si)
 		si /= 10;
 	}
 	i = 0;
-	add_to_buf(loc, NULL, 0, size + sign);
+	pdata_add(loc, NULL, 0, size + sign);
 	if (loc->n == -1)
 		return ;
 	while (size--)
@@ -97,7 +97,7 @@ void	itoa_ssize_t(t_pdata *loc, ssize_t si)
 		si /= 10;
 	}
 	i = 0;
-	add_to_buf(loc, NULL, 0, size + sign);
+	pdata_add(loc, NULL, 0, size + sign);
 	if (loc->n == -1)
 		return ;
 	while (size--)
@@ -120,7 +120,7 @@ void	itoa_sintmax_t(t_pdata *loc, intmax_t si)
 		si /= 10;
 	}
 	i = 0;
-	add_to_buf(loc, NULL, 0, size + sign);
+	pdata_add(loc, NULL, 0, size + sign);
 	if (loc->n == -1)
 		return ;
 	while (size--)
