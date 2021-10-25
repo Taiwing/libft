@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 20:36:57 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/24 13:04:18 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/25 09:26:31 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,15 @@ static void	init_fltinf(t_params *conv, t_fltinf *info, t_bitd *raw)
 	info->flags = conv->flags;
 }
 
-void		efg_conversions(t_pdata *loc, t_farg *args, t_params *conv)
+void		efg_conversions(t_pdata *loc, t_farg *args,
+				t_params *conv, char **fmt)
 {
 	char		buf[16384];
 	int			size;
 	t_fltinf	info;
 	t_bitd		raw;
 
+	(void)fmt;
 	if (conv->cast & C_LONG_LONG)
 		fetch(args, conv->arg, C_DOUBLE | C_LONG, (void *)&raw);
 	else

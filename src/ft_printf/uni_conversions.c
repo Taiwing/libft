@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:37:37 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/24 13:07:28 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/25 09:30:28 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ static void	conv_wint(char *str, int l, wint_t c)
 	}
 }
 
-void		lc_conversion(t_pdata *loc, t_farg *args, t_params *conv)
+void		lc_conversion(t_pdata *loc, t_farg *args,
+				t_params *conv, char **fmt)
 {
 	int		l;
 	wint_t	nb;
 
+	(void)fmt;
 	fetch(args, conv->arg, C_WINT_T, (void *)(&nb));
 	l = byte_len(nb);
 	pdata_add(loc, NULL, 0, l);
@@ -51,12 +53,14 @@ void		lc_conversion(t_pdata *loc, t_farg *args, t_params *conv)
 	conv_wint(loc->buf, l, nb);
 }
 
-void		ls_conversion(t_pdata *loc, t_farg *args, t_params *conv)
+void		ls_conversion(t_pdata *loc, t_farg *args,
+				t_params *conv, char **fmt)
 {
 	int			l;
 	int			i;
 	wchar_t		*wstr;
 
+	(void)fmt;
 	fetch(args, conv->arg, C_WCHAR_T_P, (void *)(&wstr));
 	if (!wstr)
 		pdata_add(loc, "(null)", 0,

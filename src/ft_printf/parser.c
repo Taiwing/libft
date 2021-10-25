@@ -6,38 +6,51 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 17:34:35 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/24 13:23:14 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/25 09:35:10 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
 #include "ft_printf_internal.h"
 #include "libft.h"
 
 //TODO: Create an array of functions for convert instead of using 'if else ifs'
 //statements. It will be waaaaay cleaner, and faster too.
 
+const t_convf	g_conversions[CHAR_MAX + 1] = {
+	['d'] = itoa_cast,
+	['b'] = itoa_cast,
+	['B'] = itoa_cast,
+	['o'] = itoa_cast,
+	['u'] = itoa_cast,
+	['x'] = itoa_cast,
+	['X'] = itoa_cast,
+	['e'] = efg_conversions,
+	['E'] = efg_conversions,
+	['f'] = efg_conversions,
+	['F'] = efg_conversions,
+	['g'] = efg_conversions,
+	['G'] = efg_conversions,
+	['p'] = p_conversion,
+	['P'] = p_conversion,
+	['c'] = c_conversion,
+	['C'] = lc_conversion,
+	['s'] = s_conversion,
+	['S'] = ls_conversion,
+	['t'] = t_conversion,
+};
+
 static void	convert(t_pdata *data, t_farg *args, t_params *conv, char **fmt)
 {
 	t_pdata	loc_data;
+	t_convf	convf;
+	uint8_t	type;
 
 	pdata_init(&loc_data, data->flags, data->fd);
 	pdata_local_set_buf(&loc_data);
-	if (ft_strchr("dbBouxX", conv->type))
-		itoa_cast(&loc_data, args, conv);
-	else if (ft_strchr("eEfFgG", conv->type))
-		efg_conversions(&loc_data, args, conv);
-	else if (conv->type == 'p' || conv->type == 'P')
-		p_conversion(&loc_data, args, conv);
-	else if (conv->type == 'c')
-		c_conversion(&loc_data, args, conv);
-	else if (conv->type == 'C')
-		lc_conversion(&loc_data, args, conv);
-	else if (conv->type == 's')
-		s_conversion(&loc_data, args, conv);
-	else if (conv->type == 'S')
-		ls_conversion(&loc_data, args, conv);
-	else if (conv->type == 't')
-		t_conversion(&loc_data, args, conv, fmt);
+	type = conv->type < 0 ? 0 : (uint8_t)conv->type;
+	if ((convf = g_conversions[type]))
+		convf(&loc_data, args, conv, fmt);
 	else
 		pdata_add(&loc_data, NULL, conv->type, 1);
 	if (loc_data.n != -1)

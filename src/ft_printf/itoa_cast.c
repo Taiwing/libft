@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 23:21:53 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/24 13:06:38 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/25 09:26:03 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ void	check_cast(t_params *conv, int cast)
 	conv->cast = cast;
 }
 
-void	itoa_cast(t_pdata *loc, t_farg *args, t_params *conv)
+void	itoa_cast(t_pdata *loc, t_farg *args, t_params *conv, char **fmt)
 {
+	(void)fmt;
 	check_cast(conv, conv->cast);
 	if (conv->cast == C_INT || conv->cast == (C_INT | C_UNSIGNED)
 		|| conv->cast & C_CHAR || conv->cast & C_SHORT)

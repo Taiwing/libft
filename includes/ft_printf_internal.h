@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/24 12:14:57 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/25 06:18:58 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/25 09:32:50 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,23 @@ typedef struct			s_params
 # define CONV_INIT		{ 0, 0, 0, 0, 0, -1 }
 
 /*
+** Conversions
+*/
+
+# define FT_PRINTF_CONVERSIONS "dbBouxXeEfFgGpPcCsSt"
+
+typedef void	(*t_convf)(t_pdata *l, t_farg *a, t_params *c, char **f);
+
+void	itoa_cast(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
+void	efg_conversions(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
+void	p_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
+void	c_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
+void	lc_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
+void	s_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
+void	ls_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
+void	t_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
+
+/*
 ** Format Data Enumeration (for format_data function)
 */
 enum	e_fdat {SPAD, ZPAD, SIGN, HEX};
@@ -122,19 +139,6 @@ void	itoa_uintmax_t(t_pdata *loc, uintmax_t ui, int base, int type);
 void	e_format(t_pdata *loc, char *buf, int size, t_fltinf *info);
 void	f_format(t_pdata *loc, char *buf, int size, t_fltinf *info);
 void	g_format(t_pdata *loc, char *buf, int size, t_fltinf *info);
-
-/*
-** Conversion functions
-*/
-
-void	itoa_cast(t_pdata *loc, t_farg *args, t_params *conv);
-void	efg_conversions(t_pdata *loc, t_farg *args, t_params *conv);
-void	p_conversion(t_pdata *loc, t_farg *args, t_params *conv);
-void	c_conversion(t_pdata *loc, t_farg *args, t_params *conv);
-void	lc_conversion(t_pdata *loc, t_farg *args, t_params *conv);
-void	s_conversion(t_pdata *loc, t_farg *args, t_params *conv);
-void	ls_conversion(t_pdata *loc, t_farg *args, t_params *conv);
-void	t_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
 
 /*
 ** ft_printf internal functions
