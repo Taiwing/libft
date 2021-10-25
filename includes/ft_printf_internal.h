@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/24 12:14:57 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/24 13:22:53 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/25 06:18:58 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ void	t_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
 ** ft_printf internal functions
 */
 
+int		ft_printf_internal(t_pdata *data, const char *format, t_farg *args);
 void	parser(t_pdata *data, char **fmt, t_farg *args);
 int		get_flags(char **fmt, t_farg *args, t_params *conv);
 int		get_conv(char **fmt, t_farg *args, t_params *conv);

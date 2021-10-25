@@ -42,7 +42,8 @@ FT_LSC			=	ft_ls_files.c\
 
 MATHC			=	ft_sqrt.c\
 
-FT_PRINTFC		=	pdata_add.c\
+FT_PRINTFC		=	ft_printf_internal.c\
+					pdata_add.c\
 					itoa_unsigned.c\
 					itoa.c\
 					basic_conversions.c\
@@ -251,33 +252,35 @@ getopt_errors.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
 get_next_line.o: get_next_line.h libft.h ft_getopt.h ft_printf.h bint.h\
 	ft_collector.h
 ft_ls_files.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
-pdata_add.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h ft_printf.h\
-	bint.h ft_collector.h
-itoa_unsigned.o: ft_printf_internal.h t_pdata.h
-itoa.o: ft_printf_internal.h t_pdata.h
-basic_conversions.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h\
+ft_printf_internal.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h\
+	ft_getopt.h ft_printf.h bint.h ft_collector.h
+pdata_add.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
 	ft_printf.h bint.h ft_collector.h
+itoa_unsigned.o: ft_printf_internal.h t_pdata.h dragon4.h
+itoa.o: ft_printf_internal.h t_pdata.h dragon4.h
+basic_conversions.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h\
+	ft_getopt.h ft_printf.h bint.h ft_collector.h
 float_formats.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
 	ft_printf.h bint.h ft_collector.h
-get_conv.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h ft_printf.h\
-	bint.h ft_collector.h
-itoa_cast.o: ft_printf_internal.h t_pdata.h
-get_flags.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h ft_printf.h\
-	bint.h ft_collector.h
-fetch.o: ft_printf_internal.h t_pdata.h
-itoa_signed.o: ft_printf_internal.h t_pdata.h
-parser.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h ft_printf.h\
-	bint.h ft_collector.h
-uni_conversions.o: ft_printf_internal.h t_pdata.h
-format_data.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h ft_printf.h\
-	bint.h ft_collector.h
-efg_conversions.o: ft_printf_internal.h t_pdata.h log_and_ceil.h
-ft_printf.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h ft_printf.h\
-	bint.h ft_collector.h
-tab_conversion.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h\
+get_conv.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
 	ft_printf.h bint.h ft_collector.h
-pdata.o: ft_printf_internal.h t_pdata.h libft.h ft_getopt.h ft_printf.h bint.h\
-	ft_collector.h
+itoa_cast.o: ft_printf_internal.h t_pdata.h dragon4.h
+get_flags.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
+	ft_printf.h bint.h ft_collector.h
+fetch.o: ft_printf_internal.h t_pdata.h dragon4.h
+itoa_signed.o: ft_printf_internal.h t_pdata.h dragon4.h
+parser.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
+	ft_printf.h bint.h ft_collector.h
+uni_conversions.o: ft_printf_internal.h t_pdata.h dragon4.h
+format_data.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
+	ft_printf.h bint.h ft_collector.h
+efg_conversions.o: ft_printf_internal.h t_pdata.h dragon4.h log_and_ceil.h
+ft_printf.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
+	ft_printf.h bint.h ft_collector.h
+tab_conversion.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
+	ft_printf.h bint.h ft_collector.h
+pdata.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
+	ft_printf.h bint.h ft_collector.h
 ft_isdigit.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
 ft_isascii.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
 ft_isprint.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h
