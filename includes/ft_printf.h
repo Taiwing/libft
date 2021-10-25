@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 18:26:09 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/22 22:21:14 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/25 06:31:31 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@ int	ft_dprintf(int fd, const char *format, ...);
 int	ft_sprintf(char *str, const char *format, ...);
 int	ft_snprintf(char *str, int size, const char *format, ...);
 int	ft_asprintf(char **str, const char *format, ...);
+int	ft_zprintf(const char *format, ...);
+int	ft_dzprintf(int fd, const char *format, ...);
 
 #endif

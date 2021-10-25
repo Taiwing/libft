@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 14:43:15 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/25 06:22:09 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/25 06:29:56 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,38 @@ int	ft_asprintf(char **str, const char *format, ...)
 	va_copy(args.ref, args.cur);
 	ret = ft_printf_internal(&data, format, &args);
 	*str = data.abuf;
+	va_end(args.cur);
+	va_end(args.ref);
+	return (ret);
+}
+
+int	ft_zprintf(const char *format, ...)
+{
+	t_farg	args = { 0 };
+	t_pdata	data;
+	int		ret;
+
+	pdata_init(&data, PMODE_NOALLOC, 1);
+	pdata_set_buf(&data, NULL, 0);
+	va_start(args.cur, format);
+	va_copy(args.ref, args.cur);
+	ret = ft_printf_internal(&data, format, &args);
+	va_end(args.cur);
+	va_end(args.ref);
+	return (ret);
+}
+
+int	ft_dzprintf(int fd, const char *format, ...)
+{
+	t_farg	args = { 0 };
+	t_pdata	data;
+	int		ret;
+
+	pdata_init(&data, PMODE_NOALLOC, fd);
+	pdata_set_buf(&data, NULL, 0);
+	va_start(args.cur, format);
+	va_copy(args.ref, args.cur);
+	ret = ft_printf_internal(&data, format, &args);
 	va_end(args.cur);
 	va_end(args.ref);
 	return (ret);

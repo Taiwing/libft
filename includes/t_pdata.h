@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 14:56:33 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/24 13:17:01 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/25 06:30:46 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@
 
 enum e_pmodes {
 	PMODE_CLASSIC = 0,								// ft_printf/ft_dprintf
-	PMODE_NOALLOC = PDATA_FLUSH,					// ft_zprintf/ft_dzprintf ??? (TODO)
+	PMODE_NOALLOC = PDATA_FLUSH,					// ft_zprintf/ft_dzprintf
 	PMODE_NOLIMIT = PDATA_NOLIMIT | PDATA_RETBUF,	// ft_sprintf
 	PMODE_BUFLIMIT = PDATA_STOP | PDATA_RETBUF,		// ft_snprintf
 	PMODE_BUFALLOC = PDATA_ALLOC | PDATA_RETBUF,	// ft_asprintf
