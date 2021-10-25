@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 13:10:09 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/24 13:03:06 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/25 20:01:02 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static void	apply_fw(t_pdata *l, t_params *conv, int fdat[4], int *size)
 {
 	char	*t;
 
-	if ((t = ft_strchr("dbBouxXpPeEfFgG", conv->type)) && *size < conv->fw
+	if ((t = ft_strchr(FTP_NUMERIC_CONV, conv->type)) && *size < conv->fw
 		&& conv->flags & F_ZERO && !(conv->flags & F_MINUS)
-		&& (conv->prec < 0 || ft_strchr("eEfFgG", conv->type)))
+		&& (conv->prec < 0 || ft_strchr(FTP_FLOAT_CONV, conv->type)))
 	{
 		fdat[ZPAD] += conv->fw - *size - (l->buf[0] == '-');
 		if (l->buf[0] == '-')
@@ -43,7 +43,7 @@ static void	apply_fw(t_pdata *l, t_params *conv, int fdat[4], int *size)
 
 static void	apply_sign(t_pdata *l, t_params *conv, int fdat[4], int *size)
 {
-	if (ft_strchr("deEfFgG", conv->type) && l->buf[0] != '-'
+	if (ft_strchr(FTP_NUM_SIGNED_CONV, conv->type) && l->buf[0] != '-'
 		&& fdat[SIGN] != '-' && (conv->flags & F_PLUS || conv->flags & F_SPACE))
 	{
 		fdat[SIGN] = conv->flags & F_PLUS ? '+' : ' ';
@@ -65,7 +65,7 @@ static void	apply_prec(t_pdata *l, t_params *conv, int *size, int fdat[4])
 
 static void	apply_hash(t_pdata *l, char t, int *size, int fdat[4])
 {
-	if (t == 'o' && !fdat[ZPAD] && (l->buf[0] != '0' || !l->n))
+	if ((t == 'o' || t == 'O') && !fdat[ZPAD] && (l->buf[0] != '0' || !l->n))
 	{
 		fdat[ZPAD]++;
 		(*size)++;
@@ -106,7 +106,7 @@ void		format_data(t_pdata *d, t_pdata *l, t_params *conv)
 	fdat[ZPAD] = 0;
 	fdat[SIGN] = 0;
 	fdat[HEX] = 0;
-	if (ft_strchr("dbBouxXpP", conv->type))
+	if (ft_strchr(FTP_INT_CONV, conv->type))
 		int_format(conv, l, fdat, &size);
 	apply_sign(l, conv, fdat, &size);
 	apply_fw(l, conv, fdat, &size);

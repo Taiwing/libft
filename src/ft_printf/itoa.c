@@ -6,10 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 23:44:40 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/24 13:06:29 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/25 20:15:04 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
 #include "ft_printf_internal.h"
 
 /*
@@ -22,6 +23,22 @@
 ** change made but untested yet
 */
 
+const int	g_bases[CHAR_MAX + 1] = {
+	['i'] = 10,
+	['d'] = 10,
+	['D'] = 10,
+	['b'] = 2,
+	['B'] = 2,
+	['o'] = 8,
+	['O'] = 8,
+	['u'] = 10,
+	['U'] = 10,
+	['x'] = 16,
+	['X'] = 16,
+	['p'] = 16,
+	['P'] = 16,
+};
+
 void	itoa_int(t_pdata *loc, t_farg *args, t_params *conv)
 {
 	int				s;
@@ -30,9 +47,7 @@ void	itoa_int(t_pdata *loc, t_farg *args, t_params *conv)
 	int				type;
 
 	type = (conv->type == 'X' || conv->type == 'P');
-	base = conv->type == 'b' || conv->type == 'B' ? 2 : 10;
-	base = conv->type == 'o' ? 8 : base;
-	base = conv->type == 'x' || conv->type == 'p' || type ? 16 : base;
+	base = g_bases[(uint8_t)conv->type];
 	if (conv->cast & C_UNSIGNED)
 		fetch(args, conv->arg, conv->cast, (void *)&u);
 	else
@@ -61,9 +76,7 @@ void	itoa_long(t_pdata *loc, t_farg *args, t_params *conv)
 	if (conv->cast & C_UNSIGNED)
 	{
 		type = (conv->type == 'X' || conv->type == 'P');
-		base = conv->type == 'b' || conv->type == 'B' ? 2 : 10;
-		base = conv->type == 'o' ? 8 : base;
-		base = conv->type == 'x' || conv->type == 'p' || type ? 16 : base;
+		base = g_bases[(uint8_t)conv->type];
 		fetch(args, conv->arg, conv->cast, (void *)&ui);
 		itoa_ulint(loc, ui, base, type);
 	}
@@ -84,9 +97,7 @@ void	itoa_long_long(t_pdata *loc, t_farg *args, t_params *conv)
 	if (conv->cast & C_UNSIGNED)
 	{
 		type = (conv->type == 'X' || conv->type == 'P');
-		base = conv->type == 'b' || conv->type == 'B' ? 2 : 10;
-		base = conv->type == 'o' ? 8 : base;
-		base = conv->type == 'x' || conv->type == 'p' || type ? 16 : base;
+		base = g_bases[(uint8_t)conv->type];
 		fetch(args, conv->arg, conv->cast, (void *)&ui);
 		itoa_ullint(loc, ui, base, type);
 	}
@@ -107,9 +118,7 @@ void	itoa_size_t(t_pdata *loc, t_farg *args, t_params *conv)
 	if (conv->cast & C_UNSIGNED)
 	{
 		type = (conv->type == 'X' || conv->type == 'P');
-		base = conv->type == 'b' || conv->type == 'B' ? 2 : 10;
-		base = conv->type == 'o' ? 8 : base;
-		base = conv->type == 'x' || conv->type == 'p' || type ? 16 : base;
+		base = g_bases[(uint8_t)conv->type];
 		fetch(args, conv->arg, conv->cast, (void *)&ui);
 		itoa_usize_t(loc, ui, base, type);
 	}
@@ -130,9 +139,7 @@ void	itoa_intmax_t(t_pdata *loc, t_farg *args, t_params *conv)
 	if (conv->cast & C_UNSIGNED)
 	{
 		type = (conv->type == 'X' || conv->type == 'P');
-		base = conv->type == 'b' || conv->type == 'B' ? 2 : 10;
-		base = conv->type == 'o' ? 8 : base;
-		base = conv->type == 'x' || conv->type == 'p' || type ? 16 : base;
+		base = g_bases[(uint8_t)conv->type];
 		fetch(args, conv->arg, conv->cast, (void *)&ui);
 		itoa_uintmax_t(loc, ui, base, type);
 	}

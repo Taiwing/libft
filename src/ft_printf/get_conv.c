@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 18:34:46 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/25 10:10:42 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/25 20:26:52 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,18 @@ static int	get_type(char **fmt, t_params *conv)
 {
 	char	*t;
 
-	//TODO: replace this string by the ft_printf_internal macro
-	//TODO: also add '%' to the g_conversions array and see how it works
-	//(I'm not clear on it right now)
-	t = ft_strchr("dDibBoOuUxXeEfFgGcCsSpPt%", **fmt);
-	if (t && !*t)
-		return (!t);
+	if ((t = ft_strchr(FTP_CONVERSIONS, **fmt)) && !*t)
+		return (0);
 	conv->type = *(*fmt)++;
-	//TODO: just DOUi map DOUi conversions to their dedicated function
-	//in the g_conversions array instead of changin the type (will have
-	//to think about formatting and more loargely everywhere we use
-	//conv->type so that these conversions are included in where they
-	//need to be)
-	if (conv->type == 'D' || conv->type == 'O' || conv->type == 'U')
+	if (ft_strchr(FTP_INT_CONV, conv->type))
 	{
-		conv->cast = conv->type == 'D' ? C_LONG : C_LONG | C_UNSIGNED;
-		conv->type += 32;
+		if (ft_toupper(conv->type) == conv->type && conv->type != 'X')
+			conv->cast = C_LONG;
+		if (!ft_strchr(FTP_SINT_CONV, conv->type))
+			conv->cast |= C_UNSIGNED;
 	}
-	else if (ft_strchr("bBouxX", conv->type))
-		conv->cast |= C_UNSIGNED;
 	else if ((conv->type == 'c' || conv->type == 's') && conv->cast & C_LONG)
 		conv->type -= 32;
-	else if (conv->type == 'i')
-		conv->type = 'd';
 	return (1);
 }
 

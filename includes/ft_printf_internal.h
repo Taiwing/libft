@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/24 12:14:57 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/25 09:32:50 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/25 20:43:20 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,34 @@ typedef struct			s_params
 ** Conversions
 */
 
-# define FT_PRINTF_CONVERSIONS "dbBouxXeEfFgGpPcCsSt"
+# define TO_STR_NX(x)			#x
+# define TO_STR(x)				TO_STR_NX(x)
+# define PPCAT_NX(a, b)			a ## b
+# define PPCAT(a, b)			PPCAT_NX(a, b)
+
+# define RAW_SINT_CONV			idD
+# define RAW_UINT_CONV			bBoOuUxXpP
+# define RAW_FLOAT_CONV			eEfFgG
+# define RAW_TEXT_CONV			cCsS
+# define RAW_OTHER_CONV			t%
+
+# define RAW_INT_CONV			PPCAT(RAW_SINT_CONV, RAW_UINT_CONV)
+# define RAW_NUMERIC_CONV		PPCAT(RAW_INT_CONV, RAW_FLOAT_CONV)
+# define RAW_NUM_SIGNED_CONV	PPCAT(RAW_SINT_CONV, RAW_FLOAT_CONV)
+# define RAW_ALPHANUM_CONV		PPCAT(RAW_NUMERIC_CONV, RAW_TEXT_CONV)
+# define RAW_CONVERSIONS		PPCAT(RAW_ALPHANUM_CONV, RAW_OTHER_CONV)
+
+# define FTP_SINT_CONV			TO_STR(RAW_SINT_CONV)
+# define FTP_UINT_CONV			TO_STR(RAW_UINT_CONV)
+# define FTP_FLOAT_CONV			TO_STR(RAW_FLOAT_CONV)
+# define FTP_TEXT_CONV			TO_STR(RAW_TEXT_CONV)
+# define FTP_OTHER_CONV			TO_STR(RAW_OTHER_CONV)
+
+# define FTP_INT_CONV			TO_STR(RAW_INT_CONV)
+# define FTP_NUMERIC_CONV		TO_STR(RAW_NUMERIC_CONV)
+# define FTP_NUM_SIGNED_CONV	TO_STR(RAW_NUM_SIGNED_CONV)
+# define FTP_CONVERSIONS		TO_STR(RAW_CONVERSIONS)
+
 
 typedef void	(*t_convf)(t_pdata *l, t_farg *a, t_params *c, char **f);
 

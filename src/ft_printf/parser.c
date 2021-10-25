@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 17:34:35 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/25 09:35:10 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/25 19:38:24 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,25 @@
 //statements. It will be waaaaay cleaner, and faster too.
 
 const t_convf	g_conversions[CHAR_MAX + 1] = {
+	['i'] = itoa_cast,
 	['d'] = itoa_cast,
+	['D'] = itoa_cast,
 	['b'] = itoa_cast,
 	['B'] = itoa_cast,
 	['o'] = itoa_cast,
+	['O'] = itoa_cast,
 	['u'] = itoa_cast,
+	['U'] = itoa_cast,
 	['x'] = itoa_cast,
 	['X'] = itoa_cast,
+	['p'] = p_conversion,
+	['P'] = p_conversion,
 	['e'] = efg_conversions,
 	['E'] = efg_conversions,
 	['f'] = efg_conversions,
 	['F'] = efg_conversions,
 	['g'] = efg_conversions,
 	['G'] = efg_conversions,
-	['p'] = p_conversion,
-	['P'] = p_conversion,
 	['c'] = c_conversion,
 	['C'] = lc_conversion,
 	['s'] = s_conversion,
@@ -44,12 +48,10 @@ static void	convert(t_pdata *data, t_farg *args, t_params *conv, char **fmt)
 {
 	t_pdata	loc_data;
 	t_convf	convf;
-	uint8_t	type;
 
 	pdata_init(&loc_data, data->flags, data->fd);
 	pdata_local_set_buf(&loc_data);
-	type = conv->type < 0 ? 0 : (uint8_t)conv->type;
-	if ((convf = g_conversions[type]))
+	if ((convf = g_conversions[(uint8_t)conv->type]))
 		convf(&loc_data, args, conv, fmt);
 	else
 		pdata_add(&loc_data, NULL, conv->type, 1);
