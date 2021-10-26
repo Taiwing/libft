@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/25 17:17:30 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/26 07:29:08 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:50:21 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 /*
 ** TODO:
 ** to be normified and further tested
-** line 48 is an untested bug prevention test
 ** - if fw is negative or if F_MINUS is set, start at the of the array
 ** - handle no fw (NULL terminated arrays)
 ** - make all this shit secure
+** - maybe handle litteral multidimensionnal arrays with a new T conv
+**   or by using the cast modifiers for the t conversion
 ** MANUAL:
 ** write clear documentation for this shit
 ** # -> 	print a trailing character or conversion (takes the char after
@@ -62,8 +63,8 @@ static void	apply_hash(t_pdata *l, t_pconv *conv, t_farg *tab, char **beg)
 static char	*tab_parsing(t_pdata *l, char *fmt, t_farg *tab, t_pconv *conv)
 {
 	t_pconv	cnv;
-	char		*mod;
-	char		*beg;
+	char	*mod;
+	char	*beg;
 
 	while (tab->i < conv->fw && l->n != -1)
 	{

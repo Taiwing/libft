@@ -6,22 +6,12 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 23:44:40 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/26 07:30:13 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:48:27 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include "ft_printf_internal.h"
-
-/*
-** TODO: Change the cast for the fetch (INT by default is alright if va_arg is
-** used buf if get_arr_val is used, values are not properly accessed in the
-** array because the type is wrong), test it with conv->cast and check if it
-** still works with other conversions. Maybe clean up the code and make sure
-** that the cast is good when arriving here, which should already be the case
-** with the "check_cast function".
-** change made but untested yet
-*/
 
 const int	g_bases[CHAR_MAX + 1] = {
 	['i'] = 10,
