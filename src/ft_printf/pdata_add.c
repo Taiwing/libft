@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 15:52:45 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/24 13:21:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 06:56:19 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ void		pdata_add(t_pdata *data, char *add, int c, size_t size)
 	if (!(data->flags & PDATA_NOLIMIT)
 		&& (data->bufsize < (newsize = data->n + size + 1)))
 	{
-		if (data->flags & PDATA_STOP)
+		if (data->flags & PDATA_STOP && data->is_local)
+			data->n = -1;
+		else if (data->flags & PDATA_STOP)
 			size = (size_t)data->n < data->bufsize ?
 				data->bufsize - (size_t)data->n - 1 : 0;
 		else if (data->flags & PDATA_FLUSH)

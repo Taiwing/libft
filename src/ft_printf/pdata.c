@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/24 13:11:40 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/24 13:29:44 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:11:39 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,12 @@ void	pdata_print(t_pdata *data)
 ** be printed (flushed) before the conversion is fully done, and the buffer has
 ** a defined size so NOLIMT cannot apply. Then the only thing we can do, if the
 ** sub buffer is not large enough and the function is in NOALLOC mode (meaning
-** FLUSH has been set and ALLOC is not set), is to stop.
+** FLUSH has been set and ALLOC is not set), is to stop and return an error.
 **
-** For now this means that for some big conversions on NOALLOC mode the result
-** will be truncated to the length of the static buffer (BLOCK_SIZE) if it is
-** not large enough. This is not really a big problem since NOALLOC mode will
-** mainly be used for debugging/error printing and that gigantic conversions are
-** quite rare.
+** For now this means that NOALLOC mode will make the ft_printf call fail in
+** this case. This is not really a big problem since NOALLOC mode will mainly
+** be used for debugging/error printing and that gigantic conversions are quite
+** rare.
 **
 ** TODO: (maybe) Fix this by using only one buffer and creating a "pdata_insert"
 ** function. The buffer would still need to hold a boolean prohibiting printing
@@ -47,6 +46,7 @@ void	pdata_print(t_pdata *data)
 */
 void	pdata_local_set_buf(t_pdata *loc)
 {
+	loc->is_local = 1;
 	loc->flags &= ~PDATA_NOLIMIT;
 	if (loc->flags & PDATA_FLUSH)
 	{
@@ -85,4 +85,5 @@ void	pdata_init(t_pdata *data, enum e_pmodes pmode, int fd)
 	data->fd = fd;
 	data->n = 0;
 	data->flushed = 0;
+	data->is_local = 0;
 }

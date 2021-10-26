@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 14:56:33 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/25 06:30:46 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:07:18 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ enum e_pmodes {
 ** bufsize: size of the real buffer (ignored if NOLIMIT)
 ** n: length of data contained in buffer (or error if n < 0)
 ** flushed: length of data flushed (added to final n)
+** is_local: used to change PDATA_STOP behavior in pdata_add
 */
 typedef struct	s_pdata
 {
@@ -99,6 +100,7 @@ typedef struct	s_pdata
 	int			fd;
 	int			n;
 	int			flushed;
+	int			is_local;
 }				t_pdata;
 
 void			pdata_add(t_pdata *data, char *add, int c, size_t size);
