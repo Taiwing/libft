@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/24 12:14:57 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/25 20:43:20 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:24:46 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct	s_farg
 ** type: kind of conversion
 ** flags: characters given with the conversion (after the %)
 ** cast: type cast of the parameter (for fetch)
-** arg: (TODO: Im not sure, I think its the position of the parameter)
+** arg: positional parameter (integer vlaue of $ flag)
 ** fw: field width
 ** prec: precision
 */

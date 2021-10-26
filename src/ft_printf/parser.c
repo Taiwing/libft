@@ -6,16 +6,13 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 17:34:35 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/25 19:38:24 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:16:07 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include "ft_printf_internal.h"
 #include "libft.h"
-
-//TODO: Create an array of functions for convert instead of using 'if else ifs'
-//statements. It will be waaaaay cleaner, and faster too.
 
 const t_convf	g_conversions[CHAR_MAX + 1] = {
 	['i'] = itoa_cast,
