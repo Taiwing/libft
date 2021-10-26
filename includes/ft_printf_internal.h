@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/24 12:14:57 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/26 07:24:46 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:33:33 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,7 @@ typedef struct	s_farg
 # define C_DOUBLE		0x0800
 
 /*
-** t_params: Conversion Data
-**
-** (seriously ???? params ? dude, I gotta get more imaginative for this...)
-** TODO: maybe rename it to something like t_pconv (for print conversion)
+** t_pconv: Conversion Data
 **
 ** type: kind of conversion
 ** flags: characters given with the conversion (after the %)
@@ -76,7 +73,7 @@ typedef struct	s_farg
 ** fw: field width
 ** prec: precision
 */
-typedef struct			s_params
+typedef struct			s_pconv
 {
 	char				type;
 	char				flags;
@@ -84,7 +81,7 @@ typedef struct			s_params
 	int					arg;
 	int					fw;
 	int					prec;
-}						t_params;
+}						t_pconv;
 
 # define CONV_INIT		{ 0, 0, 0, 0, 0, -1 }
 
@@ -121,16 +118,16 @@ typedef struct			s_params
 # define FTP_CONVERSIONS		TO_STR(RAW_CONVERSIONS)
 
 
-typedef void	(*t_convf)(t_pdata *l, t_farg *a, t_params *c, char **f);
+typedef void	(*t_convf)(t_pdata *l, t_farg *a, t_pconv *c, char **f);
 
-void	itoa_cast(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
-void	efg_conversions(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
-void	p_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
-void	c_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
-void	lc_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
-void	s_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
-void	ls_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
-void	t_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt);
+void	itoa_cast(t_pdata *loc, t_farg *args, t_pconv *conv, char **fmt);
+void	efg_conversions(t_pdata *loc, t_farg *args, t_pconv *conv, char **fmt);
+void	p_conversion(t_pdata *loc, t_farg *args, t_pconv *conv, char **fmt);
+void	c_conversion(t_pdata *loc, t_farg *args, t_pconv *conv, char **fmt);
+void	lc_conversion(t_pdata *loc, t_farg *args, t_pconv *conv, char **fmt);
+void	s_conversion(t_pdata *loc, t_farg *args, t_pconv *conv, char **fmt);
+void	ls_conversion(t_pdata *loc, t_farg *args, t_pconv *conv, char **fmt);
+void	t_conversion(t_pdata *loc, t_farg *args, t_pconv *conv, char **fmt);
 
 /*
 ** Format Data Enumeration (for format_data function)
@@ -142,11 +139,11 @@ enum	e_fdat {SPAD, ZPAD, SIGN, HEX};
 */
 
 int		uitoa_buf(unsigned int ui, int base, int type, char *buf);
-void	itoa_int(t_pdata *loc, t_farg *args, t_params *conv);
-void	itoa_long(t_pdata *loc, t_farg *args, t_params *conv);
-void	itoa_long_long(t_pdata *loc, t_farg *args, t_params *conv);
-void	itoa_size_t(t_pdata *loc, t_farg *args, t_params *conv);
-void	itoa_intmax_t(t_pdata *loc, t_farg *args, t_params *conv);
+void	itoa_int(t_pdata *loc, t_farg *args, t_pconv *conv);
+void	itoa_long(t_pdata *loc, t_farg *args, t_pconv *conv);
+void	itoa_long_long(t_pdata *loc, t_farg *args, t_pconv *conv);
+void	itoa_size_t(t_pdata *loc, t_farg *args, t_pconv *conv);
+void	itoa_intmax_t(t_pdata *loc, t_farg *args, t_pconv *conv);
 void	itoa_sint(t_pdata *loc, int si);
 void	itoa_slint(t_pdata *loc, long int si);
 void	itoa_sllint(t_pdata *loc, long long int si);
@@ -173,9 +170,9 @@ void	g_format(t_pdata *loc, char *buf, int size, t_fltinf *info);
 
 int		ft_printf_internal(t_pdata *data, const char *format, t_farg *args);
 void	parser(t_pdata *data, char **fmt, t_farg *args);
-int		get_flags(char **fmt, t_farg *args, t_params *conv);
-int		get_conv(char **fmt, t_farg *args, t_params *conv);
+int		get_flags(char **fmt, t_farg *args, t_pconv *conv);
+int		get_conv(char **fmt, t_farg *args, t_pconv *conv);
 void	fetch(t_farg *args, int n, int cast, void *ptr);
-void	format_data(t_pdata *d, t_pdata *l, t_params *conv);
+void	format_data(t_pdata *d, t_pdata *l, t_pconv *conv);
 
 #endif

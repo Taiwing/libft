@@ -6,14 +6,14 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 20:36:04 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/25 09:28:05 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:29:00 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_internal.h"
 #include "libft.h"
 
-void	c_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt)
+void	c_conversion(t_pdata *loc, t_farg *args, t_pconv *conv, char **fmt)
 {
 	unsigned char	nb;
 
@@ -22,7 +22,7 @@ void	c_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt)
 	pdata_add(loc, NULL, (char)nb, 1);
 }
 
-void	s_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt)
+void	s_conversion(t_pdata *loc, t_farg *args, t_pconv *conv, char **fmt)
 {
 	char	*str;
 
@@ -37,7 +37,7 @@ void	s_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt)
 		pdata_add(loc, str, 0, conv->prec);
 }
 
-void	p_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt)
+void	p_conversion(t_pdata *loc, t_farg *args, t_pconv *conv, char **fmt)
 {
 	unsigned long int	ptr;
 

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 20:36:57 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/25 09:26:31 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:30:52 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	check_infnan(t_pdata *loc, t_bitd *raw, int is_long, int maj)
 	return (0);
 }
 
-static void	init_fltinf(t_params *conv, t_fltinf *info, t_bitd *raw)
+static void	init_fltinf(t_pconv *conv, t_fltinf *info, t_bitd *raw)
 {
 	if (conv->cast & C_LONG_LONG)
 	{
@@ -62,7 +62,7 @@ static void	init_fltinf(t_params *conv, t_fltinf *info, t_bitd *raw)
 }
 
 void		efg_conversions(t_pdata *loc, t_farg *args,
-				t_params *conv, char **fmt)
+				t_pconv *conv, char **fmt)
 {
 	char		buf[16384];
 	int			size;

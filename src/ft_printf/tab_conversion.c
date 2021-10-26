@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/25 17:17:30 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/24 13:25:59 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:29:08 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@
 ** example: char *tab[10][5] should be considered a char ** of length 50
 */
 
-static void	apply_hash(t_pdata *l, t_params *conv, t_farg *tab, char **beg)
+static void	apply_hash(t_pdata *l, t_pconv *conv, t_farg *tab, char **beg)
 {
 	if (conv->flags & F_HASH && l->n != -1)
 	{
@@ -59,9 +59,9 @@ static void	apply_hash(t_pdata *l, t_params *conv, t_farg *tab, char **beg)
 	}
 }
 
-static char	*tab_parsing(t_pdata *l, char *fmt, t_farg *tab, t_params *conv)
+static char	*tab_parsing(t_pdata *l, char *fmt, t_farg *tab, t_pconv *conv)
 {
-	t_params	cnv;
+	t_pconv	cnv;
 	char		*mod;
 	char		*beg;
 
@@ -75,7 +75,7 @@ static char	*tab_parsing(t_pdata *l, char *fmt, t_farg *tab, t_params *conv)
 			break ;
 		while (tab->i == conv->fw && tab->j < conv->prec && *beg && l->n != -1)
 		{
-			cnv = (t_params)CONV_INIT;
+			cnv = (t_pconv)CONV_INIT;
 			if (!(mod = ft_strchr(beg, '%')) || !get_conv(&mod, tab, &cnv))
 				break ;
 			beg = mod;
@@ -86,7 +86,7 @@ static char	*tab_parsing(t_pdata *l, char *fmt, t_farg *tab, t_params *conv)
 	return (beg);
 }
 
-void		t_conversion(t_pdata *loc, t_farg *args, t_params *conv, char **fmt)
+void		t_conversion(t_pdata *loc, t_farg *args, t_pconv *conv, char **fmt)
 {
 	t_farg		tab;
 

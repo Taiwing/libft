@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 17:34:35 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/26 07:16:07 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:30:06 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ const t_convf	g_conversions[CHAR_MAX + 1] = {
 	['t'] = t_conversion,
 };
 
-static void	convert(t_pdata *data, t_farg *args, t_params *conv, char **fmt)
+static void	convert(t_pdata *data, t_farg *args, t_pconv *conv, char **fmt)
 {
 	t_pdata	loc_data;
 	t_convf	convf;
@@ -60,7 +60,7 @@ static void	convert(t_pdata *data, t_farg *args, t_params *conv, char **fmt)
 
 void		parser(t_pdata *data, char **fmt, t_farg *args)
 {
-	t_params	conv = CONV_INIT;
+	t_pconv	conv = CONV_INIT;
 	char		*mod;
 
 	mod = ft_strchr(*fmt, '%');

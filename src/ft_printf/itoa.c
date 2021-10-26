@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 23:44:40 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/25 20:15:04 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:30:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ const int	g_bases[CHAR_MAX + 1] = {
 	['P'] = 16,
 };
 
-void	itoa_int(t_pdata *loc, t_farg *args, t_params *conv)
+void	itoa_int(t_pdata *loc, t_farg *args, t_pconv *conv)
 {
 	int				s;
 	unsigned int	u;
@@ -66,7 +66,7 @@ void	itoa_int(t_pdata *loc, t_farg *args, t_params *conv)
 		itoa_sint(loc, s);
 }
 
-void	itoa_long(t_pdata *loc, t_farg *args, t_params *conv)
+void	itoa_long(t_pdata *loc, t_farg *args, t_pconv *conv)
 {
 	long int			si;
 	unsigned long int	ui;
@@ -87,7 +87,7 @@ void	itoa_long(t_pdata *loc, t_farg *args, t_params *conv)
 	}
 }
 
-void	itoa_long_long(t_pdata *loc, t_farg *args, t_params *conv)
+void	itoa_long_long(t_pdata *loc, t_farg *args, t_pconv *conv)
 {
 	long long int			si;
 	unsigned long long int	ui;
@@ -108,7 +108,7 @@ void	itoa_long_long(t_pdata *loc, t_farg *args, t_params *conv)
 	}
 }
 
-void	itoa_size_t(t_pdata *loc, t_farg *args, t_params *conv)
+void	itoa_size_t(t_pdata *loc, t_farg *args, t_pconv *conv)
 {
 	ssize_t	si;
 	size_t	ui;
@@ -129,7 +129,7 @@ void	itoa_size_t(t_pdata *loc, t_farg *args, t_params *conv)
 	}
 }
 
-void	itoa_intmax_t(t_pdata *loc, t_farg *args, t_params *conv)
+void	itoa_intmax_t(t_pdata *loc, t_farg *args, t_pconv *conv)
 {
 	intmax_t	si;
 	uintmax_t	ui;

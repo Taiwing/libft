@@ -6,14 +6,14 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 18:34:46 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/25 20:26:52 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:30:46 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_internal.h"
 #include "libft.h"
 
-static int	get_type(char **fmt, t_params *conv)
+static int	get_type(char **fmt, t_pconv *conv)
 {
 	char	*t;
 
@@ -32,7 +32,7 @@ static int	get_type(char **fmt, t_params *conv)
 	return (1);
 }
 
-static int	get_cast(char **fmt, t_params *conv)
+static int	get_cast(char **fmt, t_pconv *conv)
 {
 	int	ret;
 
@@ -57,7 +57,7 @@ static int	get_cast(char **fmt, t_params *conv)
 	return (ret);
 }
 
-int			get_conv(char **fmt, t_farg *args, t_params *conv)
+int			get_conv(char **fmt, t_farg *args, t_pconv *conv)
 {
 	int		f;
 	int		c;

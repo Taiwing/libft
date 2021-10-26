@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/31 16:32:21 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/24 13:06:20 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:30:25 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	doll_sign(char *f)
 	return (ref != f && *f == '$');
 }
 
-static int	add_flag(char c, t_params *conv)
+static int	add_flag(char c, t_pconv *conv)
 {
 	if (c == '#')
 		conv->flags |= F_HASH;
@@ -66,7 +66,7 @@ static int	star_sign(char **f, int *ptr, t_farg *args)
 	return (1);
 }
 
-int			get_flags(char **fmt, t_farg *args, t_params *conv)
+int			get_flags(char **fmt, t_farg *args, t_pconv *conv)
 {
 	int		i;
 	char	*ret;

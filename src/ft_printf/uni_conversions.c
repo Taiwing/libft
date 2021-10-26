@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 16:37:37 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/25 09:30:28 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:30:38 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	conv_wint(char *str, int l, wint_t c)
 }
 
 void		lc_conversion(t_pdata *loc, t_farg *args,
-				t_params *conv, char **fmt)
+				t_pconv *conv, char **fmt)
 {
 	int		l;
 	wint_t	nb;
@@ -54,7 +54,7 @@ void		lc_conversion(t_pdata *loc, t_farg *args,
 }
 
 void		ls_conversion(t_pdata *loc, t_farg *args,
-				t_params *conv, char **fmt)
+				t_pconv *conv, char **fmt)
 {
 	int			l;
 	int			i;

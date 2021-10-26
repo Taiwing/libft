@@ -6,14 +6,14 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 13:10:09 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/25 20:01:02 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 07:30:32 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_internal.h"
 #include "libft.h"
 
-static void	apply_fw(t_pdata *l, t_params *conv, int fdat[4], int *size)
+static void	apply_fw(t_pdata *l, t_pconv *conv, int fdat[4], int *size)
 {
 	char	*t;
 
@@ -41,7 +41,7 @@ static void	apply_fw(t_pdata *l, t_params *conv, int fdat[4], int *size)
 	*size = conv->fw;
 }
 
-static void	apply_sign(t_pdata *l, t_params *conv, int fdat[4], int *size)
+static void	apply_sign(t_pdata *l, t_pconv *conv, int fdat[4], int *size)
 {
 	if (ft_strchr(FTP_NUM_SIGNED_CONV, conv->type) && l->buf[0] != '-'
 		&& fdat[SIGN] != '-' && (conv->flags & F_PLUS || conv->flags & F_SPACE))
@@ -51,7 +51,7 @@ static void	apply_sign(t_pdata *l, t_params *conv, int fdat[4], int *size)
 	}
 }
 
-static void	apply_prec(t_pdata *l, t_params *conv, int *size, int fdat[4])
+static void	apply_prec(t_pdata *l, t_pconv *conv, int *size, int fdat[4])
 {
 	fdat[ZPAD] = conv->prec - *size;
 	if (l->buf[0] == '-')
@@ -81,7 +81,7 @@ static void	apply_hash(t_pdata *l, char t, int *size, int fdat[4])
 	}
 }
 
-static void	int_format(t_params *conv, t_pdata *l, int fdat[4], int *size)
+static void	int_format(t_pconv *conv, t_pdata *l, int fdat[4], int *size)
 {
 	if (conv->prec > *size - (l->buf[0] == '-'))
 		apply_prec(l, conv, size, fdat);
@@ -96,7 +96,7 @@ static void	int_format(t_params *conv, t_pdata *l, int fdat[4], int *size)
 		apply_hash(l, conv->type, size, fdat);
 }
 
-void		format_data(t_pdata *d, t_pdata *l, t_params *conv)
+void		format_data(t_pdata *d, t_pdata *l, t_pconv *conv)
 {
 	int		size;
 	int		fdat[4];
