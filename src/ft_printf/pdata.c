@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/24 13:11:40 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/26 07:11:39 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 19:45:17 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,7 @@ void	pdata_print(t_pdata *data)
 */
 void	pdata_local_set_buf(t_pdata *loc)
 {
-	loc->is_local = 1;
-	loc->flags &= ~PDATA_NOLIMIT;
-	if (loc->flags & PDATA_FLUSH)
-	{
-		loc->flags &= ~PDATA_FLUSH;
-		if (!(loc->flags & PDATA_ALLOC))
-			loc->flags |= PDATA_STOP;
-	}
+	loc->flags &= PDATA_NOALLOC;
 	pdata_set_buf(loc, NULL, 0);
 }
 
@@ -66,6 +59,7 @@ void	pdata_set_buf(t_pdata *data, char *userbuf, size_t userbuf_size)
 		: userbuf ? userbuf_size : BLOCK_SIZE;
 	if (data->flags & PDATA_ALLOC)
 	{
+		data->flags &= ~PDATA_NOALLOC;
 		if (!(data->abuf = (char *)ft_secmalloc(BLOCK_SIZE)))
 		{
 			data->n = -1;
@@ -85,5 +79,4 @@ void	pdata_init(t_pdata *data, enum e_pmodes pmode, int fd)
 	data->fd = fd;
 	data->n = 0;
 	data->flushed = 0;
-	data->is_local = 0;
 }

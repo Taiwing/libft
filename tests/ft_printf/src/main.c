@@ -18,28 +18,30 @@
 #define	CAST		"hljzL"
 #define	SPACES		"                                                         "
 
-#define FT_PRINTF	0x01
-#define FT_DPRINTF	0x02
-#define FT_SPRINTF	0x04
-#define FT_SNPRINTF	0x08
-#define FT_ASPRINTF	0x10
-#define FT_ZPRINTF	0x20
-#define FT_DZPRINTF	0x40
-#define FT_ALL		0x7f
+#define FT_PRINTF		0x0001
+#define FT_DPRINTF		0x0002
+#define FT_SPRINTF		0x0004
+#define FT_SNPRINTF		0x0008
+#define FT_ASPRINTF		0x0010
+#define FT_ZPRINTF		0x0020
+#define FT_DZPRINTF		0x0040
+#define FT_SZPRINTF		0x0080
+#define FT_SNZPRINTF	0x0100
+#define FT_ALL			0x01ff
 
-#define IS_BUFFERED(version) (version & (FT_SPRINTF|FT_SNPRINTF|FT_ASPRINTF))
+#define IS_BUFFERED(version) (version & (FT_SPRINTF|FT_SNPRINTF|FT_ASPRINTF|FT_SZPRINTF|FT_SNZPRINTF))
 
 #define	BUF_DEFSIZE	16384
 
 int		ret_orig;
-int		ret_mine[FT_DZPRINTF + 1];
+int		ret_mine[FT_SNZPRINTF + 1];
 char	*abuf_mine;
 char	buf_orig[BUF_DEFSIZE];
 char	buf_mine[BUF_DEFSIZE];
 int		margin;
 int		show;
 
-char	*fstrings[FT_DZPRINTF + 1] = {
+char	*fstrings[FT_SNZPRINTF + 1] = {
 	[FT_PRINTF] = "ft_printf",
 	[FT_DPRINTF] = "ft_dprintf",
 	[FT_SPRINTF] = "ft_sprintf",
@@ -47,6 +49,8 @@ char	*fstrings[FT_DZPRINTF + 1] = {
 	[FT_ASPRINTF] = "ft_asprintf",
 	[FT_ZPRINTF] = "ft_zprintf",
 	[FT_DZPRINTF] = "ft_dzprintf",
+	[FT_SZPRINTF] = "ft_szprintf",
+	[FT_SNZPRINTF] = "ft_snzprintf",
 };
 
 #define	PRINTF_TEST(other_printfs, format, arg) {\
@@ -77,6 +81,10 @@ char	*fstrings[FT_DZPRINTF + 1] = {
 			ret_mine[index] = ft_zprintf(format, arg); break;\
 			case FT_DZPRINTF:\
 			ret_mine[index] = ft_dzprintf(1, format, arg); break;\
+			case FT_SZPRINTF:\
+			ret_mine[index] = ft_szprintf(buf_mine, format, arg); break;\
+			case FT_SNZPRINTF:\
+			ret_mine[index] = ft_snzprintf(buf_mine, BUF_DEFSIZE, format, arg); break;\
 		}\
 		if (!IS_BUFFERED(index))\
 			ft_printf("\n%.*s", 50, SPACES);\
@@ -115,7 +123,7 @@ char	*fstrings[FT_DZPRINTF + 1] = {
 			else\
 				ft_printf("ERROR\n");\
 		}\
-		ft_memdel((void **)abuf_mine);\
+		ft_memdel((void **)&abuf_mine);\
 	}\
 }
 
@@ -330,10 +338,18 @@ int		main(int argc, char **argv)
 			other_printfs |= FT_SPRINTF;
 		else if (!ft_ignore_case_strcmp(argv[i], "ft_snprintf"))
 			other_printfs |= FT_SNPRINTF;
+		else if (!ft_ignore_case_strcmp(argv[i], "ft_asprintf"))
+			other_printfs |= FT_ASPRINTF;
 		else if (!ft_ignore_case_strcmp(argv[i], "ft_zprintf"))
 			other_printfs |= FT_ZPRINTF;
 		else if (!ft_ignore_case_strcmp(argv[i], "ft_dzprintf"))
 			other_printfs |= FT_DZPRINTF;
+		else if (!ft_ignore_case_strcmp(argv[i], "ft_szprintf"))
+			other_printfs |= FT_SZPRINTF;
+		else if (!ft_ignore_case_strcmp(argv[i], "ft_snzprintf"))
+			other_printfs |= FT_SNZPRINTF;
+		else if (!ft_ignore_case_strcmp(argv[i], "ft_all"))
+			other_printfs |= FT_ALL;
 		else
 			++show;
 	}

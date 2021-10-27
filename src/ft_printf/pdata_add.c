@@ -6,14 +6,14 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 15:52:45 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/26 06:56:19 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 20:09:59 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_internal.h"
 #include "libft.h"
 
-static int	pdata_realloc(t_pdata *data, size_t newsize)
+static void	pdata_realloc(t_pdata *data, size_t newsize)
 {
 	char	*newbuf;
 
@@ -21,14 +21,13 @@ static int	pdata_realloc(t_pdata *data, size_t newsize)
 	if (!(newbuf = (char *)ft_secmalloc(newsize)))
 	{
 		data->n = -1;
-		return (1);
+		return ;
 	}
 	ft_memcpy(newbuf, data->buf, data->n);
 	ft_memdel((void **)&data->abuf);
 	data->abuf = newbuf;
 	data->bufsize = newsize;
 	data->buf = data->abuf ? data->abuf : data->sbuf;
-	return (0);
 }
 
 static void	pdata_flush(t_pdata *data, char **add, int c, size_t *size)
@@ -67,15 +66,15 @@ void		pdata_add(t_pdata *data, char *add, int c, size_t size)
 	if (!(data->flags & PDATA_NOLIMIT)
 		&& (data->bufsize < (newsize = data->n + size + 1)))
 	{
-		if (data->flags & PDATA_STOP && data->is_local)
-			data->n = -1;
-		else if (data->flags & PDATA_STOP)
+		if (data->flags & PDATA_STOP)
 			size = (size_t)data->n < data->bufsize ?
 				data->bufsize - (size_t)data->n - 1 : 0;
 		else if (data->flags & PDATA_FLUSH)
 			pdata_flush(data, &add, c, &size);
-		else if (pdata_realloc(data, newsize))
-			return ;
+		else if (data->flags & PDATA_NOALLOC)
+			data->n = -1;
+		else
+			pdata_realloc(data, newsize);
 	}
 	if (data->n >= 0 && size)
 	{
