@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 15:45:52 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/03 16:38:48 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/26 18:15:30 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void				ft_first_exit(void)
 #endif
 }
 
-void				ft_set_first_exit(char *err, int errcode, int ret)
+void				ft_set_first_exit(int ret, char *err)
 {
 #ifdef THREAD_SAFE
 	if (pthread_mutex_lock(&g_first_exit_mutex))
@@ -47,17 +47,16 @@ void				ft_set_first_exit(char *err, int errcode, int ret)
 	if (g_first_exit.status == FIRST_EXIT_ON)
 	{
 		g_first_exit.status = FIRST_EXIT_FILLED;
+		g_first_exit.ret = ret;
 		if (err)
 			ft_strncpy(g_first_exit.err, err, EXIT_MSG_MAX);
-		g_first_exit.errcode = errcode;
-		g_first_exit.ret = ret;
 	}
 #ifdef THREAD_SAFE
 	pthread_mutex_unlock(&g_first_exit_mutex);
 #endif
 }
 
-void				ft_get_first_exit(char **err, int *errcode, int *ret)
+void				ft_get_first_exit(int *ret, char **err)
 {
 #ifdef THREAD_SAFE
 	if (pthread_mutex_lock(&g_first_exit_mutex))
@@ -65,10 +64,9 @@ void				ft_get_first_exit(char **err, int *errcode, int *ret)
 #endif
 	if (g_first_exit.status == FIRST_EXIT_FILLED)
 	{
+		*ret = g_first_exit.ret;
 		if (g_first_exit.err[0])
 			*err = g_first_exit.err;
-		*errcode = g_first_exit.errcode;
-		*ret = g_first_exit.ret;
 	}
 #ifdef THREAD_SAFE
 	pthread_mutex_unlock(&g_first_exit_mutex);

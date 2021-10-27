@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 08:10:46 by yforeau           #+#    #+#             */
-/*   Updated: 2021/09/28 09:04:28 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/27 06:55:02 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*ft_secmalloc(size_t size)
 	void	*ptr;
 
 	if (!(ptr = malloc(size)))
-		ft_exit("malloc", ENOMEM, EXIT_FAILURE);
+		ft_exit(EXIT_FAILURE, "malloc: %s", strerror(ENOMEM));
 	ft_heap_collector(ptr, FT_COLLEC_ADD);
 	return (ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 14:22:04 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/02 14:22:12 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/27 06:52:17 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void			ft_mutex_lock(pthread_mutex_t *mutex)
 
 	if (!(ret = pthread_mutex_lock(mutex)))
 		return;
-	ft_exit("pthread_mutex_lock", ret, EXIT_FAILURE);
+	ft_exit(EXIT_FAILURE, "%s: %s", "pthread_mutex_lock", strerror(ret));
 }
 
 void			ft_mutex_unlock(pthread_mutex_t *mutex)
@@ -29,7 +29,7 @@ void			ft_mutex_unlock(pthread_mutex_t *mutex)
 
 	if (!(ret = pthread_mutex_unlock(mutex)))
 		return;
-	ft_exit("pthread_mutex_unlock", ret, EXIT_FAILURE);
+	ft_exit(EXIT_FAILURE, "%s: %s", "pthread_mutex_lock", strerror(ret));
 }
 
 #endif

@@ -6,11 +6,12 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 11:16:55 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/03 16:39:36 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/10/27 07:00:51 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "ft_printf_internal.h"
 #ifdef NO_COLLEC
 # include "ft_collector.h"
 #endif
@@ -68,39 +69,55 @@ void	ft_atexit(t_atexitf handler)
 	else
 	{
 		handler();
-		ft_exit("ft_atexit: no space left", 0, EXIT_FAILURE);
+		ft_exit(EXIT_FAILURE, "%s: no space left", __func__);
 	}
 }
 
-static void	print_exit(char *err, int errcode)
+static void	print_exit(const char *err)
 {
 	char	*msg;
 
 	if ((msg = ft_exitmsg(NULL)))
 	{
 		ft_putstr_fd(msg, STDERR_FILENO);
-		if (*err)
-			ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
 	}
 	ft_putstr_fd(err, STDERR_FILENO);
-	if (errcode && (msg = strerror(errcode)))
-	{
-		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putstr_fd(msg, STDERR_FILENO);
-	}
 	ft_putchar_fd('\n', STDERR_FILENO);
 }
 
-void	ft_exit(char *err, int errcode, int ret)
+static void	set_exiterr(char *errbuf, const char *errfmt, t_farg *args)
 {
+	t_pdata	errpdata;
+
+	pdata_init(&errpdata, PMODE_BLNOALLOC, -1);
+	pdata_set_buf(&errpdata, errbuf, EXIT_MSG_MAX);
+	if (ft_printf_internal(&errpdata, errfmt, args) < 0)
+		errbuf[0] = 0;
+}
+
+void	ft_exit(int ret, const char *errfmt, ...)
+{
+	char	errbuf[EXIT_MSG_MAX] = { 0 };
+	char	*err = errbuf;
+	t_farg	args = { 0 };
+
 #ifdef THREAD_SAFE
-	ft_set_thread_error(errcode ? errcode : ret);
+	ft_set_thread_error(ret);
 #endif
-	ft_set_first_exit(err, errcode, ret);
+	if (errfmt)
+	{
+		va_start(args.cur, errfmt);
+		va_copy(args.ref, args.cur);
+		set_exiterr(errbuf, errfmt, &args);
+		va_end(args.cur);
+		va_end(args.ref);
+	}
+	ft_set_first_exit(ret, errbuf);
 	ft_atexit(NULL);
-	ft_get_first_exit(&err, &errcode, &ret);
-	if (err || errcode)
-		print_exit(err, errcode);
+	ft_get_first_exit(&ret, &err);
+	if (err && *err)
+		print_exit(err);
 	ft_heap_collector(NULL, FT_COLLEC_FREE);
 	exit(ret);
 }
