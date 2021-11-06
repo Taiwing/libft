@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_mutex.h                                         :+:      :+:    :+:   */
+/*   ft_mutexify.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/02 14:34:41 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/02 14:34:56 by yforeau          ###   ########.fr       */
+/*   Created: 2021/11/05 06:30:04 by yforeau           #+#    #+#             */
+/*   Updated: 2021/11/05 06:30:05 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_MUTEX_H
-# define FT_MUTEX_H
+#ifndef FT_MUTEXFIY_H
+# define FT_MUTEXFIY_H
 
 /*
 ** Mutexify Macro
@@ -91,11 +91,5 @@ void NAME(_TS_PROTOTYPE(__VA_ARGS__))\
 	ft_mutex_unlock(&NAME##_mutex);\
 }\
 void ts_##NAME(_TS_PROTOTYPE(__VA_ARGS__))
-
-/*
-** Mutex utility functions
-*/
-void					ft_mutex_lock(pthread_mutex_t *mutex);
-void					ft_mutex_unlock(pthread_mutex_t *mutex);
 
 #endif

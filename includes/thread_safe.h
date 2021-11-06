@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:55:03 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/03 14:09:10 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/11/06 12:18:27 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 # ifdef THREAD_SAFE
 #  include <pthread.h>
 #  include <stdint.h>
-#  include "ft_mutex.h"
+#  include "ft_mutexify.h"
 
 /*
 ** t_ft_thread: libft thread structure
 **
 ** id: is the libft assigned id (returned by ft_thread_self)
-** thread: is the pthread thread structre (used for pthread_join)
+** thread: is the pthread thread structure (used for pthread_join)
 */
 
 typedef uint64_t	t_thread_id;
@@ -51,6 +51,12 @@ int			ft_thread_join(t_ft_thread *thread, void **retval);
 int			ft_thread_error(void);
 void		ft_set_thread_error(int errcode);
 void		ft_thread_exit(void);
+
+/*
+** Mutex functions
+*/
+void		ft_mutex_lock(pthread_mutex_t *mutex);
+void		ft_mutex_unlock(pthread_mutex_t *mutex);
 
 # endif
 #endif

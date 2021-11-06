@@ -336,7 +336,8 @@ ft_first_exit.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h\
 	ft_exit.h
 ft_dir_collector.o: ft_collector.h ft_exit.h
 ft_heap_collector.o: ft_collector.h ft_exit.h
-ft_exit.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h ft_exit.h
+ft_exit.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h ft_exit.h\
+	ft_printf_internal.h t_pdata.h dragon4.h
 ft_secmalloc.o: ft_collector.h ft_exit.h
 ft_collector.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h\
 	ft_exit.h
