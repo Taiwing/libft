@@ -3,6 +3,14 @@
 My full personal library in C, with get_next_line, ft_printf and ft_getopt
 included.
 
-The tests directory holds test programs for some libft functions. For
-example the tests/bint project is a big ints calculator to test the
+## test
+
+The test directory holds test programs for some libft functions. For
+example the test/bint project is a big ints calculator to test the
 bint library. It also has automated tests.
+
+## feat
+
+The feat directory is used to develop and test new libft features before
+integrating them. This is useful for big experimental features that
+require heavy work.
