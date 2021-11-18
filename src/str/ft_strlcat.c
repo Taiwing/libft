@@ -6,7 +6,7 @@
 /*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 18:25:58 by yforeau           #+#    #+#             */
-/*   Updated: 2021/11/18 10:08:26 by yforeau          ###   ########.fr       */
+/*   Updated: 2021/11/18 19:48:14 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size)
 	size -= dlen;
 	if ((slen = (size_t)ft_strlen(src) + 1) > size)
 		slen = size;
+	dest += dlen;
 	while (*src && size > 1)
 	{
 		*dest++ = *src++;
