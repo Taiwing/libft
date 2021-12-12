@@ -201,6 +201,7 @@ MEMORYC			=	ft_memmove.c\
 					ft_memchr.c\
 					ft_memset.c\
 					ft_memdel.c\
+					ft_memdup.c\
 
 ODIR			=	obj
 OBJ				=	$(patsubst %.c,%.o,$(FT_GETOPTC))\
@@ -455,6 +456,7 @@ ft_bzero.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h ft_exit.h
 ft_memchr.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h ft_exit.h
 ft_memset.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h ft_exit.h
 ft_memdel.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h ft_exit.h
+ft_memdup.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h ft_exit.h
 %.o: %.c
 	@mkdir -p $(ODIR)
 	$(CC) -c $(CFLAGS) $< $(HFLAGS) -o $(ODIR)/$@
