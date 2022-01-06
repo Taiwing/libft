@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 17:59:48 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/03 13:07:28 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/01/06 04:49:34 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 ** the values can be guessed (so this should *not* be used for security
 ** purposes, encryption, etc...).
 */
-#ifdef THREAD_SAFE
-MUTEXIFY(unsigned int, ft_rand, void)
-#else
 unsigned int	ft_rand(void)
-#endif
 {
-	static unsigned int	lfsr = START_STATE;
+#ifdef THREAD_SAFE
+	static __thread unsigned int	lfsr = START_STATE;
+#else
+	static unsigned int				lfsr = START_STATE;
+#endif
 	unsigned int		bit;
 
 	bit = ((lfsr >> 0) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 5));
