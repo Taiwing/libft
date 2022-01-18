@@ -185,6 +185,7 @@ T_LSTC			=	ft_lstdelone.c\
 					ft_lst_discard.c\
 					ft_lst_remove_if.c\
 					ft_lst_find.c\
+					ft_lst_pop_if.c\
 					ft_lst_merge.c\
 					ft_lst_push_front.c\
 					ft_lst_sorted_insert.c\
@@ -438,6 +439,8 @@ ft_lst_discard.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h\
 ft_lst_remove_if.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h\
 	ft_exit.h
 ft_lst_find.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h ft_exit.h
+ft_lst_pop_if.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h\
+	ft_exit.h
 ft_lst_merge.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h\
 	ft_exit.h
 ft_lst_push_front.o: libft.h ft_getopt.h ft_printf.h bint.h ft_collector.h\
