@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2022/01/18 09:58:10 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/15 13:56:48 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "ft_getopt.h"
 # include "ft_printf.h"
 # include "bint.h"
+# include "network.h"
 # ifndef NO_COLLEC
 #  include "ft_collector.h"
 # else
