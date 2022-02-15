@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:30:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/15 15:23:24 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/15 16:39:40 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <netinet/ip_icmp.h>
 # include <linux/icmpv6.h>
 # include <arpa/inet.h>
+# include <netdb.h>
 
 # define	IP_HEADER_ICMP				0x01
 # define	IP_HEADER_TCP				0x06
@@ -144,6 +145,7 @@ uint8_t		*ft_ip_addr(const t_ip *ip);
 int			ft_ip_cmp(const t_ip *a, const t_ip *b);
 int			ft_ip_apply_mask(t_ip *dest, const t_ip *mask);
 int			ft_ip_same_subnet(const t_ip *a, const t_ip *b, const t_ip *mask);
+int			ft_get_ip(t_ip *ip, const char *target, int domain);
 
 /*
 ** IP headers

@@ -50,7 +50,8 @@ FT_THREADC		=	ft_thread_join.c\
 					ft_mutex.c\
 					ft_thread_error.c\
 
-NETC			=	print_headers.c\
+NETC			=	ft_get_ip.c\
+					print_headers.c\
 					ip_headers.c\
 					ip.c\
 					layer4_headers.c\
@@ -285,6 +286,8 @@ ft_mutex.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
 	ft_exit.h
 ft_thread_error.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
+ft_get_ip.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
+	ft_exit.h
 print_headers.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 ip_headers.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
