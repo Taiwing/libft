@@ -1,1 +1,1 @@
--n libft.a -f "-Wall -Wextra -Werror"
+-n libft.a -f "-Wall -Wextra -Werror -DTHREAD_SAFE"
