@@ -55,6 +55,8 @@ NETC			=	ft_get_ip.c\
 					print_headers.c\
 					ip_headers.c\
 					ip.c\
+					ft_packet_filter_layer4.c\
+					ft_packet_filter_icmp_layer4.c\
 					layer4_headers.c\
 					packet.c\
 
@@ -297,6 +299,10 @@ ip_headers.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 ip.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
+ft_packet_filter_layer4.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_packet_filter_icmp_layer4.o: libft.h ft_errno.h ft_getopt.h ft_printf.h\
+	bint.h network.h ft_collector.h ft_exit.h
 layer4_headers.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 packet.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\

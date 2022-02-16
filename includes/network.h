@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:30:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/15 16:39:40 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/16 07:04:57 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@
 # include <linux/icmpv6.h>
 # include <arpa/inet.h>
 # include <netdb.h>
+# include <linux/filter.h>
 
 # define	IP_HEADER_ICMP				0x01
 # define	IP_HEADER_TCP				0x06
 # define	IP_HEADER_UDP				0x11
 # define	IP_HEADER_ICMP6				0x3a
+# define	BPF_FILTER_SIZE(arr)		(sizeof(arr) / sizeof(arr[0]))
 
 /*
 ** IP union (better than an unIP union I guess... ROFL) for v4 and v6
@@ -136,6 +138,42 @@ typedef struct		s_tcph_args
 }					t_tcph_args;
 
 /*
+** t_filter_spec: libft packet filter structure
+**
+** This structure can be passed to every 'ft_packet_filter' function. All the
+** fields are not necessary for every function but src must not be NULL because
+** it is absolutely needed for host filtering and to know the IP family on which
+** to filter. Also if both src and dst are set their family value must be the
+** same otherwise the filtering functions will fail. For port ranges, if needed
+** by the filter function, max must always be greater or equal to min port.
+**
+** protocol: IP header protocol/next_header field (UDP, TCP, ICMP or ICMPv6)
+** src: address of the host to receive packets from
+** dst: local interface address
+** icmp_type: ICMP/ICMPv6 type field
+** icmp_code: ICMP/ICMPv6 code field
+** icmp_protocol: protocol field in the ICMP payload (UDP or TCP)
+** min_src_port: smallest src TCP/UDP port in ICMP payload port range
+** max_src_port: biggest src TCP/UDP port in ICMP payload port range
+** min_dst_port: smallest dst TCP/UDP port in ICMP payload port range
+** max_dst_port: biggest dst TCP/UDP port in ICMP payload port range
+*/
+
+typedef struct		s_filter_spec
+{
+	uint8_t			protocol;
+	t_ip			*src;
+	t_ip			*dst;
+	uint8_t			icmp_type;
+	uint8_t			icmp_code;
+	uint8_t			icmp_protocol;
+	uint16_t		min_src_port;
+	uint16_t		max_src_port;
+	uint16_t		min_dst_port;
+	uint16_t		max_dst_port;
+}					t_filter_spec;
+
+/*
 ** IP utility functions
 */
 
@@ -180,9 +218,14 @@ int			ft_print_packet(void *packet, int domain, size_t size, char *exec);
 
 /*
 ** Packet
+**
+** Each 'ft_packet_filter' function will return 0 on success and -1 on failure.
+** ft_errno will be set appropriately.
 */
 
 void		ft_packet_reset(t_packet *packet, uint8_t *datap);
 void		ft_packet_init(t_packet *packet, enum e_iphdr iph, uint8_t *datap);
+int			ft_packet_filter_layer4(int sockfd, t_filter_spec *spec);
+int			ft_packet_filter_icmp_layer4(int sockfd, t_filter_spec *spec);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 05:05:41 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/16 05:32:05 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/16 07:01:52 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,18 @@ char	*ft_strerror(int error);
 ** a valid error string.
 */
 enum e_libft_errors	{
-	E_FTERR_MIN = 0,	//First value to detect invalid error codes
-	E_FTERR_MAX,		//Last value to detect invalid error codes
+	//First value to detect invalid error codes
+	E_FTERR_MIN = 0,
+
+	// Network errors
+	E_FTERR_NET_INVALID_PROTOCOL,
+	E_FTERR_NET_INVALID_IP_FAMILY,
+	E_FTERR_PACKET_FILTER_NULL_IP,
+	E_FTERR_PACKET_FILTER_INVALID_PORT_RANGE,
+	E_FTERR_PACKET_FILTER_SETSOCKOPT,
+
+	//Last value to detect invalid error codes
+	E_FTERR_MAX,
 };
 
 #endif

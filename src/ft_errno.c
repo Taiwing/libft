@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 05:21:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/16 05:48:01 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/16 07:03:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ int				ft_errno = 0;
 const char	*g_errors[E_FTERR_MAX] = {
 	// Invalid error format string
 	"Unknown error %d",
+
+	// Network errors
+	"invalid protocol",
+	"invalid IP family",
+	"missing IP address",
+	"invalid port range",
+	"setsockopt failure",
 };
 
 #define SIZE_INVALID_FTERR	32
