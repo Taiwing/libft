@@ -28,6 +28,7 @@ UNIXDIR			=	unix
 MEMORYDIR		=	memory
 
 SRCC			=	get_next_line.c\
+					ft_errno.c\
 					get_next_line_utils.c\
 					ft_swap_p.c\
 
@@ -259,104 +260,108 @@ $(NAME): $(ODIR) $(OBJ)
 	ar rc $@ $(patsubst %.o,$(ODIR)/%.o,$(OBJ))
 	ranlib $@
 
-process_long_option.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
-	ft_collector.h ft_exit.h getopt_errors.h
+process_long_option.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h getopt_errors.h
 get_next_option_argument.o: permute_order.h ft_getopt.h process_long_option.h\
-	libft.h ft_printf.h bint.h network.h ft_collector.h ft_exit.h
+	libft.h ft_errno.h ft_printf.h bint.h network.h ft_collector.h ft_exit.h
 ft_getopt.o: get_next_option_argument.h ft_getopt.h get_short_option.h
-getopt_long_errors.o: getopt_errors.h ft_getopt.h libft.h ft_printf.h bint.h\
-	network.h ft_collector.h ft_exit.h
-get_short_option.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
-	ft_collector.h ft_exit.h getopt_errors.h
+getopt_long_errors.o: getopt_errors.h ft_getopt.h libft.h ft_errno.h\
+	ft_printf.h bint.h network.h ft_collector.h ft_exit.h
+get_short_option.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h getopt_errors.h
 permute_order.o: ft_getopt.h
 init_getopt.o: ft_getopt.h
-getopt_errors.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+getopt_errors.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-get_next_line.o: get_next_line.h libft.h ft_getopt.h ft_printf.h bint.h\
+get_next_line.o: get_next_line.h libft.h ft_errno.h ft_getopt.h ft_printf.h\
+	bint.h network.h ft_collector.h ft_exit.h
+ft_ls_files.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_errno.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_thread_join.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_thread_create.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
 	network.h ft_collector.h ft_exit.h
-ft_ls_files.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_thread_join.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_thread_self.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_thread_create.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_mutex.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_thread_self.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_thread_error.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_mutex.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_thread_error.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_get_ip.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_get_ip.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-print_headers.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+print_headers.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ip_headers.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ip.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-layer4_headers.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ip_headers.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-packet.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
+ip.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+layer4_headers.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+packet.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
 ft_printf_internal.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h\
+	ft_errno.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
+	ft_exit.h
+pdata_add.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_errno.h\
 	ft_getopt.h ft_printf.h bint.h network.h ft_collector.h ft_exit.h
-pdata_add.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h network.h ft_collector.h ft_exit.h
 itoa_unsigned.o: ft_printf_internal.h t_pdata.h dragon4.h
 itoa.o: ft_printf_internal.h t_pdata.h dragon4.h
 basic_conversions.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h\
+	ft_errno.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
+	ft_exit.h
+float_formats.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_errno.h\
 	ft_getopt.h ft_printf.h bint.h network.h ft_collector.h ft_exit.h
-float_formats.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h network.h ft_collector.h ft_exit.h
-get_conv.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h network.h ft_collector.h ft_exit.h
+get_conv.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_errno.h\
+	ft_getopt.h ft_printf.h bint.h network.h ft_collector.h ft_exit.h
 itoa_cast.o: ft_printf_internal.h t_pdata.h dragon4.h
-get_flags.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h network.h ft_collector.h ft_exit.h
+get_flags.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_errno.h\
+	ft_getopt.h ft_printf.h bint.h network.h ft_collector.h ft_exit.h
 fetch.o: ft_printf_internal.h t_pdata.h dragon4.h
 itoa_signed.o: ft_printf_internal.h t_pdata.h dragon4.h
-parser.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h network.h ft_collector.h ft_exit.h
+parser.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_errno.h\
+	ft_getopt.h ft_printf.h bint.h network.h ft_collector.h ft_exit.h
 uni_conversions.o: ft_printf_internal.h t_pdata.h dragon4.h
-format_data.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h network.h ft_collector.h ft_exit.h
+format_data.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_errno.h\
+	ft_getopt.h ft_printf.h bint.h network.h ft_collector.h ft_exit.h
 efg_conversions.o: ft_printf_internal.h t_pdata.h dragon4.h log_and_ceil.h
-ft_printf.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h network.h ft_collector.h ft_exit.h
-tab_conversion.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h network.h ft_collector.h ft_exit.h
-pdata.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_getopt.h\
-	ft_printf.h bint.h network.h ft_collector.h ft_exit.h
-ft_isdigit.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_isascii.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_isprint.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_isalpha.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_tolower.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_isalnum.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_putchar.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_putchar_fd.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_printf.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_errno.h\
+	ft_getopt.h ft_printf.h bint.h network.h ft_collector.h ft_exit.h
+tab_conversion.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_errno.h\
+	ft_getopt.h ft_printf.h bint.h network.h ft_collector.h ft_exit.h
+pdata.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h ft_errno.h\
+	ft_getopt.h ft_printf.h bint.h network.h ft_collector.h ft_exit.h
+ft_isdigit.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_isspace.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_toupper.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
+ft_isascii.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_isprint.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_isalpha.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_tolower.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_isalnum.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_putchar.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_putchar_fd.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_isspace.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_toupper.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
 bint_utils_1.o: bint.h
-dragon42.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h dragon4.h log_and_ceil.h
+dragon42.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h dragon4.h log_and_ceil.h
 bint_divmod_max9.o: bint.h
-bintset.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
+bintset.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
 bint_mod.o: bint.h
 bint_add.o: bint.h
-dragon4.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h dragon4.h log_and_ceil.h
+dragon4.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h dragon4.h log_and_ceil.h
 log_and_ceil.o: bint.h
 bint_shift.o: bint.h
 bint_mult.o: bint.h
@@ -364,197 +369,197 @@ bint_sub.o: bint.h
 bint_mathconsts.o: bint.h
 bintcmp.o: bint.h
 bint_mult_by.o: bint.h
-bint_prime.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-bint_utils_2.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+bint_prime.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+bint_utils_2.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 bint_divide.o: bint.h
-ft_first_exit.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_first_exit.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 ft_dir_collector.o: ft_collector.h ft_exit.h
 ft_heap_collector.o: ft_collector.h ft_exit.h
-ft_exit.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h ft_printf_internal.h t_pdata.h dragon4.h
+ft_exit.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h ft_printf_internal.h t_pdata.h dragon4.h
 ft_secmalloc.o: ft_collector.h ft_exit.h
-ft_collector.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_collector.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_strclr.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strchr.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strmap.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_stradd.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_putendl_fd.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_strclr.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_strlcat.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strdup.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strcmp.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strmapi.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_putendl.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strdel.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_putstr.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strnequ.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_putstr_fd.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_strchr.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_strncmp.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strncat.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strrm.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strjoin.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_ignore_case_strncmp.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_strmap.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_strncpy.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strequ.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strsplit.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strndup.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strnstr.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strnew.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strcut.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_striteri.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strcat.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_ignore_case_strcmp.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_stradd.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_strtrim.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strlen.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strrchr.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strcpy.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strsub.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_strstr.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_striter.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-get_next_line_utils.o: get_next_line.h libft.h ft_getopt.h ft_printf.h bint.h\
+ft_putendl_fd.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strlcat.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strdup.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strcmp.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strmapi.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_putendl.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strdel.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_putstr.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strnequ.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_putstr_fd.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strncmp.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strncat.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strrm.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strjoin.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_ignore_case_strncmp.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
 	network.h ft_collector.h ft_exit.h
-ft_atoi.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_putnbr_fd.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_strncpy.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_putnbr.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_rand.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_secatoi.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_itoa.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_wtdup.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
+ft_strequ.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strsplit.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strndup.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strnstr.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strnew.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strcut.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_striteri.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strcat.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_ignore_case_strcmp.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_strtrim.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strlen.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strrchr.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strcpy.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strsub.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_strstr.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_striter.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+get_next_line_utils.o: get_next_line.h libft.h ft_errno.h ft_getopt.h\
+	ft_printf.h bint.h network.h ft_collector.h ft_exit.h
+ft_atoi.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_putnbr_fd.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_putnbr.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_rand.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_secatoi.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_itoa.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_wtdup.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
 ft_wtfree.o: ft_collector.h ft_exit.h
-ft_split_whitespaces.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_split_whitespaces.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_print_words_tables.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_print_words_tables_fd.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_lstdelone.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_print_words_tables.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lst_foreach_if.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_lstnew.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_print_words_tables_fd.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lst_move_front.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_lst_push_back.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_lst_last.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lstdelone.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lstdel.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lst_foreach_if.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lstiter.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lstnew.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_lst_move_front.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lst_move_back.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_lst_quicksort.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_lst_move_to_back.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_lstmap.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lst_push_back.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lst_at.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lst_last.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_lstdel.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_lstiter.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_lst_move_back.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lst_foreach.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lst_quicksort.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lst_find_index.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_lstadd.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lst_move_to_back.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lst_reverse.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lstmap.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_lst_at.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_lst_foreach.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lst_sort.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lst_find_index.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lst_move_to_front.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_lst_size.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lstadd.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_lst_reverse.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lst_push_params.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_lst_pop.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lst_sort.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_lst_move_to_front.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lst_discard.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lst_size.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_lst_push_params.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lst_remove_if.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_lst_find.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lst_pop.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_lst_discard.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lst_pop_if.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lst_remove_if.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lst_merge.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lst_find.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_lst_pop_if.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_lst_push_front.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_lst_sorted_insert.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_exec_name.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lst_merge.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_memmove.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lst_push_front.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_memcmp.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_lst_sorted_insert.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_memcpy.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_exec_name.o: libft.h ft_getopt.h ft_printf.h bint.h network.h\
+ft_memalloc.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
-ft_memmove.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_memcmp.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_memcpy.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_memalloc.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_memccpy.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_memswap.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_bzero.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_memchr.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_memset.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_memdel.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
-ft_memdup.o: libft.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
-	ft_exit.h
+ft_memccpy.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_memswap.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_bzero.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_memchr.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_memset.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_memdel.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_memdup.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
 %.o: %.c
 	@mkdir -p $(ODIR)
 	$(CC) -c $(CFLAGS) $< $(HFLAGS) -o $(ODIR)/$@
