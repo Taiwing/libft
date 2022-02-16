@@ -6,11 +6,35 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 12:17:45 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/15 15:05:06 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/16 11:24:04 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+size_t		ft_iphdr_size(enum e_iphdr iphdr)
+{
+	switch (iphdr)
+	{
+		case E_IH_NONE: return (0);							break;
+		case E_IH_V4: return (sizeof(struct iphdr));		break;
+		case E_IH_V6: return (sizeof(struct ipv6hdr));		break;
+	}
+	return (0);
+}
+
+size_t		ft_nexthdr_size(enum e_nexthdr nexthdr)
+{
+	switch (nexthdr)
+	{
+		case E_NH_NONE: return (0);							break;
+		case E_NH_ICMP: return (sizeof(struct icmphdr));	break;
+		case E_NH_ICMP6: return (sizeof(struct icmp6hdr));	break;
+		case E_NH_TCP: return (sizeof(struct tcphdr));		break;
+		case E_NH_UDP: return (sizeof(struct udphdr));		break;
+	}
+	return (0);
+}
 
 static void				set_packet_size(t_packet *packet)
 {
@@ -68,18 +92,16 @@ void					ft_packet_init(t_packet *packet,
 	type = iph == E_IH_V4 ? packet->ip->v4.protocol : packet->ip->v6.nexthdr;
 	if ((packet->nexthdr = set_nexthdr(type, iph)) == E_NH_NONE)
 		return (set_packet_size(packet));
-	packet->next = (t_nexthdr *)(packet->raw_data + (iph == E_IH_V4
-		? sizeof(struct iphdr) : sizeof(struct ipv6hdr)));
+	packet->next = (t_nexthdr *)(packet->raw_data + ft_iphdr_size(iph));
 	if (packet->nexthdr == E_NH_TCP || packet->nexthdr == E_NH_UDP)
 		return (set_packet_size(packet));
 	packet->nextiphdr = iph;
 	packet->nextip = (t_iphdr *)((uint8_t *)packet->next
-		+ (packet->nexthdr == E_NH_ICMP ? sizeof(struct icmphdr)
-		: sizeof(struct icmp6hdr)));
+		+ ft_nexthdr_size(packet->nexthdr));
 	type = iph == E_IH_V4 ? packet->nextip->v4.protocol
 		: packet->nextip->v6.nexthdr;
 	if ((packet->lasthdr = set_nexthdr(type, iph)) != E_NH_NONE)
-		packet->last = (t_nexthdr *)((uint8_t *)packet->nextip + (iph == E_IH_V4
-			? sizeof(struct iphdr) : sizeof(struct ipv6hdr)));
+		packet->last = (t_nexthdr *)((uint8_t *)packet->nextip
+			+ ft_iphdr_size(iph));
 	set_packet_size(packet);
 }
