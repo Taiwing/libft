@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:30:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/16 11:11:09 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/16 16:10:16 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <arpa/inet.h>
 # include <netdb.h>
 # include <linux/filter.h>
+# include <netinet/if_ether.h>
 
 # define	IP_HEADER_ICMP				0x01
 # define	IP_HEADER_TCP				0x06
@@ -220,18 +221,29 @@ void		ft_print_tcphdr(struct tcphdr *tcph);
 int			ft_print_packet(void *packet, int domain, size_t size, char *exec);
 
 /*
-** Packet
-**
-** Each 'ft_packet_filter' function will return 0 on success and -1 on failure.
-** ft_errno will be set appropriately.
+** Send and recv sockets (simply for documentation purposes)
+*/
+typedef int	t_send_socket;
+typedef int	t_recv_socket;
+
+/*
+** socket initialization functions
+*/
+t_send_socket	ft_send_socket_init(int domain, int protocol, int include_ip);
+t_recv_socket	ft_recv_socket_init(int domain);
+
+/*
+** Packet functions
 */
 
 size_t		ft_iphdr_size(enum e_iphdr iphdr);
 size_t		ft_nexthdr_size(enum e_nexthdr nexthdr);
 void		ft_packet_reset(t_packet *packet, uint8_t *datap);
 void		ft_packet_init(t_packet *packet, enum e_iphdr iph, uint8_t *datap);
-int			ft_packet_filter_layer4(int sockfd, t_filter_spec *spec);
-int			ft_packet_filter_icmp_layer4(int sockfd, t_filter_spec *spec);
-int			ft_packet_send(int sockfd, t_ip *dst, t_packet *packet, int level);
+int			ft_packet_filter_layer4(t_recv_socket recvfd, t_filter_spec *spec);
+int			ft_packet_filter_icmp_layer4(t_recv_socket recvfd,
+				t_filter_spec *spec);
+int			ft_packet_send(t_send_socket sendfd, t_ip *dst,
+				t_packet *packet, int level);
 
 #endif

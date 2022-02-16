@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 06:42:50 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/16 07:37:43 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/16 15:42:28 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ const struct sock_filter	g_bpfcode_ipv6_icmp_layer4[] = {
 	{ 0x06,  0,  0, 0000000000 },
 };
 
-static int	filter_ipv6_icmp_layer4(int sockfd, t_filter_spec *spec)
+static int	filter_ipv6_icmp_layer4(t_recv_socket recvfd, t_filter_spec *spec)
 {
 	uint16_t			length = BPF_FILTER_SIZE(g_bpfcode_ipv6_icmp_layer4);
 	struct sock_filter	filter[BPF_FILTER_SIZE(g_bpfcode_ipv6_icmp_layer4)];
@@ -153,12 +153,12 @@ static int	filter_ipv6_icmp_layer4(int sockfd, t_filter_spec *spec)
 	filter[70].k = spec->max_src_port;
 	filter[72].k = spec->min_dst_port;
 	filter[73].k = spec->max_dst_port;
-	if (setsockopt(sockfd, SOL_SOCKET, SO_ATTACH_FILTER, &bpf, sizeof(bpf)) < 0)
+	if (setsockopt(recvfd, SOL_SOCKET, SO_ATTACH_FILTER, &bpf, sizeof(bpf)) < 0)
 		return (-1);
 	return (0);
 }
 
-static int	filter_ipv4_icmp_layer4(int sockfd, t_filter_spec *spec)
+static int	filter_ipv4_icmp_layer4(t_recv_socket recvfd, t_filter_spec *spec)
 {
 	uint16_t			length = BPF_FILTER_SIZE(g_bpfcode_ipv4_icmp_layer4);
 	struct sock_filter	filter[BPF_FILTER_SIZE(g_bpfcode_ipv4_icmp_layer4)];
@@ -173,7 +173,7 @@ static int	filter_ipv4_icmp_layer4(int sockfd, t_filter_spec *spec)
 	filter[10].k = spec->max_src_port;
 	filter[12].k = spec->min_dst_port;
 	filter[13].k = spec->max_dst_port;
-	if (setsockopt(sockfd, SOL_SOCKET, SO_ATTACH_FILTER, &bpf, sizeof(bpf)) < 0)
+	if (setsockopt(recvfd, SOL_SOCKET, SO_ATTACH_FILTER, &bpf, sizeof(bpf)) < 0)
 		return (-1);
 	return (0);
 }
@@ -208,7 +208,7 @@ int			check_icmp_layer4_filter_spec(t_filter_spec *spec)
 
 /*
 ** ft_packet_filter_icmp_layer4: filter icmp response packets with a layer4
-** payload on sockfd socket
+** payload on recvfd socket
 **
 ** Structure pointer spec must have both src and dst ip set and with the same
 ** ip family (either AF_INET or AF_INET6). It also need a valid icmp_protocol
@@ -216,17 +216,18 @@ int			check_icmp_layer4_filter_spec(t_filter_spec *spec)
 **
 ** Returns 0 on success and -1 otherwise. ft_errno is set appropriately.
 */
-int			ft_packet_filter_icmp_layer4(int sockfd, t_filter_spec *spec)
+int			ft_packet_filter_icmp_layer4(t_recv_socket recvfd,
+				t_filter_spec *spec)
 {
 	int	ret;
 
 	if (check_icmp_layer4_filter_spec(spec))
 		return (-1);
 	if (spec->src->family == AF_INET)
-		ret = filter_ipv4_icmp_layer4(sockfd, spec);
+		ret = filter_ipv4_icmp_layer4(recvfd, spec);
 	else
-		ret = filter_ipv6_icmp_layer4(sockfd, spec);
+		ret = filter_ipv6_icmp_layer4(recvfd, spec);
 	if (ret)
-		ft_errno = E_FTERR_PACKET_FILTER_SETSOCKOPT;
+		ft_errno = E_FTERR_SETSOCKOPT;
 	return (ret);
 }

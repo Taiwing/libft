@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 05:21:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/16 11:20:47 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/16 15:43:50 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ const char	*g_errors[E_FTERR_MAX] = {
 	"setsockopt failure",
 	"invalid header level",
 	"sendto failure",
+	"socket failure",
 };
 
 #define SIZE_INVALID_FTERR	32
