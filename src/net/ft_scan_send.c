@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 17:36:07 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/20 08:06:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/20 08:17:52 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ int	ft_scan_send(t_scan scan)
 		ft_errno = -errno;
 		return (-1);
 	}
-	ft_printf("checksum: %#hx\n", probe.next->icmp.checksum);
 	if (ft_packet_send(scan_ctrl->sendfd, &scan_ctrl->ip, &probe, 1) < 0)
 		return (-1);
 	ft_memcpy(&scan_ctrl->sent_ts, &sent_ts, sizeof(sent_ts));
