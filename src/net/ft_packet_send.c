@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 09:52:26 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/16 14:25:27 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/20 06:48:02 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_packet_send(t_send_socket sendfd, t_ip *dst, t_packet *packet,
 		&& get_header_level(&data, &size, packet, header_level) < 0)
 		ft_errno = E_FTERR_PACKET_INVALID_HEADER_LEVEL;
 	else if (sendto(sendfd, data, size, 0, sockdst, ft_ip_sock_size(dst)) < 0)
-		ft_errno = E_FTERR_SENDTO;
+		ft_errno = -errno;
 	else
 		return (0);
 	return (-1);

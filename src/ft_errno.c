@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 05:21:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/16 15:43:50 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/20 06:49:05 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,27 @@ const char	*g_errors[E_FTERR_MAX] = {
 	// Invalid error format string
 	"Unknown error %d",
 
-	// Network errors
+	// Network
 	"invalid protocol",
 	"invalid IP family",
 	"missing IP address",
 	"invalid port range",
-	"setsockopt failure",
 	"invalid header level",
-	"sendto failure",
-	"socket failure",
+	"filter failure",
+	"invalid scan handle",
+	"scan list is full",
+	"scan count is out of bounds",
+	"invalid payload",
+	"scan in progress",
+
+	// Time
+	"timeval overflow",
+
+	// Math
+	"tried to divide by zero",
 };
 
-#define SIZE_INVALID_FTERR	32
+#define SIZE_FTERR_BUF	1024
 
 /*
 ** ft_strerror: turn an error code (possibly from ft_errno) into an error string
@@ -50,19 +59,25 @@ const char	*g_errors[E_FTERR_MAX] = {
 ** code is not known). If the error code is not a valid libft error it will
 ** return a formatted string with the erroneous error code inside.
 **
+** If a negative value is provided, ft_strerror assumes the error is from the
+** libc. It just negates it back to a positive value and uses strerror_r on it.
+** If it works, the resulting string is returned. ft_strerror fails otherwise.
+**
 ** This function is thread-safe.
 */
 char		*ft_strerror(int error)
 {
 #ifdef THREAD_SAFE
-	static __thread char	invalid_error_buf[SIZE_INVALID_FTERR] = { 0 };
+	static __thread char	error_buf[SIZE_FTERR_BUF] = { 0 };
 #else
-	static char				invalid_error_buf[SIZE_INVALID_FTERR] = { 0 };
+	static char				error_buf[SIZE_FTERR_BUF] = { 0 };
 #endif
 	
 	if (error > E_FTERR_MIN && error < E_FTERR_MAX)
 		return ((char *)g_errors[error]);
-	ft_snprintf(invalid_error_buf, SIZE_INVALID_FTERR,
-		g_errors[E_FTERR_MIN], error);
-	return (invalid_error_buf);
+	else if (error < E_FTERR_MIN
+		&& !strerror_r(-error, error_buf, SIZE_FTERR_BUF))
+		return (error_buf);
+	ft_snprintf(error_buf, SIZE_FTERR_BUF, g_errors[E_FTERR_MIN], error);
+	return (error_buf);
 }

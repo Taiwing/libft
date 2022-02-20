@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 15:25:44 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/16 16:32:09 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/20 06:36:51 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_send_socket	ft_send_socket_init(int domain, int protocol, int include_ip)
 	}
 	if ((sfd = socket(domain, SOCK_RAW, protocol)) < 0)
 	{
-		ft_errno = E_FTERR_SOCKET;
+		ft_errno = -errno;
 		return (-1);
 	}
 	if (include_ip && ((domain == AF_INET && setsockopt(sfd, IPPROTO_IP,
@@ -39,7 +39,7 @@ t_send_socket	ft_send_socket_init(int domain, int protocol, int include_ip)
 		setsockopt(sfd, IPPROTO_IPV6, IPV6_HDRINCL, &one, sizeof(int)) < 0)))
 	{
 		close(sfd);
-		ft_errno = E_FTERR_SETSOCKOPT;
+		ft_errno = -errno;
 		return (-1);
 	}
 	return (sfd);
@@ -73,14 +73,14 @@ t_recv_socket	ft_recv_socket_init(int domain)
 
 	if ((sfd = socket(AF_PACKET, SOCK_DGRAM, htons(socket_protocol))) < 0)
 	{
-		ft_errno = E_FTERR_SOCKET;
+		ft_errno = -errno;
 		return (-1);
 	}
 	if (setsockopt(sfd, SOL_SOCKET, SO_ATTACH_FILTER,
 			&g_zero_bpf, sizeof(g_zero_bpf)) < 0)
 	{
 		close(sfd);
-		ft_errno = E_FTERR_SETSOCKOPT;
+		ft_errno = -errno;
 		return (-1);
 	}
 	while (recv(sfd, drain, sizeof(drain), MSG_DONTWAIT) >= 0);

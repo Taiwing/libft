@@ -6,12 +6,14 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 05:05:41 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/16 15:42:58 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/20 06:49:02 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_ERRNO_H
 # define FT_ERRNO_H
+
+# include <errno.h>
 
 /*
 ** ft_errno works like the original errno. It is set to 0 at start and can be
@@ -39,15 +41,24 @@ enum e_libft_errors	{
 	//First value to detect invalid error codes
 	E_FTERR_MIN = 0,
 
-	// Network errors
+	// Network
 	E_FTERR_NET_INVALID_PROTOCOL,
 	E_FTERR_NET_INVALID_IP_FAMILY,
 	E_FTERR_PACKET_FILTER_NULL_IP,
 	E_FTERR_PACKET_FILTER_INVALID_PORT_RANGE,
-	E_FTERR_SETSOCKOPT,
 	E_FTERR_PACKET_INVALID_HEADER_LEVEL,
-	E_FTERR_SENDTO,
-	E_FTERR_SOCKET,
+	E_NET_PACKET_FILTER_FAILURE,
+	E_FTERR_INVALID_SCAN_HANDLE,
+	E_FTERR_SCAN_LIST_FULL,
+	E_FTERR_NET_INVALID_SCAN_COUNT,
+	E_FTERR_NET_INVALID_PAYLOAD,
+	E_FTERR_NET_SCAN_IN_PROGRESS,
+
+	// Time
+	E_FTERR_TIMEVAL_OVERFLOW,
+
+	// Math
+	E_FTERR_DIVIDE_BY_ZERO,
 
 	//Last value to detect invalid error codes
 	E_FTERR_MAX,

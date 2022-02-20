@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/16 05:43:09 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/19 22:37:38 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdint.h>
+# include <sys/time.h>
 # include "ft_errno.h"
 # include "ft_getopt.h"
 # include "ft_printf.h"
@@ -35,6 +36,8 @@ void					*ft_secmalloc(size_t size);
 # endif
 
 typedef unsigned char	t_uchar;
+typedef __int128_t		int128_t;
+typedef __uint128_t		uint128_t;
 
 typedef struct			s_list
 {
@@ -174,6 +177,22 @@ char					*ft_exec_name(const char *path);
 
 double					ft_sqrt(double y);
 
+int						ft_timeval_is_zero(struct timeval *time);
+int						ft_timeval_add(struct timeval *dest,
+	const struct timeval *left, const struct timeval *right);
+int						ft_timeval_sub(struct timeval *dest,
+	const struct timeval *left, const struct timeval *right);
+int						ft_timeval_abs(struct timeval *dest,
+	const struct timeval *src);
+int						ft_timeval_div(struct timeval *dest,
+	const struct timeval *src, int div);
+int						ft_timeval_mul(struct timeval *dest,
+	const struct timeval *src, int mul);
+int						ft_timeval_cmp(struct timeval *a, struct timeval *b);
+int						ft_timeval_is_expired(struct timeval *date,
+	struct timeval *expiry);
+
+//TODO: integrate this to ft_errno.h
 enum e_secatoi			{
 	FT_E_OVERFLOW		= -1,
 	FT_E_UNDERFLOW		= -2,

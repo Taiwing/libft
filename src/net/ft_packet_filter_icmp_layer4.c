@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 06:42:50 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/16 15:42:28 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/20 06:46:41 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,6 @@ int			ft_packet_filter_icmp_layer4(t_recv_socket recvfd,
 	else
 		ret = filter_ipv6_icmp_layer4(recvfd, spec);
 	if (ret)
-		ft_errno = E_FTERR_SETSOCKOPT;
+		ft_errno = -errno;
 	return (ret);
 }

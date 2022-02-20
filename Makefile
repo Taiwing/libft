@@ -24,6 +24,7 @@ RANDDIR			=	rand
 INTDIR			=	int
 WTDIR			=	wt
 T_LSTDIR		=	t_lst
+TIMEDIR			=	time
 UNIXDIR			=	unix
 MEMORYDIR		=	memory
 
@@ -51,16 +52,27 @@ FT_THREADC		=	ft_thread_join.c\
 					ft_mutex.c\
 					ft_thread_error.c\
 
-NETC			=	ft_get_ip.c\
+NETC			=	scan_list.c\
+					ft_get_ip.c\
+					ft_scan_send.c\
+					ft_echo_ping_parse_reply.c\
 					print_headers.c\
 					ft_packet_send.c\
 					ip_headers.c\
 					sockets.c\
 					ip.c\
+					ft_scan_recv.c\
 					ft_packet_filter_layer4.c\
+					ft_packet_filter_echo_ping.c\
 					ft_packet_filter_icmp_layer4.c\
+					ft_scan_poll.c\
+					ft_packet_filter_tcp_syn.c\
 					layer4_headers.c\
+					ft_scan_open.c\
+					ft_scans.c\
 					packet.c\
+					ft_scan_close.c\
+					ft_scan_set_filter.c\
 
 FT_PRINTFC		=	ft_printf_internal.c\
 					pdata_add.c\
@@ -203,6 +215,10 @@ T_LSTC			=	ft_lstdelone.c\
 					ft_lst_push_front.c\
 					ft_lst_sorted_insert.c\
 
+TIMEC			=	ft_timeval_is_expired.c\
+					ft_timeval_is_zero.c\
+					ft_timeval_ops.c\
+
 UNIXC			=	ft_exec_name.c\
 
 MEMORYC			=	ft_memmove.c\
@@ -232,6 +248,7 @@ OBJ				=	$(patsubst %.c,%.o,$(FT_GETOPTC))\
 					$(patsubst %.c,%.o,$(INTC))\
 					$(patsubst %.c,%.o,$(WTC))\
 					$(patsubst %.c,%.o,$(T_LSTC))\
+					$(patsubst %.c,%.o,$(TIMEC))\
 					$(patsubst %.c,%.o,$(UNIXC))\
 					$(patsubst %.c,%.o,$(MEMORYC))\
 					$(patsubst %.c,%.o,$(SRCC))\
@@ -252,6 +269,7 @@ vpath			%.c	$(SRCDIR)/$(RANDDIR)
 vpath			%.c	$(SRCDIR)/$(INTDIR)
 vpath			%.c	$(SRCDIR)/$(WTDIR)
 vpath			%.c	$(SRCDIR)/$(T_LSTDIR)
+vpath			%.c	$(SRCDIR)/$(TIMEDIR)
 vpath			%.c	$(SRCDIR)/$(UNIXDIR)
 vpath			%.c	$(SRCDIR)/$(MEMORYDIR)
 vpath			%.c	$(SRCDIR)
@@ -293,8 +311,14 @@ ft_mutex.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 ft_thread_error.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
+scan_list.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
 ft_get_ip.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
+ft_scan_send.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_echo_ping_parse_reply.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
 print_headers.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 ft_packet_send.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
@@ -305,14 +329,30 @@ sockets.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 ip.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
+ft_scan_recv.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
 ft_packet_filter_layer4.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
 	network.h ft_collector.h ft_exit.h
+ft_packet_filter_echo_ping.o: libft.h ft_errno.h ft_getopt.h ft_printf.h\
+	bint.h network.h ft_collector.h ft_exit.h
 ft_packet_filter_icmp_layer4.o: libft.h ft_errno.h ft_getopt.h ft_printf.h\
 	bint.h network.h ft_collector.h ft_exit.h
+ft_scan_poll.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_packet_filter_tcp_syn.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
 layer4_headers.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_scan_open.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_scans.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 packet.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
+ft_scan_close.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_scan_set_filter.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
 ft_printf_internal.o: ft_printf_internal.h t_pdata.h dragon4.h libft.h\
 	ft_errno.h ft_getopt.h ft_printf.h bint.h network.h ft_collector.h\
 	ft_exit.h
@@ -548,6 +588,12 @@ ft_lst_push_front.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
 	network.h ft_collector.h ft_exit.h
 ft_lst_sorted_insert.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
 	network.h ft_collector.h ft_exit.h
+ft_timeval_is_expired.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_timeval_is_zero.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
+ft_timeval_ops.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
 ft_exec_name.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 ft_memmove.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\

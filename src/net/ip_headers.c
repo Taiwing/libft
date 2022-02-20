@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 14:43:09 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/15 14:27:37 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/17 18:07:10 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ static void	init_ipv4_header(struct iphdr *ip, t_iph_args *args)
 	ip->ihl = 5;
 	ip->version = args->version;
 	ip->ttl = args->hop_limit;
-	ft_memcpy(&ip->saddr, ft_ip_addr(args->srcip), ft_ip_size(args->srcip));
-	ft_memcpy(&ip->daddr, ft_ip_addr(args->dstip), ft_ip_size(args->dstip));
+	if (args->srcip)
+		ft_memcpy(&ip->saddr, ft_ip_addr(args->srcip), ft_ip_size(args->srcip));
+	if (args->dstip)
+		ft_memcpy(&ip->daddr, ft_ip_addr(args->dstip), ft_ip_size(args->dstip));
 	ip->tot_len = args->layer5_len + sizeof(struct iphdr);
 	ip->protocol = args->protocol;
 	if (ip->protocol == IP_HEADER_ICMP)
@@ -37,8 +39,10 @@ static void	init_ipv6_header(struct ipv6hdr *ip, t_iph_args *args)
 	ft_bzero(ip, sizeof(struct ipv6hdr));
 	ip->version = args->version;
 	ip->hop_limit = args->hop_limit;
-	ft_memcpy(&ip->saddr, ft_ip_addr(args->srcip), ft_ip_size(args->srcip));
-	ft_memcpy(&ip->daddr, ft_ip_addr(args->dstip), ft_ip_size(args->dstip));
+	if (args->srcip)
+		ft_memcpy(&ip->saddr, ft_ip_addr(args->srcip), ft_ip_size(args->srcip));
+	if (args->dstip)
+		ft_memcpy(&ip->daddr, ft_ip_addr(args->dstip), ft_ip_size(args->dstip));
 	ip->payload_len = args->layer5_len;
 	ip->nexthdr = args->protocol;
 	if (ip->nexthdr == IP_HEADER_ICMP)

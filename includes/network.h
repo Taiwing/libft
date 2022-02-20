@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:30:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/16 16:10:16 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/19 22:26:46 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,15 +147,18 @@ typedef struct		s_tcph_args
 ** This structure can be passed to every 'ft_packet_filter' function. All the
 ** fields are not necessary for every function but src must not be NULL because
 ** it is absolutely needed for host filtering and to know the IP family on which
-** to filter. Also if both src and dst are set their family value must be the
-** same otherwise the filtering functions will fail. For port ranges, if needed
-** by the filter function, max must always be greater or equal to min port.
+** to filter (except for ftscan filters). Also if both src and dst are set their
+** family value must be the same otherwise the filtering functions will fail.
+** For port ranges, if needed by the filter function, max must always be greater
+** or equal to min port.
 **
 ** protocol: IP header protocol/next_header field (UDP, TCP, ICMP or ICMPv6)
 ** src: address of the host to receive packets from
 ** dst: local interface address
 ** icmp_type: ICMP/ICMPv6 type field
 ** icmp_code: ICMP/ICMPv6 code field
+** icmp_echo_id: ICMP/ICMPv6 echo id field
+** icmp_echo_sequence: ICMP/ICMPv6 echo sequence field
 ** icmp_protocol: protocol field in the ICMP payload (UDP or TCP)
 ** min_src_port: smallest src TCP/UDP port in ICMP payload port range
 ** max_src_port: biggest src TCP/UDP port in ICMP payload port range
@@ -170,6 +173,8 @@ typedef struct		s_filter_spec
 	t_ip			*dst;
 	uint8_t			icmp_type;
 	uint8_t			icmp_code;
+	uint16_t		icmp_echo_id;
+	uint16_t		icmp_echo_sequence;
 	uint8_t			icmp_protocol;
 	uint16_t		min_src_port;
 	uint16_t		max_src_port;
@@ -223,12 +228,14 @@ int			ft_print_packet(void *packet, int domain, size_t size, char *exec);
 /*
 ** Send and recv sockets (simply for documentation purposes)
 */
+
 typedef int	t_send_socket;
 typedef int	t_recv_socket;
 
 /*
 ** socket initialization functions
 */
+
 t_send_socket	ft_send_socket_init(int domain, int protocol, int include_ip);
 t_recv_socket	ft_recv_socket_init(int domain);
 
@@ -245,5 +252,164 @@ int			ft_packet_filter_icmp_layer4(t_recv_socket recvfd,
 				t_filter_spec *spec);
 int			ft_packet_send(t_send_socket sendfd, t_ip *dst,
 				t_packet *packet, int level);
+
+/*
+** Scan structures
+*/
+
+// Scan types
+enum e_ftscan_type	{ E_FTSCAN_ECHO_PING, E_FTSCAN_TCP_SYN };
+
+# define			FTSCAN_TYPE_COUNT			2
+# define			DEF_FTSCAN_TCP_SYN_PORT		42424
+
+// E_FTSCAN_ECHO_PING scan states (for the scan result's reason field)
+enum e_ftscan_echo_ping_state {
+	E_FTSCAN_ECHO_PING_TIMEOUT,
+	E_FTSCAN_ECHO_PING_TTL,
+	E_FTSCAN_ECHO_PING_DEST_UNREACH,
+	E_FTSCAN_ECHO_PING_ECHO_REPLY,
+};
+
+// E_FTSCAN_ECHO_PING scan states (for the scan result's reason field)
+enum e_ftscan_tcp_syn_state {
+	E_FTSCAN_TCP_SYN_TIMEOUT,
+	E_FTSCAN_TCP_SYN_ICMP_DEST_UNREACH,
+	E_FTSCAN_TCP_SYN_TCP_RST,
+	E_FTSCAN_TCP_SYN_TCP_SYN,
+};
+
+/*
+** t_scanres: Result of a scan
+**
+** rtt: round trip time (from sending to receive event)
+** ttl: ip time to live value
+** open: is the port open (syn) or the host up (ping)
+** reason: scan specific value indicating the reason for the open status
+** sequence: echo reply sequence value or simple response counter (starts at 1)
+*/
+typedef struct		s_scan_result
+{
+	struct timeval	rtt;
+	uint8_t			ttl;
+	int				open;
+	int				reason;
+	uint16_t		sequence;
+}					t_scanres;
+
+/*
+** t_scan_control: Structure representing an individual scan.
+**
+** ip: destination IP address to scan
+** port: destination port if is a port scan
+** sendfd: socket to send scan probes
+** recvfd: socket to receive the replies
+** result: result for the current scan (if sent_ts is set)
+** sent_ts: timestamp of last sent probe
+** timeout: return a timeout event after this long (0 for no timeout)
+** sequence: numbers of probes sent
+** payload_size: size of the probe payload if any
+** payload: payload data
+*/
+typedef struct			s_scan_control
+{
+	t_ip				ip;
+	uint16_t			port;
+	t_send_socket		sendfd;
+	t_recv_socket		recvfd;
+	t_scanres			result;
+	struct timeval		sent_ts;
+	struct timeval		timeout;
+	int					sequence;
+	size_t				payload_size;
+	uint8_t				payload[MAX_PACKET_PAYLOAD_SIZE];
+}						t_scan_control;
+
+// Maximum number of scans by type (cannot be more than 2^16)
+# define MAX_SCAN_COUNT			1024
+
+// Maximum total number of scans
+# define MAX_GLOBAL_SCAN_COUNT	(MAX_SCAN_COUNT * FTSCAN_TYPE_COUNT)
+
+// List of every current scan (only used internally, never exposed to the user)
+# ifdef THREAD_SAFE
+	extern __thread t_scan_control	**g_scan_list[FTSCAN_TYPE_COUNT];
+	extern __thread uint16_t		g_scan_count[FTSCAN_TYPE_COUNT];
+# else
+	extern t_scan_control			**g_scan_list[FTSCAN_TYPE_COUNT];
+	extern uint16_t					g_scan_count[FTSCAN_TYPE_COUNT];
+# endif
+
+/*
+** t_scan: Int value representing an individual scan. Contains the id of the
+** scan on the lowest 16 bits (which means max number of scans is 2^16) and the
+** type of scan on the next 8 bits. The last bits are left unused. The t_scan
+** value can be negative if the scan open call fails.
+*/
+typedef int32_t		t_scan;
+
+# define GET_SCAN_ID(scan)		((uint16_t)(scan & 0xffff))
+# define GET_SCAN_TYPE(scan)	((enum e_ftscan_type)((scan & 0xff0000) >> 16))
+
+enum e_pollsc_events
+{
+	E_POLLSC_NONE		= 0x0000,
+	E_POLLSC_REPLY		= 0x0001,
+	E_POLLSC_TIMEOUT	= 0x0002,
+	E_POLLSC_ERROR		= 0x0004,
+};
+
+/*
+** t_pollsc: Works like poll's pollfd structure but for scans and every events
+** are listened for.
+*/
+typedef struct		s_poll_scan
+{
+	t_scan			scan;
+	uint16_t		events;
+}					t_pollsc;
+
+/*
+** Scan functions
+**
+** Every scan function will return -1 on error and set ft_errno on error, except
+** close functions which cannot fail. They will return 0 on success, except for
+** ft_scan_poll which returns the number of scans on which we have an event.
+*/
+
+// Initialize scan data
+t_scan	ft_echo_ping_open(t_ip *ip, struct timeval *timeout);
+t_scan	ft_tcp_syn_open(t_ip *ip, uint16_t port, struct timeval *timeout);
+int		ft_scan_set_timeout(t_scan scan, struct timeval *timeout);
+int		ft_scan_set_payload(t_scan scan, uint8_t *payload, size_t payload_len);
+
+// Synchrone scan
+int		ft_echo_ping(t_scanres *result, t_scan scan);
+int		ft_tcp_syn(t_scanres *result, t_scan scan);
+
+// Asynchrone scan
+int		ft_scan_send(t_scan scan);
+int		ft_scan_poll(t_pollsc *scans, int count, struct timeval *t);
+int		ft_scan_result(t_scanres *result, t_scan scan);
+
+// Scan cleanup
+void	ft_scan_close(t_scan scan);
+void	ft_scan_close_all(void);
+
+// Internal functions (should not be used outside the libft!!!)
+t_scan			ft_add_new_scan(enum e_ftscan_type type, t_ip *ip,
+	uint16_t port);
+t_scan_control	*ft_get_scan(t_scan scan);
+uint8_t			ft_get_scan_protocol(enum e_ftscan_type type, int domain);
+int             ft_scan_set_filter(enum e_ftscan_type type, uint16_t id);
+int				ft_packet_filter_tcp_syn(t_recv_socket recvfd,
+	t_filter_spec *spec);
+int				ft_packet_filter_echo_ping(t_recv_socket recvfd,
+	t_filter_spec *spec);
+int				ft_scan_recv(t_scan scan, int wait, struct timeval *recv_ts);
+int				ft_echo_ping_parse_reply(t_scan_control *scan_ctrl,
+	t_packet *reply, struct timeval *recv_ts);
+int				ft_tcp_syn_parse_reply(t_scan_control *scan_ctrl,
+	t_packet *reply, struct timeval *recv_ts);
 
 #endif

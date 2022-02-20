@@ -6,12 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 14:08:28 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/15 15:04:33 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/20 06:38:40 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <errno.h>
 
 int					ft_print_iphdr(void *iphdr, int domain, char *exec)
 {
