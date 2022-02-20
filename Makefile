@@ -66,6 +66,7 @@ NETC			=	scan_list.c\
 					ft_packet_filter_echo_ping.c\
 					ft_packet_filter_icmp_layer4.c\
 					ft_scan_poll.c\
+					ft_tcp_syn_parse_reply.c\
 					ft_packet_filter_tcp_syn.c\
 					layer4_headers.c\
 					ft_scan_open.c\
@@ -339,6 +340,8 @@ ft_packet_filter_icmp_layer4.o: libft.h ft_errno.h ft_getopt.h ft_printf.h\
 	bint.h network.h ft_collector.h ft_exit.h
 ft_scan_poll.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
+ft_tcp_syn_parse_reply.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
 ft_packet_filter_tcp_syn.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
 	network.h ft_collector.h ft_exit.h
 layer4_headers.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
