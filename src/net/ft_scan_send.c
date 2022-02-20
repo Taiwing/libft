@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 17:36:07 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/20 06:41:15 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/20 08:06:00 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 #define ECHO_PING_V6_HDR_TEMPLATE { .icmp6_type = ICMPV6_ECHO_REQUEST }
 
-static size_t	add_echo_ping_v6_header(t_packet *probe,
+static void	add_echo_ping_v6_header(t_packet *probe,
 	t_scan_control *scan_ctrl, size_t ipsize)
 {
 	struct icmp6hdr	hdr = ECHO_PING_V6_HDR_TEMPLATE;
@@ -31,10 +31,20 @@ static size_t	add_echo_ping_v6_header(t_packet *probe,
 	hdr.icmp6_sequence = htons(++scan_ctrl->sequence);
 	hdr.icmp6_identifier = htons(getpid());
 	ft_memcpy(probe->buf + ipsize, &hdr, sizeof(hdr));
-	return (ipsize + sizeof(hdr));
+	if (scan_ctrl->payload_size)
+		ft_memcpy(probe->buf + ipsize + sizeof(hdr), scan_ctrl->payload,
+			scan_ctrl->payload_size);
+	/*
+	// TODO: fuck. icmp6 checksum is computed from a IPv6 pseudo header. This is
+	// annoying because we dont have the header at this point. It better be
+	// computed by the kernel...
+	((struct icmp6hdr *)(probe->buf + ipsize))->icmp6_cksum =
+		ft_checksum((void *)(probe->buf + ipsize),
+		sizeof(hdr) + scan_ctrl->payload_size);
+	*/
 }
 
-static size_t	add_echo_ping_v4_header(t_packet *probe,
+static void	add_echo_ping_v4_header(t_packet *probe,
 	t_scan_control *scan_ctrl, size_t ipsize)
 {
 	struct icmphdr	hdr = ECHO_PING_V4_HDR_TEMPLATE;
@@ -42,10 +52,15 @@ static size_t	add_echo_ping_v4_header(t_packet *probe,
 	hdr.un.echo.sequence = htons(++scan_ctrl->sequence);
 	hdr.un.echo.id = htons(getpid());
 	ft_memcpy(probe->buf + ipsize, &hdr, sizeof(hdr));
-	return (ipsize + sizeof(hdr));
+	if (scan_ctrl->payload_size)
+		ft_memcpy(probe->buf + ipsize + sizeof(hdr), scan_ctrl->payload,
+			scan_ctrl->payload_size);
+	((struct icmphdr *)(probe->buf + ipsize))->checksum =
+		ft_checksum((void *)(probe->buf + ipsize),
+		sizeof(hdr) + scan_ctrl->payload_size);
 }
 
-static size_t	add_tcp_syn_header(t_packet *probe, t_scan_control *scan_ctrl,
+static void	add_tcp_syn_header(t_packet *probe, t_scan_control *scan_ctrl,
 	size_t ipsize)
 {
 	struct tcphdr	hdr = TCP_SYN_HDR_TEMPLATE;
@@ -53,7 +68,9 @@ static size_t	add_tcp_syn_header(t_packet *probe, t_scan_control *scan_ctrl,
 	hdr.th_dport = htons(scan_ctrl->port);
 	hdr.th_seq = htonl(++scan_ctrl->sequence);
 	ft_memcpy(probe->buf + ipsize, &hdr, sizeof(hdr));
-	return (ipsize + sizeof(hdr));
+	if (scan_ctrl->payload_size)
+		ft_memcpy(probe->buf + ipsize + sizeof(hdr), scan_ctrl->payload,
+			scan_ctrl->payload_size);
 }
 
 static void	scan_build_probe_headers(t_packet *probe, t_scan_control *scan_ctrl,
@@ -71,17 +88,14 @@ static void	scan_build_probe_headers(t_packet *probe, t_scan_control *scan_ctrl,
 	{
 		case E_FTSCAN_ECHO_PING:
 			if (protocol == IPPROTO_ICMP)
-				size = add_echo_ping_v4_header(probe, scan_ctrl, size);
+				add_echo_ping_v4_header(probe, scan_ctrl, size);
 			else
-				size = add_echo_ping_v6_header(probe, scan_ctrl, size);
+				add_echo_ping_v6_header(probe, scan_ctrl, size);
 			break;
 		case E_FTSCAN_TCP_SYN:
-			size = add_tcp_syn_header(probe, scan_ctrl, size);
+			add_tcp_syn_header(probe, scan_ctrl, size);
 			break;
 	}
-	if (scan_ctrl->payload_size)
-		ft_memcpy(probe->buf + size, scan_ctrl->payload,
-			scan_ctrl->payload_size);
 }
 
 /*
@@ -107,6 +121,7 @@ int	ft_scan_send(t_scan scan)
 		ft_errno = -errno;
 		return (-1);
 	}
+	ft_printf("checksum: %#hx\n", probe.next->icmp.checksum);
 	if (ft_packet_send(scan_ctrl->sendfd, &scan_ctrl->ip, &probe, 1) < 0)
 		return (-1);
 	ft_memcpy(&scan_ctrl->sent_ts, &sent_ts, sizeof(sent_ts));
