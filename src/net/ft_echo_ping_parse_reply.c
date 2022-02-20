@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 21:27:41 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/19 22:15:10 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/20 14:20:44 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	ft_echo_ping_parse_reply_ipv6(t_scan_control *scan_ctrl,
 			break;
 	}
 	scan_ctrl->result.ttl = reply->ip->v6.hop_limit;
-	scan_ctrl->sequence = ntohs(reply->next->icmp6.icmp6_sequence);
+	scan_ctrl->result.sequence = ntohs(reply->next->icmp6.icmp6_sequence);
 	return (0);
 }
 
@@ -62,7 +62,7 @@ static int	ft_echo_ping_parse_reply_ipv4(t_scan_control *scan_ctrl,
 			break;
 	}
 	scan_ctrl->result.ttl = reply->ip->v4.ttl;
-	scan_ctrl->sequence = ntohs(reply->next->icmp.un.echo.sequence);
+	scan_ctrl->result.sequence = ntohs(reply->next->icmp.un.echo.sequence);
 	return (0);
 }
 

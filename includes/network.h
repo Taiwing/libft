@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:30:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/19 22:26:46 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/20 13:00:33 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,8 +325,33 @@ typedef struct			s_scan_control
 	uint8_t				payload[MAX_PACKET_PAYLOAD_SIZE];
 }						t_scan_control;
 
-// Maximum number of scans by type (cannot be more than 2^16)
-# define MAX_SCAN_COUNT			1024
+/*
+** t_scan: Int value representing an individual scan. Contains the id of the
+** scan on the lowest 10 bits (which means max number of scans is 2^10-1) and
+** the type of scan on the next 6 bits. The last bits are left unused. The
+** t_scan value can be negative if the scan open call fails.
+*/
+typedef int32_t		t_scan;
+
+/*
+** Fields of the t_scan type: The t_scan field takes 16 bits in total. It could
+** take more but this way we can use the t_scan value directly for the packet id
+** of scan probes. This is way easier.
+**
+** The lowest 10 bits represent the scan id (which is the index in the global
+** scan_list array), and the upper 6 encode the type of the scan.
+*/
+# define SCAN_HANDLE_BITLEN		16
+# define SCAN_ID_BITLEN			10
+# define SCAN_TYPE_BITLEN		(SCAN_HANDLE_BITLEN - SCAN_ID_BITLEN)
+
+// Maximum number of scans by type
+# define MAX_SCAN_COUNT			((1 << SCAN_ID_BITLEN) - 1)	// 2^10-1=1023
+# define MAX_TYPE_COUNT			((1 << SCAN_TYPE_BITLEN) - 1)	// 2^6-1=63
+
+// t_scan field getters
+# define GET_SCAN_ID(scan)		((uint16_t)(scan & MAX_SCAN_COUNT))
+# define GET_SCAN_TYPE(scan)	((enum e_ftscan_type)(scan >> SCAN_ID_BITLEN))
 
 // Maximum total number of scans
 # define MAX_GLOBAL_SCAN_COUNT	(MAX_SCAN_COUNT * FTSCAN_TYPE_COUNT)
@@ -339,17 +364,6 @@ typedef struct			s_scan_control
 	extern t_scan_control			**g_scan_list[FTSCAN_TYPE_COUNT];
 	extern uint16_t					g_scan_count[FTSCAN_TYPE_COUNT];
 # endif
-
-/*
-** t_scan: Int value representing an individual scan. Contains the id of the
-** scan on the lowest 16 bits (which means max number of scans is 2^16) and the
-** type of scan on the next 8 bits. The last bits are left unused. The t_scan
-** value can be negative if the scan open call fails.
-*/
-typedef int32_t		t_scan;
-
-# define GET_SCAN_ID(scan)		((uint16_t)(scan & 0xffff))
-# define GET_SCAN_TYPE(scan)	((enum e_ftscan_type)((scan & 0xff0000) >> 16))
 
 enum e_pollsc_events
 {
@@ -401,7 +415,7 @@ t_scan			ft_add_new_scan(enum e_ftscan_type type, t_ip *ip,
 	uint16_t port);
 t_scan_control	*ft_get_scan(t_scan scan);
 uint8_t			ft_get_scan_protocol(enum e_ftscan_type type, int domain);
-int             ft_scan_set_filter(enum e_ftscan_type type, uint16_t id);
+int				ft_scan_set_filter(t_scan scan);
 int				ft_packet_filter_tcp_syn(t_recv_socket recvfd,
 	t_filter_spec *spec);
 int				ft_packet_filter_echo_ping(t_recv_socket recvfd,
