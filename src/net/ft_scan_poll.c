@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 15:11:43 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/20 06:43:09 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/22 06:45:48 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	ft_scan_check_timeout(t_scan scan, struct timeval *now)
 		return (-1);
 	else if (ret)
 	{
-		scan_ctrl->result.sequence = scan_ctrl->sequence;
+		scan_ctrl->result.sequence = scan_ctrl->sequence - 1;
 		ft_bzero(&scan_ctrl->sent_ts, sizeof(scan_ctrl->sent_ts));
 	}
 	return (ret);

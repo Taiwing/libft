@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 17:36:07 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/20 14:25:33 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/22 06:42:22 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	add_echo_ping_v6_header(t_packet *probe,
 {
 	struct icmp6hdr	hdr = ECHO_PING_V6_HDR_TEMPLATE;
 
-	hdr.icmp6_sequence = htons(scan_ctrl->sequence++);
+	hdr.icmp6_sequence = htons(scan_ctrl->sequence);
 	hdr.icmp6_identifier = htons(scan);
 	ft_memcpy(probe->buf + ipsize, &hdr, sizeof(hdr));
 	if (scan_ctrl->payload_size)
@@ -49,7 +49,7 @@ static void	add_echo_ping_v4_header(t_packet *probe,
 {
 	struct icmphdr	hdr = ECHO_PING_V4_HDR_TEMPLATE;
 
-	hdr.un.echo.sequence = htons(scan_ctrl->sequence++);
+	hdr.un.echo.sequence = htons(scan_ctrl->sequence);
 	hdr.un.echo.id = htons(scan);
 	ft_memcpy(probe->buf + ipsize, &hdr, sizeof(hdr));
 	if (scan_ctrl->payload_size)
@@ -67,7 +67,7 @@ static void	add_tcp_syn_header(t_packet *probe, t_scan_control *scan_ctrl,
 
 	(void)scan;
 	hdr.th_dport = htons(scan_ctrl->port);
-	hdr.th_seq = htonl(scan_ctrl->sequence++);
+	hdr.th_seq = htonl(scan_ctrl->sequence);
 	ft_memcpy(probe->buf + ipsize, &hdr, sizeof(hdr));
 	if (scan_ctrl->payload_size)
 		ft_memcpy(probe->buf + ipsize + sizeof(hdr), scan_ctrl->payload,
@@ -116,6 +116,8 @@ int	ft_scan_send(t_scan scan)
 
 	if (!(scan_ctrl = ft_get_scan(scan)))
 		return (-1);
+	if (ft_scan_set_filter(scan))
+		return (-1);
 	iph = scan_ctrl->ip.family == AF_INET ? E_IH_V4 : E_IH_V6;
 	scan_build_probe_headers(&probe, scan_ctrl, scan);
 	ft_packet_init(&probe, iph, NULL);
@@ -127,5 +129,6 @@ int	ft_scan_send(t_scan scan)
 	if (ft_packet_send(scan_ctrl->sendfd, &scan_ctrl->ip, &probe, 1) < 0)
 		return (-1);
 	ft_memcpy(&scan_ctrl->sent_ts, &sent_ts, sizeof(sent_ts));
+	++scan_ctrl->sequence;
 	return (0);
 }

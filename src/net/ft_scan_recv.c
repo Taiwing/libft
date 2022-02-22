@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 20:28:37 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/20 06:48:58 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/22 06:45:04 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_scan_recv(t_scan scan, int wait, struct timeval *recv_ts)
 			GET_SCAN_TYPE(scan), &rep, recv_ts));
 	else if (rd < 0 && wait && (errno == EAGAIN || errno == EWOULDBLOCK))
 	{
-		scan_ctrl->result.sequence = scan_ctrl->sequence;
+		scan_ctrl->result.sequence = scan_ctrl->sequence - 1;
 		ft_bzero(&scan_ctrl->sent_ts, sizeof(scan_ctrl->sent_ts));
 		return (0);
 	}
