@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 17:36:07 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/22 06:42:22 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/22 06:52:57 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,16 @@ int	ft_scan_send(t_scan scan)
 
 	if (!(scan_ctrl = ft_get_scan(scan)))
 		return (-1);
+	++scan_ctrl->sequence;
+	//TODO: The scan filter is set twice at start since it is initialized in the
+	//scan setup function. Decide if we really want to set it here instead. This
+	//not really the most efficient way. It would be better to set it only once,
+	//but then incoming packets should not be filtered by sequence (which is not
+	//a problem, it can be done after but it requires updating the filters...).
+	//TEMP
 	if (ft_scan_set_filter(scan))
 		return (-1);
+	//TEMP
 	iph = scan_ctrl->ip.family == AF_INET ? E_IH_V4 : E_IH_V6;
 	scan_build_probe_headers(&probe, scan_ctrl, scan);
 	ft_packet_init(&probe, iph, NULL);
@@ -129,6 +137,5 @@ int	ft_scan_send(t_scan scan)
 	if (ft_packet_send(scan_ctrl->sendfd, &scan_ctrl->ip, &probe, 1) < 0)
 		return (-1);
 	ft_memcpy(&scan_ctrl->sent_ts, &sent_ts, sizeof(sent_ts));
-	++scan_ctrl->sequence;
 	return (0);
 }
