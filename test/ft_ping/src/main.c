@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 05:43:30 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/20 13:21:43 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/20 14:54:41 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ int	main(int argc, char **argv)
 	if ((scan = ft_echo_ping_open(&ip, &timeout)) < 0)
 		ft_exit(EXIT_FAILURE, "ft_echo_ping_open: %s", ft_strerror(ft_errno));
 	while (!(ret = ft_echo_ping(&result, scan)))
+	{
 		print_result(&result);
+		sleep(2);
+	}
 	if (ret < 0)
 		ft_exit(EXIT_FAILURE, "ft_echo_ping: %s", ft_strerror(ft_errno));
 	/*

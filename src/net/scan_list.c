@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 12:30:50 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/20 13:02:55 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/24 07:50:58 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ uint8_t		ft_get_scan_protocol(enum e_ftscan_type type, int domain)
 	return (protocol);
 }
 
-static int	init_scan_sockets(enum e_ftscan_type type, uint16_t id, t_scan scan)
+static int	init_scan_sockets(enum e_ftscan_type type, uint16_t id)
 {
 	int	domain = g_scan_list[type][id]->ip.family;
 	int	protocol = ft_get_scan_protocol(type, domain);
@@ -60,12 +60,6 @@ static int	init_scan_sockets(enum e_ftscan_type type, uint16_t id, t_scan scan)
 	if (g_scan_list[type][id]->sendfd < 0)
 	{
 		close(g_scan_list[type][id]->recvfd);
-		return (-1);
-	}
-	if (ft_scan_set_filter(scan) < 0)
-	{
-		close(g_scan_list[type][id]->recvfd);
-		close(g_scan_list[type][id]->sendfd);
 		return (-1);
 	}
 	return (0);
@@ -90,7 +84,7 @@ t_scan	ft_add_new_scan(enum e_ftscan_type type, t_ip *ip, uint16_t port)
 	ft_memcpy(&g_scan_list[type][id]->ip, ip, ft_ip_sock_size(ip));
 	g_scan_list[type][id]->port = port;
 	scan = ((int)type << SCAN_ID_BITLEN) | (int)id;
-	if (init_scan_sockets(type, id, scan) < 0)
+	if (init_scan_sockets(type, id) < 0)
 	{
 		ft_memdel((void **)&g_scan_list[type][id]);
 		return (-1);

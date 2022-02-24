@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 17:36:07 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/22 06:52:57 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/24 07:52:57 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void	add_echo_ping_v6_header(t_packet *probe,
 {
 	struct icmp6hdr	hdr = ECHO_PING_V6_HDR_TEMPLATE;
 
-	hdr.icmp6_sequence = htons(scan_ctrl->sequence);
 	hdr.icmp6_identifier = htons(scan);
+	hdr.icmp6_sequence = htons(scan_ctrl->sequence);
 	ft_memcpy(probe->buf + ipsize, &hdr, sizeof(hdr));
 	if (scan_ctrl->payload_size)
 		ft_memcpy(probe->buf + ipsize + sizeof(hdr), scan_ctrl->payload,
@@ -49,8 +49,8 @@ static void	add_echo_ping_v4_header(t_packet *probe,
 {
 	struct icmphdr	hdr = ECHO_PING_V4_HDR_TEMPLATE;
 
-	hdr.un.echo.sequence = htons(scan_ctrl->sequence);
 	hdr.un.echo.id = htons(scan);
+	hdr.un.echo.sequence = htons(scan_ctrl->sequence);
 	ft_memcpy(probe->buf + ipsize, &hdr, sizeof(hdr));
 	if (scan_ctrl->payload_size)
 		ft_memcpy(probe->buf + ipsize + sizeof(hdr), scan_ctrl->payload,
@@ -117,15 +117,8 @@ int	ft_scan_send(t_scan scan)
 	if (!(scan_ctrl = ft_get_scan(scan)))
 		return (-1);
 	++scan_ctrl->sequence;
-	//TODO: The scan filter is set twice at start since it is initialized in the
-	//scan setup function. Decide if we really want to set it here instead. This
-	//not really the most efficient way. It would be better to set it only once,
-	//but then incoming packets should not be filtered by sequence (which is not
-	//a problem, it can be done after but it requires updating the filters...).
-	//TEMP
 	if (ft_scan_set_filter(scan))
 		return (-1);
-	//TEMP
 	iph = scan_ctrl->ip.family == AF_INET ? E_IH_V4 : E_IH_V6;
 	scan_build_probe_headers(&probe, scan_ctrl, scan);
 	ft_packet_init(&probe, iph, NULL);

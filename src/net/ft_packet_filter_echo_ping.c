@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 11:38:59 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/20 06:47:15 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/24 07:39:37 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ const struct sock_filter	g_bpfcode_ipv4_echo_ping[] = {
 	{ 0x15,  0,  3, 0000000000 },	// ipv4 source address (7)
 
 	// Load and compare ICMP type (ip[20])
-	{ 0x20,  0,  0, 0x00000014 },
+	{ 0x30,  0,  0, 0x00000014 },
 	// Go to 'success' label if is a valid reply
 	{ 0x15,  4,  0, 0000000000 },	// ICMP type ICMP_ECHOREPLY (9)
 	// Else Drop
 	{ 0x05,  0,  0, 0x00000004 },
 
 	// Load and compare ICMP type (again, but for the 'error' check) (ip[20])
-	{ 0x20,  0,  0, 0x00000014 },
+	{ 0x30,  0,  0, 0x00000014 },
 	// If type is not one or the other, Drop
 	{ 0x15,  1,  0, 0000000000 },	// ICMP type ICMP_DESTUNREACH (12)
 	{ 0x15,  0,  1, 0000000000 },	// ICMP type ICMP_TIME_EXCEEDED (13)
@@ -97,14 +97,14 @@ const struct sock_filter	g_bpfcode_ipv6_echo_ping[] = {
 	{ 0x15,  0,  3, 0000000000 },	// last ipv6 source byte (37)
 
 	// Load and compare ICMP6 type (ip6[40])
-	{ 0x20,  0,  0, 0x00000028 },
+	{ 0x30,  0,  0, 0x00000028 },
 	// Go to 'success' label if is a valid reply
 	{ 0x15,  4,  0, 0000000000 },	// ICMP6 type ICMP6_ECHOREPLY (39)
 	// Else Drop
 	{ 0x05,  0,  0, 0x00000004 },
 
 	// Load and compare ICMP6 type (again, but for the 'error' check) (ip6[40])
-	{ 0x20,  0,  0, 0x00000028 },
+	{ 0x30,  0,  0, 0x00000028 },
 	{ 0x15,  1,  0, 0000000000 },	// ICMP6 type ICMP6_DESTUNREACH (42)
 	{ 0x15,  0,  1, 0000000000 },	// ICMP6 type ICMP6_TIME_EXCEEDED (43)
 
@@ -121,8 +121,8 @@ static int	filter_ipv6_echo_ping(t_recv_socket recvfd, t_filter_spec *spec)
 
 	ft_memcpy(filter, g_bpfcode_ipv6_echo_ping, sizeof(filter));
 	filter[1].k = IPPROTO_ICMPV6;
-	filter[3].k = htons(spec->icmp_echo_id);
-	filter[5].k = htons(spec->icmp_echo_sequence);
+	filter[3].k = spec->icmp_echo_id;
+	filter[5].k = spec->icmp_echo_sequence;
 	for (int i = 0; i < 16; ++i)
 		filter[i * 2 + 7].k = spec->src->v6.sin6_addr.s6_addr[i];
 	filter[39].k = ICMPV6_ECHO_REPLY;
@@ -142,8 +142,8 @@ static int	filter_ipv4_echo_ping(t_recv_socket recvfd, t_filter_spec *spec)
 
 	ft_memcpy(filter, g_bpfcode_ipv4_echo_ping, sizeof(filter));
 	filter[1].k = IPPROTO_ICMP;
-	filter[3].k = htons(spec->icmp_echo_id);
-	filter[5].k = htons(spec->icmp_echo_sequence);
+	filter[3].k = spec->icmp_echo_id;
+	filter[5].k = spec->icmp_echo_sequence;
 	filter[7].k = htonl(spec->src->v4.sin_addr.s_addr);
 	filter[9].k = ICMP_ECHOREPLY;
 	filter[12].k = ICMP_DEST_UNREACH;
