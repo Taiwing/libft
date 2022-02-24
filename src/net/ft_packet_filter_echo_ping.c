@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 11:38:59 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/24 07:39:37 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/24 08:00:29 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ static int	filter_ipv6_echo_ping(t_recv_socket recvfd, t_filter_spec *spec)
 	return (0);
 }
 
-//TODO: use htons/htonl in the other packet_filter functions too
 static int	filter_ipv4_echo_ping(t_recv_socket recvfd, t_filter_spec *spec)
 {
 	uint16_t			length = BPF_FILTER_SIZE(g_bpfcode_ipv4_echo_ping);
