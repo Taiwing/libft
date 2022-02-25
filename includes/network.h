@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:30:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/20 13:00:33 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/25 21:33:45 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@
 # include <linux/filter.h>
 # include <netinet/if_ether.h>
 
-# define	IP_HEADER_ICMP				0x01
-# define	IP_HEADER_TCP				0x06
-# define	IP_HEADER_UDP				0x11
-# define	IP_HEADER_ICMP6				0x3a
 # define	BPF_FILTER_SIZE(arr)		(sizeof(arr) / sizeof(arr[0]))
 
 /*

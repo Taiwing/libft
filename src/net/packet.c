@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 12:17:45 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/16 11:24:04 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/25 21:32:16 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,13 @@ static enum e_nexthdr	set_nexthdr(uint8_t type, enum e_iphdr iph)
 {
 	if (iph == E_IH_NONE)
 		return (E_NH_NONE);
-	else if (type == IP_HEADER_UDP)
+	else if (type == IPPROTO_UDP)
 		return (E_NH_UDP);
-	else if (type == IP_HEADER_TCP)
+	else if (type == IPPROTO_TCP)
 		return (E_NH_TCP);
-	else if (type == IP_HEADER_ICMP && iph == E_IH_V4)
+	else if (type == IPPROTO_ICMP && iph == E_IH_V4)
 		return (E_NH_ICMP);
-	else if (type == IP_HEADER_ICMP6 && iph == E_IH_V6)
+	else if (type == IPPROTO_ICMPV6 && iph == E_IH_V6)
 		return (E_NH_ICMP6);
 	return (E_NH_NONE);
 }

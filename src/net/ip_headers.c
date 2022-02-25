@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 14:43:09 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/17 18:07:10 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/25 21:30:22 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ static void	init_ipv4_header(struct iphdr *ip, t_iph_args *args)
 		ft_memcpy(&ip->daddr, ft_ip_addr(args->dstip), ft_ip_size(args->dstip));
 	ip->tot_len = args->layer5_len + sizeof(struct iphdr);
 	ip->protocol = args->protocol;
-	if (ip->protocol == IP_HEADER_ICMP)
+	if (ip->protocol == IPPROTO_ICMP)
 		ip->tot_len += sizeof(struct icmphdr);
-	else if (ip->protocol == IP_HEADER_TCP)
+	else if (ip->protocol == IPPROTO_TCP)
 		ip->tot_len += sizeof(struct tcphdr);
-	else if (ip->protocol == IP_HEADER_UDP)
+	else if (ip->protocol == IPPROTO_UDP)
 		ip->tot_len += sizeof(struct udphdr);
 	ip->tot_len = htons(ip->tot_len);
 }
@@ -45,11 +45,11 @@ static void	init_ipv6_header(struct ipv6hdr *ip, t_iph_args *args)
 		ft_memcpy(&ip->daddr, ft_ip_addr(args->dstip), ft_ip_size(args->dstip));
 	ip->payload_len = args->layer5_len;
 	ip->nexthdr = args->protocol;
-	if (ip->nexthdr == IP_HEADER_ICMP)
+	if (ip->nexthdr == IPPROTO_ICMPV6)
 		ip->payload_len += sizeof(struct icmp6hdr);
-	else if (ip->nexthdr == IP_HEADER_TCP)
+	else if (ip->nexthdr == IPPROTO_TCP)
 		ip->payload_len += sizeof(struct tcphdr);
-	else if (ip->nexthdr == IP_HEADER_UDP)
+	else if (ip->nexthdr == IPPROTO_UDP)
 		ip->payload_len += sizeof(struct udphdr);
 	ip->payload_len = htons(ip->payload_len);
 }

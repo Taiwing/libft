@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 14:08:28 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/20 06:38:40 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/25 21:32:47 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ int					ft_print_nexthdr(void *iphdr, int domain,
 	void			*nexthdr = iphdr + (ip4h ? sizeof(struct iphdr)
 		: ip6h ? sizeof(struct ipv6hdr) : 0);
 	uint16_t		nexthdr_size =
-		type == IP_HEADER_ICMP ? sizeof(struct icmphdr) :
-		type == IP_HEADER_ICMP6 ? sizeof(struct icmp6hdr) :
-		type == IP_HEADER_TCP ? sizeof(struct tcphdr) :
-		type == IP_HEADER_UDP ? sizeof(struct udphdr) : 0;
+		type == IPPROTO_ICMP ? sizeof(struct icmphdr) :
+		type == IPPROTO_ICMPV6 ? sizeof(struct icmp6hdr) :
+		type == IPPROTO_TCP ? sizeof(struct tcphdr) :
+		type == IPPROTO_UDP ? sizeof(struct udphdr) : 0;
 
 	if (!ip4h && !ip6h)
 		return (!!ft_dprintf(2, "%s: %s: invalid domain '%d'\n",
@@ -97,11 +97,11 @@ int					ft_print_nexthdr(void *iphdr, int domain,
 		return (!!ft_dprintf(2, "%s: %s: too small for next header '%d'\n",
 			exec, __func__, type));
 	size -= nexthdr_size;
-	if (type == IP_HEADER_ICMP || type == IP_HEADER_ICMP6)
+	if (type == IPPROTO_ICMP || type == IPPROTO_ICMPV6)
 		return (ft_print_icmphdr(nexthdr, domain, size, exec));
-	else if (type == IP_HEADER_TCP)
+	else if (type == IPPROTO_TCP)
 		ft_print_tcphdr((struct tcphdr *)nexthdr);
-	else if (type == IP_HEADER_UDP)
+	else if (type == IPPROTO_UDP)
 		ft_print_udphdr((struct udphdr *)nexthdr);
 	if (size)
 		ft_printf("\tdata: %hu bytes\n", size);
