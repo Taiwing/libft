@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 15:11:43 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/22 06:53:30 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/26 06:33:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static int	scan_poll_setup(struct pollfd *pfds, t_pollsc *scans, int count)
 			return (-1);
 		pfds[i].fd = scan_ctrl->recvfd;
 		pfds[i].events = POLLIN;
+		scans[i].events = 0;
 	}
 	return (0);
 }
