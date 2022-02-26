@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 05:05:41 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/20 06:49:02 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/26 09:42:33 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ enum e_libft_errors	{
 
 	// Math
 	E_FTERR_DIVIDE_BY_ZERO,
+
+	// Other
+	E_FTERR_RAND_SOURCE,
 
 	//Last value to detect invalid error codes
 	E_FTERR_MAX,

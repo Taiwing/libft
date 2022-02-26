@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 05:21:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/20 06:49:05 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/26 09:43:21 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ const char	*g_errors[E_FTERR_MAX] = {
 
 	// Math
 	"tried to divide by zero",
+
+	// Other
+	"randomness source failure",
 };
 
 #define SIZE_FTERR_BUF	1024

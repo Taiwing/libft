@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 05:43:30 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/26 07:54:07 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/26 10:45:55 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,11 @@ static void	multi_scan(char **hosts, int host_count)
 	t_pollsc		scans[MAX_ARGS] = { 0 };
 	char			buf[INET6_ADDRSTRLEN];
 
+	if (!hosts[0] && ft_ip_rand(ip, host_count, AF_UNSPEC, 0) < 0)
+		ft_exit(EXIT_FAILURE, "ft_ip_rand: %s", ft_strerror(ft_errno));
 	for (int i = 0; i < host_count; ++i)
 	{
-		if ((ret = ft_get_ip(ip + i, hosts[i], AF_UNSPEC)) < 0)
+		if (hosts[0] && (ret = ft_get_ip(ip + i, hosts[i], AF_UNSPEC)) < 0)
 			ft_exit(EXIT_FAILURE, "ft_get_ip: %s", gai_strerror(ret));
 		ft_printf("IP: %s\n", inet_ntop(ip[i].family, ft_ip_addr(ip + i),
 			buf, INET6_ADDRSTRLEN));
@@ -146,6 +148,8 @@ static void	multi_scan(char **hosts, int host_count)
 	ft_exit(EXIT_FAILURE, "ft_scan_poll: %s", ft_strerror(ft_errno));
 }
 
+# define	DEF_RANDOM_IP_COUNT	50
+
 int	main(int argc, char **argv)
 {
 	int				host_count = argc - 1;
@@ -154,8 +158,8 @@ int	main(int argc, char **argv)
 		ft_exit(EXIT_FAILURE, "no more than %d hosts\n", MAX_ARGS);
 	ft_atexit(ft_scan_close_all);
 	if (!host_count)
-		ft_exit(EXIT_FAILURE, "Usage: %s host...", argv[0]);
-	else if (host_count == 1)
+		host_count = DEF_RANDOM_IP_COUNT;
+	if (host_count == 1)
 		mono_scan(argv[1]);
 	else
 		multi_scan(argv + 1, host_count);

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:30:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/25 21:33:45 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/26 09:59:37 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,12 @@ typedef struct		s_filter_spec
 	uint16_t		max_dst_port;
 }					t_filter_spec;
 
+// ft_ip_rand flags
+enum e_ip_rand_flags {
+	E_IPRAND_ALLOW_LOCAL	= 1 << 0,	// Allow local IP generation
+	E_IPRAND_RANDOM_DOMAIN	= 1 << 1,	// Randomize the domain if AF_UNSPEC
+};
+
 /*
 ** IP utility functions
 */
@@ -189,6 +195,7 @@ int			ft_ip_cmp(const t_ip *a, const t_ip *b);
 int			ft_ip_apply_mask(t_ip *dest, const t_ip *mask);
 int			ft_ip_same_subnet(const t_ip *a, const t_ip *b, const t_ip *mask);
 int			ft_get_ip(t_ip *ip, const char *target, int domain);
+int			ft_ip_rand(t_ip *ip, size_t count, int domain, int flags);
 
 /*
 ** IP headers
