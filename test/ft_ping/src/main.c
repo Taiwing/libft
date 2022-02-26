@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 05:43:30 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/26 07:16:29 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/26 07:31:24 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ int	main(int argc, char **argv)
 	struct timeval	timeout = { 5, 0 };
 	char			buf[INET6_ADDRSTRLEN];
 
+	if (host_count > MAX_ARGS)
+		ft_exit(EXIT_FAILURE, "no more than %d hosts\n", MAX_ARGS);
 	if (!host_count)
 		ft_exit(EXIT_FAILURE, "Usage: %s host...", argv[0]);
 	ft_atexit(ft_scan_close_all);
