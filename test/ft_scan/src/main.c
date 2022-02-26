@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 05:43:30 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/26 07:31:24 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/26 07:54:07 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,42 +88,50 @@ static int	get_results(int *done, t_pollsc *scans, int host_count)
 }
 
 #define	MAX_ARGS	256
+struct timeval		g_timeout = { 5, 0 };
 
-int	main(int argc, char **argv)
+static void	mono_scan(char *host)
+{
+	t_ip		ip;
+	int			ret;
+	t_scan		scan;
+	t_scanres	result;
+	char		buf[INET6_ADDRSTRLEN];
+
+	if (ft_get_ip(&ip, host, AF_UNSPEC) < 0)
+		ft_exit(EXIT_FAILURE, "ft_get_ip: %s", gai_strerror(ret));
+	ft_printf("IP: %s\n", inet_ntop(ip.family, ft_ip_addr(&ip),
+		buf, INET6_ADDRSTRLEN));
+	if ((scan = ft_echo_ping_open(&ip, &g_timeout)) < 0)
+		ft_exit(EXIT_FAILURE, "ft_echo_ping_open: %s", ft_strerror(ft_errno));
+	while (!(ret = ft_echo_ping(&result, scan)))
+	{
+		print_result(&result, scan);
+		sleep(1);
+	}
+	ft_scan_close(scan);
+	if (ret < 0)
+		ft_exit(EXIT_FAILURE, "ft_echo_ping: %s", ft_strerror(ft_errno));
+}
+
+static void	multi_scan(char **hosts, int host_count)
 {
 	int				ret;
 	int				done[MAX_ARGS] = { 0 };
 	t_ip			ip[MAX_ARGS] = { 0 };
-	int				host_count = argc - 1;
 	t_pollsc		scans[MAX_ARGS] = { 0 };
-	struct timeval	timeout = { 5, 0 };
 	char			buf[INET6_ADDRSTRLEN];
 
-	if (host_count > MAX_ARGS)
-		ft_exit(EXIT_FAILURE, "no more than %d hosts\n", MAX_ARGS);
-	if (!host_count)
-		ft_exit(EXIT_FAILURE, "Usage: %s host...", argv[0]);
-	ft_atexit(ft_scan_close_all);
 	for (int i = 0; i < host_count; ++i)
 	{
-		if ((ret = ft_get_ip(ip + i, argv[i + 1], AF_UNSPEC)) < 0)
+		if ((ret = ft_get_ip(ip + i, hosts[i], AF_UNSPEC)) < 0)
 			ft_exit(EXIT_FAILURE, "ft_get_ip: %s", gai_strerror(ret));
 		ft_printf("IP: %s\n", inet_ntop(ip[i].family, ft_ip_addr(ip + i),
 			buf, INET6_ADDRSTRLEN));
-		if ((scans[i].scan = ft_echo_ping_open(ip + i, &timeout)) < 0)
+		if ((scans[i].scan = ft_echo_ping_open(ip + i, &g_timeout)) < 0)
 			ft_exit(EXIT_FAILURE, "ft_echo_ping_open: %s",
 				ft_strerror(ft_errno));
 	}
-	/*
-	while (!(ret = ft_echo_ping(&result, scan)))
-	{
-		print_result(&result);
-		sleep(1);
-	}
-	if (ret < 0)
-		ft_exit(EXIT_FAILURE, "ft_echo_ping: %s", ft_strerror(ft_errno));
-	ft_scan_close(scan);
-	*/
 	send_probes(scans, host_count);
 	while ((ret = ft_scan_poll(scans, host_count, NULL)) >= 0)
 	{
@@ -136,5 +144,20 @@ int	main(int argc, char **argv)
 		}
 	}
 	ft_exit(EXIT_FAILURE, "ft_scan_poll: %s", ft_strerror(ft_errno));
+}
+
+int	main(int argc, char **argv)
+{
+	int				host_count = argc - 1;
+
+	if (host_count > MAX_ARGS)
+		ft_exit(EXIT_FAILURE, "no more than %d hosts\n", MAX_ARGS);
+	ft_atexit(ft_scan_close_all);
+	if (!host_count)
+		ft_exit(EXIT_FAILURE, "Usage: %s host...", argv[0]);
+	else if (host_count == 1)
+		mono_scan(argv[1]);
+	else
+		multi_scan(argv + 1, host_count);
 	return (EXIT_SUCCESS);
 }
