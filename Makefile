@@ -54,6 +54,7 @@ FT_THREADC		=	ft_thread_join.c\
 
 NETC			=	scan_list.c\
 					ft_get_ip.c\
+					ft_ip_str.c\
 					ft_scan_send.c\
 					ft_echo_ping_parse_reply.c\
 					print_headers.c\
@@ -316,6 +317,8 @@ ft_thread_error.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 scan_list.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 ft_get_ip.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_ip_str.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 ft_scan_send.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:30:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/26 09:59:37 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/28 22:06:41 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ int			ft_ip_apply_mask(t_ip *dest, const t_ip *mask);
 int			ft_ip_same_subnet(const t_ip *a, const t_ip *b, const t_ip *mask);
 int			ft_get_ip(t_ip *ip, const char *target, int domain);
 int			ft_ip_rand(t_ip *ip, size_t count, int domain, int flags);
+char		*ft_ip_str(const t_ip *ip);
 
 /*
 ** IP headers

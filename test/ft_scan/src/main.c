@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 05:43:30 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/28 20:08:07 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/28 22:10:57 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,17 @@
 
 static void	print_result(t_scanres *result, t_scan scan)
 {
-	ft_printf("\nResult (%d):\n", scan);
+	t_scan_control	*scan_ctrl;
+
+	if (!(scan_ctrl = ft_get_scan(scan)))
+		ft_exit(EXIT_FAILURE, "ft_get_scan: %s", ft_strerror(ft_errno));
+	ft_printf("\nResult (%d: %s):\n", scan, ft_ip_str(&scan_ctrl->ip));
 	ft_printf("rtt: tv_sec = %lld, tv_usec = %lld\n",
 		result->rtt.tv_sec, result->rtt.tv_usec);
 	ft_printf("ttl: %hhu\n", result->ttl);
 	ft_printf("open: %s\n", result->open ? "true" : "false");
 	ft_printf("reason: %d\n", result->reason);
 	ft_printf("sequence: %hu\n", result->sequence);
-
-	// DEBUG
-	t_scan_control	*scan_ctrl;
-	if (!(scan_ctrl = ft_get_scan(scan)))
-		ft_exit(EXIT_FAILURE, "ft_get_scan: %s", ft_strerror(ft_errno));
 	ft_printf("sequence from scan_control: %hu\n", scan_ctrl->sequence);
 }
 
@@ -96,12 +95,10 @@ static void	mono_scan(char *host, int domain)
 	int			ret;
 	t_scan		scan;
 	t_scanres	result;
-	char		buf[INET6_ADDRSTRLEN];
 
 	if (ft_get_ip(&ip, host, domain) < 0)
 		ft_exit(EXIT_FAILURE, "ft_get_ip: %s", gai_strerror(ret));
-	ft_printf("IP: %s\n", inet_ntop(ip.family, ft_ip_addr(&ip),
-		buf, INET6_ADDRSTRLEN));
+	ft_printf("IP: %s\n", ft_ip_str(&ip));
 	if ((scan = ft_echo_ping_open(&ip, &g_timeout)) < 0)
 		ft_exit(EXIT_FAILURE, "ft_echo_ping_open: %s", ft_strerror(ft_errno));
 	while (!(ret = ft_echo_ping(&result, scan)))
@@ -120,7 +117,6 @@ static void	multi_scan(char **hosts, int host_count, int domain)
 	int				done[MAX_ARGS] = { 0 };
 	t_ip			ip[MAX_ARGS] = { 0 };
 	t_pollsc		scans[MAX_ARGS] = { 0 };
-	char			buf[INET6_ADDRSTRLEN];
 
 	if (!hosts[0] && ft_ip_rand(ip, host_count, domain, 0) < 0)
 		ft_exit(EXIT_FAILURE, "ft_ip_rand: %s", ft_strerror(ft_errno));
@@ -128,8 +124,7 @@ static void	multi_scan(char **hosts, int host_count, int domain)
 	{
 		if (hosts[0] && (ret = ft_get_ip(ip + i, hosts[i], domain)) < 0)
 			ft_exit(EXIT_FAILURE, "ft_get_ip: %s", gai_strerror(ret));
-		ft_printf("IP: %s\n", inet_ntop(ip[i].family, ft_ip_addr(ip + i),
-			buf, INET6_ADDRSTRLEN));
+		ft_printf("IP: %s\n", ft_ip_str(ip + i));
 		if ((scans[i].scan = ft_echo_ping_open(ip + i, &g_timeout)) < 0)
 			ft_exit(EXIT_FAILURE, "ft_echo_ping_open: %s",
 				ft_strerror(ft_errno));
