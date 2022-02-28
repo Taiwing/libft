@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 08:04:22 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/26 10:38:44 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/28 21:48:06 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,12 @@ static int	set_domain(size_t seed, int flags)
 ** count: size of the ip array
 ** domain: family of ips to generate
 ** flags: configure ip generation
+**
+** This function technically works with IPv6 but the result is basically
+** useless. The IPv6 IP range is big and sparsely used that the chances of
+** randomly stumbling upon a running host are infinitesimal. So if this function
+** is used for host discovery it should always be done with AF_INET for the
+** domain. Otherwise we're just wasting time and CPU cycles.
 */
 int			ft_ip_rand(t_ip *ip, size_t count, int domain, int flags)
 {
