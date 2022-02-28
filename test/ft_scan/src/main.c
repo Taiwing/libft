@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 05:43:30 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/26 10:45:55 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/02/28 20:08:07 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ static int	get_results(int *done, t_pollsc *scans, int host_count)
 }
 
 #define	MAX_ARGS	256
-struct timeval		g_timeout = { 5, 0 };
+struct timeval		g_timeout = { 1, 500000 };
 
-static void	mono_scan(char *host)
+static void	mono_scan(char *host, int domain)
 {
 	t_ip		ip;
 	int			ret;
@@ -98,7 +98,7 @@ static void	mono_scan(char *host)
 	t_scanres	result;
 	char		buf[INET6_ADDRSTRLEN];
 
-	if (ft_get_ip(&ip, host, AF_UNSPEC) < 0)
+	if (ft_get_ip(&ip, host, domain) < 0)
 		ft_exit(EXIT_FAILURE, "ft_get_ip: %s", gai_strerror(ret));
 	ft_printf("IP: %s\n", inet_ntop(ip.family, ft_ip_addr(&ip),
 		buf, INET6_ADDRSTRLEN));
@@ -114,7 +114,7 @@ static void	mono_scan(char *host)
 		ft_exit(EXIT_FAILURE, "ft_echo_ping: %s", ft_strerror(ft_errno));
 }
 
-static void	multi_scan(char **hosts, int host_count)
+static void	multi_scan(char **hosts, int host_count, int domain)
 {
 	int				ret;
 	int				done[MAX_ARGS] = { 0 };
@@ -122,11 +122,11 @@ static void	multi_scan(char **hosts, int host_count)
 	t_pollsc		scans[MAX_ARGS] = { 0 };
 	char			buf[INET6_ADDRSTRLEN];
 
-	if (!hosts[0] && ft_ip_rand(ip, host_count, AF_UNSPEC, 0) < 0)
+	if (!hosts[0] && ft_ip_rand(ip, host_count, domain, 0) < 0)
 		ft_exit(EXIT_FAILURE, "ft_ip_rand: %s", ft_strerror(ft_errno));
 	for (int i = 0; i < host_count; ++i)
 	{
-		if (hosts[0] && (ret = ft_get_ip(ip + i, hosts[i], AF_UNSPEC)) < 0)
+		if (hosts[0] && (ret = ft_get_ip(ip + i, hosts[i], domain)) < 0)
 			ft_exit(EXIT_FAILURE, "ft_get_ip: %s", gai_strerror(ret));
 		ft_printf("IP: %s\n", inet_ntop(ip[i].family, ft_ip_addr(ip + i),
 			buf, INET6_ADDRSTRLEN));
@@ -148,20 +148,33 @@ static void	multi_scan(char **hosts, int host_count)
 	ft_exit(EXIT_FAILURE, "ft_scan_poll: %s", ft_strerror(ft_errno));
 }
 
-# define	DEF_RANDOM_IP_COUNT	50
+# define	DEF_RANDOM_IP_COUNT	128
 
 int	main(int argc, char **argv)
 {
-	int				host_count = argc - 1;
+	int	domain = AF_UNSPEC;
+	int	first_host = 1;
+	int	host_count;
 
+	while (argv[first_host] && argv[first_host][0] == '-')
+	{
+		if (!ft_strcmp(argv[first_host], "-4"))
+			domain = AF_INET;
+		else if (!ft_strcmp(argv[first_host], "-6"))
+			domain = AF_INET6;
+		else
+			ft_exit(EXIT_FAILURE, "unknown option %s", argv[first_host]);
+		++first_host;
+	}
+	host_count = argc - first_host;
 	if (host_count > MAX_ARGS)
-		ft_exit(EXIT_FAILURE, "no more than %d hosts\n", MAX_ARGS);
+		ft_exit(EXIT_FAILURE, "no more than %d hosts", MAX_ARGS);
 	ft_atexit(ft_scan_close_all);
 	if (!host_count)
 		host_count = DEF_RANDOM_IP_COUNT;
 	if (host_count == 1)
-		mono_scan(argv[1]);
+		mono_scan(argv[first_host], domain);
 	else
-		multi_scan(argv + 1, host_count);
+		multi_scan(argv + first_host, host_count, domain);
 	return (EXIT_SUCCESS);
 }
