@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 17:36:07 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/24 07:52:57 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/01 19:56:51 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,6 @@ static void	add_echo_ping_v6_header(t_packet *probe,
 	if (scan_ctrl->payload_size)
 		ft_memcpy(probe->buf + ipsize + sizeof(hdr), scan_ctrl->payload,
 			scan_ctrl->payload_size);
-	/*
-	// TODO: fuck. icmp6 checksum is computed from a IPv6 pseudo header. This is
-	// annoying because we dont have the header at this point. It better be
-	// computed by the kernel...
-	((struct icmp6hdr *)(probe->buf + ipsize))->icmp6_cksum =
-		ft_checksum((void *)(probe->buf + ipsize),
-		sizeof(hdr) + scan_ctrl->payload_size);
-	*/
 }
 
 static void	add_echo_ping_v4_header(t_packet *probe,
