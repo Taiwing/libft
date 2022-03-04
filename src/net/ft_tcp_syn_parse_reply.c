@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 21:29:39 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/20 07:11:46 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/02 21:52:35 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	ft_tcp_syn_parse_reply_ipv6(t_scan_control *scan_ctrl,
 	}
 	else if (reply->nexthdr != E_NH_TCP)
 	{
-		ft_errno = E_NET_PACKET_FILTER_FAILURE;
+		ft_errno = E_FTERR_PACKET_FILTER_FAILURE;
 		return (-1);
 	}
 	scan_ctrl->result.open = !!(reply->next->tcp.th_flags & TH_SYN);
@@ -47,7 +47,7 @@ static int	ft_tcp_syn_parse_reply_ipv4(t_scan_control *scan_ctrl,
 	}
 	else if (reply->nexthdr != E_NH_TCP)
 	{
-		ft_errno = E_NET_PACKET_FILTER_FAILURE;
+		ft_errno = E_FTERR_PACKET_FILTER_FAILURE;
 		return (-1);
 	}
 	scan_ctrl->result.open = !!(reply->next->tcp.th_flags & TH_SYN);

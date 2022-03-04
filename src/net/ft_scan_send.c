@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 17:36:07 by yforeau           #+#    #+#             */
-/*   Updated: 2022/03/01 19:56:51 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/02 06:27:59 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ static void	scan_build_probe_headers(t_packet *probe, t_scan_control *scan_ctrl,
 	uint8_t				version = scan_ctrl->ip.family == AF_INET ? 4 : 6;
 	uint8_t				protocol = ft_get_scan_protocol(type,
 		scan_ctrl->ip.family);
-	t_iph_args			ipargs = { .version = version, .protocol = protocol,
+	t_iph_args			ipargs = { .version = version, .dstip = &scan_ctrl->ip,
+		.srcip = NULL, .protocol = protocol, .hop_limit = 255,
 		.layer5_len = scan_ctrl->payload_size };
 	size_t				size = scan_ctrl->ip.family == AF_INET ?
 		sizeof(struct iphdr) : sizeof(struct ipv6hdr);

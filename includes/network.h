@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:30:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/28 22:06:41 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/04 07:04:08 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <netdb.h>
 # include <linux/filter.h>
 # include <netinet/if_ether.h>
+# include <linux/if.h>
 
 # define	BPF_FILTER_SIZE(arr)		(sizeof(arr) / sizeof(arr[0]))
 
@@ -36,18 +37,6 @@ typedef union			u_ip
 	struct sockaddr_in	v4;
 	struct sockaddr_in6	v6;
 }						t_ip;
-
-/*
-** Interface info
-*/
-
-typedef struct		s_ifinfo
-{
-	char			*name;
-	uint32_t		flags;
-	t_ip			ip;
-	t_ip			netmask;
-}					t_ifinfo;
 
 /*
 ** Reply header types and unions
@@ -256,6 +245,34 @@ int			ft_packet_filter_icmp_layer4(t_recv_socket recvfd,
 				t_filter_spec *spec);
 int			ft_packet_send(t_send_socket sendfd, t_ip *dst,
 				t_packet *packet, int level);
+
+
+/*
+** Network config
+*/
+
+/*
+** t_ifinfo: Interface info
+**
+** name: interface name
+** flags: interface flags from getifaddrs
+** ip: interface socket address
+** netmask: interface netmask
+*/
+typedef struct		s_ifinfo
+{
+	char			name[IFNAMSIZ];
+	uint32_t		flags;
+	t_ip			ip;
+	t_ip			netmask;
+}					t_ifinfo;
+
+/*
+** Network config functions
+*/
+
+int	ft_net_getiface(t_ifinfo *dst, int domain, int loopback);
+int	ft_net_setiface(int loopback, const t_ifinfo *src);
 
 /*
 ** Scan structures

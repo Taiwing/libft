@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/19 22:37:38 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/04 07:19:12 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,11 @@ int						ft_timeval_mul(struct timeval *dest,
 int						ft_timeval_cmp(struct timeval *a, struct timeval *b);
 int						ft_timeval_is_expired(struct timeval *date,
 	struct timeval *expiry);
+
+
+t_list					*ft_net_listiface(void);
+void					ft_net_listiface_free(t_list **iflist);
+int						ft_netconf_init(t_list *user_iflist);
 
 //TODO: integrate this to ft_errno.h
 enum e_secatoi			{

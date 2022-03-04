@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 21:27:41 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/20 14:20:44 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/02 21:52:23 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	ft_echo_ping_parse_reply_ipv6(t_scan_control *scan_ctrl,
 			scan_ctrl->result.reason = E_FTSCAN_ECHO_PING_ECHO_REPLY;
 			break;
 		default:
-			ft_errno = E_NET_PACKET_FILTER_FAILURE;
+			ft_errno = E_FTERR_PACKET_FILTER_FAILURE;
 			return (-1);
 			break;
 	}
@@ -57,7 +57,7 @@ static int	ft_echo_ping_parse_reply_ipv4(t_scan_control *scan_ctrl,
 			scan_ctrl->result.reason = E_FTSCAN_ECHO_PING_ECHO_REPLY;
 			break;
 		default:
-			ft_errno = E_NET_PACKET_FILTER_FAILURE;
+			ft_errno = E_FTERR_PACKET_FILTER_FAILURE;
 			return (-1);
 			break;
 	}

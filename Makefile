@@ -54,6 +54,7 @@ FT_THREADC		=	ft_thread_join.c\
 
 NETC			=	scan_list.c\
 					ft_get_ip.c\
+					ft_net_listiface.c\
 					ft_ip_str.c\
 					ft_scan_send.c\
 					ft_echo_ping_parse_reply.c\
@@ -73,6 +74,7 @@ NETC			=	scan_list.c\
 					layer4_headers.c\
 					ft_scan_open.c\
 					ft_scans.c\
+					ft_net_ifaces.c\
 					packet.c\
 					ft_scan_close.c\
 					ft_scan_set_filter.c\
@@ -318,6 +320,8 @@ scan_list.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 ft_get_ip.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
+ft_net_listiface.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
+	network.h ft_collector.h ft_exit.h
 ft_ip_str.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 ft_scan_send.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
@@ -355,6 +359,8 @@ layer4_headers.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 ft_scan_open.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 ft_scans.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_net_ifaces.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 packet.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h

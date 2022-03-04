@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 05:05:41 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/26 09:42:33 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/02 21:55:29 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ enum e_libft_errors	{
 	E_FTERR_PACKET_FILTER_NULL_IP,
 	E_FTERR_PACKET_FILTER_INVALID_PORT_RANGE,
 	E_FTERR_PACKET_INVALID_HEADER_LEVEL,
-	E_NET_PACKET_FILTER_FAILURE,
+	E_FTERR_PACKET_FILTER_FAILURE,
 	E_FTERR_INVALID_SCAN_HANDLE,
 	E_FTERR_SCAN_LIST_FULL,
 	E_FTERR_NET_INVALID_SCAN_COUNT,
@@ -62,6 +62,9 @@ enum e_libft_errors	{
 
 	// Other
 	E_FTERR_RAND_SOURCE,
+
+	// Global
+	E_FTERR_NOT_FOUND,
 
 	//Last value to detect invalid error codes
 	E_FTERR_MAX,
