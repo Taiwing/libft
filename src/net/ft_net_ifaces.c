@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:22:13 by yforeau           #+#    #+#             */
-/*   Updated: 2022/03/04 07:18:46 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/04 08:56:28 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int			ft_netconf_init(t_list *user_iflist)
 		return (-1);
 	for (t_list *lst = iflist; lst; lst = lst->next)
 	{
-		t_ifinfo *ifinfo = iflist->content;
+		t_ifinfo *ifinfo = lst->content;
 		int iface_index = FTNET_IFACE_TYPE(ifinfo->ip.family,
 			(ifinfo->flags & IFF_LOOPBACK));
 		if (!g_netconf.iface_on[iface_index])
