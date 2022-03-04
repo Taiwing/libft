@@ -6,11 +6,37 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 05:43:30 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/28 22:10:57 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/01 20:31:58 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+#define DEF_PORT	80
+
+static t_scan	open_scan(t_ip *ip, struct timeval *timeout,
+	enum e_ftscan_type scan_type, uint16_t port)
+{
+	t_scan	scan;
+
+	switch (scan_type)
+	{
+		case E_FTSCAN_ECHO_PING:
+			if ((scan = ft_echo_ping_open(ip, timeout)) < 0)
+				ft_exit(EXIT_FAILURE, "ft_echo_ping_open: %s",
+					ft_strerror(ft_errno));
+			break;
+		case E_FTSCAN_TCP_SYN:
+			if ((scan = ft_tcp_syn_open(ip, port, timeout)) < 0)
+				ft_exit(EXIT_FAILURE, "ft_tcp_syn_open: %s",
+					ft_strerror(ft_errno));
+			break;
+		default:
+			ft_exit(EXIT_FAILURE, "impossible error");
+			break;
+	}
+	return (scan);
+}
 
 static void	print_result(t_scanres *result, t_scan scan)
 {
@@ -89,7 +115,7 @@ static int	get_results(int *done, t_pollsc *scans, int host_count)
 #define	MAX_ARGS	256
 struct timeval		g_timeout = { 1, 500000 };
 
-static void	mono_scan(char *host, int domain)
+static void	mono_scan(char *host, int domain, enum e_ftscan_type scan_type)
 {
 	t_ip		ip;
 	int			ret;
@@ -99,8 +125,7 @@ static void	mono_scan(char *host, int domain)
 	if (ft_get_ip(&ip, host, domain) < 0)
 		ft_exit(EXIT_FAILURE, "ft_get_ip: %s", gai_strerror(ret));
 	ft_printf("IP: %s\n", ft_ip_str(&ip));
-	if ((scan = ft_echo_ping_open(&ip, &g_timeout)) < 0)
-		ft_exit(EXIT_FAILURE, "ft_echo_ping_open: %s", ft_strerror(ft_errno));
+	scan = open_scan(&ip, &g_timeout, scan_type, DEF_PORT);
 	while (!(ret = ft_echo_ping(&result, scan)))
 	{
 		print_result(&result, scan);
@@ -111,7 +136,8 @@ static void	mono_scan(char *host, int domain)
 		ft_exit(EXIT_FAILURE, "ft_echo_ping: %s", ft_strerror(ft_errno));
 }
 
-static void	multi_scan(char **hosts, int host_count, int domain)
+static void	multi_scan(char **hosts, int host_count, int domain,
+	enum e_ftscan_type scan_type)
 {
 	int				ret;
 	int				done[MAX_ARGS] = { 0 };
@@ -128,6 +154,7 @@ static void	multi_scan(char **hosts, int host_count, int domain)
 		if ((scans[i].scan = ft_echo_ping_open(ip + i, &g_timeout)) < 0)
 			ft_exit(EXIT_FAILURE, "ft_echo_ping_open: %s",
 				ft_strerror(ft_errno));
+		scans[i].scan = open_scan(ip + i, &g_timeout, scan_type, DEF_PORT);
 	}
 	send_probes(scans, host_count);
 	while ((ret = ft_scan_poll(scans, host_count, NULL)) >= 0)
@@ -147,9 +174,10 @@ static void	multi_scan(char **hosts, int host_count, int domain)
 
 int	main(int argc, char **argv)
 {
-	int	domain = AF_UNSPEC;
-	int	first_host = 1;
-	int	host_count;
+	int					host_count;
+	int					first_host = 1;
+	int					domain = AF_UNSPEC;
+	enum e_ftscan_type	scan_type = E_FTSCAN_ECHO_PING;
 
 	while (argv[first_host] && argv[first_host][0] == '-')
 	{
@@ -157,6 +185,10 @@ int	main(int argc, char **argv)
 			domain = AF_INET;
 		else if (!ft_strcmp(argv[first_host], "-6"))
 			domain = AF_INET6;
+		else if (!ft_strcmp(argv[first_host], "--syn"))
+			scan_type = E_FTSCAN_TCP_SYN;
+		else if (!ft_strcmp(argv[first_host], "--ping"))
+			scan_type = E_FTSCAN_ECHO_PING;
 		else
 			ft_exit(EXIT_FAILURE, "unknown option %s", argv[first_host]);
 		++first_host;
@@ -168,8 +200,8 @@ int	main(int argc, char **argv)
 	if (!host_count)
 		host_count = DEF_RANDOM_IP_COUNT;
 	if (host_count == 1)
-		mono_scan(argv[first_host], domain);
+		mono_scan(argv[first_host], domain, scan_type);
 	else
-		multi_scan(argv + first_host, host_count, domain);
+		multi_scan(argv + first_host, host_count, domain, scan_type);
 	return (EXIT_SUCCESS);
 }
