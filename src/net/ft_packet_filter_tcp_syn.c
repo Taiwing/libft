@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 16:00:05 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/20 06:47:03 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/05 09:49:15 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ const struct sock_filter	g_bpfcode_ipv4_tcp_syn[] = {
 
 	// Load and compare TCP flags (ip[33])
 	{ 0x30,  0,  0, 0x00000021 },
-	{ 0x45, 19,  0, 0000000000 },	// TCP flags TH_SYN & TH_RST (12)
+	{ 0x45, 19,  0, 0000000000 },	// TCP flags TH_SYN | TH_RST (12)
 	{ 0x05,  0,  0, 0x00000013 },
 
 	// Load and compare ICMP type (ip[20])
@@ -122,7 +122,7 @@ const struct sock_filter	g_bpfcode_ipv6_tcp_syn[] = {
 
 	// Load and compare TCP flags (ip6[53])
 	{ 0x30,  0,  0, 0x00000035 },
-	{ 0x45, 17,  0, 0000000000 },	// TCP flags TH_SYN & TH_RST (42)
+	{ 0x45, 17,  0, 0000000000 },	// TCP flags TH_SYN | TH_RST (42)
 	{ 0x05,  0,  0, 0x00000011 },
 
 	// Load and compare ICMP6 type (ip6[40])
@@ -168,23 +168,22 @@ static int	filter_ipv6_tcp_syn(t_recv_socket recvfd, t_filter_spec *spec)
 		filter[i * 2 + 1].k = spec->src->v6.sin6_addr.s6_addr[i];
 	filter[33].k = IPPROTO_ICMPV6;
 	filter[34].k = IPPROTO_TCP;
-	filter[36].k = htons(spec->min_src_port);
-	filter[37].k = htons(spec->max_src_port);
-	filter[39].k = htons(spec->min_dst_port);
-	filter[40].k = htons(spec->max_dst_port);
-	filter[42].k = TH_SYN & TH_RST;
+	filter[36].k = spec->min_src_port;
+	filter[37].k = spec->max_src_port;
+	filter[39].k = spec->min_dst_port;
+	filter[40].k = spec->max_dst_port;
+	filter[42].k = TH_SYN | TH_RST;
 	filter[45].k = ICMPV6_DEST_UNREACH;
 	filter[53].k = IPPROTO_TCP;
-	filter[55].k = htons(spec->min_dst_port);
-	filter[56].k = htons(spec->max_dst_port);
-	filter[58].k = htons(spec->min_src_port);
-	filter[59].k = htons(spec->max_src_port);
+	filter[55].k = spec->min_dst_port;
+	filter[56].k = spec->max_dst_port;
+	filter[58].k = spec->min_src_port;
+	filter[59].k = spec->max_src_port;
 	if (setsockopt(recvfd, SOL_SOCKET, SO_ATTACH_FILTER, &bpf, sizeof(bpf)) < 0)
 		return (-1);
 	return (0);
 }
 
-//TODO: use htons/htonl in the other packet_filter functions too
 static int	filter_ipv4_tcp_syn(t_recv_socket recvfd, t_filter_spec *spec)
 {
 	uint16_t			length = BPF_FILTER_SIZE(g_bpfcode_ipv4_tcp_syn);
@@ -195,17 +194,17 @@ static int	filter_ipv4_tcp_syn(t_recv_socket recvfd, t_filter_spec *spec)
 	filter[1].k = htonl(spec->src->v4.sin_addr.s_addr);
 	filter[3].k = IPPROTO_ICMP;
 	filter[4].k = IPPROTO_TCP;
-	filter[6].k = htons(spec->min_src_port);
-	filter[7].k = htons(spec->max_src_port);
-	filter[9].k = htons(spec->min_dst_port);
-	filter[10].k = htons(spec->max_dst_port);
-	filter[12].k = TH_SYN & TH_RST;
+	filter[6].k = spec->min_src_port;
+	filter[7].k = spec->max_src_port;
+	filter[9].k = spec->min_dst_port;
+	filter[10].k = spec->max_dst_port;
+	filter[12].k = TH_SYN | TH_RST;
 	filter[15].k = ICMP_DEST_UNREACH;
 	filter[25].k = IPPROTO_TCP;
-	filter[27].k = htons(spec->min_dst_port);
-	filter[28].k = htons(spec->max_dst_port);
-	filter[30].k = htons(spec->min_src_port);
-	filter[31].k = htons(spec->max_src_port);
+	filter[27].k = spec->min_dst_port;
+	filter[28].k = spec->max_dst_port;
+	filter[30].k = spec->min_src_port;
+	filter[31].k = spec->max_src_port;
 	if (setsockopt(recvfd, SOL_SOCKET, SO_ATTACH_FILTER, &bpf, sizeof(bpf)) < 0)
 		return (-1);
 	return (0);
