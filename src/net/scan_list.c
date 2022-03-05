@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 12:30:50 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/24 07:50:58 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/04 21:49:10 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static int	init_scan_sockets(enum e_ftscan_type type, uint16_t id)
 
 	if ((g_scan_list[type][id]->recvfd = ft_recv_socket_init(domain)) < 0)
 		return (-1);
-	g_scan_list[type][id]->sendfd = ft_send_socket_init(domain, protocol, 0);
+	g_scan_list[type][id]->sendfd = ft_send_socket_init(domain, protocol,
+		protocol == IPPROTO_TCP);
 	if (g_scan_list[type][id]->sendfd < 0)
 	{
 		close(g_scan_list[type][id]->recvfd);
