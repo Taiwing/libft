@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 05:43:30 by yforeau           #+#    #+#             */
-/*   Updated: 2022/03/01 20:31:58 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/05 10:33:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,17 @@ static int	get_results(int *done, t_pollsc *scans, int host_count)
 			++count;
 		if (!scans[i].events || done[i])
 			continue;
-		ft_printf("\n");
-		print_events(scans[i].events);
+		if (!(scans[i].events & E_POLLSC_TIMEOUT))
+		{
+			ft_printf("\n");
+			print_events(scans[i].events);
+		}
 		if (ft_scan_result(&result, scans[i].scan) < 0)
 			ft_exit(EXIT_FAILURE, "ft_scan_result: %s", ft_strerror(ft_errno));
-		print_result(&result, scans[i].scan);
+		if (!(scans[i].events & E_POLLSC_TIMEOUT))
+			print_result(&result, scans[i].scan);
 		done[i] = 1;
+		scans[i].scan *= -1;
 	}
 	return (count == host_count);
 }
@@ -136,6 +141,16 @@ static void	mono_scan(char *host, int domain, enum e_ftscan_type scan_type)
 		ft_exit(EXIT_FAILURE, "ft_echo_ping: %s", ft_strerror(ft_errno));
 }
 
+static void	print_timeout_count(t_pollsc scans[MAX_ARGS], int host_count)
+{
+	int	count = 0;
+
+	for (int i = 0; i < host_count; ++i)
+		if (scans[i].events & E_POLLSC_TIMEOUT)
+			++count;
+	ft_printf("\nTIMEOUTS: %d/%d\n", count, host_count);
+}
+
 static void	multi_scan(char **hosts, int host_count, int domain,
 	enum e_ftscan_type scan_type)
 {
@@ -162,7 +177,10 @@ static void	multi_scan(char **hosts, int host_count, int domain,
 		if (!ret) continue;
 		if (get_results(done, scans, host_count))
 		{
+			print_timeout_count(scans, host_count);
 			ft_bzero(done, sizeof(done));
+			for (int i = 0; i < host_count; ++i)
+				scans[i].scan *= -1;
 			sleep(1);
 			send_probes(scans, host_count);
 		}
