@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 17:36:07 by yforeau           #+#    #+#             */
-/*   Updated: 2022/03/05 10:03:05 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/09 04:38:50 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ static void	add_tcp_syn_header(t_packet *probe, t_scan_control *scan_ctrl,
 ** the kernel does it for us. It can do that for TCP packets too, but the
 ** problem is that it does not compute the TCP checksum afterwards (which
 ** of course depends on both IPs in the ip header -_-). TCP offload could be
-** used but it's not enable by default so it requires changing the system's
-** config... This is really annoying. That'sd why I made this function, to
+** used but it's not enabled by default so it requires changing the system's
+** config... This is really annoying. That's why I made this function, to
 ** mimic the behavior of ft_nmap regarding interface choice. It's lame.
 **
 ** TODO: try to find a more elegant solution to this

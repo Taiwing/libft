@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 08:04:22 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/28 21:48:06 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/09 04:39:36 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 **
 ** Only handles when the ip starts with '127' or is zeroed out or is equal to
 ** '::1' if it is an ipv6 address.
+**
 ** TODO: do this the right way, presumably by listing network interfaces and
 ** comparing the given IP (possibly taking the mask into account) to their IP
 */
