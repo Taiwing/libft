@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:30:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/03/04 07:04:08 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/14 12:28:48 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -446,5 +446,7 @@ int				ft_echo_ping_parse_reply(t_scan_control *scan_ctrl,
 	t_packet *reply, struct timeval *recv_ts);
 int				ft_tcp_syn_parse_reply(t_scan_control *scan_ctrl,
 	t_packet *reply, struct timeval *recv_ts);
+
+int	ft_adventure(t_ip *dest, struct timeval *timeout);
 
 #endif

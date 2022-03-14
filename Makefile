@@ -72,6 +72,7 @@ NETC			=	scan_list.c\
 					ft_packet_filter_tcp_syn.c\
 					ft_ip_rand.c\
 					layer4_headers.c\
+					ft_adventure.c\
 					ft_scan_open.c\
 					ft_scans.c\
 					ft_net_ifaces.c\
@@ -355,6 +356,8 @@ ft_packet_filter_tcp_syn.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h\
 ft_ip_rand.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 layer4_headers.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
+	ft_collector.h ft_exit.h
+ft_adventure.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
 ft_scan_open.o: libft.h ft_errno.h ft_getopt.h ft_printf.h bint.h network.h\
 	ft_collector.h ft_exit.h
