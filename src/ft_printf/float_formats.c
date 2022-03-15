@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 22:16:43 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/24 13:14:15 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/15 14:13:16 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,33 +35,15 @@ void		e_format(t_pdata *loc, char *buf, int size, t_fltinf *info)
 	pdata_add(loc, buf, 0, size);
 }
 
-void		f_format(t_pdata *loc, char *buf, int size, t_fltinf *info)
+static void	trailing_zeroes(char *buf, int *size, t_fltinf *info, int is_f)
 {
-	if (info->exp10 < 0)
+	if (is_f)
 	{
-		pdata_add(loc, "0.", 0, 2);
-		pdata_add(loc, NULL, '0', -(info->exp10 + 1));
-		pdata_add(loc, buf, 0, size);
-		if ((info->prec - size + info->exp10 + 1) > 0)
-			pdata_add(loc, NULL, '0', info->prec - size + info->exp10 + 1);
+		if (info->exp10 >= 0 && (info->exp10 + info->prec) < 16384)
+			while (*size < info->exp10 + info->prec + 1)
+				buf[(*size)++] = '0';
 	}
-	else
-	{
-		pdata_add(loc, buf, 0, info->exp10 + 1);
-		if (info->prec)
-		{
-			pdata_add(loc, NULL, '.', 1);
-			pdata_add(loc, buf + info->exp10 + 1, 0, size - info->exp10 - 1);
-			pdata_add(loc, NULL, '0', info->prec - (size - info->exp10 - 1));
-		}
-		else if (info->flags & F_HASH)
-			pdata_add(loc, NULL, '.', 1);
-	}
-}
-
-static void	trailing_zeroes(char *buf, int *size, t_fltinf *info)
-{
-	if (!(info->flags & F_HASH))
+	else if (!(info->flags & F_HASH))
 	{
 		while (*size > 1 && (*size > info->exp10 + 1 || info->exp10 < 0)
 				&& buf[*size - 1] == '0')
@@ -74,9 +56,34 @@ static void	trailing_zeroes(char *buf, int *size, t_fltinf *info)
 	}
 }
 
+void		f_format(t_pdata *loc, char *buf, int size, t_fltinf *info)
+{
+	if (info->exp10 < 0)
+	{
+		pdata_add(loc, "0.", 0, 2);
+		pdata_add(loc, NULL, '0', -(info->exp10 + 1));
+		pdata_add(loc, buf, 0, size);
+		if ((info->prec - size + info->exp10 + 1) > 0)
+			pdata_add(loc, NULL, '0', info->prec - size + info->exp10 + 1);
+	}
+	else
+	{
+		trailing_zeroes(buf, &size, info, 1);
+		pdata_add(loc, buf, 0, info->exp10 + 1);
+		if (info->prec)
+		{
+			pdata_add(loc, NULL, '.', 1);
+			pdata_add(loc, buf + info->exp10 + 1, 0, size - info->exp10 - 1);
+			pdata_add(loc, NULL, '0', info->prec - (size - info->exp10 - 1));
+		}
+		else if (info->flags & F_HASH)
+			pdata_add(loc, NULL, '.', 1);
+	}
+}
+
 void		g_format(t_pdata *loc, char *buf, int size, t_fltinf *info)
 {
-	trailing_zeroes(buf, &size, info);
+	trailing_zeroes(buf, &size, info, 0);
 	if (info->exp10 < -4 || info->exp10 > info->prec)
 	{
 		info->conv -= 2;
