@@ -8,7 +8,11 @@
   (for context, this is referring to the ft_scan_set_filter() call in the
   'src/net/ft_scan_send.c' file)
 
+- Rework scans to remove unused functions and make adventure mode possible
+
 ---- FEAT ----
+
+- adventure mode (for net scans)
 
 - when genmake will be able to handle more than one level depth sources, move
   sources of get_next_line, ft_printf and ft_getopt into different directories
