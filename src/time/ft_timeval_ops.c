@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 19:16:59 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/19 22:40:34 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/23 05:29:25 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	ft_timeval_add(struct timeval *dest, const struct timeval *left,
 	dest->tv_usec = usec;
 	if (!(dest->tv_sec == sec && dest->tv_usec == usec))
 	{
-		ft_errno = E_FTERR_TIMEVAL_OVERFLOW;
+		ft_errno = E_FTERR_OVERFLOW;
 		return (-1);
 	}
 	return (0);
@@ -92,7 +92,7 @@ int	ft_timeval_sub(struct timeval *dest, const struct timeval *left,
 	dest->tv_usec = usec;
 	if (!(dest->tv_sec == sec && dest->tv_usec == usec))
 	{
-		ft_errno = E_FTERR_TIMEVAL_OVERFLOW;
+		ft_errno = E_FTERR_OVERFLOW;
 		return (-1);
 	}
 	return (0);
@@ -112,7 +112,7 @@ int	ft_timeval_abs(struct timeval *dest, const struct timeval *src)
 	dest->tv_usec = usec;
 	if (!(dest->tv_sec == sec && dest->tv_usec == usec))
 	{
-		ft_errno = E_FTERR_TIMEVAL_OVERFLOW;
+		ft_errno = E_FTERR_OVERFLOW;
 		return (-1);
 	}
 	return (0);
@@ -135,7 +135,7 @@ int	ft_timeval_div(struct timeval *dest, const struct timeval *src, int div)
 	dest->tv_usec = usec;
 	if (!(dest->tv_sec == sec && dest->tv_usec == usec))
 	{
-		ft_errno = E_FTERR_TIMEVAL_OVERFLOW;
+		ft_errno = E_FTERR_OVERFLOW;
 		return (-1);
 	}
 	return (0);
@@ -153,7 +153,7 @@ int	ft_timeval_mul(struct timeval *dest, const struct timeval *src, int mul)
 	dest->tv_usec = usec;
 	if (!(dest->tv_sec == sec && dest->tv_usec == usec))
 	{
-		ft_errno = E_FTERR_TIMEVAL_OVERFLOW;
+		ft_errno = E_FTERR_OVERFLOW;
 		return (-1);
 	}
 	return (0);

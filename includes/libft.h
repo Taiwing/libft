@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:54:59 by yforeau           #+#    #+#             */
-/*   Updated: 2022/03/04 07:19:12 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/23 05:39:01 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,8 @@ void					ft_print_words_tables_fd(char **tab, int fd);
 int						ft_atoi_forward(char **nptr);
 void					ft_swap_p(uintptr_t *p1, uintptr_t *p2);
 int						ft_intlen(intmax_t n);
+int						ft_secatoi(int *dest, int min, int max,
+									const char *nptr);
 unsigned int			ft_rand(void);
 uint64_t				*ft_rand_uint64(uint64_t *n,
 									uint64_t min, uint64_t max);
@@ -196,16 +198,6 @@ int						ft_timeval_is_expired(struct timeval *date,
 t_list					*ft_net_listiface(void);
 void					ft_net_listiface_free(t_list **iflist);
 int						ft_netconf_init(t_list *user_iflist);
-
-//TODO: integrate this to ft_errno.h
-enum e_secatoi			{
-	FT_E_OVERFLOW		= -1,
-	FT_E_UNDERFLOW		= -2,
-	FT_E_NOT_A_NUMBER	= -3,
-};
-
-int						ft_secatoi(int *dest, int min, int max,
-	const char *nptr);
 
 # define FT_LS_UNKNOWN	0x00
 # define FT_LS_FIFO		0x01

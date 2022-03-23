@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 05:21:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/03/04 06:44:34 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/23 05:27:42 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,9 @@ const char	*g_errors[E_FTERR_MAX] = {
 	"invalid payload",
 	"scan in progress",
 
-	// Time
-	"timeval overflow",
-
 	// Math
+	"overflow",
+	"not a number",
 	"tried to divide by zero",
 
 	// Other

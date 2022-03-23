@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 05:05:41 by yforeau           #+#    #+#             */
-/*   Updated: 2022/03/02 21:55:29 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/03/23 05:27:37 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,9 @@ enum e_libft_errors	{
 	E_FTERR_NET_INVALID_PAYLOAD,
 	E_FTERR_NET_SCAN_IN_PROGRESS,
 
-	// Time
-	E_FTERR_TIMEVAL_OVERFLOW,
-
 	// Math
+	E_FTERR_OVERFLOW,
+	E_FTERR_NOT_A_NUMBER,
 	E_FTERR_DIVIDE_BY_ZERO,
 
 	// Other
