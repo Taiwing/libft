@@ -1,3 +1,7 @@
+---- TODO ----
+
+- adapt every libft functions that need it to the new ft_errno system
+
 ---- MAYBE ----
 
 - The scan filter is set twice at start since it is initialized in the scan
