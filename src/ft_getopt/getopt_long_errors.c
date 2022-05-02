@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 05:57:41 by yforeau           #+#    #+#             */
-/*   Updated: 2021/08/18 23:20:33 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/05/02 15:05:24 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,17 @@
 #include <unistd.h>
 
 static int	ambig_option_puterr(char **argv, char *prefix,
-								t_optdata *d, unsigned char *ambig_set)
+								t_optdata *d)
 {
+	char	*arg;
+
 	if (getopt_puterr(*argv) < 0 || getopt_puterr(": option `") < 0
 		|| getopt_puterr(prefix) < 0)
 		return (-1);
-	if (ambig_set &&
-		write(2, d->nextchar, ft_strchr(d->nextchar, '=') - d->nextchar) < 0)
+	if ((arg = ft_strchr(d->nextchar, '='))
+		&& write(2, d->nextchar, (size_t)(arg - d->nextchar)) < 0)
 		return (-1);
-	else if (!ambig_set && getopt_puterr(d->nextchar) < 0)
+	else if (!arg && getopt_puterr(d->nextchar) < 0)
 		return (-1);
 	return (getopt_puterr("' is ambiguous"));
 }
@@ -36,7 +38,7 @@ void		print_ambig_error(t_optdata *d, unsigned char *ambig_set,
 
 	if (d->opterr)
 	{
-		ambig_option_puterr(argv, prefix, d, ambig_set);
+		ambig_option_puterr(argv, prefix, d);
 		if (ambig_set)
 		{
 			getopt_puterr("; possiblities:");
