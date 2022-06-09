@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:30:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/03/04 07:04:08 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/06/09 22:05:40 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ enum e_ip_rand_flags {
 size_t		ft_ip_sock_size(const t_ip *ip);
 size_t		ft_ip_size(const t_ip *ip);
 uint8_t		*ft_ip_addr(const t_ip *ip);
+void		ft_ip_set_port(t_ip *ip, uint16_t port);
 int			ft_ip_cmp(const t_ip *a, const t_ip *b);
 int			ft_ip_apply_mask(t_ip *dest, const t_ip *mask);
 int			ft_ip_same_subnet(const t_ip *a, const t_ip *b, const t_ip *mask);
