@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 15:58:23 by yforeau           #+#    #+#             */
-/*   Updated: 2022/06/09 22:06:37 by yforeau          ###   ########.fr       */
+/*   Updated: 2022/06/13 21:49:36 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int			ft_ip_cmp(const t_ip *a, const t_ip *b)
 	return (ft_memcmp(ft_ip_addr(a), ft_ip_addr(b), size));
 }
 
-void	ft_ip_set_port(t_ip *ip, uint16_t port)
+void		ft_ip_set_port(t_ip *ip, uint16_t port)
 {
 	if (ip->family == AF_INET)
 		ip->v4.sin_port = port;
