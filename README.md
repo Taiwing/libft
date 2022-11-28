@@ -36,8 +36,6 @@ when using the `ft_exit` function).
 The collector is enabled by default. To disable it add `-D NO_COLLEC` to the
 Makefile so that dynamic memory is directly handled by the user.
 
-#### example
-
 ## Directory structure
 
 The includes and src directories are where the C headers and source files are
