@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 16:41:57 by yforeau           #+#    #+#             */
-/*   Updated: 2022/02/19 22:25:32 by yforeau          ###   ########.fr       */
+/*   Updated: 2023/01/28 18:16:18 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void		ft_scan_close(t_scan scan)
 	uint16_t			id = GET_SCAN_ID(scan);
 	enum e_ftscan_type	type = GET_SCAN_TYPE(scan);
 
-	if (!g_scan_list[type] || id >= MAX_SCAN_COUNT || !g_scan_list[type][id])
+	if (scan < 0 || !g_scan_list[type]
+		|| id >= MAX_SCAN_COUNT || !g_scan_list[type][id])
 		return;
 	if (g_scan_list[type][id]->sendfd >= 0)
 		close(g_scan_list[type][id]->sendfd);
