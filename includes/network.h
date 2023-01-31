@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:30:33 by yforeau           #+#    #+#             */
-/*   Updated: 2022/03/04 07:04:08 by yforeau          ###   ########.fr       */
+/*   Updated: 2023/01/31 15:01:49 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,7 +279,7 @@ int	ft_net_setiface(int loopback, const t_ifinfo *src);
 */
 
 // Scan types
-enum e_ftscan_type	{ E_FTSCAN_ECHO_PING, E_FTSCAN_TCP_SYN };
+enum e_ftscan_type	{ E_FTSCAN_ECHO_PING = 0, E_FTSCAN_TCP_SYN = 1 };
 
 # define			FTSCAN_TYPE_COUNT			2
 # define			DEF_FTSCAN_TCP_SYN_PORT		42424

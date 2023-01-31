@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 12:30:50 by yforeau           #+#    #+#             */
-/*   Updated: 2022/03/06 09:25:47 by yforeau          ###   ########.fr       */
+/*   Updated: 2023/01/31 15:15:18 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_scan_control	*ft_get_scan(t_scan scan)
 	uint16_t			id = GET_SCAN_ID(scan);
 	enum e_ftscan_type	type = GET_SCAN_TYPE(scan);
 
-	if (type < 0 || type > E_FTSCAN_TCP_SYN
+	if (scan < 0 || type < 0 || type > E_FTSCAN_TCP_SYN
 		|| !g_scan_list[type] || !g_scan_list[type][id])
 	{
 		ft_errno = E_FTERR_INVALID_SCAN_HANDLE;
