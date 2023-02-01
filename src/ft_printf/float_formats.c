@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 22:16:43 by yforeau           #+#    #+#             */
-/*   Updated: 2022/03/15 14:13:16 by yforeau          ###   ########.fr       */
+/*   Updated: 2023/02/01 20:56:31 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ static void	trailing_zeroes(char *buf, int *size, t_fltinf *info, int is_f)
 	}
 }
 
+//TODO: FIX underflow on line 81 sometimes, somehow, size and info->exp10
+//probably end up having the same value, then -1 is passed as a size parameter
+//to pdata_add (so SIZE_MAX) which ends up in a buffer overflow. Find out why
+//this happens and fix it (probably check it here or prevent this from dragon4
+//function (I'm kinda scared to change it TBH^^).
 void		f_format(t_pdata *loc, char *buf, int size, t_fltinf *info)
 {
 	if (info->exp10 < 0)

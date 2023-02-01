@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 15:52:45 by yforeau           #+#    #+#             */
-/*   Updated: 2021/10/26 20:09:59 by yforeau          ###   ########.fr       */
+/*   Updated: 2023/02/01 20:53:04 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ static void	pdata_flush(t_pdata *data, char **add, int c, size_t *size)
 	*add = s;
 }
 
+//TODO: FIX potential overflow on line 69 (not nice), check that size + data->n
+//+ 1 does not overflow newsize value... if it does and it reallocates -> error
 void		pdata_add(t_pdata *data, char *add, int c, size_t size)
 {
 	size_t	newsize;
