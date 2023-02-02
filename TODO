@@ -12,12 +12,16 @@
   (for context, this is referring to the ft_scan_set_filter() call in the
   'src/net/ft_scan_send.c' file)
 
-- Rework scans to remove unused functions and make adventure mode possible
-
 ---- FEAT ----
-
-- adventure mode (for net scans)
 
 - when genmake will be able to handle more than one level depth sources, move
   sources of get_next_line, ft_printf and ft_getopt into different directories
   in src and in includes
+
+---- FIX ----
+
+- Underflow on line 76 sometimes, somehow, size and info->exp10 probably end up
+  having the same value, then -1 is passed as a size parameter to pdata_add (so
+  SIZE_MAX) which used to provoke a buffer overflow. The buffer overflow has
+  been fixed but the underlying issue still exists. Sometimes, somehow, dragon4
+  will return a size value and an exp10 which end up in an error in pdata_add.
