@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 15:52:45 by yforeau           #+#    #+#             */
-/*   Updated: 2023/02/01 20:53:04 by yforeau          ###   ########.fr       */
+/*   Updated: 2023/02/02 12:51:39 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,27 +57,33 @@ static void	pdata_flush(t_pdata *data, char **add, int c, size_t *size)
 	*add = s;
 }
 
-//TODO: FIX potential overflow on line 69 (not nice), check that size + data->n
-//+ 1 does not overflow newsize value... if it does and it reallocates -> error
+static int	check_newsize(t_pdata *data, char *add, int c, size_t *size)
+{
+	size_t	newsize = data->n + *size + 1;
+	int		overflow = SIZE_MAX - *size < (size_t)data->n
+		|| SIZE_MAX - *size - data->n < 1;
+
+	if (data->bufsize >= newsize && !overflow)
+		return (0);
+	if (data->flags & PDATA_STOP)
+		*size = (size_t)data->n < data->bufsize ?
+			data->bufsize - (size_t)data->n - 1 : 0;
+	else if (data->flags & PDATA_FLUSH)
+		pdata_flush(data, &add, c, size);
+	else if (data->flags & PDATA_NOALLOC || overflow)
+		data->n = -1;
+	else
+		pdata_realloc(data, newsize);
+	return (data->n < 0 ? -1 : 0);
+}
+
 void		pdata_add(t_pdata *data, char *add, int c, size_t size)
 {
-	size_t	newsize;
-
 	if (data->n < 0)
 		return ;
 	if (!(data->flags & PDATA_NOLIMIT)
-		&& (data->bufsize < (newsize = data->n + size + 1)))
-	{
-		if (data->flags & PDATA_STOP)
-			size = (size_t)data->n < data->bufsize ?
-				data->bufsize - (size_t)data->n - 1 : 0;
-		else if (data->flags & PDATA_FLUSH)
-			pdata_flush(data, &add, c, &size);
-		else if (data->flags & PDATA_NOALLOC)
-			data->n = -1;
-		else
-			pdata_realloc(data, newsize);
-	}
+		&& check_newsize(data, add, c, &size) < 0)
+		return ;
 	if (data->n >= 0 && size)
 	{
 		if (add)
